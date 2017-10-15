@@ -9,7 +9,12 @@ namespace FileDiff
 		public string Text
 		{
 			get { return text; }
-			set { text = value; OnPropertyChanged(nameof(Text)); }
+			set
+			{
+				text = value;
+				Hash = value.GetHashCode();
+				OnPropertyChanged(nameof(Text));
+			}
 		}
 
 		private int lineNumber;
@@ -18,6 +23,8 @@ namespace FileDiff
 			get { return lineNumber; }
 			set { lineNumber = value; OnPropertyChanged(nameof(LineNumber)); }
 		}
+
+		public int Hash { get; private set; }
 
 		#region INotifyPropertyChanged
 
