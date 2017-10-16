@@ -1,9 +1,16 @@
 ﻿using System.ComponentModel;
+using System.Windows.Media;
 
 namespace FileDiff
 {
 	public class Line : INotifyPropertyChanged
 	{
+
+		public Line()
+		{
+			Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+			Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+		}
 
 		public override string ToString()
 		{
@@ -29,7 +36,21 @@ namespace FileDiff
 			set { lineNumber = value; OnPropertyChanged(nameof(LineNumber)); }
 		}
 
-		public int MatchingLineNumber { get; set; } = -1;
+		private Brush foreground;
+		public Brush Foreground
+		{
+			get { return foreground; }
+			set { foreground = value; OnPropertyChanged(nameof(Foreground)); }
+		}
+
+		private Brush background;
+		public Brush Background
+		{
+			get { return background; }
+			set { background = value; OnPropertyChanged(nameof(Background)); }
+		}
+
+		public int? MatchingLineNumber { get; set; }
 
 		public int Hash { get; private set; }
 

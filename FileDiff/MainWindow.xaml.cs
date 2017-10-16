@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -60,14 +60,14 @@ namespace FileDiff
 
 				for (int leftIndex = 0; leftIndex < LS.Count; leftIndex++)
 				{
-					if (LS[leftIndex].MatchingLineNumber == -1)
+					if (LS[leftIndex].MatchingLineNumber == null)
 					{
 						windowData.LeftSide.Add(LS[leftIndex]);
 						windowData.RightSide.Add(new Line());
 					}
 					else
 					{
-						while (rightIndex< LS[leftIndex].MatchingLineNumber)
+						while (rightIndex < LS[leftIndex].MatchingLineNumber)
 						{
 							windowData.LeftSide.Add(new Line());
 							windowData.RightSide.Add(RS[rightIndex]);
@@ -77,7 +77,30 @@ namespace FileDiff
 						windowData.RightSide.Add(RS[rightIndex]);
 						rightIndex++;
 					}
+				}
 
+				SetColors();
+
+			}
+		}
+
+		private void SetColors()
+		{
+			foreach (Line l in windowData.LeftSide)
+			{
+				if (l.MatchingLineNumber == null)
+				{
+					l.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+					l.Background = new SolidColorBrush(Color.FromRgb(255, 220, 220));
+				}
+			}
+
+			foreach (Line l in windowData.RightSide)
+			{
+				if (l.MatchingLineNumber == null)
+				{
+					l.Foreground = new SolidColorBrush(Color.FromRgb(0, 150, 0));
+					l.Background = new SolidColorBrush(Color.FromRgb(220, 255, 220));
 				}
 			}
 		}
