@@ -5,6 +5,11 @@ namespace FileDiff
 	public class Line : INotifyPropertyChanged
 	{
 
+		public override string ToString()
+		{
+			return $"{LineNumber}  {Text}  {MatchingLineNumber}";
+		}
+
 		private string text;
 		public string Text
 		{
@@ -17,12 +22,14 @@ namespace FileDiff
 			}
 		}
 
-		private int lineNumber;
-		public int LineNumber
+		private int? lineNumber;
+		public int? LineNumber
 		{
 			get { return lineNumber; }
 			set { lineNumber = value; OnPropertyChanged(nameof(LineNumber)); }
 		}
+
+		public int MatchingLineNumber { get; set; } = -1;
 
 		public int Hash { get; private set; }
 
