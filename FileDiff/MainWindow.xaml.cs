@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace FileDiff
@@ -32,55 +33,81 @@ namespace FileDiff
 
 		#endregion
 
-		private void LoadFiles()
-		{
-			LS.Clear();
-			int i = 0;
-			foreach (string s in File.ReadAllLines(windowData.LeftFile))
-			{
-				LS.Add(new Line() { Text = s, LineNumber = i++ });
-			}
-
-			RS.Clear();
-			i = 0;
-			foreach (string s in File.ReadAllLines(windowData.RightFile))
-			{
-				RS.Add(new Line() { Text = s, LineNumber = i++ });
-			}
-		}
-
 		private void CompareFiles()
 		{
+			Mouse.OverrideCursor = Cursors.Wait;
+
+			windowData.LeftSide.Clear();
+			windowData.RightSide.Clear();
+
 			if (File.Exists(windowData.LeftFile) && File.Exists(windowData.RightFile))
 			{
 				LoadFiles();
-				CompareRange(0, LS.Count - 1, 0, RS.Count - 1);
 
-				int rightIndex = 0;
+				Matchup();
 
-				for (int leftIndex = 0; leftIndex < LS.Count; leftIndex++)
+				SetColors();
+			}
+
+			Mouse.OverrideCursor = null;
+		}
+
+		private void LoadFiles()
+		{
+			LS.Clear();
+			RS.Clear();
+
+			try
+			{
+				int i = 0;
+				foreach (string s in File.ReadAllLines(windowData.LeftFile))
 				{
-					if (LS[leftIndex].MatchingLineNumber == null)
+					LS.Add(new Line() { Text = s, LineNumber = i++ });
+				}
+
+				i = 0;
+				foreach (string s in File.ReadAllLines(windowData.RightFile))
+				{
+					RS.Add(new Line() { Text = s, LineNumber = i++ });
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+			}
+		}
+
+		private void Matchup()
+		{
+			MatchRange(0, LS.Count - 1, 0, RS.Count - 1);
+
+			int rightIndex = 0;
+
+			for (int leftIndex = 0; leftIndex < LS.Count; leftIndex++)
+			{
+				if (LS[leftIndex].MatchingLineNumber == null)
+				{
+					windowData.LeftSide.Add(LS[leftIndex]);
+					windowData.RightSide.Add(new Line());
+				}
+				else
+				{
+					while (rightIndex < LS[leftIndex].MatchingLineNumber)
 					{
-						windowData.LeftSide.Add(LS[leftIndex]);
-						windowData.RightSide.Add(new Line());
-					}
-					else
-					{
-						while (rightIndex < LS[leftIndex].MatchingLineNumber)
-						{
-							windowData.LeftSide.Add(new Line());
-							windowData.RightSide.Add(RS[rightIndex]);
-							rightIndex++;
-						}
-						windowData.LeftSide.Add(LS[leftIndex]);
+						windowData.LeftSide.Add(new Line());
 						windowData.RightSide.Add(RS[rightIndex]);
 						rightIndex++;
 					}
+					windowData.LeftSide.Add(LS[leftIndex]);
+					windowData.RightSide.Add(RS[rightIndex]);
+					rightIndex++;
 				}
-
-				SetColors();
-
+			}
+			while (rightIndex < RS.Count)
+			{
+				windowData.LeftSide.Add(new Line());
+				windowData.RightSide.Add(RS[rightIndex]);
+				rightIndex++;
 			}
 		}
 
@@ -90,7 +117,7 @@ namespace FileDiff
 			{
 				if (l.MatchingLineNumber == null)
 				{
-					l.Foreground = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+					l.Foreground = new SolidColorBrush(Color.FromRgb(200, 0, 0));
 					l.Background = new SolidColorBrush(Color.FromRgb(255, 220, 220));
 				}
 			}
@@ -99,13 +126,13 @@ namespace FileDiff
 			{
 				if (l.MatchingLineNumber == null)
 				{
-					l.Foreground = new SolidColorBrush(Color.FromRgb(0, 150, 0));
+					l.Foreground = new SolidColorBrush(Color.FromRgb(0, 120, 0));
 					l.Background = new SolidColorBrush(Color.FromRgb(220, 255, 220));
 				}
 			}
 		}
 
-		private void CompareRange(int leftStart, int leftEnd, int rightStart, int rightEnd)
+		private void MatchRange(int leftStart, int leftEnd, int rightStart, int rightEnd)
 		{
 			FindLongestMatch(leftStart, leftEnd, rightStart, rightEnd, out int matchIndex, out int matchingIndex, out int matchLength);
 
@@ -122,12 +149,12 @@ namespace FileDiff
 
 			if (matchIndex > leftStart && matchingIndex > rightStart)
 			{
-				CompareRange(leftStart, matchIndex - 1, rightStart, matchingIndex - 1);
+				MatchRange(leftStart, matchIndex - 1, rightStart, matchingIndex - 1);
 			}
 
 			if (leftEnd > matchIndex + matchLength && rightEnd > matchingIndex + matchLength)
 			{
-				CompareRange(matchIndex + matchLength, leftEnd, matchingIndex + matchLength, rightEnd);
+				MatchRange(matchIndex + matchLength, leftEnd, matchingIndex + matchLength, rightEnd);
 			}
 
 		}
