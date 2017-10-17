@@ -35,21 +35,18 @@ namespace FileDiff
 
 		private void CompareFiles()
 		{
-			Mouse.OverrideCursor = Cursors.Wait;
 
 			windowData.LeftSide.Clear();
 			windowData.RightSide.Clear();
 
 			if (File.Exists(windowData.LeftFile) && File.Exists(windowData.RightFile))
 			{
+				Mouse.OverrideCursor = Cursors.Wait;
 				LoadFiles();
-
-				Matchup();
-
+				MatchLines();
 				SetColors();
+				Mouse.OverrideCursor = null;
 			}
-
-			Mouse.OverrideCursor = null;
 		}
 
 		private void LoadFiles()
@@ -77,9 +74,11 @@ namespace FileDiff
 			}
 		}
 
-		private void Matchup()
+		private void MatchLines()
 		{
 			MatchRange(0, LS.Count - 1, 0, RS.Count - 1);
+
+			MatchCharacters();
 
 			int rightIndex = 0;
 
@@ -109,6 +108,10 @@ namespace FileDiff
 				windowData.RightSide.Add(RS[rightIndex]);
 				rightIndex++;
 			}
+		}
+
+		private void MatchCharacters()
+		{
 		}
 
 		private void SetColors()
@@ -224,6 +227,18 @@ namespace FileDiff
 		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			this.Close();
+		}
+
+		private void RightScroll_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		{
+			LeftScroll.ScrollToVerticalOffset(e.VerticalOffset);
+			LeftScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+		}
+
+		private void LeftScroll_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		{
+			RightScroll.ScrollToVerticalOffset(e.VerticalOffset);
+			RightScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
 
 		#endregion

@@ -15,7 +15,7 @@ namespace FileDiff
 		public static readonly RoutedUICommand Compare = new RoutedUICommand("Compare", "Compare", typeof(Commands),
 			new InputGestureCollection()
 			{
-						new KeyGesture(Key.F5)
+				new KeyGesture(Key.F5)
 			}
 		);
 
