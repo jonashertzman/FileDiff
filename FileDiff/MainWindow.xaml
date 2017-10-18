@@ -12,9 +12,9 @@
 		<DataTemplate x:Key="ListTemplate">
 			<StackPanel Orientation= "Horizontal">
 				<Border BorderThickness="0,0,1,0"  BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }">
-					<TextBlock Text="{Binding LineIndex}" Width="40" Foreground="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }" Margin="1,0,0,0"/>
+					<TextBlock Text="{Binding LineIndex}" Width="30" TextAlignment="Right" Foreground="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }" Margin="0,0,2,0" HorizontalAlignment="Stretch"/>
 				</Border>
-				<TextBlock Text="{Binding Text}" Foreground="{Binding Foreground}" Background="{Binding Background}" HorizontalAlignment="Center" Margin="1,0,0,0"/>
+				<TextBlock Text="{Binding Text}" Foreground="{Binding Foreground}" Background="{Binding Background}" HorizontalAlignment="Center" Margin="2,0,0,0"/>
 			</StackPanel>
 		</DataTemplate>
 	</Window.Resources>

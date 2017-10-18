@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Media;
 
 namespace FileDiff
@@ -10,6 +11,7 @@ namespace FileDiff
 		{
 			Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 			Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+			Type = MatchType.NoMatch;
 		}
 
 		public override string ToString()
@@ -34,6 +36,20 @@ namespace FileDiff
 			}
 		}
 
+		public List<object> Characters
+		{
+			get
+			{
+				List<object> list = new List<object>();
+
+				foreach (char c in text.ToCharArray())
+				{
+					list.Add(c);
+				}
+				return list;
+			}
+		}
+
 		private int? lineindex;
 		public int? LineIndex
 		{
@@ -55,6 +71,8 @@ namespace FileDiff
 			set { background = value; OnPropertyChanged(nameof(Background)); }
 		}
 
+		public MatchType Type { get; set; }
+
 		public int? MatchingLineIndex { get; set; }
 
 		private int Hash;
@@ -71,4 +89,12 @@ namespace FileDiff
 		#endregion
 
 	}
+
+	public enum MatchType
+	{
+		FullMatch,
+		PartialMatch,
+		NoMatch
+	}
+
 }

@@ -37,19 +37,27 @@ namespace FileDiff
 		{
 			foreach (Line l in windowData.LeftSide)
 			{
-				if (l.MatchingLineIndex == null)
+				if (l.Type == MatchType.NoMatch)
 				{
 					l.Foreground = new SolidColorBrush(Color.FromRgb(200, 0, 0));
 					l.Background = new SolidColorBrush(Color.FromRgb(255, 220, 220));
+				}
+				else if (l.Type == MatchType.PartialMatch)
+				{
+					l.Background = new SolidColorBrush(Color.FromRgb(220, 220, 255));
 				}
 			}
 
 			foreach (Line l in windowData.RightSide)
 			{
-				if (l.MatchingLineIndex == null)
+				if (l.Type == MatchType.NoMatch)
 				{
 					l.Foreground = new SolidColorBrush(Color.FromRgb(0, 120, 0));
 					l.Background = new SolidColorBrush(Color.FromRgb(220, 255, 220));
+				}
+				else if (l.Type == MatchType.PartialMatch)
+				{
+					l.Background = new SolidColorBrush(Color.FromRgb(220, 220, 255));
 				}
 			}
 		}
@@ -62,9 +70,11 @@ namespace FileDiff
 			if (File.Exists(windowData.LeftFile) && File.Exists(windowData.RightFile))
 			{
 				Mouse.OverrideCursor = Cursors.Wait;
+
 				LoadFiles();
-				MatchLines();
+				DisplayLines();
 				SetColors();
+
 				Mouse.OverrideCursor = null;
 			}
 		}
@@ -94,9 +104,9 @@ namespace FileDiff
 			}
 		}
 
-		private void MatchLines()
+		private void DisplayLines()
 		{
-			MatchRange(LS, RS);
+			MatchLines(LS, RS);
 
 			int rightIndex = 0;
 
@@ -130,16 +140,69 @@ namespace FileDiff
 
 		private void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
 		{
-			foreach (Line leftLine in leftRange)
-			{
-				foreach (Line rightLine in rightRange)
-				{
+			float liknessThreshold = 0.4f;
+			int matchingCharacters = 0;
+			int bestMatchingCharacters = 0;
+			int bestLeft = 0;
+			int bestRight = 0;
 
+			for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
+			{
+				for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
+				{
+					matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].Characters, rightRange[rightIndex].Characters);
+					if (matchingCharacters > bestMatchingCharacters)
+					{
+						bestMatchingCharacters = matchingCharacters;
+						bestLeft = leftIndex;
+						bestRight = rightIndex;
+					}
+				}
+			}
+
+			if (bestMatchingCharacters * 2 > (leftRange[bestLeft].Text.Length + rightRange[bestRight].Text.Length) * liknessThreshold)
+			{
+				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
+				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
+
+				leftRange[bestLeft].Type = MatchType.PartialMatch;
+				rightRange[bestRight].Type = MatchType.PartialMatch;
+
+				if (bestLeft > 0 && bestRight > 0)
+				{
+					MatchPartialLines(leftRange.GetRange(0, bestLeft), rightRange.GetRange(0, bestRight));
+				}
+
+				if (leftRange.Count > bestLeft + 1 && rightRange.Count > bestRight + 1)
+				{
+					MatchPartialLines(leftRange.GetRange(bestLeft + 1, leftRange.Count - (bestLeft + 1)), rightRange.GetRange(bestRight + 1, rightRange.Count - (bestRight + 1)));
 				}
 			}
 		}
 
-		private void MatchRange(List<Line> leftRange, List<Line> rightRange)
+		private int CountMatchingCharacters(List<object> leftRange, List<object> rightRange)
+		{
+			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
+
+			if (matchLength == 0)
+			{
+				return 0;
+			}
+
+			if (matchIndex > 0 && matchingIndex > 0)
+			{
+				matchLength += CountMatchingCharacters(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
+			}
+
+			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
+			{
+				matchLength += CountMatchingCharacters(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
+			}
+
+			return matchLength;
+		}
+
+		private void MatchLines(List<Line> leftRange, List<Line> rightRange)
 		{
 			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
 
@@ -152,17 +215,20 @@ namespace FileDiff
 			for (int i = 0; i < matchLength; i++)
 			{
 				leftRange[matchIndex + i].MatchingLineIndex = rightRange[matchingIndex + i].LineIndex;
+				leftRange[matchIndex + i].Type = MatchType.FullMatch;
+
 				rightRange[matchingIndex + i].MatchingLineIndex = leftRange[matchIndex + i].LineIndex;
+				rightRange[matchingIndex + i].Type = MatchType.FullMatch;
 			}
 
 			if (matchIndex > 0 && matchingIndex > 0)
 			{
-				MatchRange(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
+				MatchLines(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
 			}
 
 			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
 			{
-				MatchRange(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
+				MatchLines(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
 			}
 		}
 
@@ -246,6 +312,8 @@ namespace FileDiff
 		}
 
 		#endregion
+
+
 
 	}
 }
