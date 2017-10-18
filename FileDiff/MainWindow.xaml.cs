@@ -33,9 +33,29 @@ namespace FileDiff
 
 		#endregion
 
+		private void SetColors()
+		{
+			foreach (Line l in windowData.LeftSide)
+			{
+				if (l.MatchingLineIndex == null)
+				{
+					l.Foreground = new SolidColorBrush(Color.FromRgb(200, 0, 0));
+					l.Background = new SolidColorBrush(Color.FromRgb(255, 220, 220));
+				}
+			}
+
+			foreach (Line l in windowData.RightSide)
+			{
+				if (l.MatchingLineIndex == null)
+				{
+					l.Foreground = new SolidColorBrush(Color.FromRgb(0, 120, 0));
+					l.Background = new SolidColorBrush(Color.FromRgb(220, 255, 220));
+				}
+			}
+		}
+
 		private void CompareFiles()
 		{
-
 			windowData.LeftSide.Clear();
 			windowData.RightSide.Clear();
 
@@ -59,13 +79,13 @@ namespace FileDiff
 				int i = 0;
 				foreach (string s in File.ReadAllLines(windowData.LeftFile))
 				{
-					LS.Add(new Line() { Text = s, LineNumber = i++ });
+					LS.Add(new Line() { Text = s, LineIndex = i++ });
 				}
 
 				i = 0;
 				foreach (string s in File.ReadAllLines(windowData.RightFile))
 				{
-					RS.Add(new Line() { Text = s, LineNumber = i++ });
+					RS.Add(new Line() { Text = s, LineIndex = i++ });
 				}
 			}
 			catch (Exception e)
@@ -76,22 +96,20 @@ namespace FileDiff
 
 		private void MatchLines()
 		{
-			MatchRange(0, LS.Count - 1, 0, RS.Count - 1);
-
-			MatchCharacters();
+			MatchRange(LS, RS);
 
 			int rightIndex = 0;
 
 			for (int leftIndex = 0; leftIndex < LS.Count; leftIndex++)
 			{
-				if (LS[leftIndex].MatchingLineNumber == null)
+				if (LS[leftIndex].MatchingLineIndex == null)
 				{
 					windowData.LeftSide.Add(LS[leftIndex]);
 					windowData.RightSide.Add(new Line());
 				}
 				else
 				{
-					while (rightIndex < LS[leftIndex].MatchingLineNumber)
+					while (rightIndex < LS[leftIndex].MatchingLineIndex)
 					{
 						windowData.LeftSide.Add(new Line());
 						windowData.RightSide.Add(RS[rightIndex]);
@@ -110,59 +128,45 @@ namespace FileDiff
 			}
 		}
 
-		private void MatchCharacters()
+		private void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
 		{
-		}
-
-		private void SetColors()
-		{
-			foreach (Line l in windowData.LeftSide)
+			foreach (Line leftLine in leftRange)
 			{
-				if (l.MatchingLineNumber == null)
+				foreach (Line rightLine in rightRange)
 				{
-					l.Foreground = new SolidColorBrush(Color.FromRgb(200, 0, 0));
-					l.Background = new SolidColorBrush(Color.FromRgb(255, 220, 220));
-				}
-			}
 
-			foreach (Line l in windowData.RightSide)
-			{
-				if (l.MatchingLineNumber == null)
-				{
-					l.Foreground = new SolidColorBrush(Color.FromRgb(0, 120, 0));
-					l.Background = new SolidColorBrush(Color.FromRgb(220, 255, 220));
 				}
 			}
 		}
 
-		private void MatchRange(int leftStart, int leftEnd, int rightStart, int rightEnd)
+		private void MatchRange(List<Line> leftRange, List<Line> rightRange)
 		{
-			FindLongestMatch(leftStart, leftEnd, rightStart, rightEnd, out int matchIndex, out int matchingIndex, out int matchLength);
+			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
 
 			if (matchLength == 0)
 			{
+				MatchPartialLines(leftRange, rightRange);
 				return;
 			}
 
 			for (int i = 0; i < matchLength; i++)
 			{
-				LS[matchIndex + i].MatchingLineNumber = matchingIndex + i;
-				RS[matchingIndex + i].MatchingLineNumber = matchIndex + i;
+				leftRange[matchIndex + i].MatchingLineIndex = rightRange[matchingIndex + i].LineIndex;
+				rightRange[matchingIndex + i].MatchingLineIndex = leftRange[matchIndex + i].LineIndex;
 			}
 
-			if (matchIndex > leftStart && matchingIndex > rightStart)
+			if (matchIndex > 0 && matchingIndex > 0)
 			{
-				MatchRange(leftStart, matchIndex - 1, rightStart, matchingIndex - 1);
+				MatchRange(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
 			}
 
-			if (leftEnd > matchIndex + matchLength && rightEnd > matchingIndex + matchLength)
+			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
 			{
-				MatchRange(matchIndex + matchLength, leftEnd, matchingIndex + matchLength, rightEnd);
+				MatchRange(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
 			}
-
 		}
 
-		private void FindLongestMatch(int leftStart, int leftEnd, int rightStart, int rightEnd, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength)
+		private void FindLongestMatch(List<object> leftRange, List<object> rightRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength)
 		{
 			int matchIndex = -1;
 
@@ -170,14 +174,14 @@ namespace FileDiff
 			longestMatchingIndex = 0;
 			longestMatchLength = 0;
 
-			for (int i = leftStart; i <= leftEnd; i++)
+			for (int i = 0; i < leftRange.Count; i++)
 			{
 				int matchLength = 0;
 				int matchingIndex = 0;
 
-				for (int j = rightStart; j <= rightEnd; j++)
+				for (int j = 0; j < rightRange.Count; j++)
 				{
-					while (LS[i + matchLength].Hash == RS[j + matchLength].Hash)
+					while (leftRange[i + matchLength].GetHashCode() == rightRange[j + matchLength].GetHashCode())
 					{
 						if (matchIndex == -1)
 						{
@@ -186,7 +190,7 @@ namespace FileDiff
 						}
 						matchLength++;
 
-						if (i + matchLength > leftEnd || j + matchLength > rightEnd)
+						if (i + matchLength >= leftRange.Count || j + matchLength >= rightRange.Count)
 						{
 							break;
 						}

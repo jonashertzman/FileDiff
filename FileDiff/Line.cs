@@ -14,7 +14,12 @@ namespace FileDiff
 
 		public override string ToString()
 		{
-			return $"{LineNumber}  {Text}  {MatchingLineNumber}";
+			return $"{LineIndex}  {Text}  {MatchingLineIndex}";
+		}
+
+		public override int GetHashCode()
+		{
+			return Hash;
 		}
 
 		private string text;
@@ -29,11 +34,11 @@ namespace FileDiff
 			}
 		}
 
-		private int? lineNumber;
-		public int? LineNumber
+		private int? lineindex;
+		public int? LineIndex
 		{
-			get { return lineNumber; }
-			set { lineNumber = value; OnPropertyChanged(nameof(LineNumber)); }
+			get { return lineindex; }
+			set { lineindex = value; OnPropertyChanged(nameof(LineIndex)); }
 		}
 
 		private Brush foreground;
@@ -50,9 +55,9 @@ namespace FileDiff
 			set { background = value; OnPropertyChanged(nameof(Background)); }
 		}
 
-		public int? MatchingLineNumber { get; set; }
+		public int? MatchingLineIndex { get; set; }
 
-		public int Hash { get; private set; }
+		private int Hash;
 
 		#region INotifyPropertyChanged
 

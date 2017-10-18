@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileDiff"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="700" Loaded="Window_Loaded"
+        Title="File Diff - Alpha 1" Height="500" Width="700" Loaded="Window_Loaded"
 				TextOptions.TextFormattingMode ="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip">
 
 	<Window.Resources>
 		<DataTemplate x:Key="ListTemplate">
 			<StackPanel Orientation= "Horizontal">
 				<Border BorderThickness="0,0,1,0"  BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }">
-					<TextBlock Text="{Binding LineNumber}" Width="40" Foreground="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }" Margin="1,0,0,0"/>
+					<TextBlock Text="{Binding LineIndex}" Width="40" Foreground="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }" Margin="1,0,0,0"/>
 				</Border>
 				<TextBlock Text="{Binding Text}" Foreground="{Binding Foreground}" Background="{Binding Background}" HorizontalAlignment="Center" Margin="1,0,0,0"/>
 			</StackPanel>
