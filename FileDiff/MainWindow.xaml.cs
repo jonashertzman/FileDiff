@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -15,10 +16,16 @@ namespace FileDiff
 
 		#region Members
 
-		WindowData windowData = new WindowData();
+		private WindowData windowData = new WindowData();
 
-		List<Line> LS = new List<Line>();
-		List<Line> RS = new List<Line>();
+		private Brush deletedForeground = new SolidColorBrush(Color.FromRgb(200, 0, 0));
+		private Brush deletedBackground = new SolidColorBrush(Color.FromRgb(255, 220, 220));
+
+		private Brush addedForeground = new SolidColorBrush(Color.FromRgb(0, 120, 0));
+		private Brush addedBackground = new SolidColorBrush(Color.FromRgb(220, 255, 220));
+
+		private Brush modifiedForeground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+		private Brush modifiedBackground = new SolidColorBrush(Color.FromRgb(220, 220, 255));
 
 		#endregion
 
@@ -33,107 +40,79 @@ namespace FileDiff
 
 		#endregion
 
-		private void SetColors()
+		private void Compare()
 		{
-			foreach (Line l in windowData.LeftSide)
+			if (File.Exists(windowData.LeftPath) && File.Exists(windowData.RightPath))
 			{
-				if (l.Type == MatchType.NoMatch)
-				{
-					l.Foreground = new SolidColorBrush(Color.FromRgb(200, 0, 0));
-					l.Background = new SolidColorBrush(Color.FromRgb(255, 220, 220));
-				}
-				else if (l.Type == MatchType.PartialMatch)
-				{
-					l.Background = new SolidColorBrush(Color.FromRgb(220, 220, 255));
-				}
+				CompareFiles(windowData.LeftPath, windowData.RightPath);
 			}
-
-			foreach (Line l in windowData.RightSide)
+			else if (Directory.Exists(windowData.LeftPath) && Directory.Exists(windowData.RightPath))
 			{
-				if (l.Type == MatchType.NoMatch)
-				{
-					l.Foreground = new SolidColorBrush(Color.FromRgb(0, 120, 0));
-					l.Background = new SolidColorBrush(Color.FromRgb(220, 255, 220));
-				}
-				else if (l.Type == MatchType.PartialMatch)
-				{
-					l.Background = new SolidColorBrush(Color.FromRgb(220, 220, 255));
-				}
+				CompareDirectories(windowData.LeftPath, windowData.RightPath);
 			}
 		}
 
-		private void CompareFiles()
+		private void CompareDirectories(string leftPath, string rightPath)
 		{
+		}
+
+		private void CompareFiles(string leftPath, string rightPath)
+		{
+			Mouse.OverrideCursor = Cursors.Wait;
+
 			windowData.LeftSide.Clear();
 			windowData.RightSide.Clear();
 
-			if (File.Exists(windowData.LeftFile) && File.Exists(windowData.RightFile))
+			List<Line> leftSide = new List<Line>();
+			List<Line> rightSide = new List<Line>();
+
+			int i = 0;
+			foreach (string s in File.ReadAllLines(windowData.LeftPath))
 			{
-				Mouse.OverrideCursor = Cursors.Wait;
-
-				LoadFiles();
-				DisplayLines();
-				SetColors();
-
-				Mouse.OverrideCursor = null;
+				leftSide.Add(new Line() { Text = s, LineIndex = i++, Type = MatchType.NoMatch, Foreground = deletedForeground, Background = deletedBackground });
 			}
+
+			i = 0;
+			foreach (string s in File.ReadAllLines(windowData.RightPath))
+			{
+				rightSide.Add(new Line() { Text = s, LineIndex = i++, Type = MatchType.NoMatch, Foreground = addedForeground, Background = addedBackground });
+			}
+
+			MatchLines(leftSide, rightSide);
+
+			DisplayLines(leftSide, rightSide);
+
+			Mouse.OverrideCursor = null;
 		}
 
-		private void LoadFiles()
+		private void DisplayLines(List<Line> leftSide, List<Line> rightSide)
 		{
-			LS.Clear();
-			RS.Clear();
-
-			try
-			{
-				int i = 0;
-				foreach (string s in File.ReadAllLines(windowData.LeftFile))
-				{
-					LS.Add(new Line() { Text = s, LineIndex = i++ });
-				}
-
-				i = 0;
-				foreach (string s in File.ReadAllLines(windowData.RightFile))
-				{
-					RS.Add(new Line() { Text = s, LineIndex = i++ });
-				}
-			}
-			catch (Exception e)
-			{
-				MessageBox.Show(e.Message);
-			}
-		}
-
-		private void DisplayLines()
-		{
-			MatchLines(LS, RS);
-
 			int rightIndex = 0;
 
-			for (int leftIndex = 0; leftIndex < LS.Count; leftIndex++)
+			for (int leftIndex = 0; leftIndex < leftSide.Count; leftIndex++)
 			{
-				if (LS[leftIndex].MatchingLineIndex == null)
+				if (leftSide[leftIndex].MatchingLineIndex == null)
 				{
-					windowData.LeftSide.Add(LS[leftIndex]);
+					windowData.LeftSide.Add(leftSide[leftIndex]);
 					windowData.RightSide.Add(new Line());
 				}
 				else
 				{
-					while (rightIndex < LS[leftIndex].MatchingLineIndex)
+					while (rightIndex < leftSide[leftIndex].MatchingLineIndex)
 					{
 						windowData.LeftSide.Add(new Line());
-						windowData.RightSide.Add(RS[rightIndex]);
+						windowData.RightSide.Add(rightSide[rightIndex]);
 						rightIndex++;
 					}
-					windowData.LeftSide.Add(LS[leftIndex]);
-					windowData.RightSide.Add(RS[rightIndex]);
+					windowData.LeftSide.Add(leftSide[leftIndex]);
+					windowData.RightSide.Add(rightSide[rightIndex]);
 					rightIndex++;
 				}
 			}
-			while (rightIndex < RS.Count)
+			while (rightIndex < rightSide.Count)
 			{
 				windowData.LeftSide.Add(new Line());
-				windowData.RightSide.Add(RS[rightIndex]);
+				windowData.RightSide.Add(rightSide[rightIndex]);
 				rightIndex++;
 			}
 		}
@@ -168,6 +147,10 @@ namespace FileDiff
 				leftRange[bestLeft].Type = MatchType.PartialMatch;
 				rightRange[bestRight].Type = MatchType.PartialMatch;
 
+				//leftRange[bestLeft].TextSegments.Clear();
+				//rightRange[bestRight].TextSegments.Clear();
+				//HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
+
 				if (bestLeft > 0 && bestRight > 0)
 				{
 					MatchPartialLines(leftRange.GetRange(0, bestLeft), rightRange.GetRange(0, bestRight));
@@ -178,6 +161,57 @@ namespace FileDiff
 					MatchPartialLines(leftRange.GetRange(bestLeft + 1, leftRange.Count - (bestLeft + 1)), rightRange.GetRange(bestRight + 1, rightRange.Count - (bestRight + 1)));
 				}
 			}
+		}
+
+		private void HighlightCharacterMatches(Line leftLine, Line rightLine, List<object> leftRange, List<object> rightRange)
+		{
+			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
+
+			if (matchLength == 0)
+			{
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), deletedForeground, deletedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), addedForeground, addedBackground));
+				return;
+			}
+
+			if (matchIndex > 0 && matchingIndex > 0)
+			{
+				HighlightCharacterMatches(leftLine, rightLine, leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
+			}
+			else if (matchIndex > 0)
+			{
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), deletedForeground, deletedBackground));
+			}
+			else if (matchingIndex > 0)
+			{
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), addedForeground, addedBackground));
+			}
+
+			leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), modifiedForeground, modifiedBackground));
+			rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), modifiedForeground, modifiedBackground));
+
+			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
+			{
+				HighlightCharacterMatches(leftLine, rightLine, leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
+			}
+			else if (leftRange.Count > matchIndex + matchLength)
+			{
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), deletedForeground, deletedBackground));
+			}
+			else if (rightRange.Count > matchingIndex + matchLength)
+			{
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), addedForeground, addedBackground));
+			}
+		}
+
+		static string CharactersToString(List<object> characters)
+		{
+			var sb = new StringBuilder();
+			foreach (var c in characters)
+			{
+				sb.Append(c);
+			}
+			return sb.ToString();
 		}
 
 		private int CountMatchingCharacters(List<object> leftRange, List<object> rightRange)
@@ -283,15 +317,15 @@ namespace FileDiff
 		{
 			if (Environment.GetCommandLineArgs().Length > 2)
 			{
-				windowData.LeftFile = Environment.GetCommandLineArgs()[1];
-				windowData.RightFile = Environment.GetCommandLineArgs()[2];
-				CompareFiles();
+				windowData.LeftPath = Environment.GetCommandLineArgs()[1];
+				windowData.RightPath = Environment.GetCommandLineArgs()[2];
+				Compare();
 			}
 		}
 
 		private void CommandCompare_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			CompareFiles();
+			Compare();
 		}
 
 		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -312,8 +346,6 @@ namespace FileDiff
 		}
 
 		#endregion
-
-
 
 	}
 }

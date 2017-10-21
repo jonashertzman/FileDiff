@@ -20,18 +20,18 @@ namespace FileDiff
 			set { rightSide = value; OnPropertyChanged(nameof(RightSide)); }
 		}
 
-		string leftFile;
-		public string LeftFile
+		string leftPath;
+		public string LeftPath
 		{
-			get { return leftFile; }
-			set { leftFile = value; OnPropertyChanged(nameof(LeftFile)); }
+			get { return leftPath; }
+			set { leftPath = value; OnPropertyChanged(nameof(LeftPath)); }
 		}
 
-		string rightFile;
-		public string RightFile
+		string rightPath;
+		public string RightPath
 		{
-			get { return rightFile; }
-			set { rightFile = value; OnPropertyChanged(nameof(RightFile)); }
+			get { return rightPath; }
+			set { rightPath = value; OnPropertyChanged(nameof(RightPath)); }
 		}
 
 
