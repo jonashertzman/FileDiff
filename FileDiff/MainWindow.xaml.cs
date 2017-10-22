@@ -147,9 +147,9 @@ namespace FileDiff
 				leftRange[bestLeft].Type = MatchType.PartialMatch;
 				rightRange[bestRight].Type = MatchType.PartialMatch;
 
-				//leftRange[bestLeft].TextSegments.Clear();
-				//rightRange[bestRight].TextSegments.Clear();
-				//HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
+				leftRange[bestLeft].TextSegments.Clear();
+				rightRange[bestRight].TextSegments.Clear();
+				HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
 
 				if (bestLeft > 0 && bestRight > 0)
 				{
@@ -180,11 +180,11 @@ namespace FileDiff
 			}
 			else if (matchIndex > 0)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), deletedForeground, deletedBackground));
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), deletedForeground, deletedBackground));
 			}
 			else if (matchingIndex > 0)
 			{
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), addedForeground, addedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), addedForeground, addedBackground));
 			}
 
 			leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), modifiedForeground, modifiedBackground));
@@ -196,11 +196,11 @@ namespace FileDiff
 			}
 			else if (leftRange.Count > matchIndex + matchLength)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), deletedForeground, deletedBackground));
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), deletedForeground, deletedBackground));
 			}
 			else if (rightRange.Count > matchingIndex + matchLength)
 			{
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), addedForeground, addedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), addedForeground, addedBackground));
 			}
 		}
 
