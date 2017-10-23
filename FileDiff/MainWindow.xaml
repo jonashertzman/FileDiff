@@ -11,7 +11,7 @@
 	<Window.Resources>
 
 		<DataTemplate x:Key="ListTemplate">
-			<StackPanel Orientation= "Horizontal">
+			<StackPanel Orientation= "Horizontal" Background="{Binding Background}">
 				<Border BorderThickness="0,0,1,0"  BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }">
 					<TextBlock Text="{Binding LineIndex}" Width="30" TextAlignment="Right" Foreground="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }" Margin="0,0,2,0" HorizontalAlignment="Stretch"/>
 				</Border>
