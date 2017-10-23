@@ -9,7 +9,8 @@ namespace FileDiff
 	{
 		#region Members
 
-		private int Hash;
+		private int hash;
+		private int trimmedHash;
 
 		#endregion
 
@@ -30,7 +31,7 @@ namespace FileDiff
 
 		public override int GetHashCode()
 		{
-			return Hash;
+			return Settings.IgnoreWhiteSpace ? trimmedHash : hash;
 		}
 
 		#endregion
@@ -44,12 +45,16 @@ namespace FileDiff
 			set
 			{
 				text = value;
-				Hash = value.GetHashCode();
+				TrimmedText = value.Trim();
+				hash = value.GetHashCode();
+				trimmedHash = TrimmedText.GetHashCode();
 				TextSegments.Clear();
 				TextSegments.Add(new TextSegment() { Text = value });
 				OnPropertyChanged(nameof(Text));
 			}
 		}
+
+		public string TrimmedText { get; private set; }
 
 		private ObservableCollection<TextSegment> textSegments = new ObservableCollection<TextSegment>();
 		public ObservableCollection<TextSegment> TextSegments

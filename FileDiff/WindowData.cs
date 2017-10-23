@@ -34,6 +34,18 @@ namespace FileDiff
 			set { rightPath = value; OnPropertyChanged(nameof(RightPath)); }
 		}
 
+		public bool IgnoreWhiteSpace
+		{
+			get { return Settings.IgnoreWhiteSpace; }
+			set { Settings.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
+		}
+
+		public bool ShowLineChanges
+		{
+			get { return Settings.ShowLineChanges; }
+			set { Settings.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
+		}
+
 
 		#region INotifyPropertyChanged
 

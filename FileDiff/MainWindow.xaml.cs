@@ -18,15 +18,6 @@ namespace FileDiff
 
 		private WindowData windowData = new WindowData();
 
-		private Brush deletedForeground = new SolidColorBrush(Color.FromRgb(200, 0, 0));
-		private Brush deletedBackground = new SolidColorBrush(Color.FromRgb(255, 220, 220));
-
-		private Brush addedForeground = new SolidColorBrush(Color.FromRgb(0, 120, 0));
-		private Brush addedBackground = new SolidColorBrush(Color.FromRgb(220, 255, 220));
-
-		private Brush modifiedForeground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-		private Brush modifiedBackground = new SolidColorBrush(Color.FromRgb(220, 220, 255));
-
 		#endregion
 
 		#region Constructor
@@ -69,13 +60,13 @@ namespace FileDiff
 			int i = 0;
 			foreach (string s in File.ReadAllLines(windowData.LeftPath))
 			{
-				leftSide.Add(new Line() { Text = s, LineIndex = i++, Type = MatchType.NoMatch, Foreground = deletedForeground, Background = deletedBackground });
+				leftSide.Add(new Line() { Text = s, LineIndex = i++, Type = MatchType.NoMatch, Foreground = Settings.DeletedForeground, Background = Settings.DeletedBackground });
 			}
 
 			i = 0;
 			foreach (string s in File.ReadAllLines(windowData.RightPath))
 			{
-				rightSide.Add(new Line() { Text = s, LineIndex = i++, Type = MatchType.NoMatch, Foreground = addedForeground, Background = addedBackground });
+				rightSide.Add(new Line() { Text = s, LineIndex = i++, Type = MatchType.NoMatch, Foreground = Settings.AddedForeground, Background = Settings.AddedBackground });
 			}
 
 			MatchLines(leftSide, rightSide);
@@ -119,7 +110,6 @@ namespace FileDiff
 
 		private void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
 		{
-			float liknessThreshold = 0.4f;
 			int matchingCharacters = 0;
 			int bestMatchingCharacters = 0;
 			int bestLeft = 0;
@@ -139,7 +129,7 @@ namespace FileDiff
 				}
 			}
 
-			if (bestMatchingCharacters * 2 > (leftRange[bestLeft].Text.Length + rightRange[bestRight].Text.Length) * liknessThreshold)
+			if (bestMatchingCharacters * 2 > (leftRange[bestLeft].Text.Length + rightRange[bestRight].Text.Length) * Settings.LineSimilarityThreshold)
 			{
 				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
 				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
@@ -147,9 +137,12 @@ namespace FileDiff
 				leftRange[bestLeft].Type = MatchType.PartialMatch;
 				rightRange[bestRight].Type = MatchType.PartialMatch;
 
-				leftRange[bestLeft].TextSegments.Clear();
-				rightRange[bestRight].TextSegments.Clear();
-				HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
+				if (Settings.ShowLineChanges)
+				{
+					leftRange[bestLeft].TextSegments.Clear();
+					rightRange[bestRight].TextSegments.Clear();
+					HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
+				}
 
 				if (bestLeft > 0 && bestRight > 0)
 				{
@@ -167,10 +160,10 @@ namespace FileDiff
 		{
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength == 0)
+			if (matchLength < Settings.CharacterMatchThreshold)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), deletedForeground, deletedBackground));
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), addedForeground, addedBackground));
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), Settings.DeletedForeground, Settings.DeletedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), Settings.AddedForeground, Settings.AddedBackground));
 				return;
 			}
 
@@ -180,15 +173,15 @@ namespace FileDiff
 			}
 			else if (matchIndex > 0)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), deletedForeground, deletedBackground));
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), Settings.DeletedForeground, Settings.DeletedBackground));
 			}
 			else if (matchingIndex > 0)
 			{
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), addedForeground, addedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), Settings.AddedForeground, Settings.AddedBackground));
 			}
 
-			leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), modifiedForeground, modifiedBackground));
-			rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), modifiedForeground, modifiedBackground));
+			leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), Settings.ModifiedForeground, Settings.ModifiedBackground));
+			rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), Settings.ModifiedForeground, Settings.ModifiedBackground));
 
 			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
 			{
@@ -196,11 +189,11 @@ namespace FileDiff
 			}
 			else if (leftRange.Count > matchIndex + matchLength)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), deletedForeground, deletedBackground));
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), Settings.DeletedForeground, Settings.DeletedBackground));
 			}
 			else if (rightRange.Count > matchingIndex + matchLength)
 			{
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), addedForeground, addedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), Settings.AddedForeground, Settings.AddedBackground));
 			}
 		}
 
@@ -240,7 +233,7 @@ namespace FileDiff
 		{
 			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength == 0)
+			if (matchLength == 0 || matchLength == 1 && leftRange[matchIndex].TrimmedText.Length < 2)
 			{
 				MatchPartialLines(leftRange, rightRange);
 				return;
@@ -297,7 +290,7 @@ namespace FileDiff
 					}
 					if (matchIndex != -1)
 					{
-						j += matchLength-1;
+						j += matchLength - 1;
 						if (matchLength > longestMatchLength)
 						{
 							longestMatchIndex = matchIndex;
@@ -343,6 +336,16 @@ namespace FileDiff
 		{
 			RightScroll.ScrollToVerticalOffset(e.VerticalOffset);
 			RightScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+		}
+
+		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)
+		{
+			Compare();
+		}
+
+		private void ToggleButtonShowLineChanges_Click(object sender, RoutedEventArgs e)
+		{
+			Compare();
 		}
 
 		#endregion
