@@ -15,6 +15,9 @@ namespace FileDiff
 		// The percentage of matching characters two lines must have in common to be considered partially matched lines.
 		public static float LineSimilarityThreshold { get; set; } = 0.4f;
 
+		// Single lines shorter than this will not be considered for full line matches.
+		public static int FullMatchLineLengthThreshold { get; internal set; } = 1;
+
 		public static Brush DeletedForeground { get; set; } = new SolidColorBrush(Color.FromRgb(200, 0, 0));
 		public static Brush DeletedBackground { get; set; } = new SolidColorBrush(Color.FromRgb(255, 220, 220));
 
@@ -23,7 +26,6 @@ namespace FileDiff
 
 		public static Brush ModifiedForeground { get; set; } = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 		public static Brush ModifiedBackground { get; set; } = new SolidColorBrush(Color.FromRgb(220, 220, 255));
-
 
 	}
 }

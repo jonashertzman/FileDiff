@@ -137,7 +137,12 @@ namespace FileDiff
 				leftRange[bestLeft].Type = MatchType.PartialMatch;
 				rightRange[bestRight].Type = MatchType.PartialMatch;
 
-				if (Settings.ShowLineChanges)
+				if (leftRange[bestLeft].GetHashCode() == rightRange[bestRight].GetHashCode())
+				{
+					leftRange[bestLeft].Type = MatchType.FullMatch;
+					rightRange[bestRight].Type = MatchType.FullMatch;
+				}
+				else if (Settings.ShowLineChanges)
 				{
 					leftRange[bestLeft].TextSegments.Clear();
 					rightRange[bestRight].TextSegments.Clear();
@@ -233,7 +238,7 @@ namespace FileDiff
 		{
 			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength == 0 || (matchLength == 1 && leftRange[matchIndex].TrimmedText.Length < 2))
+			if (matchLength == 0 || (matchLength == 1 && leftRange[matchIndex].TrimmedText.Length <= Settings.FullMatchLineLengthThreshold))
 			{
 				MatchPartialLines(leftRange, rightRange);
 				return;
