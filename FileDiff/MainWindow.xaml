@@ -15,7 +15,7 @@
 				<Border BorderThickness="0,0,1,0"  BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }">
 					<TextBlock Text="{Binding LineIndex}" Width="30" TextAlignment="Right" Foreground="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey} }" Margin="0,0,2,0" HorizontalAlignment="Stretch"/>
 				</Border>
-				<ItemsControl ItemsSource="{Binding TextSegments}" ItemTemplate="{DynamicResource LineTemplate}" >
+				<ItemsControl ItemsSource="{Binding TextSegments}" ItemTemplate="{DynamicResource LineTemplate}" Padding="1,0,0,0">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<StackPanel Orientation="Horizontal"/>

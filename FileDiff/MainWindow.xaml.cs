@@ -216,7 +216,7 @@ namespace FileDiff
 		{
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength == 0)
+			if (matchLength < Settings.CharacterMatchThreshold)
 			{
 				return 0;
 			}
