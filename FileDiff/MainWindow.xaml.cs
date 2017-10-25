@@ -115,13 +115,15 @@ namespace FileDiff
 			int bestLeft = 0;
 			int bestRight = 0;
 
+			bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
+
 			for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
 			{
 				for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
 				{
 					if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchingCharacters && rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
 					{
-						matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters);
+						matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
 						if (matchingCharacters > bestMatchingCharacters)
 						{
 							bestMatchingCharacters = matchingCharacters;
@@ -218,23 +220,33 @@ namespace FileDiff
 			return sb.ToString();
 		}
 
-		private int CountMatchingCharacters(List<object> leftRange, List<object> rightRange)
+		private int CountMatchingCharacters(List<object> leftRange, List<object> rightRange, bool lastLine)
 		{
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength < Settings.CharacterMatchThreshold)
+			if (lastLine)
 			{
-				return 0;
+				if (matchLength == 0)
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				if (matchLength < Settings.CharacterMatchThreshold)
+				{
+					return 0;
+				}
 			}
 
 			if (matchIndex > 0 && matchingIndex > 0)
 			{
-				matchLength += CountMatchingCharacters(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
+				matchLength += CountMatchingCharacters(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex), lastLine);
 			}
 
 			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
 			{
-				matchLength += CountMatchingCharacters(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
+				matchLength += CountMatchingCharacters(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)), lastLine);
 			}
 
 			return matchLength;
