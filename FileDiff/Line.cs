@@ -54,7 +54,12 @@ namespace FileDiff
 			}
 		}
 
-		public string TrimmedText { get; private set; }
+		private string trimmedText;
+		public string TrimmedText
+		{
+			get { return Settings.IgnoreWhiteSpace ? trimmedText : text; }
+			private set { trimmedText = value; }
+		}
 
 		private ObservableCollection<TextSegment> textSegments = new ObservableCollection<TextSegment>();
 		public ObservableCollection<TextSegment> TextSegments
@@ -70,6 +75,20 @@ namespace FileDiff
 				List<object> list = new List<object>();
 
 				foreach (char c in text.ToCharArray())
+				{
+					list.Add(c);
+				}
+				return list;
+			}
+		}
+
+		public List<object> TrimmedCharacters
+		{
+			get
+			{
+				List<object> list = new List<object>();
+
+				foreach (char c in TrimmedText.ToCharArray())
 				{
 					list.Add(c);
 				}

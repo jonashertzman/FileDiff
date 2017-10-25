@@ -119,17 +119,23 @@ namespace FileDiff
 			{
 				for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
 				{
-					matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].Characters, rightRange[rightIndex].Characters);
-					if (matchingCharacters > bestMatchingCharacters)
+					if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchingCharacters && rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
 					{
-						bestMatchingCharacters = matchingCharacters;
-						bestLeft = leftIndex;
-						bestRight = rightIndex;
+						matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters);
+						if (matchingCharacters > bestMatchingCharacters)
+						{
+							bestMatchingCharacters = matchingCharacters;
+							bestLeft = leftIndex;
+							bestRight = rightIndex;
+						}
 					}
 				}
 			}
 
-			if (bestMatchingCharacters * 2 > (leftRange[bestLeft].Text.Length + rightRange[bestRight].Text.Length) * Settings.LineSimilarityThreshold)
+			float leftMatching = (float)bestMatchingCharacters / leftRange[bestLeft].TrimmedText.Length;
+			float rightMatching = (float)bestMatchingCharacters / rightRange[bestRight].TrimmedText.Length;
+
+			if (leftMatching + rightMatching > Settings.LineSimilarityThreshold * 2)
 			{
 				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
 				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
@@ -202,7 +208,7 @@ namespace FileDiff
 			}
 		}
 
-		static string CharactersToString(List<object> characters)
+		private string CharactersToString(List<object> characters)
 		{
 			var sb = new StringBuilder();
 			foreach (var c in characters)
