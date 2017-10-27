@@ -371,6 +371,14 @@ namespace FileDiff
 			Compare();
 		}
 
+		private void BrowseLeft_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+		}
+
+		private void BrowseRight_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+		}
+
 		#endregion
 
 	}
