@@ -373,10 +373,60 @@ namespace FileDiff
 
 		private void BrowseLeft_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				windowData.LeftPath = ofd.FileName;
+			}
 		}
 
 		private void BrowseRight_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				windowData.RightPath = ofd.FileName;
+			}
+		}
+
+		private void LeftSide_DragEnter(object sender, DragEventArgs e)
+		{
+			e.Effects = DragDropEffects.All;
+		}
+
+		private void LeftSide_DragDrop(object sender, DragEventArgs e)
+		{
+			var paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+			if (paths?.Length >= 2)
+			{
+				windowData.LeftPath = paths[0];
+				windowData.RightPath = paths[1];
+			}
+			else if (paths?.Length >= 1)
+			{
+				windowData.LeftPath = paths[0];
+			}
+		}
+
+		private void RightSide_DragEnter(object sender, DragEventArgs e)
+		{
+			e.Effects = DragDropEffects.All;
+		}
+
+		private void RightSide_DragDrop(object sender, DragEventArgs e)
+		{
+			var paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+			if (paths?.Length >= 2)
+			{
+				windowData.LeftPath = paths[0];
+				windowData.RightPath = paths[1];
+			}
+			else if (paths?.Length >= 1)
+			{
+				windowData.RightPath = paths[0];
+			}
 		}
 
 		#endregion
