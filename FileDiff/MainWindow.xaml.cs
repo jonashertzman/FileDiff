@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -49,6 +50,9 @@ namespace FileDiff
 
 		private void CompareFiles(string leftPath, string rightPath)
 		{
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
+
 			Mouse.OverrideCursor = Cursors.Wait;
 
 			windowData.LeftSide.Clear();
@@ -74,6 +78,9 @@ namespace FileDiff
 			DisplayLines(leftSide, rightSide);
 
 			Mouse.OverrideCursor = null;
+
+			stopwatch.Stop();
+			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms  left side {leftSide.Count}  right site {rightSide.Count}";
 		}
 
 		private void DisplayLines(List<Line> leftSide, List<Line> rightSide)
@@ -119,16 +126,19 @@ namespace FileDiff
 
 			for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
 			{
-				for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
+				if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchingCharacters)
 				{
-					if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchingCharacters && rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
+					for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
 					{
-						matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
-						if (matchingCharacters > bestMatchingCharacters)
+						if (rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
 						{
-							bestMatchingCharacters = matchingCharacters;
-							bestLeft = leftIndex;
-							bestRight = rightIndex;
+							matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
+							if (matchingCharacters > bestMatchingCharacters)
+							{
+								bestMatchingCharacters = matchingCharacters;
+								bestLeft = leftIndex;
+								bestRight = rightIndex;
+							}
 						}
 					}
 				}
