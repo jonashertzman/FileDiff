@@ -26,12 +26,14 @@ namespace FileDiff
 			}
 		);
 
-		public static readonly RoutedUICommand BrowseRight = new RoutedUICommand("BrowseRight", "BrowseRight", typeof(Commands),
+	public static readonly RoutedUICommand BrowseRight = new RoutedUICommand("BrowseRight", "BrowseRight", typeof(Commands),
 			new InputGestureCollection()
 			{
 						new KeyGesture(Key.D2, ModifierKeys.Control)
 			}
 		);
+
+		public static readonly RoutedUICommand Options = new RoutedUICommand("Options", "Options", typeof(Commands));
 
 	}
 }

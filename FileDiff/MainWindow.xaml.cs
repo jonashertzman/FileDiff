@@ -64,13 +64,13 @@ namespace FileDiff
 			int i = 0;
 			foreach (string s in File.ReadAllLines(windowData.LeftPath))
 			{
-				leftSide.Add(new Line() { Text = s, LineIndex = i++, Type = MatchType.NoMatch, Foreground = Settings.DeletedForeground, Background = Settings.DeletedBackground });
+				leftSide.Add(new Line() { Text = s.Replace("\t", "  "), LineIndex = i++, Type = MatchType.NoMatch, Foreground = Settings.DeletedForeground, Background = Settings.DeletedBackground });
 			}
 
 			i = 0;
 			foreach (string s in File.ReadAllLines(windowData.RightPath))
 			{
-				rightSide.Add(new Line() { Text = s, LineIndex = i++, Type = MatchType.NoMatch, Foreground = Settings.AddedForeground, Background = Settings.AddedBackground });
+				rightSide.Add(new Line() { Text = s.Replace("\t", "  "), LineIndex = i++, Type = MatchType.NoMatch, Foreground = Settings.AddedForeground, Background = Settings.AddedBackground });
 			}
 
 			MatchLines(leftSide, rightSide);
@@ -441,5 +441,11 @@ namespace FileDiff
 
 		#endregion
 
+		private void Options_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			OptionsWindow optionsWindow = new OptionsWindow();
+
+			optionsWindow.ShowDialog();
+		}
 	}
 }
