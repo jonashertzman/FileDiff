@@ -64,13 +64,13 @@ namespace FileDiff
 			int i = 0;
 			foreach (string s in File.ReadAllLines(windowData.LeftPath))
 			{
-				leftSide.Add(new Line() { Text = s.Replace("\t", "  "), LineIndex = i++, Type = MatchType.NoMatch, Foreground = Settings.DeletedForeground, Background = Settings.DeletedBackground });
+				leftSide.Add(new Line() { Text = s.Replace("\t", "  "), LineIndex = i++, Type = MatchType.NoMatch, Foreground = SettingsData.DeletedForeground, Background = SettingsData.DeletedBackground });
 			}
 
 			i = 0;
 			foreach (string s in File.ReadAllLines(windowData.RightPath))
 			{
-				rightSide.Add(new Line() { Text = s.Replace("\t", "  "), LineIndex = i++, Type = MatchType.NoMatch, Foreground = Settings.AddedForeground, Background = Settings.AddedBackground });
+				rightSide.Add(new Line() { Text = s.Replace("\t", "  "), LineIndex = i++, Type = MatchType.NoMatch, Foreground = SettingsData.AddedForeground, Background = SettingsData.AddedBackground });
 			}
 
 			MatchLines(leftSide, rightSide);
@@ -147,7 +147,7 @@ namespace FileDiff
 			float leftMatching = (float)bestMatchingCharacters / leftRange[bestLeft].TrimmedText.Length;
 			float rightMatching = (float)bestMatchingCharacters / rightRange[bestRight].TrimmedText.Length;
 
-			if (leftMatching + rightMatching > Settings.LineSimilarityThreshold * 2)
+			if (leftMatching + rightMatching > SettingsData.LineSimilarityThreshold * 2)
 			{
 				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
 				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
@@ -160,7 +160,7 @@ namespace FileDiff
 					leftRange[bestLeft].Type = MatchType.FullMatch;
 					rightRange[bestRight].Type = MatchType.FullMatch;
 				}
-				else if (Settings.ShowLineChanges)
+				else if (SettingsData.ShowLineChanges)
 				{
 					leftRange[bestLeft].TextSegments.Clear();
 					rightRange[bestRight].TextSegments.Clear();
@@ -183,10 +183,10 @@ namespace FileDiff
 		{
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength < Settings.CharacterMatchThreshold)
+			if (matchLength < SettingsData.CharacterMatchThreshold)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), Settings.DeletedForeground, Settings.DeletedBackground));
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), Settings.AddedForeground, Settings.AddedBackground));
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), SettingsData.DeletedForeground, SettingsData.DeletedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), SettingsData.AddedForeground, SettingsData.AddedBackground));
 				return;
 			}
 
@@ -196,15 +196,15 @@ namespace FileDiff
 			}
 			else if (matchIndex > 0)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), Settings.DeletedForeground, Settings.DeletedBackground));
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), SettingsData.DeletedForeground, SettingsData.DeletedBackground));
 			}
 			else if (matchingIndex > 0)
 			{
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), Settings.AddedForeground, Settings.AddedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), SettingsData.AddedForeground, SettingsData.AddedBackground));
 			}
 
-			leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), Settings.ModifiedForeground, Settings.ModifiedBackground));
-			rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), Settings.ModifiedForeground, Settings.ModifiedBackground));
+			leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), SettingsData.ModifiedForeground, SettingsData.ModifiedBackground));
+			rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), SettingsData.ModifiedForeground, SettingsData.ModifiedBackground));
 
 			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
 			{
@@ -212,11 +212,11 @@ namespace FileDiff
 			}
 			else if (leftRange.Count > matchIndex + matchLength)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), Settings.DeletedForeground, Settings.DeletedBackground));
+				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), SettingsData.DeletedForeground, SettingsData.DeletedBackground));
 			}
 			else if (rightRange.Count > matchingIndex + matchLength)
 			{
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), Settings.AddedForeground, Settings.AddedBackground));
+				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), SettingsData.AddedForeground, SettingsData.AddedBackground));
 			}
 		}
 
@@ -243,7 +243,7 @@ namespace FileDiff
 			}
 			else
 			{
-				if (matchLength < Settings.CharacterMatchThreshold)
+				if (matchLength < SettingsData.CharacterMatchThreshold)
 				{
 					return 0;
 				}
@@ -266,7 +266,7 @@ namespace FileDiff
 		{
 			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength == 0 || (matchLength == 1 && leftRange[matchIndex].TrimmedText.Length <= Settings.FullMatchLineLengthThreshold))
+			if (matchLength == 0 || (matchLength == 1 && leftRange[matchIndex].TrimmedText.Length <= SettingsData.FullMatchLineLengthThreshold))
 			{
 				MatchPartialLines(leftRange, rightRange);
 				return;

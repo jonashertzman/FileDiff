@@ -36,14 +36,14 @@ namespace FileDiff
 
 		public bool IgnoreWhiteSpace
 		{
-			get { return Settings.IgnoreWhiteSpace; }
-			set { Settings.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
+			get { return SettingsData.IgnoreWhiteSpace; }
+			set { SettingsData.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
 		}
 
 		public bool ShowLineChanges
 		{
-			get { return Settings.ShowLineChanges; }
-			set { Settings.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
+			get { return SettingsData.ShowLineChanges; }
+			set { SettingsData.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
 		}
 
 

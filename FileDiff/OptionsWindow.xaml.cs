@@ -10,7 +10,7 @@ namespace FileDiff
 	{
 		public OptionsWindow()
 		{
-			InitializeComponent();
+			InitializeComponent();			
 		}
 
 		private void BrowseFont_Click(object sender, RoutedEventArgs e)

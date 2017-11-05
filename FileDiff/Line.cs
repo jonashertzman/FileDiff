@@ -31,7 +31,7 @@ namespace FileDiff
 
 		public override int GetHashCode()
 		{
-			return Settings.IgnoreWhiteSpace ? trimmedHash : hash;
+			return SettingsData.IgnoreWhiteSpace ? trimmedHash : hash;
 		}
 
 		#endregion
@@ -57,7 +57,7 @@ namespace FileDiff
 		private string trimmedText;
 		public string TrimmedText
 		{
-			get { return Settings.IgnoreWhiteSpace ? trimmedText : text; }
+			get { return SettingsData.IgnoreWhiteSpace ? trimmedText : text; }
 			private set { trimmedText = value; }
 		}
 

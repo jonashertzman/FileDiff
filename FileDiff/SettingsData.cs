@@ -2,7 +2,7 @@
 
 namespace FileDiff
 {
-	public static class Settings
+	public class SettingsData
 	{
 
 		public static bool IgnoreWhiteSpace { get; set; } = true;
