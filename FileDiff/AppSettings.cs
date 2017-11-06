@@ -8,9 +8,8 @@ namespace FileDiff
 {
 	public static class AppSettings
 	{
-		#region Members
 
-		static SettingsData settings;
+		#region Members
 
 		const string SETTINGS_DIRECTORY = "FileDiff";
 		const string SETTINGS_FILE_NAME = "Settings.xml";
@@ -19,13 +18,7 @@ namespace FileDiff
 
 		#region Properties
 
-		public static SettingsData Settings
-		{
-			get
-			{
-				return settings;
-			}
-		}
+		public static SettingsData Settings { get; set; } = new SettingsData();
 
 		#endregion
 
@@ -34,7 +27,7 @@ namespace FileDiff
 		internal static void ReadSettingsFromDisk()
 		{
 			string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SETTINGS_FILE_NAME);
-			DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AppSettings));
+			DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
 
 			if (File.Exists(settingsPath))
 			{
@@ -42,7 +35,7 @@ namespace FileDiff
 				{
 					try
 					{
-						settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
+						Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
 					}
 					catch (Exception e)
 					{
@@ -51,9 +44,9 @@ namespace FileDiff
 				}
 			}
 
-			if (settings == null)
+			if (Settings == null)
 			{
-				settings = new SettingsData();
+				Settings = new SettingsData();
 			}
 		}
 
@@ -63,7 +56,7 @@ namespace FileDiff
 			{
 				string settingsPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY);
 
-				DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(AppSettings));
+				DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
 				var xmlWriterSettings = new XmlWriterSettings { Indent = true, IndentChars = " " };
 
 				if (!Directory.Exists(settingsPath))
@@ -83,5 +76,6 @@ namespace FileDiff
 		}
 
 		#endregion
+
 	}
 }

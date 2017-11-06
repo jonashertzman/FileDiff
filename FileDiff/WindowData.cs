@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -36,16 +37,15 @@ namespace FileDiff
 
 		public bool IgnoreWhiteSpace
 		{
-			get { return SettingsData.IgnoreWhiteSpace; }
-			set { SettingsData.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
+			get { return AppSettings.Settings.IgnoreWhiteSpace; }
+			set { AppSettings.Settings.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
 		}
 
 		public bool ShowLineChanges
 		{
-			get { return SettingsData.ShowLineChanges; }
-			set { SettingsData.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
+			get { return AppSettings.Settings.ShowLineChanges; }
+			set { AppSettings.Settings.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
 		}
-
 
 		#region INotifyPropertyChanged
 
@@ -57,7 +57,6 @@ namespace FileDiff
 		}
 
 		#endregion
-
 
 	}
 }

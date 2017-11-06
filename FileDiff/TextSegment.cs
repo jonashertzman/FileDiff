@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -11,11 +10,10 @@ namespace FileDiff
 
 		}
 
-		public TextSegment(string text, Brush foreground, Brush background)
+		public TextSegment(string text, TextState textState)
 		{
 			this.Text = text;
-			this.Foreground = foreground;
-			this.Background = background;
+			this.type = textState;
 		}
 
 		public override string ToString()
@@ -23,25 +21,18 @@ namespace FileDiff
 			return Text;
 		}
 
+		private TextState type;
+		public TextState Type
+		{
+			get { return type; }
+			set { type = value; OnPropertyChanged(nameof(Type)); }
+		}
+
 		private string text;
 		public string Text
 		{
 			get { return text; }
 			set { text = value; OnPropertyChanged(nameof(Text)); }
-		}
-
-		private Brush foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-		public Brush Foreground
-		{
-			get { return foreground; }
-			set { foreground = value; OnPropertyChanged(nameof(Foreground)); }
-		}
-
-		private Brush background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-		public Brush Background
-		{
-			get { return background; }
-			set { background = value; OnPropertyChanged(nameof(Background)); }
 		}
 
 		#region INotifyPropertyChanged

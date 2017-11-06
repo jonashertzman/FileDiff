@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Media;
 
 namespace FileDiff
 {
 	public class Line : INotifyPropertyChanged
 	{
+
 		#region Members
 
 		private int hash;
@@ -18,6 +18,7 @@ namespace FileDiff
 
 		public Line()
 		{
+
 		}
 
 		#endregion
@@ -31,7 +32,7 @@ namespace FileDiff
 
 		public override int GetHashCode()
 		{
-			return SettingsData.IgnoreWhiteSpace ? trimmedHash : hash;
+			return AppSettings.Settings.IgnoreWhiteSpace ? trimmedHash : hash;
 		}
 
 		#endregion
@@ -49,7 +50,7 @@ namespace FileDiff
 				hash = value.GetHashCode();
 				trimmedHash = TrimmedText.GetHashCode();
 				TextSegments.Clear();
-				TextSegments.Add(new TextSegment() { Text = value });
+				TextSegments.Add(new TextSegment(value, Type));
 				OnPropertyChanged(nameof(Text));
 			}
 		}
@@ -57,7 +58,7 @@ namespace FileDiff
 		private string trimmedText;
 		public string TrimmedText
 		{
-			get { return SettingsData.IgnoreWhiteSpace ? trimmedText : text; }
+			get { return AppSettings.Settings.IgnoreWhiteSpace ? trimmedText : text; }
 			private set { trimmedText = value; }
 		}
 
@@ -103,54 +104,16 @@ namespace FileDiff
 			set { lineindex = value; OnPropertyChanged(nameof(LineIndex)); }
 		}
 
-		private Brush foreground;
-		public Brush Foreground
-		{
-			get { return foreground; }
-			set
-			{
-				foreground = value;
-				foreach (TextSegment t in TextSegments)
-				{
-					t.Foreground = value;
-				}
-				OnPropertyChanged(nameof(Foreground));
-			}
-		}
-
-		private Brush background;
-		public Brush Background
-		{
-			get { return background; }
-			set
-			{
-				background = value;
-				foreach (TextSegment t in TextSegments)
-				{
-					t.Background = value;
-				}
-				OnPropertyChanged(nameof(Background));
-			}
-		}
-
-		private MatchType type;
-		public MatchType Type
+		private TextState type;
+		public TextState Type
 		{
 			get { return type; }
 			set
 			{
 				type = value;
-				switch (value)
-				{
-					case MatchType.FullMatch:
-						Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-						Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-						break;
-					case MatchType.PartialMatch:
-						Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-						Background = new SolidColorBrush(Color.FromRgb(220, 220, 255));
-						break;
-				}
+				TextSegments.Clear();
+				TextSegments.Add(new TextSegment(Text, value));
+				OnPropertyChanged(nameof(Type));
 			}
 		}
 
@@ -170,12 +133,4 @@ namespace FileDiff
 		#endregion
 
 	}
-
-	public enum MatchType
-	{
-		FullMatch,
-		PartialMatch,
-		NoMatch
-	}
-
 }

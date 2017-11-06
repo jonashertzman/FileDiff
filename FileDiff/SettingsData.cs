@@ -1,31 +1,47 @@
-﻿using System.Windows.Media;
+﻿using System.ComponentModel;
+using System.Windows.Media;
 
 namespace FileDiff
 {
-	public class SettingsData
+
+	public class SettingsData : INotifyPropertyChanged
 	{
 
-		public static bool IgnoreWhiteSpace { get; set; } = true;
+		public bool IgnoreWhiteSpace { get; set; } = true;
 
-		public static bool ShowLineChanges { get; set; } = true;
+		public bool ShowLineChanges { get; set; } = true;
 
 		// Minimum character length of substrings used when looking for similarities between two lines.
-		public static int CharacterMatchThreshold { get; set; } = 4;
+		public int CharacterMatchThreshold { get; set; } = 4;
 
 		// The percentage of matching characters two lines must have in common to be considered partially matched lines.
-		public static float LineSimilarityThreshold { get; set; } = 0.4f;
+		public float LineSimilarityThreshold { get; set; } = 0.4f;
 
 		// Single lines shorter than this will not be considered for full line matches.
-		public static int FullMatchLineLengthThreshold { get; internal set; } = 1;
+		public int FullMatchLineLengthThreshold { get; internal set; } = 1;
 
-		public static Brush DeletedForeground { get; set; } = new SolidColorBrush(Color.FromRgb(200, 0, 0));
-		public static Brush DeletedBackground { get; set; } = new SolidColorBrush(Color.FromRgb(255, 220, 220));
+		public Color FullMatchForeground { get; set; } = Colors.Black;
+		public Color FullMatchBackground { get; set; } = Colors.White;
 
-		public static Brush AddedForeground { get; set; } = new SolidColorBrush(Color.FromRgb(0, 120, 0));
-		public static Brush AddedBackground { get; set; } = new SolidColorBrush(Color.FromRgb(220, 255, 220));
+		public Color PartialMatchForeground { get; set; } = Colors.Black;
+		public Color PartialMatchBackground { get; set; } = Color.FromRgb(220, 220, 255);
 
-		public static Brush ModifiedForeground { get; set; } = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-		public static Brush ModifiedBackground { get; set; } = new SolidColorBrush(Color.FromRgb(220, 220, 255));
+		public Color DeletedForeground { get; set; } = Color.FromRgb(200, 0, 0);
+		public Color DeletedBackground { get; set; } = Color.FromRgb(255, 220, 220);
+
+		public Color NewForeground { get; set; } = Color.FromRgb(0, 120, 0);
+		public Color NewBackground { get; set; } = Color.FromRgb(220, 255, 220);
+
+		#region INotifyPropertyChanged
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void OnPropertyChanged(string name)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+		}
+
+		#endregion
 
 	}
 }

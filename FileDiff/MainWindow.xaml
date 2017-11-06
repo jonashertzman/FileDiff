@@ -1,13 +1,68 @@
-﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff - Alpha 2" Height="500" Width="700" Loaded="Window_Loaded" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip">
+﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff - Alpha 2" Height="500" Width="700" Loaded="Window_Loaded" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed">
 
 	<Window.Resources>
 
+		<SolidColorBrush x:Key="FullMatchForeground" Color="Black" />
+		<SolidColorBrush x:Key="FullMatchBackground" Color="White" />
+
+		<SolidColorBrush x:Key="PartialMatchForeground" Color="Black" />
+		<SolidColorBrush x:Key="PartialMatchBackground" Color="#DCDCFF" />
+
+		<SolidColorBrush x:Key="NewForeground" Color="#FF007800" />
+		<SolidColorBrush x:Key="NewBackground" Color="#FFDCFFDC" />
+
+		<SolidColorBrush x:Key="DeletedForeground" Color="#FFC80000" />
+		<SolidColorBrush x:Key="DeletedBackground" Color="#FFFFDCDC" />
+
+
 		<DataTemplate x:Key="LineTemplate">
-			<TextBlock Text="{Binding Text}" Foreground="{Binding Foreground}" Background="{Binding Background}" />
+			<TextBlock Text="{Binding Text}">
+				<TextBlock.Style>
+					<Style TargetType="TextBlock">
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
+								<Setter Property="Foreground" Value="{DynamicResource FullMatchForeground}" />
+								<Setter Property="Background" Value="{DynamicResource FullMatchBackground}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
+								<Setter Property="Foreground" Value="{DynamicResource PartialMatchForeground}" />
+								<Setter Property="Background" Value="{DynamicResource PartialMatchBackground}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="Deleted">
+								<Setter Property="Foreground" Value="{DynamicResource DeletedForeground}" />
+								<Setter Property="Background" Value="{DynamicResource DeletedBackground}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="New">
+								<Setter Property="Foreground" Value="{DynamicResource NewForeground}" />
+								<Setter Property="Background" Value="{DynamicResource NewBackground}" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</TextBlock.Style>
+			</TextBlock>
 		</DataTemplate>
 
+
 		<DataTemplate x:Key="ListTemplate">
-			<StackPanel Orientation="Horizontal" Background="{Binding Background}">
+			<StackPanel Orientation="Horizontal">
+				<StackPanel.Style>
+					<Style TargetType="StackPanel">
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
+								<Setter Property="Background" Value="{DynamicResource FullMatchBackground}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
+								<Setter Property="Background" Value="{DynamicResource PartialMatchBackground}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="Deleted">
+								<Setter Property="Background" Value="{DynamicResource DeletedBackground}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="New">
+								<Setter Property="Background" Value="{DynamicResource NewBackground}" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</StackPanel.Style>
 				<Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey} }">
 					<TextBlock Text="{Binding LineIndex}" Width="30" TextAlignment="Right" Foreground="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey} }" Margin="0,0,2,0" HorizontalAlignment="Stretch" />
 				</Border>
@@ -20,6 +75,7 @@
 				</ItemsControl>
 			</StackPanel>
 		</DataTemplate>
+
 
 	</Window.Resources>
 
@@ -140,7 +196,6 @@
 
 		</Grid>
 
-
-
 	</DockPanel>
+
 </Window>
