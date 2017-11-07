@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace FileDiff
 {
 
-	public class SettingsData : INotifyPropertyChanged
+	public class SettingsData
 	{
 
 		public bool IgnoreWhiteSpace { get; set; } = true;
@@ -18,7 +17,8 @@ namespace FileDiff
 		public float LineSimilarityThreshold { get; set; } = 0.4f;
 
 		// Single lines shorter than this will not be considered for full line matches.
-		public int FullMatchLineLengthThreshold { get; internal set; } = 1;
+		public int FullMatchLineLengthThreshold { get; set; } = 1;
+
 
 		public Color FullMatchForeground { get; set; } = Colors.Black;
 		public Color FullMatchBackground { get; set; } = Colors.White;
@@ -31,17 +31,6 @@ namespace FileDiff
 
 		public Color NewForeground { get; set; } = Color.FromRgb(0, 120, 0);
 		public Color NewBackground { get; set; } = Color.FromRgb(220, 255, 220);
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string name)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-		}
-
-		#endregion
 
 	}
 }

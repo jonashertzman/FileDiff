@@ -53,23 +53,23 @@
 							<Label Grid.Row="2" Grid.Column="2" Content="Background" Style="{StaticResource CommonTextLabel}" />
 
 							<Label Grid.Row="3" Content="Normal Text" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle Grid.Row="3" Grid.Column="1" Fill="Black" Margin="5" />
-							<Rectangle Grid.Row="3" Grid.Column="2" Fill="White" Margin="5" />
+							<Rectangle Grid.Row="3" Grid.Column="1" Fill="{Binding FullMatchForeground, Mode=TwoWay}" Margin="5" MouseUp="Rectangle_MouseUp" />
+							<Rectangle Grid.Row="3" Grid.Column="2" Fill="{Binding FullMatchBackground, Mode=TwoWay}" Margin="5" MouseUp="Rectangle_MouseUp" />
 							<Button Grid.Row="3" Grid.Column="3" Content="Default" Style="{StaticResource CommonButton}" />
 
 							<Label Grid.Row="4" Content="Added Text" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle Grid.Row="4" Grid.Column="1" Fill="#FF007800" Margin="5" />
-							<Rectangle Grid.Row="4" Grid.Column="2" Fill="#FFDCFFDC" Margin="5" />
+							<Rectangle Grid.Row="4" Grid.Column="1" Fill="{Binding NewForeground, Mode=TwoWay}" Margin="5" MouseUp="Rectangle_MouseUp" />
+							<Rectangle Grid.Row="4" Grid.Column="2" Fill="{Binding NewBackground, Mode=TwoWay}" Margin="5" MouseUp="Rectangle_MouseUp" />
 							<Button Grid.Row="4" Grid.Column="3" Content="Default" Style="{StaticResource CommonButton}" />
 
 							<Label Grid.Row="5" Content="Deleted Text" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle Grid.Row="5" Grid.Column="1" Fill="#FFC80000" Margin="5" MouseUp="Rectangle_MouseUp" />
-							<Rectangle Grid.Row="5" Grid.Column="2" Fill="#FFFFDCDC" Margin="5" />
+							<Rectangle Grid.Row="5" Grid.Column="1" Fill="{Binding DeletedForeground, Mode=TwoWay}" Margin="5" MouseUp="Rectangle_MouseUp" />
+							<Rectangle Grid.Row="5" Grid.Column="2" Fill="{Binding DeletedBackground, Mode=TwoWay}" Margin="5" MouseUp="Rectangle_MouseUp" />
 							<Button Grid.Row="5" Grid.Column="3" Content="Default" Style="{StaticResource CommonButton}" />
 
 							<Label Grid.Row="6" Content="Changed Text" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle Grid.Row="6" Grid.Column="1" Fill="Black" Margin="5" />
-							<Rectangle Grid.Row="6" Grid.Column="2" Fill="#DCDCFF" Margin="5" />
+							<Rectangle Grid.Row="6" Grid.Column="1" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Margin="5" MouseUp="Rectangle_MouseUp" />
+							<Rectangle Grid.Row="6" Grid.Column="2" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Margin="5" MouseUp="Rectangle_MouseUp" />
 							<Button Grid.Row="6" Grid.Column="3" Content="Default" Style="{StaticResource CommonButton}" />
 
 						</Grid>

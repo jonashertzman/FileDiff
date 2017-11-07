@@ -2,39 +2,26 @@
 
 	<Window.Resources>
 
-		<SolidColorBrush x:Key="FullMatchForeground" Color="Black" />
-		<SolidColorBrush x:Key="FullMatchBackground" Color="White" />
-
-		<SolidColorBrush x:Key="PartialMatchForeground" Color="Black" />
-		<SolidColorBrush x:Key="PartialMatchBackground" Color="#DCDCFF" />
-
-		<SolidColorBrush x:Key="NewForeground" Color="#FF007800" />
-		<SolidColorBrush x:Key="NewBackground" Color="#FFDCFFDC" />
-
-		<SolidColorBrush x:Key="DeletedForeground" Color="#FFC80000" />
-		<SolidColorBrush x:Key="DeletedBackground" Color="#FFFFDCDC" />
-
-
 		<DataTemplate x:Key="LineTemplate">
 			<TextBlock Text="{Binding Text}">
 				<TextBlock.Style>
 					<Style TargetType="TextBlock">
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
-								<Setter Property="Foreground" Value="{DynamicResource FullMatchForeground}" />
-								<Setter Property="Background" Value="{DynamicResource FullMatchBackground}" />
+								<Setter Property="Foreground" Value="{Binding Path=WindowData.FullMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+								<Setter Property="Background" Value="{Binding Path=WindowData.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
-								<Setter Property="Foreground" Value="{DynamicResource PartialMatchForeground}" />
-								<Setter Property="Background" Value="{DynamicResource PartialMatchBackground}" />
+								<Setter Property="Foreground" Value="{Binding Path=WindowData.PartialMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+								<Setter Property="Background" Value="{Binding Path=WindowData.PartialMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Type}" Value="Deleted">
-								<Setter Property="Foreground" Value="{DynamicResource DeletedForeground}" />
-								<Setter Property="Background" Value="{DynamicResource DeletedBackground}" />
+								<Setter Property="Foreground" Value="{Binding Path=WindowData.DeletedForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+								<Setter Property="Background" Value="{Binding Path=WindowData.DeletedBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Type}" Value="New">
-								<Setter Property="Foreground" Value="{DynamicResource NewForeground}" />
-								<Setter Property="Background" Value="{DynamicResource NewBackground}" />
+								<Setter Property="Foreground" Value="{Binding Path=WindowData.NewForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+								<Setter Property="Background" Value="{Binding Path=WindowData.NewBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
@@ -49,16 +36,16 @@
 					<Style TargetType="StackPanel">
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
-								<Setter Property="Background" Value="{DynamicResource FullMatchBackground}" />
+								<Setter Property="Background" Value="{Binding Path=WindowData.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
-								<Setter Property="Background" Value="{DynamicResource PartialMatchBackground}" />
+								<Setter Property="Background" Value="{Binding Path=WindowData.PartialMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Type}" Value="Deleted">
-								<Setter Property="Background" Value="{DynamicResource DeletedBackground}" />
+								<Setter Property="Background" Value="{Binding Path=WindowData.DeletedBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Type}" Value="New">
-								<Setter Property="Background" Value="{DynamicResource NewBackground}" />
+								<Setter Property="Background" Value="{Binding Path=WindowData.NewBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>

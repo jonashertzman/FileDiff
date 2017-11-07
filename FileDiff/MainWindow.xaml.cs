@@ -5,7 +5,6 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -17,7 +16,9 @@ namespace FileDiff
 
 		#region Members
 
-		private WindowData windowData = new WindowData();
+		public WindowData WindowData { get; set; } = new WindowData();
+
+		private SettingsData Settings { get; set; } = new SettingsData();
 
 		#endregion
 
@@ -27,20 +28,20 @@ namespace FileDiff
 		{
 			InitializeComponent();
 
-			this.DataContext = this.windowData;
+			DataContext = WindowData;
 		}
 
 		#endregion
 
 		private void Compare()
 		{
-			if (File.Exists(windowData.LeftPath) && File.Exists(windowData.RightPath))
+			if (File.Exists(WindowData.LeftPath) && File.Exists(WindowData.RightPath))
 			{
-				CompareFiles(windowData.LeftPath, windowData.RightPath);
+				CompareFiles(WindowData.LeftPath, WindowData.RightPath);
 			}
-			else if (Directory.Exists(windowData.LeftPath) && Directory.Exists(windowData.RightPath))
+			else if (Directory.Exists(WindowData.LeftPath) && Directory.Exists(WindowData.RightPath))
 			{
-				CompareDirectories(windowData.LeftPath, windowData.RightPath);
+				CompareDirectories(WindowData.LeftPath, WindowData.RightPath);
 			}
 		}
 
@@ -55,20 +56,20 @@ namespace FileDiff
 
 			Mouse.OverrideCursor = Cursors.Wait;
 
-			windowData.LeftSide.Clear();
-			windowData.RightSide.Clear();
+			WindowData.LeftSide.Clear();
+			WindowData.RightSide.Clear();
 
 			List<Line> leftSide = new List<Line>();
 			List<Line> rightSide = new List<Line>();
 
 			int i = 0;
-			foreach (string s in File.ReadAllLines(windowData.LeftPath))
+			foreach (string s in File.ReadAllLines(WindowData.LeftPath))
 			{
 				leftSide.Add(new Line() { Type = TextState.Deleted, Text = s.Replace("\t", "  "), LineIndex = i++ });
 			}
 
 			i = 0;
-			foreach (string s in File.ReadAllLines(windowData.RightPath))
+			foreach (string s in File.ReadAllLines(WindowData.RightPath))
 			{
 				rightSide.Add(new Line() { Type = TextState.New, Text = s.Replace("\t", "  "), LineIndex = i++ });
 			}
@@ -91,26 +92,26 @@ namespace FileDiff
 			{
 				if (leftSide[leftIndex].MatchingLineIndex == null)
 				{
-					windowData.LeftSide.Add(leftSide[leftIndex]);
-					windowData.RightSide.Add(new Line());
+					WindowData.LeftSide.Add(leftSide[leftIndex]);
+					WindowData.RightSide.Add(new Line());
 				}
 				else
 				{
 					while (rightIndex < leftSide[leftIndex].MatchingLineIndex)
 					{
-						windowData.LeftSide.Add(new Line());
-						windowData.RightSide.Add(rightSide[rightIndex]);
+						WindowData.LeftSide.Add(new Line());
+						WindowData.RightSide.Add(rightSide[rightIndex]);
 						rightIndex++;
 					}
-					windowData.LeftSide.Add(leftSide[leftIndex]);
-					windowData.RightSide.Add(rightSide[rightIndex]);
+					WindowData.LeftSide.Add(leftSide[leftIndex]);
+					WindowData.RightSide.Add(rightSide[rightIndex]);
 					rightIndex++;
 				}
 			}
 			while (rightIndex < rightSide.Count)
 			{
-				windowData.LeftSide.Add(new Line());
-				windowData.RightSide.Add(rightSide[rightIndex]);
+				WindowData.LeftSide.Add(new Line());
+				WindowData.RightSide.Add(rightSide[rightIndex]);
 				rightIndex++;
 			}
 		}
@@ -147,7 +148,7 @@ namespace FileDiff
 			float leftMatching = (float)bestMatchingCharacters / leftRange[bestLeft].TrimmedText.Length;
 			float rightMatching = (float)bestMatchingCharacters / rightRange[bestRight].TrimmedText.Length;
 
-			if (leftMatching + rightMatching > AppSettings.Settings.LineSimilarityThreshold * 2)
+			if (leftMatching + rightMatching > Settings.LineSimilarityThreshold * 2)
 			{
 				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
 				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
@@ -160,7 +161,7 @@ namespace FileDiff
 					leftRange[bestLeft].Type = TextState.FullMatch;
 					rightRange[bestRight].Type = TextState.FullMatch;
 				}
-				else if (AppSettings.Settings.ShowLineChanges)
+				else if (Settings.ShowLineChanges)
 				{
 					leftRange[bestLeft].TextSegments.Clear();
 					rightRange[bestRight].TextSegments.Clear();
@@ -183,7 +184,7 @@ namespace FileDiff
 		{
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength < AppSettings.Settings.CharacterMatchThreshold)
+			if (matchLength < Settings.CharacterMatchThreshold)
 			{
 				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), TextState.Deleted));
 				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), TextState.New));
@@ -243,7 +244,7 @@ namespace FileDiff
 			}
 			else
 			{
-				if (matchLength < AppSettings.Settings.CharacterMatchThreshold)
+				if (matchLength < Settings.CharacterMatchThreshold)
 				{
 					return 0;
 				}
@@ -266,7 +267,7 @@ namespace FileDiff
 		{
 			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength == 0 || (matchLength == 1 && leftRange[matchIndex].TrimmedText.Length <= AppSettings.Settings.FullMatchLineLengthThreshold))
+			if (matchLength == 0 || (matchLength == 1 && leftRange[matchIndex].TrimmedText.Length <= Settings.FullMatchLineLengthThreshold))
 			{
 				MatchPartialLines(leftRange, rightRange);
 				return;
@@ -341,19 +342,21 @@ namespace FileDiff
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			AppSettings.ReadSettingsFromDisk();
+			WindowData.ReadSettingsFromDisk();
+			Settings = WindowData.Settings;
+			AppSettings.Settings = WindowData.Settings;
 
 			if (Environment.GetCommandLineArgs().Length > 2)
 			{
-				windowData.LeftPath = Environment.GetCommandLineArgs()[1];
-				windowData.RightPath = Environment.GetCommandLineArgs()[2];
+				WindowData.LeftPath = Environment.GetCommandLineArgs()[1];
+				WindowData.RightPath = Environment.GetCommandLineArgs()[2];
 				Compare();
 			}
 		}
 
 		private void Window_Closed(object sender, EventArgs e)
 		{
-			AppSettings.WriteSettingsToDisk();
+			WindowData.WriteSettingsToDisk();
 		}
 
 		private void CommandCompare_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -393,7 +396,7 @@ namespace FileDiff
 			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				windowData.LeftPath = ofd.FileName;
+				WindowData.LeftPath = ofd.FileName;
 			}
 		}
 
@@ -402,7 +405,7 @@ namespace FileDiff
 			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				windowData.RightPath = ofd.FileName;
+				WindowData.RightPath = ofd.FileName;
 			}
 		}
 
@@ -417,12 +420,12 @@ namespace FileDiff
 
 			if (paths?.Length >= 2)
 			{
-				windowData.LeftPath = paths[0];
-				windowData.RightPath = paths[1];
+				WindowData.LeftPath = paths[0];
+				WindowData.RightPath = paths[1];
 			}
 			else if (paths?.Length >= 1)
 			{
-				windowData.LeftPath = paths[0];
+				WindowData.LeftPath = paths[0];
 			}
 		}
 
@@ -437,18 +440,18 @@ namespace FileDiff
 
 			if (paths?.Length >= 2)
 			{
-				windowData.LeftPath = paths[0];
-				windowData.RightPath = paths[1];
+				WindowData.LeftPath = paths[0];
+				WindowData.RightPath = paths[1];
 			}
 			else if (paths?.Length >= 1)
 			{
-				windowData.RightPath = paths[0];
+				WindowData.RightPath = paths[0];
 			}
 		}
 
 		private void Options_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			OptionsWindow optionsWindow = new OptionsWindow();
+			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = WindowData };
 			optionsWindow.ShowDialog();
 		}
 
