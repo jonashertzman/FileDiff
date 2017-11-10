@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FileDiff
@@ -19,6 +20,9 @@ namespace FileDiff
 		public WindowData WindowData { get; set; } = new WindowData();
 
 		private SettingsData Settings { get; set; } = new SettingsData();
+
+		ScrollViewer LeftScroll;
+		ScrollViewer RightScroll;
 
 		#endregion
 
@@ -81,7 +85,7 @@ namespace FileDiff
 			Mouse.OverrideCursor = null;
 
 			stopwatch.Stop();
-			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms  left side {leftSide.Count}  right site {rightSide.Count}";
+			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms  left side {leftSide.Count} lines  right site {rightSide.Count} lines";
 		}
 
 		private void DisplayLines(List<Line> leftSide, List<Line> rightSide)
@@ -359,23 +363,33 @@ namespace FileDiff
 			WindowData.WriteSettingsToDisk();
 		}
 
-		private void CommandCompare_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		private void CommandCompare_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			Compare();
 		}
 
-		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		private void CommandExit_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			this.Close();
 		}
 
-		private void RightScroll_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		private void LeftScrollInitialized(object sender, EventArgs e)
+		{
+			LeftScroll = sender as ScrollViewer;
+		}
+
+		private void RightScrollInitialized(object sender, EventArgs e)
+		{
+			RightScroll = sender as ScrollViewer;
+		}
+
+		private void RightScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
 			LeftScroll.ScrollToVerticalOffset(e.VerticalOffset);
 			LeftScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
 
-		private void LeftScroll_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		private void LeftScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
 			RightScroll.ScrollToVerticalOffset(e.VerticalOffset);
 			RightScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
