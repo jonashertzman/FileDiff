@@ -24,6 +24,8 @@ namespace FileDiff
 		ScrollViewer LeftScroll;
 		ScrollViewer RightScroll;
 
+		int currentLine = -1;
+
 		#endregion
 
 		#region Constructor
@@ -81,6 +83,8 @@ namespace FileDiff
 			MatchLines(leftSide, rightSide);
 
 			DisplayLines(leftSide, rightSide);
+
+			MoveToFirstDiff();
 
 			Mouse.OverrideCursor = null;
 
@@ -342,6 +346,44 @@ namespace FileDiff
 			}
 		}
 
+		private void MoveToFirstDiff()
+		{
+			currentLine = -1;
+			MoveToNextDiff();
+		}
+
+		private void MoveToLastDiff()
+		{
+			currentLine = WindowData.LeftSide.Count + 1;
+			MoveToPrevoiusDiff();
+		}
+
+		private void MoveToPrevoiusDiff()
+		{
+			for (int i = currentLine - 1; i >= 0; i--)
+			{
+				if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
+				{
+					LeftScroll.ScrollToVerticalOffset(i);
+					currentLine = i;
+					return;
+				}
+			}
+		}
+
+		private void MoveToNextDiff()
+		{
+			for (int i = currentLine + 1; i < WindowData.LeftSide.Count; i++)
+			{
+				if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
+				{
+					LeftScroll.ScrollToVerticalOffset(i);
+					currentLine = i;
+					return;
+				}
+			}
+		}
+
 		#region Events
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -467,6 +509,21 @@ namespace FileDiff
 		{
 			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = WindowData };
 			optionsWindow.ShowDialog();
+		}
+
+		private void CommandPreviousDiff_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			MoveToPrevoiusDiff();
+		}
+
+		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			MoveToNextDiff();
+		}
+
+		private void Window_ContentRendered(object sender, EventArgs e)
+		{
+			MoveToFirstDiff();
 		}
 
 		#endregion
