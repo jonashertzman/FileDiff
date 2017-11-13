@@ -16,7 +16,7 @@ namespace FileDiff
 			InitializeComponent();
 		}
 
-		private void BrowseFont_Click(object sender, RoutedEventArgs e)
+		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
 		{
 			FontDialog fd = new FontDialog();
 			fd.FontMustExist = true;
@@ -35,6 +35,16 @@ namespace FileDiff
 			{
 				rectangle.Fill = new SolidColorBrush(Color.FromRgb(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B));
 			}
+		}
+
+		private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
+		{
+
 		}
 
 	}

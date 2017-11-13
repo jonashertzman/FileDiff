@@ -25,6 +25,8 @@ namespace FileDiff
 		ScrollViewer RightScroll;
 
 		int currentLine = -1;
+		int firstDiff = -1;
+		int lastDiff = -1;
 
 		#endregion
 
@@ -84,12 +86,32 @@ namespace FileDiff
 
 			DisplayLines(leftSide, rightSide);
 
-			MoveToFirstDiff();
+			InitNavigationButtons();
 
 			Mouse.OverrideCursor = null;
 
 			stopwatch.Stop();
 			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms  left side {leftSide.Count} lines  right site {rightSide.Count} lines";
+		}
+
+		private void InitNavigationButtons()
+		{
+			currentLine = -1;
+			firstDiff = -1;
+			lastDiff = -1;
+
+			for (int i = 0; i < WindowData.LeftSide.Count; i++)
+			{
+				if (firstDiff == -1 && WindowData.LeftSide[i].Type != TextState.FullMatch)
+				{
+					firstDiff = i;
+					CenterOnLine(i);
+				}
+				if (WindowData.LeftSide[i].Type != TextState.FullMatch)
+				{
+					lastDiff = i;
+				}
+			}
 		}
 
 		private void DisplayLines(List<Line> leftSide, List<Line> rightSide)
@@ -364,7 +386,7 @@ namespace FileDiff
 			{
 				if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
 				{
-					LeftScroll.ScrollToVerticalOffset(i);
+					CenterOnLine(i);
 					currentLine = i;
 					return;
 				}
@@ -377,11 +399,17 @@ namespace FileDiff
 			{
 				if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
 				{
-					LeftScroll.ScrollToVerticalOffset(i);
+					CenterOnLine(i);
 					currentLine = i;
 					return;
 				}
 			}
+		}
+
+		private void CenterOnLine(int i)
+		{
+			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
+			LeftScroll.ScrollToVerticalOffset(i - (visibleLines / 2));
 		}
 
 		#region Events
@@ -523,7 +551,17 @@ namespace FileDiff
 
 		private void Window_ContentRendered(object sender, EventArgs e)
 		{
-			MoveToFirstDiff();
+			InitNavigationButtons();
+		}
+
+		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = firstDiff < currentLine;
+		}
+
+		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = lastDiff > currentLine;
 		}
 
 		#endregion

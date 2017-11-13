@@ -1,4 +1,4 @@
-﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff - Alpha 2" Height="500" Width="700" Loaded="Window_Loaded" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered">
+﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff - Alpha 3" Height="500" Width="700" Loaded="Window_Loaded" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered">
 
 	<Window.Resources>
 
@@ -68,8 +68,8 @@
 
 	<Window.CommandBindings>
 		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
-		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" />
-		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" />
+		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
+		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
 		<CommandBinding Command="local:Commands.BrowseLeft" Executed="BrowseLeft_Executed" />
 		<CommandBinding Command="local:Commands.BrowseRight" Executed="BrowseRight_Executed" />
@@ -170,7 +170,7 @@
 			</Border>
 
 			<Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True" PreviewDragEnter="LeftSide_DragEnter" PreviewDrop="LeftSide_DragDrop">
-				<ItemsControl ItemsSource="{Binding LeftSide}" ItemTemplate="{StaticResource ListTemplate}" VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True" FontFamily="DejaVu Sans Mono" FontSize="11">
+				<ItemsControl x:Name="LeftDiff" ItemsSource="{Binding LeftSide}" ItemTemplate="{StaticResource ListTemplate}" VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True" FontFamily="DejaVu Sans Mono" FontSize="11">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<VirtualizingStackPanel />
@@ -217,6 +217,8 @@
 				</ItemsControl>
 			</Border>
 
+			<!-- Used to measure the size of one character in the chosen font -->
+			<TextBlock x:Name="OneCharacter" Text="M" Visibility="Hidden" FontFamily="DejaVu Sans Mono" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Top" />
 		</Grid>
 
 	</DockPanel>
