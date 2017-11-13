@@ -1,4 +1,4 @@
-﻿<Window x:Class="FileDiff.OptionsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="Options" Height="400" Width="620" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Padding="5" DataContext="{x:Static local:AppSettings.Settings}">
+﻿<Window x:Class="FileDiff.OptionsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="Options" Height="366" Width="635" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Padding="5" DataContext="{x:Static local:AppSettings.Settings}">
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -24,8 +24,10 @@
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="1*" />
-								<ColumnDefinition Width="1*" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="71*" />
+								<ColumnDefinition Width="55*" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
@@ -40,9 +42,10 @@
 							</Grid.RowDefinitions>
 
 							<Label Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
-							<TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="DejaVu Sans Mono" Style="{StaticResource CommonTextBox}" MinWidth="150" />
-							<Button x:Name="ButtonBrowseFont" Grid.Column="3" Content="..." Style="{StaticResource CommonButton}" MinWidth="25" Click="ButtonBrowseFont_Click" />
-							<Button x:Name="ButtonResetFont" Grid.Column="4" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
+							<TextBox x:Name="TextBoxFont" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
+							<TextBox x:Name="TextBoxFontSize" Grid.Column="4" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
+							<Button x:Name="ButtonBrowseFont" Grid.Column="5" Content="..." Style="{StaticResource CommonButton}" MinWidth="25" Click="ButtonBrowseFont_Click" />
+							<Button x:Name="ButtonResetFont" Grid.Column="6" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
 
 							<Label Content="Tab Size" Style="{StaticResource CommonTextLabel}" Grid.Row="1" />
 							<TextBox Text="2" Grid.Column="1" Grid.Row="1" Style="{StaticResource CommonTextBox}" />
@@ -50,7 +53,7 @@
 							<Label Grid.Row="2" Grid.Column="0" Content="Color" Style="{StaticResource CommonTextLabel}" />
 							<Label Grid.Row="2" Grid.Column="1" Content="Foreground" Style="{StaticResource CommonTextLabel}" />
 							<Label Grid.Row="2" Grid.Column="2" Content="Background" Style="{StaticResource CommonTextLabel}" />
-							<Button x:Name="ButtonResetColors" Grid.Row="2" Grid.Column="4" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetColors_Click" />
+							<Button x:Name="ButtonResetColors" Grid.Row="2" Grid.Column="6" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetColors_Click" />
 
 							<Label Grid.Row="3" Content="Normal Text" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle Grid.Row="3" Grid.Column="1" Fill="{Binding FullMatchForeground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
@@ -76,8 +79,8 @@
 		</Border>
 
 		<StackPanel Grid.Column="1" Margin="5">
-			<Button Content="OK" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" />
-			<Button Content="Cancel" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" />
+			<Button Content="OK" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" IsDefault="True" Click="ButtonOk_Click" />
+			<Button Content="Cancel" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" IsCancel="True" />
 		</StackPanel>
 
 	</Grid>

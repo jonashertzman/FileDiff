@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -14,6 +15,7 @@ namespace FileDiff
 		public OptionsWindow()
 		{
 			InitializeComponent();
+			Owner = App.Current.MainWindow;
 		}
 
 		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
@@ -23,6 +25,8 @@ namespace FileDiff
 
 			if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
+				TextBoxFont.Text = fd.Font.Name;
+				TextBoxFontSize.Text = (fd.Font.Size * 96.0 / 72.0).ToString(CultureInfo.InvariantCulture);
 			}
 		}
 
@@ -44,8 +48,13 @@ namespace FileDiff
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
 		{
-
+			TextBoxFont.Text = "Courier New";
+			TextBoxFontSize.Text = "12";
 		}
 
+		private void ButtonOk_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = true;
+		}
 	}
 }

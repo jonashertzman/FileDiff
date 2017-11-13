@@ -126,6 +126,18 @@ namespace FileDiff
 			set { newBackground = value; Settings.NewBackground = value.Color; OnPropertyChanged(nameof(NewBackground)); }
 		}
 
+		public FontFamily Font
+		{
+			get { System.Diagnostics.Debug.Print("generate font"); return new FontFamily(Settings.Font); }
+			set { Settings.Font = value.ToString(); OnPropertyChanged(nameof(Font)); }
+		}
+
+		public int FontSize
+		{
+			get { return Settings.FontSize; }
+			set { Settings.FontSize = value; OnPropertyChanged(nameof(FontSize)); }
+		}
+
 		#endregion
 
 		#region Methods

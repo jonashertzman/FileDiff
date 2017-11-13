@@ -86,6 +86,9 @@ namespace FileDiff
 
 			DisplayLines(leftSide, rightSide);
 
+			LeftDiff.UpdateLayout();
+			RightDiff.UpdateLayout();
+
 			InitNavigationButtons();
 
 			Mouse.OverrideCursor = null;
@@ -102,14 +105,17 @@ namespace FileDiff
 
 			for (int i = 0; i < WindowData.LeftSide.Count; i++)
 			{
-				if (firstDiff == -1 && WindowData.LeftSide[i].Type != TextState.FullMatch)
+				if (i == 0 || WindowData.LeftSide[i - 1].Type == TextState.FullMatch)
 				{
-					firstDiff = i;
-					CenterOnLine(i);
-				}
-				if (WindowData.LeftSide[i].Type != TextState.FullMatch)
-				{
-					lastDiff = i;
+					if (firstDiff == -1 && WindowData.LeftSide[i].Type != TextState.FullMatch)
+					{
+						firstDiff = i;
+						CenterOnLine(i);
+					}
+					if (WindowData.LeftSide[i].Type != TextState.FullMatch)
+					{
+						lastDiff = i;
+					}
 				}
 			}
 		}
@@ -123,13 +129,13 @@ namespace FileDiff
 				if (leftSide[leftIndex].MatchingLineIndex == null)
 				{
 					WindowData.LeftSide.Add(leftSide[leftIndex]);
-					WindowData.RightSide.Add(new Line());
+					WindowData.RightSide.Add(new Line() { Type = TextState.Filler });
 				}
 				else
 				{
 					while (rightIndex < leftSide[leftIndex].MatchingLineIndex)
 					{
-						WindowData.LeftSide.Add(new Line());
+						WindowData.LeftSide.Add(new Line() { Type = TextState.Filler });
 						WindowData.RightSide.Add(rightSide[rightIndex]);
 						rightIndex++;
 					}
@@ -140,7 +146,7 @@ namespace FileDiff
 			}
 			while (rightIndex < rightSide.Count)
 			{
-				WindowData.LeftSide.Add(new Line());
+				WindowData.LeftSide.Add(new Line() { Type = TextState.Filler });
 				WindowData.RightSide.Add(rightSide[rightIndex]);
 				rightIndex++;
 			}
@@ -384,11 +390,13 @@ namespace FileDiff
 		{
 			for (int i = currentLine - 1; i >= 0; i--)
 			{
-				if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
+				if (i == 0 || WindowData.LeftSide[i - 1].Type == TextState.FullMatch)
 				{
-					CenterOnLine(i);
-					currentLine = i;
-					return;
+					if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
+					{
+						CenterOnLine(i);
+						return;
+					}
 				}
 			}
 		}
@@ -397,18 +405,21 @@ namespace FileDiff
 		{
 			for (int i = currentLine + 1; i < WindowData.LeftSide.Count; i++)
 			{
-				if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
+				if (i == 0 || WindowData.LeftSide[i - 1].Type == TextState.FullMatch)
 				{
-					CenterOnLine(i);
-					currentLine = i;
-					return;
+					if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
+					{
+						CenterOnLine(i);
+						return;
+					}
 				}
 			}
 		}
 
 		private void CenterOnLine(int i)
 		{
-			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
+			currentLine = i;
+			int visibleLines = (int)((LeftDiff.ActualHeight - SystemParameters.HorizontalScrollBarHeight) / OneCharacter.ActualHeight);
 			LeftScroll.ScrollToVerticalOffset(i - (visibleLines / 2));
 		}
 
@@ -547,11 +558,6 @@ namespace FileDiff
 		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			MoveToNextDiff();
-		}
-
-		private void Window_ContentRendered(object sender, EventArgs e)
-		{
-			InitNavigationButtons();
 		}
 
 		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)

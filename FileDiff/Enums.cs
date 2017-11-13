@@ -6,7 +6,8 @@
 		FullMatch,
 		PartialMatch,
 		Deleted,
-		New
+		New,
+		Filler
 	}
 
 }

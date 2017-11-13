@@ -32,5 +32,8 @@ namespace FileDiff
 		public Color NewForeground { get; set; } = Color.FromRgb(0, 120, 0);
 		public Color NewBackground { get; set; } = Color.FromRgb(220, 255, 220);
 
+		public string Font { get; set; } = "Courier New";
+		public int FontSize { get; set; } = 12;
+
 	}
 }
