@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -34,6 +35,12 @@ namespace FileDiff
 
 		public string Font { get; set; } = "Courier New";
 		public int FontSize { get; set; } = 12;
+
+		public double PositionLeft { get; set; }
+		public double PositionTop { get; set; }
+		public double Width { get; set; }
+		public double Height { get; set; }
+		public WindowState WindowState { get; set; }
 
 	}
 }

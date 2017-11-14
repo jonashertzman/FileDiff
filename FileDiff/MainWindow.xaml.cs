@@ -423,14 +423,35 @@ namespace FileDiff
 			LeftScroll.ScrollToVerticalOffset(i - (visibleLines / 2));
 		}
 
-		#region Events
-
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+		private void LoadSettings()
 		{
 			WindowData.ReadSettingsFromDisk();
 			Settings = WindowData.Settings;
 			AppSettings.Settings = WindowData.Settings;
 
+			this.Left = Settings.PositionLeft;
+			this.Top = Settings.PositionTop;
+			this.Width = Settings.Width;
+			this.Height = Settings.Height;
+			this.WindowState = Settings.WindowState;
+		}
+
+		private void SaveSettings()
+		{
+			Settings.PositionLeft = this.Left;
+			Settings.PositionTop = this.Top;
+			Settings.Width = this.Width;
+			Settings.Height = this.Height;
+
+			Settings.WindowState = this.WindowState;
+
+			WindowData.WriteSettingsToDisk();
+		}
+
+		#region Events
+
+		private void Window_ContentRendered(object sender, EventArgs e)
+		{
 			if (Environment.GetCommandLineArgs().Length > 2)
 			{
 				WindowData.LeftPath = Environment.GetCommandLineArgs()[1];
@@ -439,9 +460,14 @@ namespace FileDiff
 			}
 		}
 
+		private void Window_Initialized(object sender, EventArgs e)
+		{
+			LoadSettings();
+		}
+
 		private void Window_Closed(object sender, EventArgs e)
 		{
-			WindowData.WriteSettingsToDisk();
+			SaveSettings();
 		}
 
 		private void CommandCompare_Executed(object sender, ExecutedRoutedEventArgs e)
