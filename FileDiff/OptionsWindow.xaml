@@ -26,8 +26,8 @@
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="71*" />
-								<ColumnDefinition Width="55*" />
+								<ColumnDefinition Width="1*" />
+								<ColumnDefinition Width="1*" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
@@ -56,20 +56,20 @@
 							<Button x:Name="ButtonResetColors" Grid.Row="2" Grid.Column="6" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetColors_Click" />
 
 							<Label Grid.Row="3" Content="Normal Text" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle Grid.Row="3" Grid.Column="1" Fill="{Binding FullMatchForeground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle Grid.Row="3" Grid.Column="2" Fill="{Binding FullMatchBackground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="FullMatchForeground" Grid.Row="3" Grid.Column="1" Fill="{Binding FullMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="FullMatchBackground" Grid.Row="3" Grid.Column="2" Fill="{Binding FullMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="4" Content="Added Text" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle Grid.Row="4" Grid.Column="1" Fill="{Binding NewForeground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle Grid.Row="4" Grid.Column="2" Fill="{Binding NewBackground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="NewForeground" Grid.Row="4" Grid.Column="1" Fill="{Binding NewForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="NewBackground" Grid.Row="4" Grid.Column="2" Fill="{Binding NewBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="5" Content="Deleted Text" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle Grid.Row="5" Grid.Column="1" Fill="{Binding DeletedForeground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle Grid.Row="5" Grid.Column="2" Fill="{Binding DeletedBackground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="DeletedForeground" Grid.Row="5" Grid.Column="1" Fill="{Binding DeletedForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="DeletedBackground" Grid.Row="5" Grid.Column="2" Fill="{Binding DeletedBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="6" Content="Changed Text" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle Grid.Row="6" Grid.Column="1" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle Grid.Row="6" Grid.Column="2" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="PartialMatchForeground" Grid.Row="6" Grid.Column="1" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="PartialMatchBackground" Grid.Row="6" Grid.Column="2" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 						</Grid>
 					</Border>

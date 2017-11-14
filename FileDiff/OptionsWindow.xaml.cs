@@ -43,13 +43,23 @@ namespace FileDiff
 
 		private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
 		{
+			FullMatchForeground.Fill = new SolidColorBrush(AppSettings.DefaultFullMatchForeground);
+			FullMatchBackground.Fill = new SolidColorBrush(AppSettings.DefaultFullMatchBackground);
 
+			PartialMatchForeground.Fill = new SolidColorBrush(AppSettings.DefaultPartialMatchForeground);
+			PartialMatchBackground.Fill = new SolidColorBrush(AppSettings.DefaultPartialMatchBackground);
+
+			DeletedForeground.Fill = new SolidColorBrush(AppSettings.DefaultDeletedForeground);
+			DeletedBackground.Fill = new SolidColorBrush(AppSettings.DefaultDeletedBackground);
+
+			NewForeground.Fill = new SolidColorBrush(AppSettings.DefaultNewForeground);
+			NewBackground.Fill = new SolidColorBrush(AppSettings.DefaultNewBackground);
 		}
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
 		{
-			TextBoxFont.Text = "Courier New";
-			TextBoxFontSize.Text = "12";
+			TextBoxFont.Text = AppSettings.DefaultFont;
+			TextBoxFontSize.Text = AppSettings.DefaultFontSize.ToString();
 		}
 
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)

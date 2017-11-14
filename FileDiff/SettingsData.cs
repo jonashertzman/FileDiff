@@ -21,25 +21,25 @@ namespace FileDiff
 		public int FullMatchLineLengthThreshold { get; set; } = 1;
 
 
-		public Color FullMatchForeground { get; set; } = Colors.Black;
-		public Color FullMatchBackground { get; set; } = Colors.White;
+		public Color FullMatchForeground { get; set; } = AppSettings.DefaultFullMatchForeground;
+		public Color FullMatchBackground { get; set; } = AppSettings.DefaultFullMatchBackground;
 
-		public Color PartialMatchForeground { get; set; } = Colors.Black;
-		public Color PartialMatchBackground { get; set; } = Color.FromRgb(220, 220, 255);
+		public Color PartialMatchForeground { get; set; } = AppSettings.DefaultPartialMatchForeground;
+		public Color PartialMatchBackground { get; set; } = AppSettings.DefaultPartialMatchBackground;
 
-		public Color DeletedForeground { get; set; } = Color.FromRgb(200, 0, 0);
-		public Color DeletedBackground { get; set; } = Color.FromRgb(255, 220, 220);
+		public Color DeletedForeground { get; set; } = AppSettings.DefaultDeletedForeground;
+		public Color DeletedBackground { get; set; } = AppSettings.DefaultDeletedBackground;
 
-		public Color NewForeground { get; set; } = Color.FromRgb(0, 120, 0);
-		public Color NewBackground { get; set; } = Color.FromRgb(220, 255, 220);
+		public Color NewForeground { get; set; } = AppSettings.DefaultNewForeground;
+		public Color NewBackground { get; set; } = AppSettings.DefaultNewBackground;
 
-		public string Font { get; set; } = "Courier New";
-		public int FontSize { get; set; } = 12;
+		public string Font { get; set; } = AppSettings.DefaultFont;
+		public int FontSize { get; set; } = AppSettings.DefaultFontSize;
 
 		public double PositionLeft { get; set; }
 		public double PositionTop { get; set; }
-		public double Width { get; set; }
-		public double Height { get; set; }
+		public double Width { get; set; } = 700;
+		public double Height { get; set; } = 500;
 		public WindowState WindowState { get; set; }
 
 	}
