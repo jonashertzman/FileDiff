@@ -12,6 +12,8 @@ namespace FileDiff
 			}
 		);
 
+		public static readonly RoutedUICommand About = new RoutedUICommand("About", "About", typeof(Commands));
+
 		public static readonly RoutedUICommand Compare = new RoutedUICommand("Compare", "Compare", typeof(Commands),
 			new InputGestureCollection()
 			{

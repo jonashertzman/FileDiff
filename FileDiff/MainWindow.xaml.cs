@@ -576,6 +576,12 @@ namespace FileDiff
 			optionsWindow.ShowDialog();
 		}
 
+		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			AboutWindow aboutWindow = new AboutWindow();
+			aboutWindow.ShowDialog();
+		}
+
 		private void CommandPreviousDiff_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			MoveToPrevoiusDiff();

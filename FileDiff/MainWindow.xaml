@@ -71,6 +71,7 @@
 		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
+		<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
 		<CommandBinding Command="local:Commands.BrowseLeft" Executed="BrowseLeft_Executed" />
 		<CommandBinding Command="local:Commands.BrowseRight" Executed="BrowseRight_Executed" />
 		<CommandBinding Command="local:Commands.Options" Executed="Options_Executed" />
@@ -93,7 +94,7 @@
 						<MenuItem Header="Options" Command="local:Commands.Options" />
 					</MenuItem>
 					<MenuItem Header="Help">
-						<MenuItem Header="About" />
+						<MenuItem Header="About" Command="local:Commands.About" />
 					</MenuItem>
 				</Menu>
 			</Grid>
