@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace FileDiff
 {
@@ -10,7 +11,7 @@ namespace FileDiff
 		#region Members
 
 		private int hash;
-		private int trimmedHash;
+		private int hashNoWhitespace;
 
 		#endregion
 
@@ -32,7 +33,7 @@ namespace FileDiff
 
 		public override int GetHashCode()
 		{
-			return AppSettings.Settings.IgnoreWhiteSpace ? trimmedHash : hash;
+			return AppSettings.Settings.IgnoreWhiteSpace ? hashNoWhitespace : hash;
 		}
 
 		#endregion
@@ -47,10 +48,13 @@ namespace FileDiff
 			{
 				text = value;
 				TrimmedText = value.Trim();
+
 				hash = value.GetHashCode();
-				trimmedHash = TrimmedText.GetHashCode();
+				hashNoWhitespace = Regex.Replace(value, @"\s+", "").GetHashCode();
+
 				TextSegments.Clear();
 				TextSegments.Add(new TextSegment(value, Type));
+
 				OnPropertyChanged(nameof(Text));
 			}
 		}
