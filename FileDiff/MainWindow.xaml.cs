@@ -303,7 +303,7 @@ namespace FileDiff
 		{
 			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength == 0 || (matchLength == 1 && leftRange[matchIndex].TrimmedText.Length <= Settings.FullMatchLineLengthThreshold))
+			if (matchLength < 2) // Do not consider single lines to be full matches, they are in most cases false positives.
 			{
 				MatchPartialLines(leftRange, rightRange);
 				return;

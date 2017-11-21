@@ -17,10 +17,6 @@ namespace FileDiff
 		// The percentage of matching characters two lines must have in common to be considered partially matched lines.
 		public float LineSimilarityThreshold { get; set; } = 0.4f;
 
-		// Single lines shorter than this will not be considered for full line matches.
-		public int FullMatchLineLengthThreshold { get; set; } = 1;
-
-
 		public Color FullMatchForeground { get; set; } = AppSettings.DefaultFullMatchForeground;
 		public Color FullMatchBackground { get; set; } = AppSettings.DefaultFullMatchBackground;
 
