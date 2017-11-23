@@ -73,13 +73,13 @@ namespace FileDiff
 			int i = 0;
 			foreach (string s in File.ReadAllLines(WindowData.LeftPath))
 			{
-				leftSide.Add(new Line() { Type = TextState.Deleted, Text = s.Replace("\t", "  "), LineIndex = i++ });
+				leftSide.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
 			}
 
 			i = 0;
 			foreach (string s in File.ReadAllLines(WindowData.RightPath))
 			{
-				rightSide.Add(new Line() { Type = TextState.New, Text = s.Replace("\t", "  "), LineIndex = i++ });
+				rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
 			}
 
 			MatchLines(leftSide, rightSide);
@@ -163,10 +163,20 @@ namespace FileDiff
 
 			for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
 			{
+				if (leftRange[leftIndex].IsWhitespaceLine)
+				{
+					continue;
+				}
+
 				if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchingCharacters)
 				{
 					for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
 					{
+						if (rightRange[rightIndex].IsWhitespaceLine)
+						{
+							continue;
+						}
+
 						if (rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
 						{
 							matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
@@ -184,7 +194,7 @@ namespace FileDiff
 			float leftMatching = (float)bestMatchingCharacters / leftRange[bestLeft].TrimmedText.Length;
 			float rightMatching = (float)bestMatchingCharacters / rightRange[bestRight].TrimmedText.Length;
 
-			if (leftMatching + rightMatching > Settings.LineSimilarityThreshold * 2)
+			if (leftMatching + rightMatching > Settings.LineSimilarityThreshold * 2 || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
 			{
 				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
 				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
@@ -303,7 +313,8 @@ namespace FileDiff
 		{
 			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength < 2) // Do not consider single lines to be full matches, they are in most cases false positives.
+			// Single line matches and ranges containing only whitespace are in most cases false positives.
+			if (matchLength < 2 || WhitespaceRange(leftRange.GetRange(matchIndex, matchLength)))
 			{
 				MatchPartialLines(leftRange, rightRange);
 				return;
@@ -327,6 +338,18 @@ namespace FileDiff
 			{
 				MatchLines(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
 			}
+		}
+
+		private bool WhitespaceRange(List<Line> range)
+		{
+			foreach (Line l in range)
+			{
+				if (!l.IsWhitespaceLine)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		private void FindLongestMatch(List<object> leftRange, List<object> rightRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength)

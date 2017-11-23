@@ -50,7 +50,10 @@ namespace FileDiff
 				TrimmedText = value.Trim();
 
 				hash = value.GetHashCode();
-				hashNoWhitespace = Regex.Replace(value, @"\s+", "").GetHashCode();
+
+				string textNoWhitespace = Regex.Replace(value, @"\s+", "");
+				hashNoWhitespace = textNoWhitespace.GetHashCode();
+				IsWhitespaceLine = textNoWhitespace == "";
 
 				TextSegments.Clear();
 				TextSegments.Add(new TextSegment(value, Type));
@@ -59,12 +62,7 @@ namespace FileDiff
 			}
 		}
 
-		private string trimmedText;
-		public string TrimmedText
-		{
-			get { return AppSettings.Settings.IgnoreWhiteSpace ? trimmedText : text; }
-			private set { trimmedText = value; }
-		}
+		public string TrimmedText { get; set; }
 
 		private ObservableCollection<TextSegment> textSegments = new ObservableCollection<TextSegment>();
 		public ObservableCollection<TextSegment> TextSegments
@@ -72,6 +70,8 @@ namespace FileDiff
 			get { return textSegments; }
 			set { textSegments = value; OnPropertyChanged(nameof(TextSegments)); }
 		}
+
+		public bool IsWhitespaceLine { get; set; }
 
 		public List<object> Characters
 		{
