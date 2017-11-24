@@ -230,7 +230,7 @@ namespace FileDiff
 		{
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
-			if (matchLength < Settings.CharacterMatchThreshold)
+			if (matchLength == 0 || (matchLength < Settings.CharacterMatchThreshold && (leftLine.TrimmedText.Length > Settings.CharacterMatchThreshold || rightLine.TrimmedText.Length > Settings.CharacterMatchThreshold)))
 			{
 				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), TextState.Deleted));
 				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), TextState.New));
