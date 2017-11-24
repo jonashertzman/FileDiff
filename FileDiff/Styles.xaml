@@ -22,4 +22,16 @@
 		<Setter Property="Margin" Value="5" />
 	</Style>
 
+	<Style x:Key="CommonButtonIcon" TargetType="ContentControl">
+		<Setter Property="MaxHeight" Value="12" />
+		<Setter Property="MaxWidth" Value="12" />
+		<Setter Property="Margin" Value="6,0" />
+
+		<Style.Triggers>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter Property="Opacity" Value="0.25"></Setter>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
 </ResourceDictionary>

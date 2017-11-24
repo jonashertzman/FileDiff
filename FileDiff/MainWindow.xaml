@@ -110,31 +110,31 @@
 			</WrapPanel.Background>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Compare">
 				<StackPanel Orientation="Horizontal">
-					<Image VerticalAlignment="Center" Margin="3" />
+					<ContentControl Content="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Compare" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.PreviousDiff">
 				<StackPanel Orientation="Horizontal">
-					<Image VerticalAlignment="Center" Margin="3" />
+					<ContentControl Content="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Previous Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.NextDiff">
 				<StackPanel Orientation="Horizontal">
-					<Image VerticalAlignment="Center" Margin="3" />
+					<ContentControl Content="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Next Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
 			<ToggleButton x:Name="ToggleButtonShowLineChanges" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding ShowLineChanges}" Focusable="False" Click="ToggleButtonShowLineChanges_Click">
 				<StackPanel Orientation="Horizontal">
-					<Image VerticalAlignment="Center" Margin="3" />
+
 					<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
 			<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding IgnoreWhiteSpace}" Focusable="False" Click="ToggleButtonIgnoreWhiteSpace_Click">
 				<StackPanel Orientation="Horizontal">
-					<Image VerticalAlignment="Center" Margin="3" />
+
 					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
