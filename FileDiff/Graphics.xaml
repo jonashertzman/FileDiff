@@ -2,10 +2,24 @@
 
 	<Viewbox x:Key="CompareIcon">
 		<Canvas Width="100" Height="100">
-			<Rectangle Fill="LightPink" Canvas.Left="0" Canvas.Top="10" Width="40" Height="80" />
-			<Rectangle Fill="LightGreen" Canvas.Left="50" Canvas.Top="0" Width="40" Height="80" />
-			<Ellipse Stroke="#505050" StrokeThickness="10" Canvas.Left="15" Canvas.Top="15" Width="65" Height="65" />
-			<Line Stroke="#505050" StrokeThickness="10" X1="70" Y1="70" X2="100" Y2="100" />
+			<Rectangle Canvas.Left="0" Canvas.Top="10" Width="40" Height="80">
+				<Rectangle.Fill>
+					<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+						<GradientStop Color="LightPink" Offset="0" />
+						<GradientStop Color="#FFFF5252" Offset="1" />
+					</LinearGradientBrush>
+				</Rectangle.Fill>
+			</Rectangle>
+			<Rectangle Canvas.Left="50" Canvas.Top="0" Width="40" Height="80">
+				<Rectangle.Fill>
+					<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+						<GradientStop Color="LightGreen" Offset="0" />
+						<GradientStop Color="#FF03C203" Offset="1" />
+					</LinearGradientBrush>
+				</Rectangle.Fill>
+			</Rectangle>
+			<Ellipse Stroke="#FF565656" StrokeThickness="12" Canvas.Left="15" Canvas.Top="15" Width="65" Height="65" />
+			<Line Stroke="#FF565656" StrokeThickness="12" X1="70" Y1="70" X2="100" Y2="100" />
 		</Canvas>
 	</Viewbox>
 
