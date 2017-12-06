@@ -2,7 +2,7 @@
 
 	<Window.Resources>
 
-		<DataTemplate x:Key="LineTemplate">
+		<!--<DataTemplate x:Key="LineTemplate">
 			<TextBlock Text="{Binding Text}">
 				<TextBlock.Style>
 					<Style TargetType="TextBlock">
@@ -27,13 +27,13 @@
 					</Style>
 				</TextBlock.Style>
 			</TextBlock>
-		</DataTemplate>
+		</DataTemplate>-->
 
 
 		<DataTemplate x:Key="ListTemplate">
-			<StackPanel Orientation="Horizontal">
-				<StackPanel.Style>
-					<Style TargetType="StackPanel">
+			<local:LineControl Text="{Binding Text}" RowNumber="{Binding LineIndex}">
+				<!--<local:LineControl.Style>
+					<Style TargetType="local:LineControl">
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
 								<Setter Property="Background" Value="{Binding Path=WindowData.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
@@ -49,18 +49,8 @@
 							</DataTrigger>
 						</Style.Triggers>
 					</Style>
-				</StackPanel.Style>
-				<Border BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-					<TextBlock Text="{Binding LineIndex}" Width="30" TextAlignment="Right" Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey} }" Margin="0,0,2,0" HorizontalAlignment="Stretch" />
-				</Border>
-				<ItemsControl ItemsSource="{Binding TextSegments}" ItemTemplate="{StaticResource LineTemplate}" Padding="1,0,0,0" Focusable="False">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<StackPanel Orientation="Horizontal" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-				</ItemsControl>
-			</StackPanel>
+				</local:LineControl.Style>-->
+			</local:LineControl>
 		</DataTemplate>
 
 

@@ -40,7 +40,7 @@ namespace FileDiff
 
 		#region Properties
 
-		private string text;
+		private string text = "";
 		public string Text
 		{
 			get { return text; }
