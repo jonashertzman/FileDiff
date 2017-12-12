@@ -51,9 +51,12 @@ namespace FileDiff
 		{
 			//Debug.Print("OnRender" + VisualOffset.ToString());
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
+			FormattedText rowNumberText = new FormattedText(RowNumber.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display);
+			drawingContext.DrawText(rowNumberText, new Point(0, 0));
 
-			drawingContext.DrawText(new FormattedText(RowNumber.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display), new Point(0, textSize.Height));
-			drawingContext.DrawText(new FormattedText(Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display), new Point(30, textSize.Height));
+			FormattedText lineText = new FormattedText(Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display);
+			drawingContext.DrawRectangle(new SolidColorBrush(AppSettings.Settings.DeletedBackground), new Pen(Brushes.Transparent, 0), new Rect(30, 0, lineText.Width, size.Height));
+			drawingContext.DrawText(lineText, new Point(30, 0));
 		}
 
 		#endregion
