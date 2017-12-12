@@ -360,12 +360,12 @@ namespace FileDiff
 			longestMatchingIndex = 0;
 			longestMatchLength = 0;
 
-			for (int i = 0; i < leftRange.Count; i++)
+			for (int i = 0; i < leftRange.Count - longestMatchLength; i++)
 			{
 				int matchLength = 0;
 				int matchingIndex = 0;
 
-				for (int j = 0; j < rightRange.Count; j++)
+				for (int j = 0; j < rightRange.Count - longestMatchLength; j++)
 				{
 					while (leftRange[i + matchLength].GetHashCode() == rightRange[j + matchLength].GetHashCode())
 					{
