@@ -82,7 +82,10 @@ namespace FileDiff
 				rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
 			}
 
-			MatchLines(leftSide, rightSide);
+			if (leftSide.Count > 0 && rightSide.Count > 0)
+			{
+				MatchLines(leftSide, rightSide);
+			}
 
 			DisplayLines(leftSide, rightSide);
 
