@@ -85,10 +85,12 @@ namespace FileDiff
 				MatchLines(leftSide, rightSide);
 			}
 
-			DisplayLines(leftSide, rightSide);
+			AddFillerLins(leftSide, rightSide);
 
-			LeftDiff.UpdateLayout();
-			RightDiff.UpdateLayout();
+			//LeftDiff.UpdateLayout();
+			//RightDiff.UpdateLayout();
+
+			LeftDiff.Lines = WindowData.LeftSide;
 
 			InitNavigationButtons();
 
@@ -121,7 +123,7 @@ namespace FileDiff
 			}
 		}
 
-		private void DisplayLines(List<Line> leftSide, List<Line> rightSide)
+		private void AddFillerLins(List<Line> leftSide, List<Line> rightSide)
 		{
 			int rightIndex = 0;
 
