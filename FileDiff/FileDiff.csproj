@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="DiffControl.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="LineControl.cs" />
     <Compile Include="OptionsWindow.xaml.cs">

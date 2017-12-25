@@ -2,55 +2,9 @@
 
 	<Window.Resources>
 
-		<!--<DataTemplate x:Key="LineTemplate">
-			<TextBlock Text="{Binding Text}">
-				<TextBlock.Style>
-					<Style TargetType="TextBlock">
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
-								<Setter Property="Foreground" Value="{Binding Path=WindowData.FullMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-								<Setter Property="Background" Value="{Binding Path=WindowData.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
-								<Setter Property="Foreground" Value="{Binding Path=WindowData.PartialMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-								<Setter Property="Background" Value="{Binding Path=WindowData.PartialMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="Deleted">
-								<Setter Property="Foreground" Value="{Binding Path=WindowData.DeletedForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-								<Setter Property="Background" Value="{Binding Path=WindowData.DeletedBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="New">
-								<Setter Property="Foreground" Value="{Binding Path=WindowData.NewForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-								<Setter Property="Background" Value="{Binding Path=WindowData.NewBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</TextBlock.Style>
-			</TextBlock>
-		</DataTemplate>-->
-
 
 		<DataTemplate x:Key="ListTemplate">
-			<local:LineControl Text="{Binding Text}" RowNumber="{Binding LineIndex}">
-				<!--<local:LineControl.Style>
-					<Style TargetType="local:LineControl">
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
-								<Setter Property="Background" Value="{Binding Path=WindowData.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
-								<Setter Property="Background" Value="{Binding Path=WindowData.PartialMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="Deleted">
-								<Setter Property="Background" Value="{Binding Path=WindowData.DeletedBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="New">
-								<Setter Property="Background" Value="{Binding Path=WindowData.NewBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</local:LineControl.Style>-->
-			</local:LineControl>
+			<local:LineControl Text="{Binding Text}" RowNumber="{Binding LineIndex}" />
 		</DataTemplate>
 
 
@@ -161,20 +115,10 @@
 			</Border>
 
 			<Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True" PreviewDragEnter="LeftSide_DragEnter" PreviewDrop="LeftSide_DragDrop">
-				<ItemsControl x:Name="LeftDiff" ItemsSource="{Binding LeftSide}" ItemTemplate="{StaticResource ListTemplate}" VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" IsTabStop="False" Focusable="False">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<VirtualizingStackPanel />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.Template>
-						<ControlTemplate>
-							<ScrollViewer x:Name="LeftScroll" Padding="{TemplateBinding Control.Padding}" Focusable="False" ScrollChanged="LeftScroll_ScrollChanged" Initialized="LeftScrollInitialized" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
-								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-							</ScrollViewer>
-						</ControlTemplate>
-					</ItemsControl.Template>
-				</ItemsControl>
+				<ScrollViewer x:Name="LeftScroll">
+					<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}">
+					</local:DiffControl>
+				</ScrollViewer>
 			</Border>
 
 			<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" Grid.RowSpan="2" />
@@ -200,7 +144,7 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.Template>
 						<ControlTemplate>
-							<ScrollViewer x:Name="RightScroll" Padding="{TemplateBinding Control.Padding}" Focusable="False" ScrollChanged="RightScroll_ScrollChanged" Initialized="RightScrollInitialized" HorizontalScrollBarVisibility="Visible">
+							<ScrollViewer x:Name="RightScroll" Padding="{TemplateBinding Control.Padding}" Focusable="False"  HorizontalScrollBarVisibility="Visible">
 								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
 							</ScrollViewer>
 						</ControlTemplate>
