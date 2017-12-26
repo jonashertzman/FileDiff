@@ -22,6 +22,9 @@ namespace FileDiff
 		private SettingsData Settings { get; set; } = new SettingsData();
 
 
+		ScrollViewer LeftScroll;
+		ScrollViewer RightScroll;
+
 		int currentLine = -1;
 		int firstDiff = -1;
 		int lastDiff = -1;
@@ -91,6 +94,7 @@ namespace FileDiff
 			//RightDiff.UpdateLayout();
 
 			LeftDiff.Lines = WindowData.LeftSide;
+			RightDiff.Lines = WindowData.RightSide;
 
 			InitNavigationButtons();
 
@@ -446,7 +450,7 @@ namespace FileDiff
 		{
 			currentLine = i;
 			int visibleLines = (int)((LeftDiff.ActualHeight - SystemParameters.HorizontalScrollBarHeight) / OneCharacter.ActualHeight);
-			LeftScroll.ScrollToVerticalOffset(i - (visibleLines / 2));
+			LeftScroll.ScrollToVerticalOffset((i - (visibleLines / 2)) * OneCharacter.ActualHeight);
 		}
 
 		private void LoadSettings()
@@ -506,27 +510,27 @@ namespace FileDiff
 			this.Close();
 		}
 
-		//private void LeftScrollInitialized(object sender, EventArgs e)
-		//{
-		//	LeftScroll = sender as ScrollViewer;
-		//}
+		private void LeftScrollInitialized(object sender, EventArgs e)
+		{
+			LeftScroll = sender as ScrollViewer;
+		}
 
-		//private void RightScrollInitialized(object sender, EventArgs e)
-		//{
-		//	RightScroll = sender as ScrollViewer;
-		//}
+		private void RightScrollInitialized(object sender, EventArgs e)
+		{
+			RightScroll = sender as ScrollViewer;
+		}
 
-		//private void RightScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
-		//{
-		//	LeftScroll.ScrollToVerticalOffset(e.VerticalOffset);
-		//	LeftScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-		//}
+		private void rightscroll_scrollchanged(object sender, ScrollChangedEventArgs e)
+		{
+			LeftScroll.ScrollToVerticalOffset(e.VerticalOffset);
+			LeftScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+		}
 
-		//private void LeftScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
-		//{
-		//	RightScroll.ScrollToVerticalOffset(e.VerticalOffset);
-		//	RightScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-		//}
+		private void leftscroll_scrollchanged(object sender, ScrollChangedEventArgs e)
+		{
+			RightScroll.ScrollToVerticalOffset(e.VerticalOffset);
+			RightScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+		}
 
 		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)
 		{
@@ -630,5 +634,9 @@ namespace FileDiff
 
 		#endregion
 
+		private void ScrollViewer_Initialized(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

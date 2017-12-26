@@ -21,20 +21,23 @@ namespace FileDiff
 		public DiffControl()
 		{
 			Lines = new ObservableCollection<Line>();
-			characterSize = MeasureString("W");
+
 		}
 
 		#region Overrides
 
 		protected override Size MeasureOverride(Size constraint)
 		{
-
+			characterSize = MeasureString("W");
 			return new Size(1000, characterSize.Height * Lines.Count);
 		}
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
 			Debug.Print($"OnRender");
+
+			characterSize = MeasureString("W");
+			int margin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 2;
 
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
@@ -44,22 +47,19 @@ namespace FileDiff
 			{
 				if (l.LineIndex != -1)
 				{
-					if(l.Type != TextState.FullMatch)
+					if (l.Type != TextState.FullMatch)
 					{
-
+						drawingContext.DrawRectangle(new SolidColorBrush(AppSettings.Settings.DeletedBackground), new Pen(Brushes.Transparent, 0), new Rect(0, characterSize.Height * lineIndex, 1000, characterSize.Height));
 					}
 					FormattedText rowNumberText = new FormattedText(l.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display);
-					drawingContext.DrawText(rowNumberText, new Point(0, characterSize.Height*lineIndex));
+					drawingContext.DrawText(rowNumberText, new Point(1, characterSize.Height * lineIndex));
+
+					FormattedText lineText = new FormattedText(l.Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display);
+					drawingContext.DrawText(lineText, new Point(margin, characterSize.Height * lineIndex));
 				}
 
 				lineIndex++;
 			}
-
-			//if (lineText != null)
-			//{
-			//	drawingContext.DrawRectangle(new SolidColorBrush(AppSettings.Settings.DeletedBackground), new Pen(Brushes.Transparent, 0), new Rect(30, 0, lineText.Width, lineText.Height));
-			//	drawingContext.DrawText(lineText, new Point(30, 0));
-			//}
 		}
 
 		#endregion
