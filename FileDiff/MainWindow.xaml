@@ -140,20 +140,6 @@
 					<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}">
 					</local:DiffControl>
 				</ScrollViewer>
-				<!--<ItemsControl x:Name="RightDiff" ItemsSource="{Binding RightSide}" ItemTemplate="{StaticResource ListTemplate}" VirtualizingStackPanel.IsVirtualizing="True" ScrollViewer.CanContentScroll="True" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" IsTabStop="False" Focusable="False">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<VirtualizingStackPanel />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.Template>
-						<ControlTemplate>
-							<ScrollViewer x:Name="RightScroll" Padding="{TemplateBinding Control.Padding}" Focusable="False"  HorizontalScrollBarVisibility="Visible" Initialized="RightScrollInitialized" ScrollChanged="rightscroll_scrollchanged">
-								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
-							</ScrollViewer>
-						</ControlTemplate>
-					</ItemsControl.Template>
-				</ItemsControl>-->
 			</Border>
 
 			<!-- Used to measure the size of one character in the chosen font -->

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +19,6 @@ namespace FileDiff
 		public DiffControl()
 		{
 			Lines = new ObservableCollection<Line>();
-
 		}
 
 		#region Overrides
@@ -34,10 +31,8 @@ namespace FileDiff
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
-			Debug.Print($"OnRender");
-
 			characterSize = MeasureString("W");
-			int margin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 2;
+			int margin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 3;
 
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
@@ -51,7 +46,7 @@ namespace FileDiff
 					{
 						drawingContext.DrawRectangle(new SolidColorBrush(AppSettings.Settings.DeletedBackground), new Pen(Brushes.Transparent, 0), new Rect(0, characterSize.Height * lineIndex, 1000, characterSize.Height));
 					}
-					FormattedText rowNumberText = new FormattedText(l.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display);
+					FormattedText rowNumberText = new FormattedText(l.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ScrollBarBrush, null, TextFormattingMode.Display);
 					drawingContext.DrawText(rowNumberText, new Point(1, characterSize.Height * lineIndex));
 
 					FormattedText lineText = new FormattedText(l.Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display);
