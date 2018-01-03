@@ -97,6 +97,7 @@ namespace FileDiff
 			RightDiff.Lines = WindowData.RightSide;
 
 			InitNavigationButtons();
+			InitScrollbars();
 
 			Mouse.OverrideCursor = null;
 
@@ -125,6 +126,13 @@ namespace FileDiff
 					}
 				}
 			}
+		}
+
+		private void InitScrollbars()
+		{
+			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
+			VerticalScrollbar.Maximum = LeftDiff.Lines.Count - visibleLines;
+			VerticalScrollbar.ViewportSize = visibleLines;
 		}
 
 		private void AddFillerLins(List<Line> leftSide, List<Line> rightSide)
@@ -632,11 +640,12 @@ namespace FileDiff
 			e.CanExecute = lastDiff > currentLine;
 		}
 
+		private void LeftDiff_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			InitScrollbars();
+		}
+
 		#endregion
 
-		private void ScrollViewer_Initialized(object sender, EventArgs e)
-		{
-
-		}
 	}
 }

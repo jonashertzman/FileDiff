@@ -42,6 +42,9 @@ namespace FileDiff
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
+				if (i + VerticalOffset >= Lines.Count)
+					break;
+
 				Line l = Lines[i + VerticalOffset];
 
 				if (l.LineIndex != -1)
@@ -63,9 +66,15 @@ namespace FileDiff
 
 		#region Properties
 
-		public int VisibleLines
+		private int VisibleLines
 		{
-			get { return (int)(this.ActualHeight / characterSize.Height + 1); }
+			get
+			{
+				if (characterSize.Height == 0)
+					return 0;
+
+				return (int)(this.ActualHeight / characterSize.Height + 1);
+			}
 		}
 
 		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<Line>), typeof(DiffControl),
