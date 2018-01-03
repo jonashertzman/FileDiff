@@ -90,7 +90,7 @@
 		</Grid>
 
 		<!--Diff-->
-		<Grid>
+		<Grid MouseWheel="Grid_MouseWheel" PreviewMouseWheel="Grid_PreviewMouseWheel">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="327*" />
@@ -122,7 +122,7 @@
 			<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" Grid.RowSpan="2" />
 
 			<Border Grid.Column="2" Grid.ColumnSpan="2" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-				<Grid >
+				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
@@ -134,10 +134,17 @@
 			</Border>
 
 			<Border Grid.Column="2" Grid.Row="1" BorderThickness="1,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True" PreviewDragEnter="RightSide_DragEnter" PreviewDrop="RightSide_DragDrop">
-				<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value}" />
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+
+					<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value}" />
+					<ScrollBar Grid.Column="1" Name="VerticalScrollbar" SmallChange="1" />
+				</Grid>
 			</Border>
 
-			<ScrollBar Grid.Column="3" Grid.RowSpan="2" Name="VerticalScrollbar" Grid.Row="1" SmallChange="1" />
 
 			<!-- Used to measure the size of one character in the chosen font -->
 			<TextBlock x:Name="OneCharacter" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" HorizontalAlignment="Left" VerticalAlignment="Top" />
