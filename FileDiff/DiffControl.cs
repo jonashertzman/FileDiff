@@ -19,6 +19,7 @@ namespace FileDiff
 		public DiffControl()
 		{
 			Lines = new ObservableCollection<Line>();
+			this.ClipToBounds = true;
 		}
 
 		#region Overrides
@@ -109,14 +110,6 @@ namespace FileDiff
 		#endregion
 
 		#region Methods
-
-		private static void OnRowNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-		}
-
-		private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-		{
-		}
 
 		private Size MeasureString(string text)
 		{

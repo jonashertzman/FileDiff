@@ -457,8 +457,8 @@ namespace FileDiff
 		private void CenterOnLine(int i)
 		{
 			currentLine = i;
-			int visibleLines = (int)((LeftDiff.ActualHeight - SystemParameters.HorizontalScrollBarHeight) / OneCharacter.ActualHeight);
-			LeftScroll.ScrollToVerticalOffset((i - (visibleLines / 2)) * OneCharacter.ActualHeight);
+			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
+			VerticalScrollbar.Value = i - (visibleLines / 2);
 		}
 
 		private void LoadSettings()
