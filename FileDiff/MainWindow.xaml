@@ -90,7 +90,7 @@
 		</Grid>
 
 		<!--Diff-->
-		<Grid MouseWheel="Grid_MouseWheel" PreviewMouseWheel="Grid_PreviewMouseWheel">
+		<Grid MouseWheel="Grid_MouseWheel">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="327*" />

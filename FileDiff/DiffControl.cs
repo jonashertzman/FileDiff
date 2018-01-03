@@ -24,12 +24,6 @@ namespace FileDiff
 
 		#region Overrides
 
-		//protected override Size MeasureOverride(Size constraint)
-		//{
-		//	characterSize = MeasureString("W");
-		//	return new Size(1000, characterSize.Height * Lines.Count);
-		//}
-
 		protected override void OnRender(DrawingContext drawingContext)
 		{
 			if (Lines.Count == 0)
@@ -50,7 +44,7 @@ namespace FileDiff
 
 				if (l.LineIndex != -1)
 				{
-					if (l.Type != TextState.FullMatch)
+					//if (l.Type != TextState.FullMatch)
 					{
 						drawingContext.DrawRectangle(new SolidColorBrush(AppSettings.Settings.DeletedBackground), new Pen(Brushes.Transparent, 0), new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
 					}

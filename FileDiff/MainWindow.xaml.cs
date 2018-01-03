@@ -649,12 +649,8 @@ namespace FileDiff
 
 		private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			Debug.Print("Grid_MouseWheel");
-		}
-
-		private void Grid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-		{
-			Debug.Print("Grid_PreviewMouseWheel");
+			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
+			VerticalScrollbar.Value -= lines;
 		}
 
 	}
