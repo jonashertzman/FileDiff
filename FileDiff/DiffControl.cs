@@ -30,10 +30,8 @@ namespace FileDiff
 				return;
 
 			characterSize = MeasureString("W");
-			int margin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 3;
-
+			int margin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 4;
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
-
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -53,6 +51,8 @@ namespace FileDiff
 					drawingContext.DrawText(lineText, new Point(margin, characterSize.Height * i));
 				}
 			}
+
+			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(margin - 1.5, 0), new Point(margin - 1.5, this.ActualHeight));
 		}
 
 		#endregion
