@@ -463,15 +463,16 @@ namespace FileDiff
 
 		private void LoadSettings()
 		{
-			WindowData.ReadSettingsFromDisk();
-			Settings = WindowData.Settings;
-			AppSettings.Settings = WindowData.Settings;
+			AppSettings.ReadSettingsFromDisk();
+			Settings = AppSettings.Settings;
+
 
 			this.Left = Settings.PositionLeft;
 			this.Top = Settings.PositionTop;
 			this.Width = Settings.Width;
 			this.Height = Settings.Height;
 			this.WindowState = Settings.WindowState;
+			WindowData.OnPropertyChanged("");
 		}
 
 		private void SaveSettings()
@@ -483,7 +484,7 @@ namespace FileDiff
 
 			Settings.WindowState = this.WindowState;
 
-			WindowData.WriteSettingsToDisk();
+			AppSettings.WriteSettingsToDisk();
 		}
 
 		#region Events
