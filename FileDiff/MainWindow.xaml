@@ -1,13 +1,6 @@
 ﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff - Alpha 3" Height="500" Width="700" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
 
 	<Window.Resources>
-
-
-		<DataTemplate x:Key="ListTemplate">
-			<local:LineControl Text="{Binding Text}" RowNumber="{Binding LineIndex}" />
-		</DataTemplate>
-
-
 	</Window.Resources>
 
 	<Window.CommandBindings>
@@ -116,7 +109,7 @@
 			</Border>
 
 			<Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True" PreviewDragEnter="LeftSide_DragEnter" PreviewDrop="LeftSide_DragDrop">
-				<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value}" />
+				<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value}" SnapsToDevicePixels="True" />
 			</Border>
 
 			<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" Grid.RowSpan="2" />

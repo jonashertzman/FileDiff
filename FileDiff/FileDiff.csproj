@@ -64,7 +64,6 @@
     <Compile Include="Commands.cs" />
     <Compile Include="DiffControl.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="LineControl.cs" />
     <Compile Include="OptionsWindow.xaml.cs">
       <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>
