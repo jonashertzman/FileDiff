@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Windows;
 using System.Windows.Media;
-using System.Xml;
 
 namespace FileDiff
 {
@@ -13,8 +8,6 @@ namespace FileDiff
 	{
 
 		#region Properties
-
-		private SettingsData Settings = AppSettings.Settings;
 
 		ObservableCollection<Line> leftSide = new ObservableCollection<Line>();
 		public ObservableCollection<Line> LeftSide
@@ -46,74 +39,74 @@ namespace FileDiff
 
 		public bool IgnoreWhiteSpace
 		{
-			get { return Settings.IgnoreWhiteSpace; }
-			set { Settings.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
+			get { return AppSettings.Settings.IgnoreWhiteSpace; }
+			set { AppSettings.Settings.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
 		}
 
 		public bool ShowLineChanges
 		{
-			get { return Settings.ShowLineChanges; }
-			set { Settings.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
+			get { return AppSettings.Settings.ShowLineChanges; }
+			set { AppSettings.Settings.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
 		}
 
 		public SolidColorBrush FullMatchForeground
 		{
 			get { return AppSettings.fullMatchForegroundBrush; }
-			set { AppSettings.fullMatchForegroundBrush = value; Settings.FullMatchForeground = value.Color; OnPropertyChanged(nameof(FullMatchForeground)); }
+			set { AppSettings.fullMatchForegroundBrush = value; AppSettings.Settings.FullMatchForeground = value.Color; OnPropertyChanged(nameof(FullMatchForeground)); }
 		}
 
 		public SolidColorBrush FullMatchBackground
 		{
 			get { return AppSettings.fullMatchBackgroundBrush; }
-			set { AppSettings.fullMatchBackgroundBrush = value; Settings.FullMatchBackground = value.Color; OnPropertyChanged(nameof(FullMatchBackground)); }
+			set { AppSettings.fullMatchBackgroundBrush = value; AppSettings.Settings.FullMatchBackground = value.Color; OnPropertyChanged(nameof(FullMatchBackground)); }
 		}
 
 		public SolidColorBrush PartialMatchForeground
 		{
 			get { return AppSettings.partialMatchForegroundBrush; }
-			set { AppSettings.partialMatchForegroundBrush = value; Settings.PartialMatchForeground = value.Color; OnPropertyChanged(nameof(PartialMatchForeground)); }
+			set { AppSettings.partialMatchForegroundBrush = value; AppSettings.Settings.PartialMatchForeground = value.Color; OnPropertyChanged(nameof(PartialMatchForeground)); }
 		}
 
 		public SolidColorBrush PartialMatchBackground
 		{
 			get { return AppSettings.partialMatchBackgroundBrush; }
-			set { AppSettings.partialMatchBackgroundBrush = value; Settings.PartialMatchBackground = value.Color; OnPropertyChanged(nameof(PartialMatchBackground)); }
+			set { AppSettings.partialMatchBackgroundBrush = value; AppSettings.Settings.PartialMatchBackground = value.Color; OnPropertyChanged(nameof(PartialMatchBackground)); }
 		}
 
 		public SolidColorBrush DeletedForeground
 		{
 			get { return AppSettings.deletedForegroundBrush; }
-			set { AppSettings.deletedForegroundBrush = value; Settings.DeletedForeground = value.Color; OnPropertyChanged(nameof(DeletedForeground)); }
+			set { AppSettings.deletedForegroundBrush = value; AppSettings.Settings.DeletedForeground = value.Color; OnPropertyChanged(nameof(DeletedForeground)); }
 		}
 
 		public SolidColorBrush DeletedBackground
 		{
 			get { return AppSettings.deletedBackgroundBrush; }
-			set { AppSettings.deletedBackgroundBrush = value; Settings.DeletedBackground = value.Color; OnPropertyChanged(nameof(DeletedBackground)); }
+			set { AppSettings.deletedBackgroundBrush = value; AppSettings.Settings.DeletedBackground = value.Color; OnPropertyChanged(nameof(DeletedBackground)); }
 		}
 
 		public SolidColorBrush NewForeground
 		{
 			get { return AppSettings.newForegroundBrush; }
-			set { AppSettings.newForegroundBrush = value; Settings.NewForeground = value.Color; OnPropertyChanged(nameof(NewForeground)); }
+			set { AppSettings.newForegroundBrush = value; AppSettings.Settings.NewForeground = value.Color; OnPropertyChanged(nameof(NewForeground)); }
 		}
 
 		public SolidColorBrush NewBackground
 		{
 			get { return AppSettings.newBackgrounBrush; }
-			set { AppSettings.newBackgrounBrush = value; Settings.NewBackground = value.Color; OnPropertyChanged(nameof(NewBackground)); }
+			set { AppSettings.newBackgrounBrush = value; AppSettings.Settings.NewBackground = value.Color; OnPropertyChanged(nameof(NewBackground)); }
 		}
 
 		public FontFamily Font
 		{
-			get { System.Diagnostics.Debug.Print("generate font"); return new FontFamily(Settings.Font); }
-			set { Settings.Font = value.ToString(); OnPropertyChanged(nameof(Font)); }
+			get { System.Diagnostics.Debug.Print("generate font"); return new FontFamily(AppSettings.Settings.Font); }
+			set { AppSettings.Settings.Font = value.ToString(); OnPropertyChanged(nameof(Font)); }
 		}
 
 		public int FontSize
 		{
-			get { return Settings.FontSize; }
-			set { Settings.FontSize = value; OnPropertyChanged(nameof(FontSize)); }
+			get { return AppSettings.Settings.FontSize; }
+			set { AppSettings.Settings.FontSize = value; OnPropertyChanged(nameof(FontSize)); }
 		}
 
 		#endregion

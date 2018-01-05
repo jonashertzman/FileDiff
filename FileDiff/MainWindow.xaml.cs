@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FileDiff
@@ -20,10 +19,6 @@ namespace FileDiff
 		public WindowData WindowData { get; set; } = new WindowData();
 
 		private SettingsData Settings { get; set; } = new SettingsData();
-
-
-		ScrollViewer LeftScroll;
-		ScrollViewer RightScroll;
 
 		int currentLine = -1;
 		int firstDiff = -1;
@@ -472,7 +467,6 @@ namespace FileDiff
 			this.Width = Settings.Width;
 			this.Height = Settings.Height;
 			this.WindowState = Settings.WindowState;
-			WindowData.OnPropertyChanged("");
 		}
 
 		private void SaveSettings()
@@ -517,28 +511,6 @@ namespace FileDiff
 		private void CommandExit_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			this.Close();
-		}
-
-		private void LeftScrollInitialized(object sender, EventArgs e)
-		{
-			LeftScroll = sender as ScrollViewer;
-		}
-
-		private void RightScrollInitialized(object sender, EventArgs e)
-		{
-			RightScroll = sender as ScrollViewer;
-		}
-
-		private void rightscroll_scrollchanged(object sender, ScrollChangedEventArgs e)
-		{
-			LeftScroll.ScrollToVerticalOffset(e.VerticalOffset);
-			LeftScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-		}
-
-		private void leftscroll_scrollchanged(object sender, ScrollChangedEventArgs e)
-		{
-			RightScroll.ScrollToVerticalOffset(e.VerticalOffset);
-			RightScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
 
 		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)

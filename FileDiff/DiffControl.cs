@@ -40,18 +40,16 @@ namespace FileDiff
 				if (i + VerticalOffset >= Lines.Count)
 					break;
 
-				Line l = Lines[i + VerticalOffset];
+				Line line = Lines[i + VerticalOffset];
 
-				if (l.LineIndex != -1)
+				if (line.LineIndex != -1)
 				{
-					//if (l.Type != TextState.FullMatch)
-					{
-						drawingContext.DrawRectangle(new SolidColorBrush(AppSettings.Settings.DeletedBackground), new Pen(Brushes.Transparent, 0), new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
-					}
-					FormattedText rowNumberText = new FormattedText(l.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ScrollBarBrush, null, TextFormattingMode.Display);
+					drawingContext.DrawRectangle(line.BackgroundBrush, new Pen(Brushes.Transparent, 0), new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
+
+					FormattedText rowNumberText = new FormattedText(line.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ControlDarkBrush, null, TextFormattingMode.Display);
 					drawingContext.DrawText(rowNumberText, new Point(1, characterSize.Height * i));
 
-					FormattedText lineText = new FormattedText(l.Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, Brushes.Black, null, TextFormattingMode.Display);
+					FormattedText lineText = new FormattedText(line.Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display);
 					drawingContext.DrawText(lineText, new Point(margin, characterSize.Height * i));
 				}
 			}
@@ -73,7 +71,7 @@ namespace FileDiff
 		}
 
 		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<Line>), typeof(DiffControl),
-			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public ObservableCollection<Line> Lines
 		{
@@ -83,7 +81,7 @@ namespace FileDiff
 
 
 		public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset", typeof(int), typeof(DiffControl),
-			new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender /*| FrameworkPropertyMetadataOptions.AffectsMeasure*/));
+			new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public int VerticalOffset
 		{
@@ -92,7 +90,7 @@ namespace FileDiff
 		}
 
 		public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register("HorizontalOffset", typeof(int), typeof(DiffControl),
-			new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender /*| FrameworkPropertyMetadataOptions.AffectsMeasure*/));
+			new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public int HorizontallOffset
 		{

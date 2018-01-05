@@ -78,8 +78,7 @@ namespace FileDiff
 				Settings = new SettingsData();
 			}
 
-			ClearBrushCache();
-			//OnPropertyChanged("");
+			UpdateBrushCache();
 		}
 
 		internal static void WriteSettingsToDisk()
@@ -107,7 +106,7 @@ namespace FileDiff
 			}
 		}
 
-		private static void ClearBrushCache()
+		private static void UpdateBrushCache()
 		{
 			fullMatchForegroundBrush = new SolidColorBrush(Settings.FullMatchForeground);
 			fullMatchBackgroundBrush = new SolidColorBrush(Settings.FullMatchBackground);

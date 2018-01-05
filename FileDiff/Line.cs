@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -118,6 +119,44 @@ namespace FileDiff
 				TextSegments.Clear();
 				TextSegments.Add(new TextSegment(Text, value));
 				OnPropertyChanged(nameof(Type));
+			}
+		}
+
+		public SolidColorBrush BackgroundBrush
+		{
+			get
+			{
+				switch (type)
+				{
+					case TextState.Deleted:
+						return AppSettings.deletedBackgroundBrush;
+					case TextState.New:
+						return AppSettings.newBackgrounBrush;
+					case TextState.PartialMatch:
+						return AppSettings.partialMatchBackgroundBrush;
+
+					default:
+						return AppSettings.fullMatchBackgroundBrush;
+				}
+			}
+		}
+
+		public SolidColorBrush ForegroundBrush
+		{
+			get
+			{
+				switch (type)
+				{
+					case TextState.Deleted:
+						return AppSettings.deletedForegroundBrush;
+					case TextState.New:
+						return AppSettings.newForegroundBrush;
+					case TextState.PartialMatch:
+						return AppSettings.partialMatchForegroundBrush;
+
+					default:
+						return AppSettings.fullMatchForegroundBrush;
+				}
 			}
 		}
 
