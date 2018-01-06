@@ -67,6 +67,7 @@
     <Compile Include="OptionsWindow.xaml.cs">
       <DependentUpon>OptionsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Selection.cs" />
     <Compile Include="SettingsData.cs" />
     <Compile Include="TextSegment.cs" />
     <Compile Include="WindowData.cs" />

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace FileDiff
@@ -9,7 +10,16 @@ namespace FileDiff
 	public class DiffControl : Control
 	{
 
+		#region Members,
+
 		private Size characterSize;
+		private int lineNumberMargin;
+		private Selection selection = new Selection();
+		private SolidColorBrush slectionBrush;
+
+		#endregion
+
+		#region Constructor
 
 		static DiffControl()
 		{
@@ -20,7 +30,13 @@ namespace FileDiff
 		{
 			Lines = new ObservableCollection<Line>();
 			this.ClipToBounds = true;
+
+			Color selectionColor = SystemColors.HighlightColor;
+			selectionColor.A = 40;
+			slectionBrush = new SolidColorBrush(selectionColor);
 		}
+
+		#endregion
 
 		#region Overrides
 
@@ -30,7 +46,8 @@ namespace FileDiff
 				return;
 
 			characterSize = MeasureString("W");
-			int margin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 4;
+			lineNumberMargin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 4;
+
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
 			for (int i = 0; i < VisibleLines; i++)
@@ -48,11 +65,52 @@ namespace FileDiff
 					drawingContext.DrawText(rowNumberText, new Point(1, characterSize.Height * i));
 
 					FormattedText lineText = new FormattedText(line.Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display);
-					drawingContext.DrawText(lineText, new Point(margin, characterSize.Height * i));
+					drawingContext.DrawText(lineText, new Point(lineNumberMargin, characterSize.Height * i));
 				}
 			}
 
-			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(margin - 1.5, 0), new Point(margin - 1.5, this.ActualHeight));
+			for (int i = selection.TopLine - VerticalOffset; i <= selection.BottomLine - VerticalOffset; i++)
+			{
+				drawingContext.DrawRectangle(slectionBrush, new Pen(Brushes.Transparent, 0), new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height));
+			}
+
+			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(lineNumberMargin - 1.5, 0), new Point(lineNumberMargin - 1.5, this.ActualHeight));
+		}
+
+		protected override void OnMouseDown(MouseButtonEventArgs e)
+		{
+			Point pos = OffsetMargin(e);
+			selection.StartLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
+			selection.StartCharacter = (int)(pos.X / characterSize.Width) + HorizontallOffset;
+
+			base.OnMouseDown(e);
+		}
+
+		protected override void OnMouseUp(MouseButtonEventArgs e)
+		{
+			Point pos = OffsetMargin(e);
+
+			selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
+			selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontallOffset;
+
+			base.OnMouseUp(e);
+
+			InvalidateVisual();
+		}
+
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			if (System.Windows.Input.Mouse.LeftButton == MouseButtonState.Pressed)
+			{
+				Point pos = OffsetMargin(e);
+
+				selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
+				selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontallOffset;
+			}
+
+			base.OnMouseMove(e);
+
+			InvalidateVisual();
 		}
 
 		#endregion
@@ -79,7 +137,6 @@ namespace FileDiff
 			set { SetValue(LinesProperty, value); }
 		}
 
-
 		public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset", typeof(int), typeof(DiffControl),
 			new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
@@ -98,10 +155,16 @@ namespace FileDiff
 			set { SetValue(HorizontalOffsetProperty, value); }
 		}
 
-
 		#endregion
 
 		#region Methods
+
+		private Point OffsetMargin(MouseEventArgs e)
+		{
+			Point pos = e.GetPosition(this);
+			pos.Offset(-lineNumberMargin, 0);
+			return pos;
+		}
 
 		private Size MeasureString(string text)
 		{
