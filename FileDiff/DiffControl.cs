@@ -67,7 +67,7 @@ namespace FileDiff
 					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
 
 					FormattedText rowNumberText = new FormattedText(line.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ControlDarkBrush, null, TextFormattingMode.Display);
-					drawingContext.DrawText(rowNumberText, new Point(1, characterSize.Height * i));
+					drawingContext.DrawText(rowNumberText, new Point(lineNumberMargin - rowNumberText.Width - 3, characterSize.Height * i));
 
 					double nextPosition = lineNumberMargin;
 					foreach (TextSegment textSegment in line.TextSegments)
