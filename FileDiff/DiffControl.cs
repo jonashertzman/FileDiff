@@ -16,6 +16,7 @@ namespace FileDiff
 		private int lineNumberMargin;
 		private Selection selection = new Selection();
 		private SolidColorBrush slectionBrush;
+		private Pen transpatentPen;
 
 		#endregion
 
@@ -34,6 +35,8 @@ namespace FileDiff
 			Color selectionColor = SystemColors.HighlightColor;
 			selectionColor.A = 40;
 			slectionBrush = new SolidColorBrush(selectionColor);
+
+			transpatentPen = new Pen(Brushes.Transparent, 0);
 		}
 
 		#endregion
@@ -42,6 +45,8 @@ namespace FileDiff
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
+			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+
 			if (Lines.Count == 0)
 				return;
 
@@ -59,19 +64,26 @@ namespace FileDiff
 
 				if (line.LineIndex != -1)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, new Pen(Brushes.Transparent, 0), new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
+					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
 
 					FormattedText rowNumberText = new FormattedText(line.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ControlDarkBrush, null, TextFormattingMode.Display);
 					drawingContext.DrawText(rowNumberText, new Point(1, characterSize.Height * i));
 
-					FormattedText lineText = new FormattedText(line.Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display);
-					drawingContext.DrawText(lineText, new Point(lineNumberMargin, characterSize.Height * i));
+					double nextPosition = lineNumberMargin;
+					foreach (TextSegment textSegment in line.TextSegments)
+					{
+						FormattedText segmentText = new FormattedText(textSegment.Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, textSegment.ForegroundBrush, null, TextFormattingMode.Display);
+						drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition, characterSize.Height * i, segmentText.Width, segmentText.Height));
+						drawingContext.DrawText(segmentText, new Point(nextPosition, characterSize.Height * i));
+						nextPosition += segmentText.Width;
+					}
+
 				}
 			}
 
 			for (int i = selection.TopLine - VerticalOffset; i <= selection.BottomLine - VerticalOffset; i++)
 			{
-				drawingContext.DrawRectangle(slectionBrush, new Pen(Brushes.Transparent, 0), new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height));
+				drawingContext.DrawRectangle(slectionBrush, transpatentPen, new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height));
 			}
 
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(lineNumberMargin - 1.5, 0), new Point(lineNumberMargin - 1.5, this.ActualHeight));

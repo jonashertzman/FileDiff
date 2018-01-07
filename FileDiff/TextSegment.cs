@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -33,6 +34,44 @@ namespace FileDiff
 		{
 			get { return text; }
 			set { text = value; OnPropertyChanged(nameof(Text)); }
+		}
+
+		public SolidColorBrush BackgroundBrush
+		{
+			get
+			{
+				switch (type)
+				{
+					case TextState.Deleted:
+						return AppSettings.deletedBackgroundBrush;
+					case TextState.New:
+						return AppSettings.newBackgrounBrush;
+					case TextState.PartialMatch:
+						return AppSettings.partialMatchBackgroundBrush;
+
+					default:
+						return AppSettings.fullMatchBackgroundBrush;
+				}
+			}
+		}
+
+		public SolidColorBrush ForegroundBrush
+		{
+			get
+			{
+				switch (type)
+				{
+					case TextState.Deleted:
+						return AppSettings.deletedForegroundBrush;
+					case TextState.New:
+						return AppSettings.newForegroundBrush;
+					case TextState.PartialMatch:
+						return AppSettings.partialMatchForegroundBrush;
+
+					default:
+						return AppSettings.fullMatchForegroundBrush;
+				}
+			}
 		}
 
 		#region INotifyPropertyChanged
