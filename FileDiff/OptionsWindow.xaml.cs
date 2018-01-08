@@ -26,7 +26,7 @@ namespace FileDiff
 			if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
 				TextBoxFont.Text = fd.Font.Name;
-				TextBoxFontSize.Text = (fd.Font.Size * 96.0 / 72.0).ToString(CultureInfo.InvariantCulture);
+				TextBoxFontSize.Text = ((int)(fd.Font.Size * 96.0 / 72.0)).ToString(CultureInfo.InvariantCulture);
 			}
 		}
 

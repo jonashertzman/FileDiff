@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Media;
 
@@ -107,6 +108,12 @@ namespace FileDiff
 		{
 			get { return AppSettings.Settings.FontSize; }
 			set { AppSettings.Settings.FontSize = value; OnPropertyChanged(nameof(FontSize)); }
+		}
+
+		public int TabSize
+		{
+			get { return AppSettings.Settings.TabSize; }
+			set { AppSettings.Settings.TabSize = Math.Max(1, value); OnPropertyChanged(nameof(TabSize)); }
 		}
 
 		#endregion

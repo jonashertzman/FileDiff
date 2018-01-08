@@ -85,9 +85,6 @@ namespace FileDiff
 
 			AddFillerLins(leftSide, rightSide);
 
-			//LeftDiff.UpdateLayout();
-			//RightDiff.UpdateLayout();
-
 			LeftDiff.Lines = WindowData.LeftSide;
 			RightDiff.Lines = WindowData.RightSide;
 

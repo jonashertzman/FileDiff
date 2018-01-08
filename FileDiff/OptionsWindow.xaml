@@ -48,7 +48,7 @@
 							<Button x:Name="ButtonResetFont" Grid.Column="6" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
 
 							<Label Content="Tab Size" Style="{StaticResource CommonTextLabel}" Grid.Row="1" />
-							<TextBox Text="2" Grid.Column="1" Grid.Row="1" Style="{StaticResource CommonTextBox}" />
+							<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
 
 							<Label Grid.Row="2" Grid.Column="0" Content="Color" Style="{StaticResource CommonTextLabel}" />
 							<Label Grid.Row="2" Grid.Column="1" Content="Foreground" Style="{StaticResource CommonTextLabel}" />

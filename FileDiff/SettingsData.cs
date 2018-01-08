@@ -31,6 +31,7 @@ namespace FileDiff
 
 		public string Font { get; set; } = AppSettings.DefaultFont;
 		public int FontSize { get; set; } = AppSettings.DefaultFontSize;
+		public int TabSize { get; set; } = AppSettings.DefaultTabSize;
 
 		public double PositionLeft { get; set; }
 		public double PositionTop { get; set; }

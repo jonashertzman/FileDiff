@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -72,10 +73,14 @@ namespace FileDiff
 					double nextPosition = lineNumberMargin;
 					foreach (TextSegment textSegment in line.TextSegments)
 					{
-						FormattedText segmentText = new FormattedText(textSegment.Text, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, textSegment.ForegroundBrush, null, TextFormattingMode.Display);
-						drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition, characterSize.Height * i, segmentText.Width, segmentText.Height));
-						drawingContext.DrawText(segmentText, new Point(nextPosition, characterSize.Height * i));
-						nextPosition += segmentText.Width;
+						foreach (string s in Split(textSegment.Text))
+						{
+							FormattedText segmentText = new FormattedText(s, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, textSegment.ForegroundBrush, null, TextFormattingMode.Display);
+							double segmentWidth = s == "\t" ? AppSettings.Settings.TabSize * characterSize.Width : segmentText.WidthIncludingTrailingWhitespace;
+							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition, characterSize.Height * i, segmentWidth, segmentText.Height));
+							drawingContext.DrawText(segmentText, new Point(nextPosition, characterSize.Height * i));
+							nextPosition += segmentWidth;
+						}
 					}
 
 				}
@@ -170,6 +175,32 @@ namespace FileDiff
 		#endregion
 
 		#region Methods
+
+		private List<string> Split(string text)
+		{
+			List<string> items = new List<string>();
+			int lastHit = -1;
+
+			for (int i = 0; i < text.Length; i++)
+			{
+				if (text[i] == '\t')
+				{
+					if (i > lastHit + 1)
+					{
+						items.Add(text.Substring(lastHit + 1, i - lastHit - 1));
+					}
+					items.Add(text.Substring(i, 1));
+					lastHit = i;
+				}
+			}
+
+			if (lastHit < text.Length - 1)
+			{
+				items.Add(text.Substring(lastHit + 1, text.Length - lastHit - 1));
+			}
+
+			return items;
+		}
 
 		private Point OffsetMargin(MouseEventArgs e)
 		{
