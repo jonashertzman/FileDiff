@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
@@ -53,6 +54,7 @@ namespace FileDiff
 
 			characterSize = MeasureString("W");
 			lineNumberMargin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 4;
+			double maxTextwidth = 0;
 
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
@@ -70,7 +72,7 @@ namespace FileDiff
 					FormattedText rowNumberText = new FormattedText(line.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ControlDarkBrush, null, TextFormattingMode.Display);
 					drawingContext.DrawText(rowNumberText, new Point(lineNumberMargin - rowNumberText.Width - 3, characterSize.Height * i));
 
-					double nextPosition = lineNumberMargin;
+					double nextPosition = lineNumberMargin - HorizontalOffset;
 					foreach (TextSegment textSegment in line.TextSegments)
 					{
 						foreach (string s in Split(textSegment.Text))
@@ -82,9 +84,10 @@ namespace FileDiff
 							nextPosition += segmentWidth;
 						}
 					}
-
+					maxTextwidth = Math.Max(maxTextwidth, nextPosition);
 				}
 			}
+			TextWidth = (int)maxTextwidth;
 
 			for (int i = selection.TopLine - VerticalOffset; i <= selection.BottomLine - VerticalOffset; i++)
 			{
@@ -98,7 +101,7 @@ namespace FileDiff
 		{
 			Point pos = OffsetMargin(e);
 			selection.StartLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
-			selection.StartCharacter = (int)(pos.X / characterSize.Width) + HorizontallOffset;
+			selection.StartCharacter = (int)(pos.X / characterSize.Width) + HorizontalOffset;
 
 			base.OnMouseDown(e);
 		}
@@ -108,7 +111,7 @@ namespace FileDiff
 			Point pos = OffsetMargin(e);
 
 			selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
-			selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontallOffset;
+			selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontalOffset;
 
 			base.OnMouseUp(e);
 
@@ -122,7 +125,7 @@ namespace FileDiff
 				Point pos = OffsetMargin(e);
 
 				selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
-				selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontallOffset;
+				selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontalOffset;
 			}
 
 			base.OnMouseMove(e);
@@ -145,8 +148,11 @@ namespace FileDiff
 			}
 		}
 
-		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<Line>), typeof(DiffControl),
-			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+		#endregion
+
+		#region Dependency Properties
+
+		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<Line>), typeof(DiffControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public ObservableCollection<Line> Lines
 		{
@@ -154,8 +160,8 @@ namespace FileDiff
 			set { SetValue(LinesProperty, value); }
 		}
 
-		public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset", typeof(int), typeof(DiffControl),
-			new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public int VerticalOffset
 		{
@@ -163,13 +169,22 @@ namespace FileDiff
 			set { SetValue(VerticalOffsetProperty, value); }
 		}
 
-		public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register("HorizontalOffset", typeof(int), typeof(DiffControl),
-			new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
-		public int HorizontallOffset
+		public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register("HorizontalOffset", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public int HorizontalOffset
 		{
 			get { return (int)GetValue(HorizontalOffsetProperty); }
 			set { SetValue(HorizontalOffsetProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty TextWidthPropery = DependencyProperty.Register("TextWidth", typeof(int), typeof(DiffControl));
+
+		public int TextWidth
+		{
+			get { return (int)GetValue(TextWidthPropery); }
+			set { SetValue(TextWidthPropery, value); }
 		}
 
 		#endregion
