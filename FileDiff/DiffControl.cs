@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,6 +48,9 @@ namespace FileDiff
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
+
 			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			if (Lines.Count == 0)
@@ -68,7 +72,10 @@ namespace FileDiff
 
 				if (line.LineIndex != -1)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
+					if (line.Type != TextState.FullMatch)
+					{
+						drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
+					}
 
 					FormattedText rowNumberText = new FormattedText(line.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ControlDarkBrush, null, TextFormattingMode.Display);
 					drawingContext.DrawText(rowNumberText, new Point(lineNumberMargin - rowNumberText.Width - 3, characterSize.Height * i));
@@ -82,7 +89,12 @@ namespace FileDiff
 						{
 							FormattedText segmentText = new FormattedText(s, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, textSegment.ForegroundBrush, null, TextFormattingMode.Display);
 							double segmentWidth = s == "\t" ? AppSettings.Settings.TabSize * characterSize.Width : segmentText.WidthIncludingTrailingWhitespace;
-							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition, characterSize.Height * i, segmentWidth, segmentText.Height));
+
+							if (line.Type != textSegment.Type)
+							{
+								drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition, characterSize.Height * i, segmentWidth, segmentText.Height));
+							}
+
 							drawingContext.DrawText(segmentText, new Point(nextPosition, characterSize.Height * i));
 							nextPosition += segmentWidth;
 						}
@@ -101,6 +113,10 @@ namespace FileDiff
 			//}
 
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(lineNumberMargin - 1.5, 0), new Point(lineNumberMargin - 1.5, this.ActualHeight));
+
+			stopwatch.Stop();
+
+			Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -121,7 +137,7 @@ namespace FileDiff
 
 			base.OnMouseUp(e);
 
-			InvalidateVisual();
+			//InvalidateVisual();
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -132,11 +148,11 @@ namespace FileDiff
 
 				selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
 				selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontalOffset;
+				InvalidateVisual();
 			}
 
 			base.OnMouseMove(e);
 
-			InvalidateVisual();
 		}
 
 		#endregion
