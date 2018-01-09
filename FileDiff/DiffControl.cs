@@ -55,6 +55,7 @@ namespace FileDiff
 			characterSize = MeasureString("W");
 			lineNumberMargin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 4;
 			double maxTextwidth = 0;
+			RectangleGeometry clippingRect = new RectangleGeometry(new Rect(lineNumberMargin, 0, ActualWidth, ActualHeight));
 
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
@@ -72,6 +73,8 @@ namespace FileDiff
 					FormattedText rowNumberText = new FormattedText(line.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ControlDarkBrush, null, TextFormattingMode.Display);
 					drawingContext.DrawText(rowNumberText, new Point(lineNumberMargin - rowNumberText.Width - 3, characterSize.Height * i));
 
+					drawingContext.PushClip(clippingRect);
+
 					double nextPosition = lineNumberMargin - HorizontalOffset;
 					foreach (TextSegment textSegment in line.TextSegments)
 					{
@@ -85,6 +88,9 @@ namespace FileDiff
 						}
 					}
 					maxTextwidth = Math.Max(maxTextwidth, nextPosition);
+
+					drawingContext.Pop();
+
 				}
 			}
 			TextWidth = (int)maxTextwidth;
