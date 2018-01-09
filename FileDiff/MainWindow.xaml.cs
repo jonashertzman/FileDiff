@@ -125,12 +125,6 @@ namespace FileDiff
 			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
 			VerticalScrollbar.Maximum = LeftDiff.Lines.Count - visibleLines;
 			VerticalScrollbar.ViewportSize = visibleLines;
-
-			HorizontalScrollbar1.Maximum = LeftDiff.TextWidth - LeftDiff.ActualWidth;
-			HorizontalScrollbar1.ViewportSize = LeftDiff.ActualWidth;
-
-			HorizontalScrollbar2.Maximum = RightDiff.TextWidth - RightDiff.ActualWidth;
-			HorizontalScrollbar2.ViewportSize = RightDiff.ActualWidth;
 		}
 
 		private void AddFillerLins(List<Line> leftSide, List<Line> rightSide)
@@ -625,6 +619,16 @@ namespace FileDiff
 		{
 			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
 			VerticalScrollbar.Value -= lines;
+		}
+
+		private void LeftHorizontalScrollbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			RightHorizontalScrollbar.Value = e.NewValue;
+		}
+
+		private void RightHorizontalScrollbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			LeftHorizontalScrollbar.Value = e.NewValue;
 		}
 
 		#endregion

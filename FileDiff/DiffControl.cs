@@ -95,10 +95,10 @@ namespace FileDiff
 			}
 			TextWidth = (int)maxTextwidth;
 
-			for (int i = selection.TopLine - VerticalOffset; i <= selection.BottomLine - VerticalOffset; i++)
-			{
-				drawingContext.DrawRectangle(slectionBrush, transpatentPen, new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height));
-			}
+			//for (int i = selection.TopLine - VerticalOffset; i <= selection.BottomLine - VerticalOffset; i++)
+			//{
+			//	drawingContext.DrawRectangle(slectionBrush, transpatentPen, new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height));
+			//}
 
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(lineNumberMargin - 1.5, 0), new Point(lineNumberMargin - 1.5, this.ActualHeight));
 		}
