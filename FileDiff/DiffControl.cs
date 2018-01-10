@@ -20,6 +20,7 @@ namespace FileDiff
 		private Selection selection = new Selection();
 		private SolidColorBrush slectionBrush;
 		private Pen transpatentPen;
+		double maxTextwidth = 0;
 
 		#endregion
 
@@ -58,7 +59,6 @@ namespace FileDiff
 
 			characterSize = MeasureString("W");
 			lineNumberMargin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 4;
-			double maxTextwidth = 0;
 			RectangleGeometry clippingRect = new RectangleGeometry(new Rect(lineNumberMargin, 0, ActualWidth, ActualHeight));
 
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
@@ -105,7 +105,10 @@ namespace FileDiff
 
 				}
 			}
-			TextWidth = (int)maxTextwidth;
+
+			TextAreaWidth = (int)ActualWidth - lineNumberMargin;
+			MaxScroll = (int)(maxTextwidth - TextAreaWidth);
+
 
 			//for (int i = selection.TopLine - VerticalOffset; i <= selection.BottomLine - VerticalOffset; i++)
 			//{
@@ -201,12 +204,21 @@ namespace FileDiff
 		}
 
 
-		public static readonly DependencyProperty TextWidthPropery = DependencyProperty.Register("TextWidth", typeof(int), typeof(DiffControl));
+		public static readonly DependencyProperty MaxScrollPropery = DependencyProperty.Register("MaxScroll", typeof(int), typeof(DiffControl));
 
-		public int TextWidth
+		public int MaxScroll
 		{
-			get { return (int)GetValue(TextWidthPropery); }
-			set { SetValue(TextWidthPropery, value); }
+			get { return (int)GetValue(MaxScrollPropery); }
+			set { SetValue(MaxScrollPropery, value); }
+		}
+
+
+		public static readonly DependencyProperty TextAreaWidthPropery = DependencyProperty.Register("TextAreaWidth", typeof(int), typeof(DiffControl));
+
+		public int TextAreaWidth
+		{
+			get { return (int)GetValue(TextAreaWidthPropery); }
+			set { SetValue(TextAreaWidthPropery, value); }
 		}
 
 		#endregion

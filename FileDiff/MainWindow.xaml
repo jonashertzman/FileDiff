@@ -116,7 +116,7 @@
 					</Grid.RowDefinitions>
 
 					<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" />
-					<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" SmallChange="20" LargeChange="300" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=TextWidth}" ViewportSize="{Binding ElementName=LeftDiff, Path=ActualWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" />
+					<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 				</Grid>
 			</Border>
 
@@ -147,7 +147,7 @@
 
 					<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar}" Grid.RowSpan="2" />
 					<ScrollBar Grid.Column="1" Name="VerticalScrollbar" SmallChange="1" />
-					<ScrollBar Grid.Column="0" Grid.Row="1" x:Name="RightHorizontalScrollbar" SmallChange="20" LargeChange="300" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=TextWidth}" ViewportSize="{Binding ElementName=RightDiff, Path=ActualWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" />
+					<ScrollBar Grid.Column="0" Grid.Row="1" x:Name="RightHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
 					<StackPanel Grid.Column="1" Grid.Row="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
 				</Grid>
 			</Border>
