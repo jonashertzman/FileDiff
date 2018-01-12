@@ -17,10 +17,13 @@ namespace FileDiff
 
 		private Size characterSize;
 		private int lineNumberMargin;
+		double maxTextwidth = 0;
+
 		private Selection selection = new Selection();
 		private SolidColorBrush slectionBrush;
 		private Pen transpatentPen;
-		double maxTextwidth = 0;
+
+		GlyphTypeface cachedTypeface;
 
 		#endregion
 
@@ -49,19 +52,24 @@ namespace FileDiff
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
-			Stopwatch stopwatch = new Stopwatch();
-			stopwatch.Start();
-
+			Debug.Print("OnRender");
 			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			if (Lines.Count == 0)
 				return;
 
-			characterSize = MeasureString("W");
-			lineNumberMargin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 4;
-			RectangleGeometry clippingRect = new RectangleGeometry(new Rect(lineNumberMargin, 0, ActualWidth, ActualHeight));
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
 
-			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
+			Typeface t = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
+			if (t.TryGetGlyphTypeface(out GlyphTypeface temp))
+			{
+				cachedTypeface = temp;
+			}
+
+			characterSize = MeasureString("W");
+			lineNumberMargin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 6;
+			RectangleGeometry clippingRect = new RectangleGeometry(new Rect(lineNumberMargin, 0, ActualWidth, ActualHeight));
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -77,31 +85,36 @@ namespace FileDiff
 						drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
 					}
 
-					FormattedText rowNumberText = new FormattedText(line.LineIndex.ToString(), CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, SystemColors.ControlDarkBrush, null, TextFormattingMode.Display);
-					drawingContext.DrawText(rowNumberText, new Point(lineNumberMargin - rowNumberText.Width - 3, characterSize.Height * i));
-
-					drawingContext.PushClip(clippingRect);
-
-					double nextPosition = lineNumberMargin - HorizontalOffset;
-					foreach (TextSegment textSegment in line.TextSegments)
+					if (line.LineIndex != null)
 					{
-						foreach (string s in Split(textSegment.Text))
-						{
-							FormattedText segmentText = new FormattedText(s, CultureInfo.CurrentCulture, this.FlowDirection, typeface, this.FontSize, textSegment.ForegroundBrush, null, TextFormattingMode.Display);
-							double segmentWidth = s == "\t" ? AppSettings.Settings.TabSize * characterSize.Width : segmentText.WidthIncludingTrailingWhitespace;
+						GlyphRun rowNumberText = CreateGlyphRun(line.LineIndex.ToString(), out double rowNumberWidth);
+						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - 4, characterSize.Height * i));
+						drawingContext.DrawGlyphRun(SystemColors.ControlDarkBrush, rowNumberText);
+						drawingContext.Pop();
+					}
 
+					if (line.Text != "")
+					{
+						double nextPosition = lineNumberMargin - HorizontalOffset;
+						drawingContext.PushClip(clippingRect);
+						foreach (TextSegment textSegment in line.TextSegments)
+						{
+							drawingContext.PushTransform(new TranslateTransform(nextPosition, characterSize.Height * i));
+
+							GlyphRun run = CreateGlyphRun(textSegment.Text, out double runWidth);
 							if (line.Type != textSegment.Type)
 							{
-								drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition, characterSize.Height * i, segmentWidth, segmentText.Height));
+								drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(0, 0, runWidth, characterSize.Height));
 							}
+							drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, run);
+							nextPosition += runWidth;
 
-							drawingContext.DrawText(segmentText, new Point(nextPosition, characterSize.Height * i));
-							nextPosition += segmentWidth;
+							drawingContext.Pop();
 						}
-					}
-					maxTextwidth = Math.Max(maxTextwidth, nextPosition);
+						maxTextwidth = Math.Max(maxTextwidth, nextPosition);
 
-					drawingContext.Pop();
+						drawingContext.Pop();
+					}
 
 				}
 			}
@@ -136,11 +149,11 @@ namespace FileDiff
 			Point pos = OffsetMargin(e);
 
 			selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
-			selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontalOffset;
+			selection.EndCharacter = (int)(pos.X / characterSize.Width) + HorizontalOffset;
 
-			InvalidateVisual();
 			base.OnMouseUp(e);
 
+			InvalidateVisual();
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -224,6 +237,43 @@ namespace FileDiff
 		#endregion
 
 		#region Methods
+
+		public GlyphRun CreateGlyphRun(string text, out double runWidth)
+		{
+			ushort[] glyphIndexes = new ushort[text.Length];
+			double[] advanceWidths = new double[text.Length];
+
+			double totalWidth = 0;
+			for (int n = 0; n < text.Length; n++)
+			{
+				ushort glyphIndex;
+				cachedTypeface.CharacterToGlyphMap.TryGetValue(text[n] == '\t' ? ' ' : text[n], out glyphIndex);
+				glyphIndexes[n] = glyphIndex;
+				double width = text[n] == '\t' ? AppSettings.Settings.TabSize * characterSize.Width : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize);
+				advanceWidths[n] = width;
+
+
+				totalWidth += width;
+			}
+
+			GlyphRun run = new GlyphRun(
+				glyphTypeface: cachedTypeface,
+				bidiLevel: 0,
+				isSideways: false,
+				renderingEmSize: this.FontSize,
+				glyphIndices: glyphIndexes,
+				baselineOrigin: new Point(0, Math.Round(cachedTypeface.Baseline * this.FontSize)),
+				advanceWidths: advanceWidths,
+				glyphOffsets: null,
+				characters: null,
+				deviceFontName: null,
+				clusterMap: null,
+				caretStops: null,
+				language: null);
+
+			runWidth = totalWidth;
+			return run;
+		}
 
 		private List<string> Split(string text)
 		{
