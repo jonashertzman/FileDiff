@@ -138,9 +138,9 @@ namespace FileDiff
 			selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
 			selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontalOffset;
 
+			InvalidateVisual();
 			base.OnMouseUp(e);
 
-			//InvalidateVisual();
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -177,7 +177,7 @@ namespace FileDiff
 
 		#region Dependency Properties
 
-		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<Line>), typeof(DiffControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<Line>), typeof(DiffControl), new FrameworkPropertyMetadata(new ObservableCollection<Line>(), FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public ObservableCollection<Line> Lines
 		{

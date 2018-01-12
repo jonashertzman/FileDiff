@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -60,9 +61,6 @@ namespace FileDiff
 
 			Mouse.OverrideCursor = Cursors.Wait;
 
-			WindowData.LeftSide.Clear();
-			WindowData.RightSide.Clear();
-
 			List<Line> leftSide = new List<Line>();
 			List<Line> rightSide = new List<Line>();
 
@@ -83,10 +81,7 @@ namespace FileDiff
 				MatchLines(leftSide, rightSide);
 			}
 
-			AddFillerLins(leftSide, rightSide);
-
-			LeftDiff.Lines = WindowData.LeftSide;
-			RightDiff.Lines = WindowData.RightSide;
+			FillViewModel(leftSide, rightSide);
 
 			InitNavigationButtons();
 			InitScrollbars();
@@ -127,9 +122,12 @@ namespace FileDiff
 			VerticalScrollbar.ViewportSize = visibleLines;
 		}
 
-		private void AddFillerLins(List<Line> leftSide, List<Line> rightSide)
+		private void FillViewModel(List<Line> leftSide, List<Line> rightSide)
 		{
 			int rightIndex = 0;
+
+			WindowData.LeftSide = new ObservableCollection<Line>();
+			WindowData.RightSide = new ObservableCollection<Line>();
 
 			for (int leftIndex = 0; leftIndex < leftSide.Count; leftIndex++)
 			{
