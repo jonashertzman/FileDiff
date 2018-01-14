@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
@@ -161,6 +162,32 @@ namespace FileDiff
 		}
 
 		public int? MatchingLineIndex { get; set; }
+
+		#endregion
+
+		#region Metods
+
+		internal double CharacterPosition(int characterIndex)
+		{
+			double position = 0;
+			int i = 0;
+
+			foreach (TextSegment textSegment in TextSegments)
+			{
+				if (textSegment.Run != null)
+				{
+					foreach (double x in textSegment.Run.AdvanceWidths)
+					{
+						if (i++ == characterIndex)
+						{
+							return position;
+						}
+						position += x;
+					}
+				}
+			}
+			return position;
+		}
 
 		#endregion
 

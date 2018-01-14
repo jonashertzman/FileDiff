@@ -44,6 +44,7 @@ namespace FileDiff
 			slectionBrush = new SolidColorBrush(selectionColor);
 
 			transpatentPen = new Pen(Brushes.Transparent, 0);
+			characterSize = MeasureString("W");
 		}
 
 		#endregion
@@ -80,11 +81,13 @@ namespace FileDiff
 
 				if (line.LineIndex != -1)
 				{
+					// Draw line background
 					if (line.Type != TextState.FullMatch)
 					{
 						drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
 					}
 
+					// Draw line number
 					if (line.LineIndex != null)
 					{
 						GlyphRun rowNumberText = CreateGlyphRun(line.LineIndex.ToString(), out double rowNumberWidth);
@@ -93,6 +96,7 @@ namespace FileDiff
 						drawingContext.Pop();
 					}
 
+					// Draw line
 					if (line.Text != "")
 					{
 						double nextPosition = lineNumberMargin - HorizontalOffset;
@@ -101,12 +105,12 @@ namespace FileDiff
 						{
 							drawingContext.PushTransform(new TranslateTransform(nextPosition, characterSize.Height * i));
 
-							GlyphRun run = CreateGlyphRun(textSegment.Text, out double runWidth);
+							textSegment.Run = CreateGlyphRun(textSegment.Text, out double runWidth);
 							if (line.Type != textSegment.Type)
 							{
 								drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(0, 0, runWidth, characterSize.Height));
 							}
-							drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, run);
+							drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, textSegment.Run);
 							nextPosition += runWidth;
 
 							drawingContext.Pop();
@@ -115,55 +119,54 @@ namespace FileDiff
 
 						drawingContext.Pop();
 					}
+				}
 
+				// Draw selection
+				if (i + VerticalOffset >= selection.TopLine && i + VerticalOffset <= selection.BottomLine)
+				{
+					Rect selectionRect = new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height);
+					if (selection.TopLine == i + VerticalOffset)
+					{
+						selectionRect.X = lineNumberMargin + line.CharacterPosition(selection.TopCharacter) - HorizontalOffset;
+					}
+					if (selection.BottomLine == i + VerticalOffset)
+					{
+						selectionRect.Width = lineNumberMargin + line.CharacterPosition(selection.BottomCharacter) - selectionRect.X - HorizontalOffset;
+					}
+					drawingContext.DrawRectangle(slectionBrush, transpatentPen, selectionRect);
 				}
 			}
+
+			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(lineNumberMargin - 1.5, 0), new Point(lineNumberMargin - 1.5, this.ActualHeight));
 
 			TextAreaWidth = (int)ActualWidth - lineNumberMargin;
 			MaxScroll = (int)(maxTextwidth - TextAreaWidth);
 
-
-			//for (int i = selection.TopLine - VerticalOffset; i <= selection.BottomLine - VerticalOffset; i++)
-			//{
-			//	drawingContext.DrawRectangle(slectionBrush, transpatentPen, new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height));
-			//}
-
-			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(lineNumberMargin - 1.5, 0), new Point(lineNumberMargin - 1.5, this.ActualHeight));
-
 			stopwatch.Stop();
-
 			Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
-			Point pos = OffsetMargin(e);
-			selection.StartLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
-			selection.StartCharacter = (int)(pos.X / characterSize.Width) + HorizontalOffset;
+
+			PointToCharacter(e.GetPosition(this), out selection.StartLine, out selection.StartCharacter);
 
 			base.OnMouseDown(e);
 		}
 
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			Point pos = OffsetMargin(e);
-
-			selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
-			selection.EndCharacter = (int)(pos.X / characterSize.Width) + HorizontalOffset;
+			PointToCharacter(e.GetPosition(this), out selection.EndLine, out selection.EndCharacter);
+			InvalidateVisual();
 
 			base.OnMouseUp(e);
-
-			InvalidateVisual();
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (System.Windows.Input.Mouse.LeftButton == MouseButtonState.Pressed)
+			if (Mouse.LeftButton == MouseButtonState.Pressed)
 			{
-				Point pos = OffsetMargin(e);
-
-				selection.EndLine = (int)(pos.Y / characterSize.Height) + VerticalOffset;
-				selection.EndCharacter = (int)(pos.Y / characterSize.Width) + HorizontalOffset;
+				PointToCharacter(e.GetPosition(this), out selection.EndLine, out selection.EndCharacter);
 				InvalidateVisual();
 			}
 
@@ -237,6 +240,47 @@ namespace FileDiff
 		#endregion
 
 		#region Methods
+
+		private void PointToCharacter(Point point, out int line, out int character)
+		{
+			if (Lines.Count == 0)
+			{
+				line = 0;
+				character = 0;
+				return;
+			}
+
+			line = (int)(point.Y / characterSize.Height) + VerticalOffset;
+
+			if (line >= Lines.Count)
+			{
+				line = Lines.Count - 1;
+				character = Lines[line].Text.Length - 1;
+			}
+
+			character = -1;
+			point.Offset((-lineNumberMargin + HorizontalOffset), 0);
+
+			character = 0;
+			double totalWidth = 0;
+
+			foreach (TextSegment textSegment in Lines[line].TextSegments)
+			{
+				if (textSegment.Run != null)
+				{
+					foreach (double d in textSegment?.Run.AdvanceWidths)
+					{
+						if (totalWidth + d > point.X)
+						{
+							return;
+						}
+
+						totalWidth += d;
+						character++;
+					}
+				}
+			}
+		}
 
 		public GlyphRun CreateGlyphRun(string text, out double runWidth)
 		{

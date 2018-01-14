@@ -36,6 +36,8 @@ namespace FileDiff
 			set { text = value; OnPropertyChanged(nameof(Text)); }
 		}
 
+		public GlyphRun Run { get; set; }
+
 		public SolidColorBrush BackgroundBrush
 		{
 			get
