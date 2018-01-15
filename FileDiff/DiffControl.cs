@@ -161,8 +161,6 @@ namespace FileDiff
 					selection.EndLine = Lines.Count - 1;
 					selection.EndCharacter = Math.Max(0, Lines[Lines.Count - 1].Text.Length - 1);
 
-					CleanSelection();
-
 					InvalidateVisual();
 				}
 			}
@@ -176,13 +174,16 @@ namespace FileDiff
 					{
 						if (Lines[lineIndex].Type != TextState.Filler)
 						{
-							if (sb.Length > 0)
+							if (lineIndex != selection.TopLine)
 							{
 								sb.AppendLine("");
 							}
 							int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
-							int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter ;
-							sb.Append(Lines[lineIndex].Text.Substring(startCharacter, length));
+							int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter;
+							if (startCharacter < Lines[lineIndex].Text.Length)
+							{
+								sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length)));
+							}
 						}
 						lineIndex++;
 					} while (lineIndex <= selection.BottomLine);
@@ -215,7 +216,6 @@ namespace FileDiff
 				if (e.GetPosition(this) != MouseDownPoint)
 				{
 					PointToCharacter(e.GetPosition(this), out selection.EndLine, out selection.EndCharacter);
-					CleanSelection();
 				}
 				else
 				{
@@ -307,19 +307,6 @@ namespace FileDiff
 
 		#region Methods
 
-		private void CleanSelection()
-		{
-			while (selection.TopLine < Lines.Count && Lines[selection.TopLine].Type == TextState.Filler)
-			{
-				selection.TopLine++;
-			}
-			while (selection.BottomLine < Lines.Count && Lines[selection.BottomLine].Type == TextState.Filler)
-			{
-				selection.BottomLine--;
-				selection.BottomCharacter = Lines[selection.BottomLine].Text.Length - 1;
-			}
-		}
-
 		private void PointToCharacter(Point point, out int line, out int character)
 		{
 			if (Lines.Count == 0)
@@ -335,9 +322,9 @@ namespace FileDiff
 			{
 				line = Lines.Count - 1;
 				character = Lines[line].Text.Length - 1;
+				return;
 			}
 
-			character = -1;
 			point.Offset((-lineNumberMargin + HorizontalOffset), 0);
 
 			character = 0;
@@ -347,14 +334,14 @@ namespace FileDiff
 			{
 				if (textSegment.RenderedText != null)
 				{
-					foreach (double d in textSegment?.RenderedText.AdvanceWidths)
+					foreach (double characterWidth in textSegment?.RenderedText.AdvanceWidths)
 					{
-						if (totalWidth + d > point.X)
+						if (totalWidth + characterWidth > point.X)
 						{
 							return;
 						}
 
-						totalWidth += d;
+						totalWidth += characterWidth;
 						character++;
 					}
 				}
@@ -369,12 +356,10 @@ namespace FileDiff
 			double totalWidth = 0;
 			for (int n = 0; n < text.Length; n++)
 			{
-				ushort glyphIndex;
-				cachedTypeface.CharacterToGlyphMap.TryGetValue(text[n] == '\t' ? ' ' : text[n], out glyphIndex);
+				cachedTypeface.CharacterToGlyphMap.TryGetValue(text[n] == '\t' ? ' ' : text[n], out ushort glyphIndex); // Why does the tab glyph render as a rectangle?
 				glyphIndexes[n] = glyphIndex;
 				double width = text[n] == '\t' ? AppSettings.Settings.TabSize * characterSize.Width : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize);
 				advanceWidths[n] = width;
-
 
 				totalWidth += width;
 			}
@@ -396,39 +381,6 @@ namespace FileDiff
 
 			runWidth = totalWidth;
 			return run;
-		}
-
-		private List<string> Split(string text)
-		{
-			List<string> items = new List<string>();
-			int lastHit = -1;
-
-			for (int i = 0; i < text.Length; i++)
-			{
-				if (text[i] == '\t')
-				{
-					if (i > lastHit + 1)
-					{
-						items.Add(text.Substring(lastHit + 1, i - lastHit - 1));
-					}
-					items.Add(text.Substring(i, 1));
-					lastHit = i;
-				}
-			}
-
-			if (lastHit < text.Length - 1)
-			{
-				items.Add(text.Substring(lastHit + 1, text.Length - lastHit - 1));
-			}
-
-			return items;
-		}
-
-		private Point OffsetMargin(MouseEventArgs e)
-		{
-			Point pos = e.GetPosition(this);
-			pos.Offset(-lineNumberMargin, 0);
-			return pos;
 		}
 
 		private Size MeasureString(string text)
