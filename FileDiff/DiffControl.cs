@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,7 +20,9 @@ namespace FileDiff
 		private int lineNumberMargin;
 		double maxTextwidth = 0;
 
-		private Selection selection = new Selection();
+		private Selection selection = null;
+		Point? MouseDownPoint = null;
+
 		private SolidColorBrush slectionBrush;
 		private Pen transpatentPen;
 
@@ -105,12 +108,12 @@ namespace FileDiff
 						{
 							drawingContext.PushTransform(new TranslateTransform(nextPosition, characterSize.Height * i));
 
-							textSegment.Run = CreateGlyphRun(textSegment.Text, out double runWidth);
+							textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
 							if (line.Type != textSegment.Type)
 							{
 								drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(0, 0, runWidth, characterSize.Height));
 							}
-							drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, textSegment.Run);
+							drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, textSegment.RenderedText);
 							nextPosition += runWidth;
 
 							drawingContext.Pop();
@@ -122,16 +125,16 @@ namespace FileDiff
 				}
 
 				// Draw selection
-				if (i + VerticalOffset >= selection.TopLine && i + VerticalOffset <= selection.BottomLine)
+				if (selection != null && i + VerticalOffset >= selection.TopLine && i + VerticalOffset <= selection.BottomLine)
 				{
 					Rect selectionRect = new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height);
 					if (selection.TopLine == i + VerticalOffset)
 					{
-						selectionRect.X = lineNumberMargin + line.CharacterPosition(selection.TopCharacter) - HorizontalOffset;
+						selectionRect.X = Math.Max(lineNumberMargin, lineNumberMargin + line.CharacterPosition(selection.TopCharacter) - HorizontalOffset);
 					}
 					if (selection.BottomLine == i + VerticalOffset)
 					{
-						selectionRect.Width = lineNumberMargin + line.CharacterPosition(selection.BottomCharacter) - selectionRect.X - HorizontalOffset;
+						selectionRect.Width = Math.Max(0, lineNumberMargin + line.CharacterPosition(selection.BottomCharacter + 1) - selectionRect.X - HorizontalOffset);
 					}
 					drawingContext.DrawRectangle(slectionBrush, transpatentPen, selectionRect);
 				}
@@ -146,25 +149,88 @@ namespace FileDiff
 			Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
 		}
 
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				if (Lines.Count > 0)
+				{
+					selection = new Selection();
+					selection.StartLine = 0;
+					selection.StartCharacter = 0;
+					selection.EndLine = Lines.Count - 1;
+					selection.EndCharacter = Math.Max(0, Lines[Lines.Count - 1].Text.Length - 1);
+
+					CleanSelection();
+
+					InvalidateVisual();
+				}
+			}
+			else if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				if (selection != null)
+				{
+					StringBuilder sb = new StringBuilder();
+					int lineIndex = selection.TopLine;
+					do
+					{
+						if (Lines[lineIndex].Type != TextState.Filler)
+						{
+							if (sb.Length > 0)
+							{
+								sb.AppendLine("");
+							}
+							int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
+							int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter ;
+							sb.Append(Lines[lineIndex].Text.Substring(startCharacter, length));
+						}
+						lineIndex++;
+					} while (lineIndex <= selection.BottomLine);
+
+					Clipboard.SetText(sb.ToString());
+				}
+			}
+
+			base.OnKeyDown(e);
+		}
+
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
+			this.Focus();
 
-			PointToCharacter(e.GetPosition(this), out selection.StartLine, out selection.StartCharacter);
+			if (e.ChangedButton == MouseButton.Left)
+			{
+				selection = new Selection();
+				MouseDownPoint = e.GetPosition(this);
+				PointToCharacter(e.GetPosition(this), out selection.StartLine, out selection.StartCharacter);
+			}
 
 			base.OnMouseDown(e);
 		}
 
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			PointToCharacter(e.GetPosition(this), out selection.EndLine, out selection.EndCharacter);
-			InvalidateVisual();
+			if (e.ChangedButton == MouseButton.Left && MouseDownPoint != null)
+			{
+				if (e.GetPosition(this) != MouseDownPoint)
+				{
+					PointToCharacter(e.GetPosition(this), out selection.EndLine, out selection.EndCharacter);
+					CleanSelection();
+				}
+				else
+				{
+					selection = null;
+				}
 
+				MouseDownPoint = null;
+				InvalidateVisual();
+			}
 			base.OnMouseUp(e);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (Mouse.LeftButton == MouseButtonState.Pressed)
+			if (Mouse.LeftButton == MouseButtonState.Pressed && MouseDownPoint != null)
 			{
 				PointToCharacter(e.GetPosition(this), out selection.EndLine, out selection.EndCharacter);
 				InvalidateVisual();
@@ -241,6 +307,19 @@ namespace FileDiff
 
 		#region Methods
 
+		private void CleanSelection()
+		{
+			while (selection.TopLine < Lines.Count && Lines[selection.TopLine].Type == TextState.Filler)
+			{
+				selection.TopLine++;
+			}
+			while (selection.BottomLine < Lines.Count && Lines[selection.BottomLine].Type == TextState.Filler)
+			{
+				selection.BottomLine--;
+				selection.BottomCharacter = Lines[selection.BottomLine].Text.Length - 1;
+			}
+		}
+
 		private void PointToCharacter(Point point, out int line, out int character)
 		{
 			if (Lines.Count == 0)
@@ -266,9 +345,9 @@ namespace FileDiff
 
 			foreach (TextSegment textSegment in Lines[line].TextSegments)
 			{
-				if (textSegment.Run != null)
+				if (textSegment.RenderedText != null)
 				{
-					foreach (double d in textSegment?.Run.AdvanceWidths)
+					foreach (double d in textSegment?.RenderedText.AdvanceWidths)
 					{
 						if (totalWidth + d > point.X)
 						{

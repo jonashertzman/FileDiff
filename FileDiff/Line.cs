@@ -174,9 +174,9 @@ namespace FileDiff
 
 			foreach (TextSegment textSegment in TextSegments)
 			{
-				if (textSegment.Run != null)
+				if (textSegment.RenderedText != null)
 				{
-					foreach (double x in textSegment.Run.AdvanceWidths)
+					foreach (double x in textSegment.RenderedText.AdvanceWidths)
 					{
 						if (i++ == characterIndex)
 						{
