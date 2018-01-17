@@ -191,6 +191,22 @@ namespace FileDiff
 					Clipboard.SetText(sb.ToString());
 				}
 			}
+			else if (e.Key == Key.PageUp)
+			{
+				VerticalOffset = Math.Max(0, VerticalOffset -= VisibleLines - 1);
+			}
+			else if (e.Key == Key.PageDown)
+			{
+				VerticalOffset = VerticalOffset += VisibleLines - 1;
+			}
+			else if (e.Key == Key.Home && Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				VerticalOffset = 0;
+			}
+			else if (e.Key == Key.End && Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				VerticalOffset = Lines.Count;
+			}
 
 			base.OnKeyDown(e);
 		}
