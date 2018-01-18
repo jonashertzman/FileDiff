@@ -42,10 +42,12 @@ namespace FileDiff
 		{
 			if (File.Exists(WindowData.LeftPath) && File.Exists(WindowData.RightPath))
 			{
+				WindowData.FileMode = true;
 				CompareFiles(WindowData.LeftPath, WindowData.RightPath);
 			}
 			else if (Directory.Exists(WindowData.LeftPath) && Directory.Exists(WindowData.RightPath))
 			{
+				WindowData.FileMode = false;
 				CompareDirectories(WindowData.LeftPath, WindowData.RightPath);
 			}
 		}

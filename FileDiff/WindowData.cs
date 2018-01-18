@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media;
 
 namespace FileDiff
@@ -22,6 +23,23 @@ namespace FileDiff
 		{
 			get { return rightSide; }
 			set { rightSide = value; OnPropertyChanged(nameof(RightSide)); }
+		}
+
+		bool fileMode;
+		public bool FileMode
+		{
+			get { return fileMode; }
+			set { fileMode = value; OnPropertyChanged(nameof(FolderView)); OnPropertyChanged(nameof(FileView)); }
+		}
+
+		public Visibility FileView
+		{
+			get { return fileMode ? Visibility.Visible : Visibility.Hidden; }
+		}
+
+		public Visibility FolderView
+		{
+			get { return fileMode ? Visibility.Hidden : Visibility.Visible; }
 		}
 
 		string leftPath;
