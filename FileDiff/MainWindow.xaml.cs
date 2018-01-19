@@ -17,7 +17,7 @@ namespace FileDiff
 
 		#region Members
 
-		public WindowData WindowData { get; set; } = new WindowData();
+		public MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
 
 		private SettingsData Settings { get; set; } = new SettingsData();
 
@@ -33,22 +33,22 @@ namespace FileDiff
 		{
 			InitializeComponent();
 
-			DataContext = WindowData;
+			DataContext = ViewModel;
 		}
 
 		#endregion
 
 		private void Compare()
 		{
-			if (File.Exists(WindowData.LeftPath) && File.Exists(WindowData.RightPath))
+			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
-				WindowData.FileMode = true;
-				CompareFiles(WindowData.LeftPath, WindowData.RightPath);
+				ViewModel.FileMode = true;
+				CompareFiles(ViewModel.LeftPath, ViewModel.RightPath);
 			}
-			else if (Directory.Exists(WindowData.LeftPath) && Directory.Exists(WindowData.RightPath))
+			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
 			{
-				WindowData.FileMode = false;
-				CompareDirectories(WindowData.LeftPath, WindowData.RightPath);
+				ViewModel.FileMode = false;
+				CompareDirectories(ViewModel.LeftPath, ViewModel.RightPath);
 			}
 		}
 
@@ -67,13 +67,13 @@ namespace FileDiff
 			List<Line> rightSide = new List<Line>();
 
 			int i = 0;
-			foreach (string s in File.ReadAllLines(WindowData.LeftPath))
+			foreach (string s in File.ReadAllLines(ViewModel.LeftPath))
 			{
 				leftSide.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
 			}
 
 			i = 0;
-			foreach (string s in File.ReadAllLines(WindowData.RightPath))
+			foreach (string s in File.ReadAllLines(ViewModel.RightPath))
 			{
 				rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
 			}
@@ -100,16 +100,16 @@ namespace FileDiff
 			firstDiff = -1;
 			lastDiff = -1;
 
-			for (int i = 0; i < WindowData.LeftSide.Count; i++)
+			for (int i = 0; i < ViewModel.LeftSide.Count; i++)
 			{
-				if (i == 0 || WindowData.LeftSide[i - 1].Type == TextState.FullMatch)
+				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)
 				{
-					if (firstDiff == -1 && WindowData.LeftSide[i].Type != TextState.FullMatch)
+					if (firstDiff == -1 && ViewModel.LeftSide[i].Type != TextState.FullMatch)
 					{
 						firstDiff = i;
 						CenterOnLine(i);
 					}
-					if (WindowData.LeftSide[i].Type != TextState.FullMatch)
+					if (ViewModel.LeftSide[i].Type != TextState.FullMatch)
 					{
 						lastDiff = i;
 					}
@@ -128,33 +128,33 @@ namespace FileDiff
 		{
 			int rightIndex = 0;
 
-			WindowData.LeftSide = new ObservableCollection<Line>();
-			WindowData.RightSide = new ObservableCollection<Line>();
+			ViewModel.LeftSide = new ObservableCollection<Line>();
+			ViewModel.RightSide = new ObservableCollection<Line>();
 
 			for (int leftIndex = 0; leftIndex < leftSide.Count; leftIndex++)
 			{
 				if (leftSide[leftIndex].MatchingLineIndex == null)
 				{
-					WindowData.LeftSide.Add(leftSide[leftIndex]);
-					WindowData.RightSide.Add(new Line() { Type = TextState.Filler });
+					ViewModel.LeftSide.Add(leftSide[leftIndex]);
+					ViewModel.RightSide.Add(new Line() { Type = TextState.Filler });
 				}
 				else
 				{
 					while (rightIndex < leftSide[leftIndex].MatchingLineIndex)
 					{
-						WindowData.LeftSide.Add(new Line() { Type = TextState.Filler });
-						WindowData.RightSide.Add(rightSide[rightIndex]);
+						ViewModel.LeftSide.Add(new Line() { Type = TextState.Filler });
+						ViewModel.RightSide.Add(rightSide[rightIndex]);
 						rightIndex++;
 					}
-					WindowData.LeftSide.Add(leftSide[leftIndex]);
-					WindowData.RightSide.Add(rightSide[rightIndex]);
+					ViewModel.LeftSide.Add(leftSide[leftIndex]);
+					ViewModel.RightSide.Add(rightSide[rightIndex]);
 					rightIndex++;
 				}
 			}
 			while (rightIndex < rightSide.Count)
 			{
-				WindowData.LeftSide.Add(new Line() { Type = TextState.Filler });
-				WindowData.RightSide.Add(rightSide[rightIndex]);
+				ViewModel.LeftSide.Add(new Line() { Type = TextState.Filler });
+				ViewModel.RightSide.Add(rightSide[rightIndex]);
 				rightIndex++;
 			}
 		}
@@ -412,7 +412,7 @@ namespace FileDiff
 
 		private void MoveToLastDiff()
 		{
-			currentLine = WindowData.LeftSide.Count + 1;
+			currentLine = ViewModel.LeftSide.Count + 1;
 			MoveToPrevoiusDiff();
 		}
 
@@ -420,9 +420,9 @@ namespace FileDiff
 		{
 			for (int i = currentLine - 1; i >= 0; i--)
 			{
-				if (i == 0 || WindowData.LeftSide[i - 1].Type == TextState.FullMatch)
+				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)
 				{
-					if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
+					if (ViewModel.LeftSide[i].Type != TextState.FullMatch || ViewModel.RightSide[i].Type != TextState.FullMatch)
 					{
 						CenterOnLine(i);
 						return;
@@ -433,11 +433,11 @@ namespace FileDiff
 
 		private void MoveToNextDiff()
 		{
-			for (int i = currentLine + 1; i < WindowData.LeftSide.Count; i++)
+			for (int i = currentLine + 1; i < ViewModel.LeftSide.Count; i++)
 			{
-				if (i == 0 || WindowData.LeftSide[i - 1].Type == TextState.FullMatch)
+				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)
 				{
-					if (WindowData.LeftSide[i].Type != TextState.FullMatch || WindowData.RightSide[i].Type != TextState.FullMatch)
+					if (ViewModel.LeftSide[i].Type != TextState.FullMatch || ViewModel.RightSide[i].Type != TextState.FullMatch)
 					{
 						CenterOnLine(i);
 						return;
@@ -484,8 +484,8 @@ namespace FileDiff
 		{
 			if (Environment.GetCommandLineArgs().Length > 2)
 			{
-				WindowData.LeftPath = Environment.GetCommandLineArgs()[1];
-				WindowData.RightPath = Environment.GetCommandLineArgs()[2];
+				ViewModel.LeftPath = Environment.GetCommandLineArgs()[1];
+				ViewModel.RightPath = Environment.GetCommandLineArgs()[2];
 				Compare();
 			}
 		}
@@ -525,7 +525,7 @@ namespace FileDiff
 			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				WindowData.LeftPath = ofd.FileName;
+				ViewModel.LeftPath = ofd.FileName;
 			}
 		}
 
@@ -534,7 +534,7 @@ namespace FileDiff
 			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				WindowData.RightPath = ofd.FileName;
+				ViewModel.RightPath = ofd.FileName;
 			}
 		}
 
@@ -549,12 +549,12 @@ namespace FileDiff
 
 			if (paths?.Length >= 2)
 			{
-				WindowData.LeftPath = paths[0];
-				WindowData.RightPath = paths[1];
+				ViewModel.LeftPath = paths[0];
+				ViewModel.RightPath = paths[1];
 			}
 			else if (paths?.Length >= 1)
 			{
-				WindowData.LeftPath = paths[0];
+				ViewModel.LeftPath = paths[0];
 			}
 		}
 
@@ -569,18 +569,18 @@ namespace FileDiff
 
 			if (paths?.Length >= 2)
 			{
-				WindowData.LeftPath = paths[0];
-				WindowData.RightPath = paths[1];
+				ViewModel.LeftPath = paths[0];
+				ViewModel.RightPath = paths[1];
 			}
 			else if (paths?.Length >= 1)
 			{
-				WindowData.RightPath = paths[0];
+				ViewModel.RightPath = paths[0];
 			}
 		}
 
 		private void Options_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = WindowData };
+			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel };
 			optionsWindow.ShowDialog();
 		}
 

@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace FileDiff
 {
-	public class WindowData : INotifyPropertyChanged
+	public class MainWindowViewModel : INotifyPropertyChanged
 	{
 
 		#region Properties
