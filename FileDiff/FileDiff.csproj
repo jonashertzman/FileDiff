@@ -70,7 +70,7 @@
     <Compile Include="Selection.cs" />
     <Compile Include="SettingsData.cs" />
     <Compile Include="TextSegment.cs" />
-    <Compile Include="WindowData.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
