@@ -43,20 +43,29 @@ namespace FileDiff
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
 				ViewModel.FileMode = true;
-				CompareFiles(ViewModel.LeftPath, ViewModel.RightPath);
+				CompareFiles();
 			}
 			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
 			{
 				ViewModel.FileMode = false;
-				CompareDirectories(ViewModel.LeftPath, ViewModel.RightPath);
+				CompareDirectories();
 			}
 		}
 
-		private void CompareDirectories(string leftPath, string rightPath)
+		private void CompareDirectories()
 		{
+
+			List<FileItem> leftItems = new List<FileItem>();
+			SearchDirectory(ViewModel.LeftPath, leftItems);
+
+			List<FileItem> rightItems = new List<FileItem>();
+			SearchDirectory(ViewModel.RightPath, rightItems);
+
+			LeftFolder.ItemsSource = leftItems;
+			RightFolder.ItemsSource = rightItems;
 		}
 
-		private void CompareFiles(string leftPath, string rightPath)
+		private void CompareFiles()
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
@@ -92,6 +101,22 @@ namespace FileDiff
 
 			stopwatch.Stop();
 			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms  left side {leftSide.Count} lines  right site {rightSide.Count} lines";
+		}
+
+		private void SearchDirectory(string searchPath, List<FileItem> parent)
+		{
+
+			foreach (string directory in Directory.GetDirectories(searchPath))
+			{
+				FileItem childFolder = new FileItem(directory, true);
+				parent.Add(childFolder);
+				SearchDirectory(directory, childFolder.Children);
+			}
+
+			foreach (string file in Directory.GetFiles(searchPath))
+			{
+				parent.Add(new FileItem(file, false));
+			}
 		}
 
 		private void InitNavigationButtons()

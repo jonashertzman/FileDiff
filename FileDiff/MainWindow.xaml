@@ -112,7 +112,22 @@
 				<Grid>
 
 					<!--Left Folder-->
-					<TreeView Visibility="{Binding FolderView}" BorderThickness="0"></TreeView>
+					<TreeView Name="LeftFolder" Visibility="{Binding FolderView}" BorderThickness="0">
+						<TreeView.ItemTemplate>
+							<HierarchicalDataTemplate ItemsSource="{Binding Children}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path}" Margin="0,0,4,0" />
+								</StackPanel>
+							</HierarchicalDataTemplate>
+						</TreeView.ItemTemplate>
+						<TreeView.ItemContainerStyle>
+							<Style TargetType="TreeViewItem">
+								<Setter Property="IsSelected" Value="{Binding IsSelected}" />
+								<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+							</Style>
+						</TreeView.ItemContainerStyle>
+
+					</TreeView>
 
 					<!--Left File-->
 					<Grid Visibility="{Binding FileView}">
@@ -144,7 +159,22 @@
 				<Grid>
 
 					<!--Right Folder-->
-					<TreeView Visibility="{Binding FolderView}" BorderThickness="0"></TreeView>
+					<TreeView Name="RightFolder" Visibility="{Binding FolderView}" BorderThickness="0">
+						<TreeView.ItemTemplate>
+							<HierarchicalDataTemplate ItemsSource="{Binding Children}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path}" Margin="0,0,4,0" />
+								</StackPanel>
+							</HierarchicalDataTemplate>
+						</TreeView.ItemTemplate>
+						<TreeView.ItemContainerStyle>
+							<Style TargetType="TreeViewItem">
+								<Setter Property="IsSelected" Value="{Binding IsSelected}" />
+								<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+							</Style>
+						</TreeView.ItemContainerStyle>
+
+					</TreeView>
 
 					<!--Right File-->
 					<Grid Visibility="{Binding FileView}">
