@@ -34,6 +34,8 @@ namespace FileDiff
 			InitializeComponent();
 
 			DataContext = ViewModel;
+
+			SearchPanel.Visibility = Visibility.Collapsed;
 		}
 
 		#endregion
@@ -629,6 +631,11 @@ namespace FileDiff
 		private void RightHorizontalScrollbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			LeftHorizontalScrollbar.Value = e.NewValue;
+		}
+
+		private void Find_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			SearchPanel.Visibility = Visibility.Visible;
 		}
 
 		#endregion

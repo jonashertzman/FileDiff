@@ -51,5 +51,12 @@ namespace FileDiff
 
 		public static readonly RoutedUICommand Options = new RoutedUICommand("Options", "Options", typeof(Commands));
 
+		public static readonly RoutedUICommand Find = new RoutedUICommand("Find", "Find", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.F, ModifierKeys.Control)
+			}
+		);
+
 	}
 }

@@ -12,6 +12,7 @@
 		<CommandBinding Command="local:Commands.BrowseLeft" Executed="BrowseLeft_Executed" />
 		<CommandBinding Command="local:Commands.BrowseRight" Executed="BrowseRight_Executed" />
 		<CommandBinding Command="local:Commands.Options" Executed="Options_Executed" />
+		<CommandBinding Command="local:Commands.Find" Executed="Find_Executed" />
 	</Window.CommandBindings>
 
 	<DockPanel>
@@ -87,6 +88,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="327*" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<Grid.ColumnDefinitions>
@@ -165,6 +167,14 @@
 				</Grid>
 			</Border>
 
+			<Border Name="SearchPanel" Grid.Row="2" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Padding="0,2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+				<StackPanel Orientation="Horizontal">
+					<Button Content="Close" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
+					<TextBox Width="300" Margin="1" Padding="2" VerticalAlignment="Center" />
+					<Button Content="Next" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
+					<Button Content="Previous" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
+				</StackPanel>
+			</Border>
 
 			<!-- Used to measure the size of one character in the chosen font -->
 			<TextBlock x:Name="OneCharacter" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" HorizontalAlignment="Left" VerticalAlignment="Top" />

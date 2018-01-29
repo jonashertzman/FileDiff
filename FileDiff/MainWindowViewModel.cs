@@ -34,12 +34,12 @@ namespace FileDiff
 
 		public Visibility FileView
 		{
-			get { return fileMode ? Visibility.Visible : Visibility.Hidden; }
+			get { return fileMode ? Visibility.Visible : Visibility.Collapsed; }
 		}
 
 		public Visibility FolderView
 		{
-			get { return fileMode ? Visibility.Hidden : Visibility.Visible; }
+			get { return fileMode ? Visibility.Collapsed : Visibility.Visible; }
 		}
 
 		string leftPath;
