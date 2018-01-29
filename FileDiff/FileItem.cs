@@ -1,27 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace FileDiff
 {
-	public class FileItem
+	public class FileItem : INotifyPropertyChanged
 	{
 
-		public FileItem(string path, bool folder)
+		#region Constructor
+
+		public FileItem()
 		{
-			Path = path;
-			Folder = folder;
 		}
+
+		public FileItem(string name, bool isFolder)
+		{
+			Name = name;
+			IsFolder = isFolder;
+		}
+
+		#endregion
+
+		#region Overrides
 
 		public override string ToString()
 		{
-			return $"{Path}  {Folder}";
+			return $"{Name}  {IsFolder}";
 		}
 
-		public List<FileItem> Children { get; set; } = new List<FileItem>();
+		#endregion
 
-		public string Path { get; set; }
+		#region Properties
 
-		public bool Folder { get; set; }
+		public ObservableCollection<FileItem> Children { get; set; } = new ObservableCollection<FileItem>();
+
+		public FileItem CorrespondingItem { get; set; }
+
+		public string Name { get; set; }
+
+		public bool IsFolder { get; set; }
 
 		private bool isSelected;
 		public bool IsSelected
@@ -32,7 +49,8 @@ namespace FileDiff
 				if (value != this.isSelected)
 				{
 					this.isSelected = value;
-					NotifyPropertyChanged("IsSelected");
+					CorrespondingItem.IsSelected = value;
+					NotifyPropertyChanged(nameof(IsSelected));
 				}
 			}
 		}
@@ -45,11 +63,17 @@ namespace FileDiff
 			{
 				if (value != this.isExpanded)
 				{
+					Debug.Print($"{this.Name} expanded = {value}");
 					this.isExpanded = value;
-					NotifyPropertyChanged("IsExpanded");
+					CorrespondingItem.IsExpanded = value;
+					NotifyPropertyChanged(nameof(IsExpanded));
 				}
 			}
 		}
+
+		#endregion
+
+		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -57,6 +81,8 @@ namespace FileDiff
 		{
 			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 		}
+
+		#endregion
 
 	}
 }

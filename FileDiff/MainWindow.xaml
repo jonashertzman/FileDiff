@@ -112,18 +112,18 @@
 				<Grid>
 
 					<!--Left Folder-->
-					<TreeView Name="LeftFolder" Visibility="{Binding FolderView}" BorderThickness="0">
+					<TreeView Name="LeftFolder" Visibility="{Binding FolderView}" BorderThickness="0" ScrollViewer.ScrollChanged="LeftFolder_ScrollChanged">
 						<TreeView.ItemTemplate>
 							<HierarchicalDataTemplate ItemsSource="{Binding Children}">
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path}" Margin="0,0,4,0" />
+									<TextBlock Text="{Binding Name}" Margin="0,0,4,0" />
 								</StackPanel>
 							</HierarchicalDataTemplate>
 						</TreeView.ItemTemplate>
 						<TreeView.ItemContainerStyle>
 							<Style TargetType="TreeViewItem">
 								<Setter Property="IsSelected" Value="{Binding IsSelected}" />
-								<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+								<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
 							</Style>
 						</TreeView.ItemContainerStyle>
 
@@ -159,18 +159,18 @@
 				<Grid>
 
 					<!--Right Folder-->
-					<TreeView Name="RightFolder" Visibility="{Binding FolderView}" BorderThickness="0">
+					<TreeView Name="RightFolder" Visibility="{Binding FolderView}" BorderThickness="0" ScrollViewer.ScrollChanged="RightFolder_ScrollChanged">
 						<TreeView.ItemTemplate>
 							<HierarchicalDataTemplate ItemsSource="{Binding Children}">
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path}" Margin="0,0,4,0" />
+									<TextBlock Text="{Binding Name}" Margin="0,0,4,0" />
 								</StackPanel>
 							</HierarchicalDataTemplate>
 						</TreeView.ItemTemplate>
 						<TreeView.ItemContainerStyle>
 							<Style TargetType="TreeViewItem">
 								<Setter Property="IsSelected" Value="{Binding IsSelected}" />
-								<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+								<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
 							</Style>
 						</TreeView.ItemContainerStyle>
 

@@ -5,7 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -52,19 +54,6 @@ namespace FileDiff
 			}
 		}
 
-		private void CompareDirectories()
-		{
-
-			List<FileItem> leftItems = new List<FileItem>();
-			SearchDirectory(ViewModel.LeftPath, leftItems);
-
-			List<FileItem> rightItems = new List<FileItem>();
-			SearchDirectory(ViewModel.RightPath, rightItems);
-
-			LeftFolder.ItemsSource = leftItems;
-			RightFolder.ItemsSource = rightItems;
-		}
-
 		private void CompareFiles()
 		{
 			Stopwatch stopwatch = new Stopwatch();
@@ -103,20 +92,90 @@ namespace FileDiff
 			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms  left side {leftSide.Count} lines  right site {rightSide.Count} lines";
 		}
 
-		private void SearchDirectory(string searchPath, List<FileItem> parent)
+		private void CompareDirectories()
 		{
+			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
+			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
 
-			foreach (string directory in Directory.GetDirectories(searchPath))
+			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems);
+
+			LeftFolder.ItemsSource = leftItems;
+			RightFolder.ItemsSource = rightItems;
+		}
+
+		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems)
+		{
+			SortedDictionary<string, FileItemPair> allItems = new SortedDictionary<string, FileItemPair>();
+
+			if (leftPath != null)
 			{
-				FileItem childFolder = new FileItem(directory, true);
-				parent.Add(childFolder);
-				SearchDirectory(directory, childFolder.Children);
+				foreach (string directoryPath in Directory.GetDirectories(leftPath))
+				{
+					string directoryName = directoryPath.Substring(leftPath.Length + 1);
+					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true), new FileItem("", true)));
+				}
 			}
 
-			foreach (string file in Directory.GetFiles(searchPath))
+			if (rightPath != null)
 			{
-				parent.Add(new FileItem(file, false));
+				foreach (string directoryPath in Directory.GetDirectories(rightPath))
+				{
+					string directoryName = directoryPath.Substring(rightPath.Length + 1);
+					string key = "*" + directoryName;
+					if (!allItems.ContainsKey(key))
+					{
+						allItems.Add(key, new FileItemPair(new FileItem("", true), new FileItem(directoryName, true)));
+					}
+					else
+					{
+						allItems[key].RightItem = new FileItem(directoryName, true);
+					}
+				}
 			}
+
+			if (leftPath != null)
+			{
+				foreach (string filePath in Directory.GetFiles(leftPath))
+				{
+					string fileName = filePath.Substring(leftPath.Length + 1);
+					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false), new FileItem("", false)));
+				}
+			}
+
+			if (rightPath != null)
+			{
+				foreach (string filePath in Directory.GetFiles(rightPath))
+				{
+					string fileName = filePath.Substring(rightPath.Length + 1);
+					if (!allItems.ContainsKey(fileName))
+					{
+						allItems.Add(fileName, new FileItemPair(new FileItem("", false), new FileItem(fileName, false)));
+					}
+					else
+					{
+						allItems[fileName].RightItem = new FileItem(fileName, false);
+					}
+				}
+			}
+
+			foreach (KeyValuePair<string, FileItemPair> pair in allItems)
+			{
+				FileItem leftItem = pair.Value.LeftItem;
+				FileItem rightItem = pair.Value.RightItem;
+
+				leftItem.CorrespondingItem = rightItem;
+				rightItem.CorrespondingItem = leftItem;
+
+				if (leftItem.IsFolder)
+				{
+					SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children);
+				}
+
+				leftItems.Add(leftItem);
+				rightItems.Add(rightItem);
+			}
+
+
 		}
 
 		private void InitNavigationButtons()
@@ -654,6 +713,26 @@ namespace FileDiff
 		private void RightHorizontalScrollbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			LeftHorizontalScrollbar.Value = e.NewValue;
+		}
+
+		private void LeftFolder_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		{
+			DependencyObject border = VisualTreeHelper.GetChild(RightFolder, 0);
+			if (border != null)
+			{
+				ScrollViewer scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
+				scrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
+			}
+		}
+
+		private void RightFolder_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		{
+			DependencyObject border = VisualTreeHelper.GetChild(LeftFolder, 0);
+			if (border != null)
+			{
+				ScrollViewer scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
+				scrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
+			}
 		}
 
 		#endregion

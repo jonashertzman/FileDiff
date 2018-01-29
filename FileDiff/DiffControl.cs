@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -14,7 +13,7 @@ namespace FileDiff
 	public class DiffControl : Control
 	{
 
-		#region Members,
+		#region Members
 
 		private Size characterSize;
 		private int lineNumberMargin;
