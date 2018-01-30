@@ -8,34 +8,51 @@
 			<Setter Property="Visibility" Value="{Binding Visible}" />
 		</Style>
 
-		<HierarchicalDataTemplate x:Key="FileItemTemplate" ItemsSource="{Binding Children}">
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="{Binding Name}" Margin="0,0,4,0">
-					<TextBlock.Style>
-						<Style TargetType="TextBlock">
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding Type}" Value="FullMatch">
-									<Setter Property="Foreground" Value="{Binding Path=ViewModel.FullMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-									<Setter Property="Background" Value="{Binding Path=ViewModel.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-								</DataTrigger>
-								<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
-									<Setter Property="Foreground" Value="{Binding Path=ViewModel.PartialMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-									<Setter Property="Background" Value="{Binding Path=ViewModel.PartialMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-								</DataTrigger>
-								<DataTrigger Binding="{Binding Type}" Value="Deleted">
-									<Setter Property="Foreground" Value="{Binding Path=ViewModel.DeletedForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-									<Setter Property="Background" Value="{Binding Path=ViewModel.DeletedBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-								</DataTrigger>
-								<DataTrigger Binding="{Binding Type}" Value="New">
-									<Setter Property="Foreground" Value="{Binding Path=ViewModel.NewForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-									<Setter Property="Background" Value="{Binding Path=ViewModel.NewBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</TextBlock.Style>
-				</TextBlock>
+		<Style x:Key="FileItemTextStyle" TargetType="TextBlock">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding Type}" Value="FullMatch">
+					<Setter Property="Foreground" Value="{Binding Path=ViewModel.FullMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
+					<Setter Property="Foreground" Value="{Binding Path=ViewModel.PartialMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Type}" Value="Deleted">
+					<Setter Property="Foreground" Value="{Binding Path=ViewModel.DeletedForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Type}" Value="New">
+					<Setter Property="Foreground" Value="{Binding Path=ViewModel.NewForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
 
-			</StackPanel>
+		<HierarchicalDataTemplate x:Key="FileItemTemplate" ItemsSource="{Binding Children}">
+			<Grid>
+				<Grid.Style>
+					<Style TargetType="Grid">
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
+								<Setter Property="Background" Value="{Binding Path=ViewModel.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
+								<Setter Property="Background" Value="{Binding Path=ViewModel.PartialMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="Deleted">
+								<Setter Property="Background" Value="{Binding Path=ViewModel.DeletedBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="New">
+								<Setter Property="Background" Value="{Binding Path=ViewModel.NewBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Grid.Style>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="200" />
+					<ColumnDefinition Width="200" />
+					<ColumnDefinition Width="200" />
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="{Binding Name}" Margin="0,0,4,0" Padding="1" Style="{StaticResource FileItemTextStyle }" />
+
+			</Grid>
 		</HierarchicalDataTemplate>
 
 	</Window.Resources>
