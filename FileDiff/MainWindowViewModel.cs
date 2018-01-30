@@ -34,12 +34,12 @@ namespace FileDiff
 
 		public Visibility FileView
 		{
-			get { return fileMode ? Visibility.Visible : Visibility.Hidden; }
+			get { return fileMode ? Visibility.Visible : Visibility.Collapsed; }
 		}
 
 		public Visibility FolderView
 		{
-			get { return fileMode ? Visibility.Hidden : Visibility.Visible; }
+			get { return fileMode ? Visibility.Collapsed : Visibility.Visible; }
 		}
 
 		string leftPath;
@@ -133,12 +133,6 @@ namespace FileDiff
 			get { return AppSettings.Settings.TabSize; }
 			set { AppSettings.Settings.TabSize = Math.Max(1, value); OnPropertyChanged(nameof(TabSize)); }
 		}
-
-		#endregion
-
-		#region Methods
-
-
 
 		#endregion
 

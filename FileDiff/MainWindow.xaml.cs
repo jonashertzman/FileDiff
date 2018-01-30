@@ -112,7 +112,7 @@ namespace FileDiff
 				foreach (string directoryPath in Directory.GetDirectories(leftPath))
 				{
 					string directoryName = directoryPath.Substring(leftPath.Length + 1);
-					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true), new FileItem("", true)));
+					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true, TextState.Deleted), new FileItem("", true, TextState.Filler)));
 				}
 			}
 
@@ -124,11 +124,12 @@ namespace FileDiff
 					string key = "*" + directoryName;
 					if (!allItems.ContainsKey(key))
 					{
-						allItems.Add(key, new FileItemPair(new FileItem("", true), new FileItem(directoryName, true)));
+						allItems.Add(key, new FileItemPair(new FileItem("", true, TextState.Filler), new FileItem(directoryName, true, TextState.New)));
 					}
 					else
 					{
-						allItems[key].RightItem = new FileItem(directoryName, true);
+						allItems[key].RightItem = new FileItem(directoryName, true, TextState.FullMatch);
+						allItems[key].LeftItem.Type = TextState.FullMatch;
 					}
 				}
 			}
@@ -138,7 +139,7 @@ namespace FileDiff
 				foreach (string filePath in Directory.GetFiles(leftPath))
 				{
 					string fileName = filePath.Substring(leftPath.Length + 1);
-					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false), new FileItem("", false)));
+					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false, TextState.Deleted), new FileItem("", false, TextState.Filler)));
 				}
 			}
 
@@ -149,11 +150,12 @@ namespace FileDiff
 					string fileName = filePath.Substring(rightPath.Length + 1);
 					if (!allItems.ContainsKey(fileName))
 					{
-						allItems.Add(fileName, new FileItemPair(new FileItem("", false), new FileItem(fileName, false)));
+						allItems.Add(fileName, new FileItemPair(new FileItem("", false, TextState.Filler), new FileItem(fileName, false, TextState.New)));
 					}
 					else
 					{
-						allItems[fileName].RightItem = new FileItem(fileName, false);
+						allItems[fileName].RightItem = new FileItem(fileName, false, TextState.FullMatch);
+						allItems[fileName].LeftItem.Type = TextState.FullMatch;
 					}
 				}
 			}

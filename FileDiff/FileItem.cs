@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
 
 namespace FileDiff
 {
@@ -13,10 +14,11 @@ namespace FileDiff
 		{
 		}
 
-		public FileItem(string name, bool isFolder)
+		public FileItem(string name, bool isFolder, TextState type)
 		{
 			Name = name;
 			IsFolder = isFolder;
+			Type = type;
 		}
 
 		#endregion
@@ -40,6 +42,17 @@ namespace FileDiff
 
 		public bool IsFolder { get; set; }
 
+
+		private TextState type;
+		public TextState Type
+		{
+			get { return type; }
+			set
+			{
+				type = value;
+				OnPropertyChanged(nameof(Type));
+			}
+		}
 		private bool isSelected;
 		public bool IsSelected
 		{
@@ -50,7 +63,7 @@ namespace FileDiff
 				{
 					this.isSelected = value;
 					CorrespondingItem.IsSelected = value;
-					NotifyPropertyChanged(nameof(IsSelected));
+					OnPropertyChanged(nameof(IsSelected));
 				}
 			}
 		}
@@ -63,13 +76,14 @@ namespace FileDiff
 			{
 				if (value != this.isExpanded)
 				{
-					Debug.Print($"{this.Name} expanded = {value}");
 					this.isExpanded = value;
 					CorrespondingItem.IsExpanded = value;
-					NotifyPropertyChanged(nameof(IsExpanded));
+					OnPropertyChanged(nameof(IsExpanded));
 				}
 			}
 		}
+
+		public Visibility Visible { get { return type == TextState.Filler ? Visibility.Hidden : Visibility.Visible; } }
 
 		#endregion
 
@@ -77,7 +91,7 @@ namespace FileDiff
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public void NotifyPropertyChanged(string propName)
+		public void OnPropertyChanged(string propName)
 		{
 			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 		}
