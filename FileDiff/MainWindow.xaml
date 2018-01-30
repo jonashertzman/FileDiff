@@ -122,7 +122,7 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" />
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" GotFocus="LeftDiff_GotFocus"/>
 						<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Grid>
@@ -159,7 +159,7 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding RightSide}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar}" Grid.RowSpan="2" />
+						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding RightSide}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar}" Grid.RowSpan="2" GotFocus="RightDiff_GotFocus" />
 						<ScrollBar Grid.Column="1" Name="VerticalScrollbar" SmallChange="1" />
 						<ScrollBar Grid.Column="0" Grid.Row="1" x:Name="RightHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
 						<StackPanel Grid.Column="1" Grid.Row="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
@@ -170,7 +170,7 @@
 			<Border Name="SearchPanel" Grid.Row="2" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Padding="0,2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 				<StackPanel Orientation="Horizontal">
 					<Button Content="Close" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
-					<TextBox Width="300" Margin="1" Padding="2" VerticalAlignment="Center" />
+					<TextBox Name="SearchBox" Width="300" Margin="1" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
 					<Button Content="Next" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
 					<Button Content="Previous" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
 				</StackPanel>

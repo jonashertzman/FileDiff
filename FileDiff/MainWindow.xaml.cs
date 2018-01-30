@@ -25,6 +25,8 @@ namespace FileDiff
 		int firstDiff = -1;
 		int lastDiff = -1;
 
+		DiffControl activeDiff;
+
 		#endregion
 
 		#region Constructor
@@ -36,9 +38,12 @@ namespace FileDiff
 			DataContext = ViewModel;
 
 			SearchPanel.Visibility = Visibility.Collapsed;
+			activeDiff = LeftDiff;
 		}
 
 		#endregion
+
+		#region Methods
 
 		private void Compare()
 		{
@@ -480,6 +485,8 @@ namespace FileDiff
 			AppSettings.WriteSettingsToDisk();
 		}
 
+		#endregion
+
 		#region Events
 
 		private void Window_ContentRendered(object sender, EventArgs e)
@@ -636,6 +643,27 @@ namespace FileDiff
 		private void Find_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			SearchPanel.Visibility = Visibility.Visible;
+			SearchBox.Focus();
+		}
+
+		private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+		{
+			int hit = activeDiff.Search(SearchBox.Text);
+
+			if (hit != -1)
+			{
+				CenterOnLine(hit);
+			}
+		}
+
+		private void RightDiff_GotFocus(object sender, RoutedEventArgs e)
+		{
+			activeDiff = RightDiff;
+		}
+
+		private void LeftDiff_GotFocus(object sender, RoutedEventArgs e)
+		{
+			activeDiff = LeftDiff;
 		}
 
 		#endregion

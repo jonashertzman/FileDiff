@@ -414,6 +414,30 @@ namespace FileDiff
 			return new Size(formattedText.Width, formattedText.Height);
 		}
 
+		internal int Search(string text)
+		{
+			int searchStart = 0;
+
+			if (selection != null)
+			{
+				searchStart = selection.EndLine;
+			}
+
+			for (int i = searchStart; i < Lines.Count + searchStart; i++)
+			{
+				int lineIndex = i >= Lines.Count ? i - Lines.Count : i;
+
+				int hit = Lines[lineIndex].Text.IndexOf(text);
+				if (hit != -1)
+				{
+					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+
+					return lineIndex;
+				}
+			}
+			return -1;
+		}
+
 		#endregion
 
 	}
