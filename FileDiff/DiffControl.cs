@@ -431,7 +431,7 @@ namespace FileDiff
 				if (hit != -1)
 				{
 					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
-
+					InvalidateVisual();
 					return lineIndex;
 				}
 			}
