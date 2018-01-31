@@ -13,6 +13,9 @@
 		<CommandBinding Command="local:Commands.BrowseRight" Executed="BrowseRight_Executed" />
 		<CommandBinding Command="local:Commands.Options" Executed="Options_Executed" />
 		<CommandBinding Command="local:Commands.Find" Executed="Find_Executed" />
+		<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" />
+		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" />
+		<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
 	</Window.CommandBindings>
 
 	<DockPanel>
@@ -122,7 +125,7 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" GotFocus="LeftDiff_GotFocus"/>
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" GotFocus="LeftDiff_GotFocus" />
 						<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Grid>
@@ -169,10 +172,11 @@
 
 			<Border Name="SearchPanel" Grid.Row="2" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Padding="0,2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 				<StackPanel Orientation="Horizontal">
-					<Button Content="Close" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
-					<TextBox Name="SearchBox" Width="300" Margin="1" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
-					<Button Content="Next" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
-					<Button Content="Previous" Margin="1" Padding="2" Background="Transparent" BorderThickness="0" />
+					<Button Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" />
+					<TextBox Name="SearchBox" Margin="5,1" Padding="2" Width="300" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+					<Button Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
+					<Button Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
+					<CheckBox Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" />
 				</StackPanel>
 			</Border>
 

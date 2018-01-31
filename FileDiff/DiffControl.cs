@@ -182,7 +182,7 @@ namespace FileDiff
 							int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter;
 							if (startCharacter < Lines[lineIndex].Text.Length)
 							{
-								sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length)));
+								sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
 							}
 						}
 						lineIndex++;
@@ -414,7 +414,7 @@ namespace FileDiff
 			return new Size(formattedText.Width, formattedText.Height);
 		}
 
-		internal int Search(string text)
+		internal int Search(string text, bool matchCase)
 		{
 			int searchStart = 0;
 
@@ -423,11 +423,38 @@ namespace FileDiff
 				searchStart = selection.EndLine;
 			}
 
+			for (int i = 0; i < Lines.Count; i++)
+			{
+				int hit = Lines[i].Text.IndexOf(text, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+				if (hit != -1)
+				{
+					selection = new Selection() { StartLine = i, EndLine = i, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+					InvalidateVisual();
+					return i;
+				}
+			}
+			selection = null;
+			InvalidateVisual();
+			return -1;
+		}
+
+		internal int SearchNext(string text, bool matchCase)
+		{
+			int searchStart = 0;
+			int startIndex = 0;
+
+			if (selection != null)
+			{
+				searchStart = selection.BottomLine;
+				startIndex = selection.BottomCharacter;
+			}
+
 			for (int i = searchStart; i < Lines.Count + searchStart; i++)
 			{
 				int lineIndex = i >= Lines.Count ? i - Lines.Count : i;
 
-				int hit = Lines[lineIndex].Text.IndexOf(text);
+
+				int hit = Lines[lineIndex].Text.IndexOf(text, i == searchStart ? startIndex : 0, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
 				if (hit != -1)
 				{
 					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
@@ -435,7 +462,13 @@ namespace FileDiff
 					return lineIndex;
 				}
 			}
+			selection = null;
+			InvalidateVisual();
 			return -1;
+		}
+
+		internal void SearchPrevious(string text, bool matchCase)
+		{
 		}
 
 		#endregion

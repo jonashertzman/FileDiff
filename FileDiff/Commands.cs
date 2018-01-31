@@ -58,5 +58,26 @@ namespace FileDiff
 			}
 		);
 
+		public static readonly RoutedUICommand FindNext = new RoutedUICommand("Find Next", "FindNext", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.G, ModifierKeys.Control)
+			}
+		);
+
+		public static readonly RoutedUICommand FindPrevious = new RoutedUICommand("Find Previous", "FindPrevious", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.G, ModifierKeys.Control|ModifierKeys.Shift)
+			}
+		);
+
+		public static readonly RoutedUICommand CloseFind = new RoutedUICommand("Close Find", "CloseFind", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.Escape)
+			}
+		);
+
 	}
 }

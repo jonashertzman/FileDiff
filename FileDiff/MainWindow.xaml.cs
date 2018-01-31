@@ -648,7 +648,7 @@ namespace FileDiff
 
 		private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
 		{
-			int hit = activeDiff.Search(SearchBox.Text);
+			int hit = activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true);
 
 			if (hit != -1)
 			{
@@ -664,6 +664,25 @@ namespace FileDiff
 		private void LeftDiff_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeDiff = LeftDiff;
+		}
+
+		#endregion
+
+		#region Commands
+
+		private void CommandFindNext_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			activeDiff.SearchNext(SearchBox.Text, MatchCase.IsChecked == true);
+		}
+
+		private void CommandFindPrevious_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			activeDiff.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true);
+		}
+
+		private void CommandCloseFind_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			SearchPanel.Visibility = Visibility.Collapsed;
 		}
 
 		#endregion
