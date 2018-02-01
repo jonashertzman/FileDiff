@@ -694,7 +694,7 @@ namespace FileDiff
 
 		private void FindNext_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = SearchBox.Text != "";
+			e.CanExecute = SearchBox.Text != "" && activeDiff.Lines.Count > 0;
 		}
 
 		private void CommandFindPrevious_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -709,7 +709,7 @@ namespace FileDiff
 
 		private void FindPrevious_CanExecute_1(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = SearchBox.Text != "";
+			e.CanExecute = SearchBox.Text != "" && activeDiff.Lines.Count > 0;
 		}
 
 		private void CommandCloseFind_Executed(object sender, ExecutedRoutedEventArgs e)

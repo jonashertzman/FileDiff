@@ -454,6 +454,10 @@ namespace FileDiff
 
 				if (selection != null && lineIndex == startLine && i < Lines.Count + startLine)
 				{
+					if(selection.BottomCharacter >= Lines[lineIndex].Text.Length)
+					{
+						continue;
+					}
 					hit = Lines[lineIndex].Text.IndexOf(text, selection.BottomCharacter + 1, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
 				}
 				else
@@ -487,8 +491,12 @@ namespace FileDiff
 				int lineIndex = i < 0 ? i + Lines.Count : i;
 				int hit;
 
-				if (selection != null && lineIndex == startLine && selection.TopCharacter > 0 && i > startLine - Lines.Count)
+				if (selection != null && lineIndex == startLine &&  i > startLine - Lines.Count)
 				{
+					if(selection.TopCharacter == 0)
+					{
+						continue;
+					}
 					hit = Lines[lineIndex].Text.LastIndexOf(text, selection.TopCharacter - 1, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
 				}
 				else
