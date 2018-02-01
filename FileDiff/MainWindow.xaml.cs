@@ -665,7 +665,7 @@ namespace FileDiff
 			InitScrollbars();
 		}
 
-		private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
+		private void GridMainContent_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
 			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
 			VerticalScrollbar.Value -= lines;

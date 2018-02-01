@@ -139,7 +139,7 @@
 		</Grid>
 
 		<!--Diff-->
-		<Grid MouseWheel="Grid_MouseWheel">
+		<Grid Name="GridMainContent" MouseWheel="GridMainContent_MouseWheel">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="327*" />
