@@ -610,16 +610,6 @@ namespace FileDiff
 			SaveSettings();
 		}
 
-		private void CommandCompare_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			Compare();
-		}
-
-		private void CommandExit_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			this.Close();
-		}
-
 		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)
 		{
 			Compare();
@@ -628,24 +618,6 @@ namespace FileDiff
 		private void ToggleButtonShowLineChanges_Click(object sender, RoutedEventArgs e)
 		{
 			Compare();
-		}
-
-		private void BrowseLeft_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
-			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				ViewModel.LeftPath = ofd.FileName;
-			}
-		}
-
-		private void BrowseRight_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
-			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				ViewModel.RightPath = ofd.FileName;
-			}
 		}
 
 		private void LeftSide_DragEnter(object sender, DragEventArgs e)
@@ -686,38 +658,6 @@ namespace FileDiff
 			{
 				ViewModel.RightPath = paths[0];
 			}
-		}
-
-		private void Options_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel };
-			optionsWindow.ShowDialog();
-		}
-
-		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			AboutWindow aboutWindow = new AboutWindow();
-			aboutWindow.ShowDialog();
-		}
-
-		private void CommandPreviousDiff_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			MoveToPrevoiusDiff();
-		}
-
-		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			MoveToNextDiff();
-		}
-
-		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = firstDiff < currentLine;
-		}
-
-		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = lastDiff > currentLine;
 		}
 
 		private void LeftDiff_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -761,12 +701,6 @@ namespace FileDiff
 			}
 		}
 
-		private void Find_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			SearchPanel.Visibility = Visibility.Visible;
-			SearchBox.Focus();
-		}
-
 		private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
 		{
 			ProcessSearchResult(activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true));
@@ -791,12 +725,78 @@ namespace FileDiff
 
 		#region Commands
 
+		private void CommandExit_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			this.Close();
+		}
+
+		private void CommnadOptions_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel };
+			optionsWindow.ShowDialog();
+		}
+
+		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			AboutWindow aboutWindow = new AboutWindow();
+			aboutWindow.ShowDialog();
+		}
+
+		private void CommandCompare_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			Compare();
+		}
+
+		private void CommandBrowseLeft_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				ViewModel.LeftPath = ofd.FileName;
+			}
+		}
+
+		private void CommandBrowseRight_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				ViewModel.RightPath = ofd.FileName;
+			}
+		}
+
+		private void CommandPreviousDiff_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			MoveToPrevoiusDiff();
+		}
+
+		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = firstDiff < currentLine;
+		}
+
+		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			MoveToNextDiff();
+		}
+
+		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = lastDiff > currentLine;
+		}
+
+		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			SearchPanel.Visibility = Visibility.Visible;
+			SearchBox.Focus();
+		}
+
 		private void CommandFindNext_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			ProcessSearchResult(activeDiff.SearchNext(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 
-		private void FindNext_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void CommandFindNext_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = SearchBox.Text != "" && activeDiff.Lines.Count > 0;
 		}
@@ -806,7 +806,7 @@ namespace FileDiff
 			ProcessSearchResult(activeDiff.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 
-		private void FindPrevious_CanExecute_1(object sender, CanExecuteRoutedEventArgs e)
+		private void CommandFindPrevious_CanExecute_1(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = SearchBox.Text != "" && activeDiff.Lines.Count > 0;
 		}

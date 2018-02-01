@@ -61,12 +61,12 @@
 		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
 		<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
-		<CommandBinding Command="local:Commands.BrowseLeft" Executed="BrowseLeft_Executed" />
-		<CommandBinding Command="local:Commands.BrowseRight" Executed="BrowseRight_Executed" />
-		<CommandBinding Command="local:Commands.Options" Executed="Options_Executed" />
-		<CommandBinding Command="local:Commands.Find" Executed="Find_Executed" />
-		<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="FindNext_CanExecute" />
-		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="FindPrevious_CanExecute_1" />
+		<CommandBinding Command="local:Commands.BrowseLeft" Executed="CommandBrowseLeft_Executed" />
+		<CommandBinding Command="local:Commands.BrowseRight" Executed="CommandBrowseRight_Executed" />
+		<CommandBinding Command="local:Commands.Options" Executed="CommnadOptions_Executed" />
+		<CommandBinding Command="local:Commands.Find" Executed="CommandFind_Executed" />
+		<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
+		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute_1" />
 		<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
 	</Window.CommandBindings>
 
