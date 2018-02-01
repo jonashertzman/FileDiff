@@ -688,6 +688,7 @@ namespace FileDiff
 			{
 				ScrollViewer scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
 				scrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
+				scrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
 			}
 		}
 
@@ -698,6 +699,7 @@ namespace FileDiff
 			{
 				ScrollViewer scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
 				scrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
+				scrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
 			}
 		}
 
