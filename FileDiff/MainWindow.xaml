@@ -26,7 +26,7 @@
 		</Style>
 
 		<HierarchicalDataTemplate x:Key="FileItemTemplate" ItemsSource="{Binding Children}">
-			<Grid>
+			<Grid Margin="0,1,1,1">
 				<Grid.Style>
 					<Style TargetType="Grid">
 						<Style.Triggers>
@@ -46,11 +46,9 @@
 					</Style>
 				</Grid.Style>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="200" />
-					<ColumnDefinition Width="200" />
-					<ColumnDefinition Width="200" />
+					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<TextBlock Text="{Binding Name}" Margin="0,0,4,0" Padding="1" Style="{StaticResource FileItemTextStyle }" />
+				<TextBlock Text="{Binding Name}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
 
 			</Grid>
 		</HierarchicalDataTemplate>
