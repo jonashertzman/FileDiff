@@ -13,8 +13,8 @@
 		<CommandBinding Command="local:Commands.BrowseRight" Executed="BrowseRight_Executed" />
 		<CommandBinding Command="local:Commands.Options" Executed="Options_Executed" />
 		<CommandBinding Command="local:Commands.Find" Executed="Find_Executed" />
-		<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" />
-		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" />
+		<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="FindNext_CanExecute" />
+		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="FindPrevious_CanExecute_1" />
 		<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
 	</Window.CommandBindings>
 
@@ -170,13 +170,13 @@
 				</Grid>
 			</Border>
 
-			<Border Name="SearchPanel" Grid.Row="2" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Padding="0,2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+			<Border Name="SearchPanel" Grid.Row="2" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }"  Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 				<StackPanel Orientation="Horizontal">
-					<Button Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" />
+					<Button Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
 					<TextBox Name="SearchBox" Margin="5,1" Padding="2" Width="300" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
 					<Button Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
 					<Button Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
-					<CheckBox Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+					<CheckBox Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" />
 				</StackPanel>
 			</Border>
 

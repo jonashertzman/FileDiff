@@ -440,21 +440,27 @@ namespace FileDiff
 
 		internal int SearchNext(string text, bool matchCase)
 		{
-			int searchStart = 0;
-			int startIndex = 0;
+			int startLine = 0;
 
 			if (selection != null)
 			{
-				searchStart = selection.BottomLine;
-				startIndex = selection.BottomCharacter;
+				startLine = selection.BottomLine;
 			}
 
-			for (int i = searchStart; i < Lines.Count + searchStart; i++)
+			for (int i = startLine; i <= Lines.Count + startLine; i++)
 			{
 				int lineIndex = i >= Lines.Count ? i - Lines.Count : i;
+				int hit;
 
+				if (selection != null && lineIndex == startLine && i < Lines.Count + startLine)
+				{
+					hit = Lines[lineIndex].Text.IndexOf(text, selection.BottomCharacter + 1, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+				}
+				else
+				{
+					hit = Lines[lineIndex].Text.IndexOf(text, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+				}
 
-				int hit = Lines[lineIndex].Text.IndexOf(text, i == searchStart ? startIndex : 0, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
 				if (hit != -1)
 				{
 					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
@@ -467,8 +473,39 @@ namespace FileDiff
 			return -1;
 		}
 
-		internal void SearchPrevious(string text, bool matchCase)
+		internal int SearchPrevious(string text, bool matchCase)
 		{
+			int startLine = Lines.Count - 1;
+
+			if (selection != null)
+			{
+				startLine = selection.TopLine;
+			}
+
+			for (int i = startLine; i >= startLine - Lines.Count; i--)
+			{
+				int lineIndex = i < 0 ? i + Lines.Count : i;
+				int hit;
+
+				if (selection != null && lineIndex == startLine && selection.TopCharacter > 0 && i > startLine - Lines.Count)
+				{
+					hit = Lines[lineIndex].Text.LastIndexOf(text, selection.TopCharacter - 1, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+				}
+				else
+				{
+					hit = Lines[lineIndex].Text.LastIndexOf(text, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
+				}
+
+				if (hit != -1)
+				{
+					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+					InvalidateVisual();
+					return lineIndex;
+				}
+			}
+			selection = null;
+			InvalidateVisual();
+			return -1;
 		}
 
 		#endregion

@@ -114,6 +114,7 @@ namespace FileDiff
 					if (firstDiff == -1 && ViewModel.LeftSide[i].Type != TextState.FullMatch)
 					{
 						firstDiff = i;
+						currentLine = i;
 						CenterOnLine(i);
 					}
 					if (ViewModel.LeftSide[i].Type != TextState.FullMatch)
@@ -431,6 +432,7 @@ namespace FileDiff
 				{
 					if (ViewModel.LeftSide[i].Type != TextState.FullMatch || ViewModel.RightSide[i].Type != TextState.FullMatch)
 					{
+						currentLine = i;
 						CenterOnLine(i);
 						return;
 					}
@@ -446,6 +448,7 @@ namespace FileDiff
 				{
 					if (ViewModel.LeftSide[i].Type != TextState.FullMatch || ViewModel.RightSide[i].Type != TextState.FullMatch)
 					{
+						currentLine = i;
 						CenterOnLine(i);
 						return;
 					}
@@ -455,7 +458,6 @@ namespace FileDiff
 
 		private void CenterOnLine(int i)
 		{
-			currentLine = i;
 			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
 			VerticalScrollbar.Value = i - (visibleLines / 2);
 		}
@@ -656,6 +658,16 @@ namespace FileDiff
 			}
 		}
 
+		private void MatchCase_Checked(object sender, RoutedEventArgs e)
+		{
+			int hit = activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true);
+
+			if (hit != -1)
+			{
+				CenterOnLine(hit);
+			}
+		}
+
 		private void RightDiff_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeDiff = RightDiff;
@@ -672,12 +684,32 @@ namespace FileDiff
 
 		private void CommandFindNext_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			activeDiff.SearchNext(SearchBox.Text, MatchCase.IsChecked == true);
+			int hit = activeDiff.SearchNext(SearchBox.Text, MatchCase.IsChecked == true);
+
+			if (hit != -1)
+			{
+				CenterOnLine(hit);
+			}
+		}
+
+		private void FindNext_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = SearchBox.Text != "";
 		}
 
 		private void CommandFindPrevious_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			activeDiff.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true);
+			int hit = activeDiff.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true);
+
+			if (hit != -1)
+			{
+				CenterOnLine(hit);
+			}
+		}
+
+		private void FindPrevious_CanExecute_1(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = SearchBox.Text != "";
 		}
 
 		private void CommandCloseFind_Executed(object sender, ExecutedRoutedEventArgs e)
