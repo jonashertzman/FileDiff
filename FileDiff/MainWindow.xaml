@@ -1,6 +1,58 @@
 ﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff - Alpha 5" Height="500" Width="700" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
 
 	<Window.Resources>
+
+		<Style x:Key="FileItemStyle" TargetType="{x:Type TreeViewItem}">
+			<Setter Property="IsSelected" Value="{Binding IsSelected}" />
+			<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+			<Setter Property="Visibility" Value="{Binding Visible}" />
+		</Style>
+
+		<Style x:Key="FileItemTextStyle" TargetType="TextBlock">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding Type}" Value="FullMatch">
+					<Setter Property="Foreground" Value="{Binding Path=ViewModel.FullMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
+					<Setter Property="Foreground" Value="{Binding Path=ViewModel.PartialMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Type}" Value="Deleted">
+					<Setter Property="Foreground" Value="{Binding Path=ViewModel.DeletedForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding Type}" Value="New">
+					<Setter Property="Foreground" Value="{Binding Path=ViewModel.NewForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+		<HierarchicalDataTemplate x:Key="FileItemTemplate" ItemsSource="{Binding Children}">
+			<Grid Margin="0,1,1,1">
+				<Grid.Style>
+					<Style TargetType="Grid">
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
+								<Setter Property="Background" Value="{Binding Path=ViewModel.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
+								<Setter Property="Background" Value="{Binding Path=ViewModel.PartialMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="Deleted">
+								<Setter Property="Background" Value="{Binding Path=ViewModel.DeletedBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Type}" Value="New">
+								<Setter Property="Background" Value="{Binding Path=ViewModel.NewBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Grid.Style>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="{Binding Name}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
+
+			</Grid>
+		</HierarchicalDataTemplate>
+
 	</Window.Resources>
 
 	<Window.CommandBindings>
@@ -117,7 +169,7 @@
 				<Grid>
 
 					<!--Left Folder-->
-					<TreeView Visibility="{Binding FolderView}" BorderThickness="0"></TreeView>
+					<TreeView Name="LeftFolder" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" Visibility="{Binding FolderView}" BorderThickness="0" ScrollViewer.ScrollChanged="LeftFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
 
 					<!--Left File-->
 					<Grid Visibility="{Binding FileView}">
@@ -125,7 +177,7 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" GotFocus="LeftDiff_GotFocus" />
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" SizeChanged="LeftDiff_SizeChanged" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" GotFocus="LeftDiff_GotFocus" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
 						<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Grid>
@@ -149,7 +201,7 @@
 				<Grid>
 
 					<!--Right Folder-->
-					<TreeView Visibility="{Binding FolderView}" BorderThickness="0"></TreeView>
+					<TreeView Name="RightFolder" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" Visibility="{Binding FolderView}" BorderThickness="0" ScrollViewer.ScrollChanged="RightFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
 
 					<!--Right File-->
 					<Grid Visibility="{Binding FileView}">
@@ -170,7 +222,7 @@
 				</Grid>
 			</Border>
 
-			<Border Name="SearchPanel" Grid.Row="2" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }"  Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+			<Border Name="SearchPanel" Grid.Row="2" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 				<StackPanel Orientation="Horizontal">
 					<Button Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
 					<TextBox Name="SearchBox" Margin="5,1" Padding="2" Width="300" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />

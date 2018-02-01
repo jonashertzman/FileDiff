@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -51,20 +52,16 @@ namespace FileDiff
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
 				ViewModel.FileMode = true;
-				CompareFiles(ViewModel.LeftPath, ViewModel.RightPath);
+				CompareFiles();
 			}
 			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
 			{
 				ViewModel.FileMode = false;
-				CompareDirectories(ViewModel.LeftPath, ViewModel.RightPath);
+				CompareDirectories();
 			}
 		}
 
-		private void CompareDirectories(string leftPath, string rightPath)
-		{
-		}
-
-		private void CompareFiles(string leftPath, string rightPath)
+		private void CompareFiles()
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
@@ -100,6 +97,94 @@ namespace FileDiff
 
 			stopwatch.Stop();
 			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms  left side {leftSide.Count} lines  right site {rightSide.Count} lines";
+		}
+
+		private void CompareDirectories()
+		{
+			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
+			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
+
+			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems);
+
+			LeftFolder.ItemsSource = leftItems;
+			RightFolder.ItemsSource = rightItems;
+		}
+
+		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems)
+		{
+			SortedDictionary<string, FileItemPair> allItems = new SortedDictionary<string, FileItemPair>();
+
+			if (leftPath != null)
+			{
+				foreach (string directoryPath in Directory.GetDirectories(leftPath))
+				{
+					string directoryName = directoryPath.Substring(leftPath.Length + 1);
+					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true, TextState.Deleted), new FileItem("", true, TextState.Filler)));
+				}
+			}
+
+			if (rightPath != null)
+			{
+				foreach (string directoryPath in Directory.GetDirectories(rightPath))
+				{
+					string directoryName = directoryPath.Substring(rightPath.Length + 1);
+					string key = "*" + directoryName;
+					if (!allItems.ContainsKey(key))
+					{
+						allItems.Add(key, new FileItemPair(new FileItem("", true, TextState.Filler), new FileItem(directoryName, true, TextState.New)));
+					}
+					else
+					{
+						allItems[key].RightItem = new FileItem(directoryName, true, TextState.FullMatch);
+						allItems[key].LeftItem.Type = TextState.FullMatch;
+					}
+				}
+			}
+
+			if (leftPath != null)
+			{
+				foreach (string filePath in Directory.GetFiles(leftPath))
+				{
+					string fileName = filePath.Substring(leftPath.Length + 1);
+					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false, TextState.Deleted), new FileItem("", false, TextState.Filler)));
+				}
+			}
+
+			if (rightPath != null)
+			{
+				foreach (string filePath in Directory.GetFiles(rightPath))
+				{
+					string fileName = filePath.Substring(rightPath.Length + 1);
+					if (!allItems.ContainsKey(fileName))
+					{
+						allItems.Add(fileName, new FileItemPair(new FileItem("", false, TextState.Filler), new FileItem(fileName, false, TextState.New)));
+					}
+					else
+					{
+						allItems[fileName].RightItem = new FileItem(fileName, false, TextState.FullMatch);
+						allItems[fileName].LeftItem.Type = TextState.FullMatch;
+					}
+				}
+			}
+
+			foreach (KeyValuePair<string, FileItemPair> pair in allItems)
+			{
+				FileItem leftItem = pair.Value.LeftItem;
+				FileItem rightItem = pair.Value.RightItem;
+
+				leftItem.CorrespondingItem = rightItem;
+				rightItem.CorrespondingItem = leftItem;
+
+				if (leftItem.IsFolder)
+				{
+					SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children);
+				}
+
+				leftItems.Add(leftItem);
+				rightItems.Add(rightItem);
+			}
+
+
 		}
 
 		private void InitNavigationButtons()
@@ -654,6 +739,26 @@ namespace FileDiff
 		private void RightHorizontalScrollbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			LeftHorizontalScrollbar.Value = e.NewValue;
+		}
+
+		private void LeftFolder_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		{
+			DependencyObject border = VisualTreeHelper.GetChild(RightFolder, 0);
+			if (border != null)
+			{
+				ScrollViewer scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
+				scrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
+			}
+		}
+
+		private void RightFolder_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
+		{
+			DependencyObject border = VisualTreeHelper.GetChild(LeftFolder, 0);
+			if (border != null)
+			{
+				ScrollViewer scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
+				scrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
+			}
 		}
 
 		private void Find_Executed(object sender, ExecutedRoutedEventArgs e)

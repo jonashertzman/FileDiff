@@ -136,12 +136,6 @@ namespace FileDiff
 
 		#endregion
 
-		#region Methods
-
-
-
-		#endregion
-
 		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler PropertyChanged;
