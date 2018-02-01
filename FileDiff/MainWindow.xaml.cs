@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -487,6 +488,19 @@ namespace FileDiff
 			AppSettings.WriteSettingsToDisk();
 		}
 
+		private void ProcessSearchResult(int result)
+		{
+			if (result != -1)
+			{
+				SearchBox.Background = new SolidColorBrush(Colors.White);
+				CenterOnLine(result);
+			}
+			else
+			{
+				SearchBox.Background = new SolidColorBrush(Colors.Tomato);
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -650,22 +664,12 @@ namespace FileDiff
 
 		private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
 		{
-			int hit = activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true);
-
-			if (hit != -1)
-			{
-				CenterOnLine(hit);
-			}
+			ProcessSearchResult(activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 
 		private void MatchCase_Checked(object sender, RoutedEventArgs e)
 		{
-			int hit = activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true);
-
-			if (hit != -1)
-			{
-				CenterOnLine(hit);
-			}
+			ProcessSearchResult(activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 
 		private void RightDiff_GotFocus(object sender, RoutedEventArgs e)
@@ -684,12 +688,7 @@ namespace FileDiff
 
 		private void CommandFindNext_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			int hit = activeDiff.SearchNext(SearchBox.Text, MatchCase.IsChecked == true);
-
-			if (hit != -1)
-			{
-				CenterOnLine(hit);
-			}
+			ProcessSearchResult(activeDiff.SearchNext(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 
 		private void FindNext_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -699,12 +698,7 @@ namespace FileDiff
 
 		private void CommandFindPrevious_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			int hit = activeDiff.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true);
-
-			if (hit != -1)
-			{
-				CenterOnLine(hit);
-			}
+			ProcessSearchResult(activeDiff.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 
 		private void FindPrevious_CanExecute_1(object sender, CanExecuteRoutedEventArgs e)
