@@ -160,7 +160,7 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<TextBox Grid.Column="0" Text="{Binding LeftPath, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Padding="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+					<TextBox Name="TextBoxLeftPath" Grid.Column="0" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" Padding="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
 					<Button x:Name="ButtonLeftBrowse" Grid.Column="1" Content="..." Width=" 20" BorderThickness="0" Command="local:Commands.BrowseLeft" />
 				</Grid>
 			</Border>
@@ -192,7 +192,7 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<TextBox Text="{Binding RightPath, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Padding="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+					<TextBox Name="TextBoxRightPath" Text="{Binding RightPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" Padding="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
 					<Button x:Name="ButtonRightBrowse" Grid.Column="1" Content="..." Width=" 20" BorderThickness="0" Command="local:Commands.BrowseRight" />
 				</Grid>
 			</Border>

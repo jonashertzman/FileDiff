@@ -46,14 +46,30 @@ namespace FileDiff
 		public string LeftPath
 		{
 			get { return leftPath; }
-			set { leftPath = value; OnPropertyChanged(nameof(LeftPath)); }
+			set
+			{
+				leftPath = value;
+
+				LeftSide = new ObservableCollection<Line>();
+				RightSide = new ObservableCollection<Line>();
+
+				OnPropertyChanged(nameof(LeftPath));
+			}
 		}
 
 		string rightPath;
 		public string RightPath
 		{
 			get { return rightPath; }
-			set { rightPath = value; OnPropertyChanged(nameof(RightPath)); }
+			set
+			{
+				rightPath = value;
+
+				LeftSide = new ObservableCollection<Line>();
+				RightSide = new ObservableCollection<Line>();
+
+				OnPropertyChanged(nameof(RightPath));
+			}
 		}
 
 		public bool IgnoreWhiteSpace

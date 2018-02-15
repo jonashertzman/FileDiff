@@ -746,6 +746,10 @@ namespace FileDiff
 
 		private void CommandCompare_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			// Make sure view model is updated with both paths before we compare
+			TextBoxRightPath.Focus();
+			TextBoxLeftPath.Focus();
+
 			Compare();
 		}
 
