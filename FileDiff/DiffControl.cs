@@ -16,16 +16,18 @@ namespace FileDiff
 		#region Members
 
 		private Size characterSize;
-		private int lineNumberMargin;
-		double maxTextwidth = 0;
+		private double lineNumberWidth;
+		private double maxTextwidth = 0;
 
 		private Selection selection = null;
-		Point? MouseDownPoint = null;
+		private Point? MouseDownPoint = null;
 
 		private SolidColorBrush slectionBrush;
 		private Pen transpatentPen;
 
-		GlyphTypeface cachedTypeface;
+		private GlyphTypeface cachedTypeface;
+
+		private double dpiScale = 0;
 
 		#endregion
 
@@ -55,14 +57,21 @@ namespace FileDiff
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
-			Debug.Print("OnRender");
-			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
-
 			if (Lines.Count == 0)
 				return;
 
+			Debug.Print("OnRender");
+
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
+
+			if (dpiScale == 0)
+			{
+				Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
+				dpiScale = 1 / m.M11;
+			}
+
+			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			Typeface t = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 			if (t.TryGetGlyphTypeface(out GlyphTypeface temp))
@@ -71,8 +80,10 @@ namespace FileDiff
 			}
 
 			characterSize = MeasureString("W");
-			lineNumberMargin = (Lines.Count.ToString().Length * (int)characterSize.Width) + 6;
-			RectangleGeometry clippingRect = new RectangleGeometry(new Rect(lineNumberMargin, 0, ActualWidth, ActualHeight));
+
+			lineNumberWidth = (Lines.Count.ToString().Length * characterSize.Width) + DpiPixels(9);
+			double diffMapWidth = 0 * dpiScale;
+
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -81,67 +92,68 @@ namespace FileDiff
 
 				Line line = Lines[i + VerticalOffset];
 
-				if (line.LineIndex != -1)
+				// Draw line background
+				if (line.Type != TextState.FullMatch)
 				{
-					// Draw line background
-					if (line.Type != TextState.FullMatch)
-					{
-						drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth, characterSize.Height));
-					}
+					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth - diffMapWidth, characterSize.Height));
+				}
 
-					// Draw line number
-					if (line.LineIndex != null)
-					{
-						GlyphRun rowNumberText = CreateGlyphRun(line.LineIndex.ToString(), out double rowNumberWidth);
-						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - 4, characterSize.Height * i));
-						drawingContext.DrawGlyphRun(SystemColors.ControlDarkBrush, rowNumberText);
-						drawingContext.Pop();
-					}
+				// Draw line number
+				if (line.LineIndex != null)
+				{
+					GlyphRun rowNumberText = CreateGlyphRun(line.LineIndex.ToString(), out double rowNumberWidth);
+					drawingContext.PushTransform(new TranslateTransform(lineNumberWidth - rowNumberWidth - DpiPixels(6), characterSize.Height * i));
+					drawingContext.DrawGlyphRun(SystemColors.ControlDarkBrush, rowNumberText);
+					drawingContext.Pop();
+				}
 
-					// Draw line
-					if (line.Text != "")
+				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberWidth, 0, Math.Max(ActualWidth - lineNumberWidth - diffMapWidth, 0), ActualHeight)));
+
+				// Draw line
+				if (line.Text != "")
+				{
+					double nextPosition = lineNumberWidth - HorizontalOffset;
+					foreach (TextSegment textSegment in line.TextSegments)
 					{
-						double nextPosition = lineNumberMargin - HorizontalOffset;
-						drawingContext.PushClip(clippingRect);
-						foreach (TextSegment textSegment in line.TextSegments)
+						drawingContext.PushTransform(new TranslateTransform(nextPosition, (characterSize.Height * i) + (.5 / dpiScale)));
+
+						textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
+						if (line.Type != textSegment.Type)
 						{
-							drawingContext.PushTransform(new TranslateTransform(nextPosition, characterSize.Height * i));
-
-							textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
-							if (line.Type != textSegment.Type)
-							{
-								drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(0, 0, runWidth, characterSize.Height));
-							}
-							drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, textSegment.RenderedText);
-							nextPosition += runWidth;
-
-							drawingContext.Pop();
+							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(0, 0, runWidth, characterSize.Height));
 						}
-						maxTextwidth = Math.Max(maxTextwidth, nextPosition);
+						drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, textSegment.RenderedText);
+						nextPosition += runWidth;
 
 						drawingContext.Pop();
 					}
+					maxTextwidth = Math.Max(maxTextwidth, nextPosition);
 				}
 
 				// Draw selection
 				if (selection != null && i + VerticalOffset >= selection.TopLine && i + VerticalOffset <= selection.BottomLine)
 				{
-					Rect selectionRect = new Rect(lineNumberMargin, characterSize.Height * i, this.ActualWidth, characterSize.Height);
+					Rect selectionRect = new Rect(lineNumberWidth, characterSize.Height * i, this.ActualWidth, characterSize.Height);
 					if (selection.TopLine == i + VerticalOffset)
 					{
-						selectionRect.X = Math.Max(lineNumberMargin, lineNumberMargin + line.CharacterPosition(selection.TopCharacter) - HorizontalOffset);
+						selectionRect.X = Math.Max(lineNumberWidth, lineNumberWidth + line.CharacterPosition(selection.TopCharacter) - HorizontalOffset);
 					}
 					if (selection.BottomLine == i + VerticalOffset)
 					{
-						selectionRect.Width = Math.Max(0, lineNumberMargin + line.CharacterPosition(selection.BottomCharacter + 1) - selectionRect.X - HorizontalOffset);
+						selectionRect.Width = Math.Max(0, lineNumberWidth + line.CharacterPosition(selection.BottomCharacter + 1) - selectionRect.X - HorizontalOffset);
 					}
 					drawingContext.DrawRectangle(slectionBrush, transpatentPen, selectionRect);
 				}
+
+				drawingContext.Pop(); // Clipping rect
+
 			}
 
-			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, 1), new Point(lineNumberMargin - 1.5, 0), new Point(lineNumberMargin - 1.5, this.ActualHeight));
+			drawingContext.PushTransform(new TranslateTransform(.5, .5));
+			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, DpiPixels(1)), new Point(lineNumberWidth - DpiPixels(4), 0), new Point(lineNumberWidth - DpiPixels(4), this.ActualHeight));
+			drawingContext.Pop();
 
-			TextAreaWidth = (int)ActualWidth - lineNumberMargin;
+			TextAreaWidth = (int)(ActualWidth - lineNumberWidth);
 			MaxScroll = (int)(maxTextwidth - TextAreaWidth);
 
 			stopwatch.Stop();
@@ -340,7 +352,7 @@ namespace FileDiff
 				return;
 			}
 
-			point.Offset((-lineNumberMargin + HorizontalOffset), 0);
+			point.Offset((-lineNumberWidth + HorizontalOffset), 0);
 
 			character = 0;
 			double totalWidth = 0;
@@ -373,7 +385,7 @@ namespace FileDiff
 			{
 				cachedTypeface.CharacterToGlyphMap.TryGetValue(text[n] == '\t' ? ' ' : text[n], out ushort glyphIndex); // Why does the tab glyph render as a rectangle?
 				glyphIndexes[n] = glyphIndex;
-				double width = text[n] == '\t' ? AppSettings.Settings.TabSize * characterSize.Width : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize);
+				double width = text[n] == '\t' ? AppSettings.Settings.TabSize * characterSize.Width : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize / dpiScale) * dpiScale;
 				advanceWidths[n] = width;
 
 				totalWidth += width;
@@ -396,6 +408,11 @@ namespace FileDiff
 
 			runWidth = totalWidth;
 			return run;
+		}
+
+		double DpiPixels(double x)
+		{
+			return x * dpiScale;
 		}
 
 		private Size MeasureString(string text)
@@ -453,7 +470,7 @@ namespace FileDiff
 
 				if (selection != null && lineIndex == startLine && i < Lines.Count + startLine)
 				{
-					if(selection.BottomCharacter >= Lines[lineIndex].Text.Length)
+					if (selection.BottomCharacter >= Lines[lineIndex].Text.Length)
 					{
 						continue;
 					}
@@ -490,9 +507,9 @@ namespace FileDiff
 				int lineIndex = i < 0 ? i + Lines.Count : i;
 				int hit;
 
-				if (selection != null && lineIndex == startLine &&  i > startLine - Lines.Count)
+				if (selection != null && lineIndex == startLine && i > startLine - Lines.Count)
 				{
-					if(selection.TopCharacter == 0)
+					if (selection.TopCharacter == 0)
 					{
 						continue;
 					}

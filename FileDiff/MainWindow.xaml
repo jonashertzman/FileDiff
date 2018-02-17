@@ -101,7 +101,7 @@
 					<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
 				</LinearGradientBrush>
 			</WrapPanel.Background>
-			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Compare">
+			<Button Margin="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Compare">
 				<StackPanel Orientation="Horizontal">
 					<ContentControl Content="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Compare" VerticalAlignment="Center" />
