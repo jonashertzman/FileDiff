@@ -48,7 +48,7 @@ namespace FileDiff
 			slectionBrush = new SolidColorBrush(selectionColor);
 
 			transpatentPen = new Pen(Brushes.Transparent, 0);
-			characterSize = MeasureString("W");
+
 		}
 
 		#endregion
@@ -64,6 +64,8 @@ namespace FileDiff
 
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
+
+			characterSize = MeasureString("W");
 
 			if (dpiScale == 0)
 			{
@@ -95,7 +97,7 @@ namespace FileDiff
 				// Draw line background
 				if (line.Type != TextState.FullMatch)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, this.ActualWidth - diffMapWidth, characterSize.Height));
+					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, Math.Max(this.ActualWidth - diffMapWidth, 0), characterSize.Height));
 				}
 
 				// Draw line number
@@ -115,7 +117,7 @@ namespace FileDiff
 					double nextPosition = lineNumberWidth - HorizontalOffset;
 					foreach (TextSegment textSegment in line.TextSegments)
 					{
-						drawingContext.PushTransform(new TranslateTransform(nextPosition, (characterSize.Height * i) + (.5 / dpiScale)));
+						drawingContext.PushTransform(new TranslateTransform(nextPosition, (characterSize.Height * i)));
 
 						textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
 						if (line.Type != textSegment.Type)
@@ -397,7 +399,7 @@ namespace FileDiff
 				isSideways: false,
 				renderingEmSize: this.FontSize,
 				glyphIndices: glyphIndexes,
-				baselineOrigin: new Point(0, Math.Round(cachedTypeface.Baseline * this.FontSize)),
+				baselineOrigin: new Point(0, cachedTypeface.Baseline * (characterSize.Height) - 2),
 				advanceWidths: advanceWidths,
 				glyphOffsets: null,
 				characters: null,
