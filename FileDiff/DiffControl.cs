@@ -15,7 +15,8 @@ namespace FileDiff
 
 		#region Members
 
-		private Size characterSize;
+		private double characterHeight;
+		private double characterWidth;
 		private double lineNumberWidth;
 		private double maxTextwidth = 0;
 
@@ -65,15 +66,16 @@ namespace FileDiff
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
 
-			characterSize = MeasureString("W");
 
-			if (dpiScale == 0)
-			{
-				Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
-				dpiScale = 1 / m.M11;
-			}
+			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
+			dpiScale = 1 / m.M11;
 
-			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
+			characterWidth = Math.Ceiling(MeasureString("W").Width / dpiScale) * dpiScale;
+
+
+			Debug.Print($"{characterHeight}   {characterWidth}   {dpiScale}");
+
 
 			Typeface t = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 			if (t.TryGetGlyphTypeface(out GlyphTypeface temp))
@@ -81,11 +83,11 @@ namespace FileDiff
 				cachedTypeface = temp;
 			}
 
-			characterSize = MeasureString("W");
+			lineNumberWidth = (Lines.Count.ToString().Length * characterWidth) + DpiPixels(9);
+			double diffMapWidth = Math.Ceiling(0 / dpiScale) * dpiScale;
 
-			lineNumberWidth = (Lines.Count.ToString().Length * characterSize.Width) + DpiPixels(9);
-			double diffMapWidth = 0 * dpiScale;
-
+			// Fill background
+			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -94,17 +96,19 @@ namespace FileDiff
 
 				Line line = Lines[i + VerticalOffset];
 
+				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
+
 				// Draw line background
 				if (line.Type != TextState.FullMatch)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, characterSize.Height * i, Math.Max(this.ActualWidth - diffMapWidth, 0), characterSize.Height));
+					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, 0, Math.Max(this.ActualWidth - diffMapWidth, 0), characterHeight));
 				}
 
 				// Draw line number
 				if (line.LineIndex != null)
 				{
 					GlyphRun rowNumberText = CreateGlyphRun(line.LineIndex.ToString(), out double rowNumberWidth);
-					drawingContext.PushTransform(new TranslateTransform(lineNumberWidth - rowNumberWidth - DpiPixels(6), characterSize.Height * i));
+					drawingContext.PushTransform(new TranslateTransform(lineNumberWidth - rowNumberWidth - DpiPixels(6), 0));
 					drawingContext.DrawGlyphRun(SystemColors.ControlDarkBrush, rowNumberText);
 					drawingContext.Pop();
 				}
@@ -117,12 +121,12 @@ namespace FileDiff
 					double nextPosition = lineNumberWidth - HorizontalOffset;
 					foreach (TextSegment textSegment in line.TextSegments)
 					{
-						drawingContext.PushTransform(new TranslateTransform(nextPosition, (characterSize.Height * i)));
+						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
 						textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
 						if (line.Type != textSegment.Type)
 						{
-							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(0, 0, runWidth, characterSize.Height));
+							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(0, 0, runWidth, characterHeight));
 						}
 						drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, textSegment.RenderedText);
 						nextPosition += runWidth;
@@ -135,7 +139,7 @@ namespace FileDiff
 				// Draw selection
 				if (selection != null && i + VerticalOffset >= selection.TopLine && i + VerticalOffset <= selection.BottomLine)
 				{
-					Rect selectionRect = new Rect(lineNumberWidth, characterSize.Height * i, this.ActualWidth, characterSize.Height);
+					Rect selectionRect = new Rect(lineNumberWidth, 0, this.ActualWidth, characterHeight);
 					if (selection.TopLine == i + VerticalOffset)
 					{
 						selectionRect.X = Math.Max(lineNumberWidth, lineNumberWidth + line.CharacterPosition(selection.TopCharacter) - HorizontalOffset);
@@ -148,11 +152,12 @@ namespace FileDiff
 				}
 
 				drawingContext.Pop(); // Clipping rect
+				drawingContext.Pop();
 
 			}
 
-			drawingContext.PushTransform(new TranslateTransform(.5, .5));
-			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, DpiPixels(1)), new Point(lineNumberWidth - DpiPixels(4), 0), new Point(lineNumberWidth - DpiPixels(4), this.ActualHeight));
+			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
+			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, DpiPixels(1)), new Point(lineNumberWidth - DpiPixels(4), 0), new Point(lineNumberWidth - DpiPixels(4), this.ActualHeight + 1));
 			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberWidth);
@@ -277,10 +282,10 @@ namespace FileDiff
 		{
 			get
 			{
-				if (characterSize.Height == 0)
+				if (characterHeight == 0)
 					return 0;
 
-				return (int)(this.ActualHeight / characterSize.Height + 1);
+				return (int)(this.ActualHeight / characterHeight + 1);
 			}
 		}
 
@@ -345,7 +350,7 @@ namespace FileDiff
 				return;
 			}
 
-			line = (int)(point.Y / characterSize.Height) + VerticalOffset;
+			line = (int)(point.Y / characterHeight) + VerticalOffset;
 
 			if (line >= Lines.Count)
 			{
@@ -387,7 +392,7 @@ namespace FileDiff
 			{
 				cachedTypeface.CharacterToGlyphMap.TryGetValue(text[n] == '\t' ? ' ' : text[n], out ushort glyphIndex); // Why does the tab glyph render as a rectangle?
 				glyphIndexes[n] = glyphIndex;
-				double width = text[n] == '\t' ? AppSettings.Settings.TabSize * characterSize.Width : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize / dpiScale) * dpiScale;
+				double width = text[n] == '\t' ? AppSettings.Settings.TabSize * characterWidth : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize / dpiScale) * dpiScale;
 				advanceWidths[n] = width;
 
 				totalWidth += width;
@@ -399,7 +404,7 @@ namespace FileDiff
 				isSideways: false,
 				renderingEmSize: this.FontSize,
 				glyphIndices: glyphIndexes,
-				baselineOrigin: new Point(0, cachedTypeface.Baseline * (characterSize.Height) - 2),
+				baselineOrigin: new Point(0, cachedTypeface.Baseline * (characterHeight) - 2),
 				advanceWidths: advanceWidths,
 				glyphOffsets: null,
 				characters: null,
