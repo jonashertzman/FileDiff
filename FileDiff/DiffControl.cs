@@ -73,15 +73,13 @@ namespace FileDiff
 			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
 			characterWidth = Math.Ceiling(MeasureString("W").Width / dpiScale) * dpiScale;
 
-
-			Debug.Print($"{characterHeight}   {characterWidth}   {dpiScale}");
-
-
 			Typeface t = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 			if (t.TryGetGlyphTypeface(out GlyphTypeface temp))
 			{
 				cachedTypeface = temp;
 			}
+
+			Debug.Print($"{characterHeight}   {characterWidth}   {dpiScale}    {cachedTypeface.Baseline}");
 
 			lineNumberWidth = (Lines.Count.ToString().Length * characterWidth) + DpiPixels(9);
 			double diffMapWidth = Math.Ceiling(0 / dpiScale) * dpiScale;
@@ -152,7 +150,7 @@ namespace FileDiff
 				}
 
 				drawingContext.Pop(); // Clipping rect
-				drawingContext.Pop();
+				drawingContext.Pop(); // Line offset
 
 			}
 
@@ -402,9 +400,9 @@ namespace FileDiff
 				glyphTypeface: cachedTypeface,
 				bidiLevel: 0,
 				isSideways: false,
-				renderingEmSize: this.FontSize,
+				renderingEmSize: Math.Ceiling((FontSize) / dpiScale) * dpiScale,
 				glyphIndices: glyphIndexes,
-				baselineOrigin: new Point(0, cachedTypeface.Baseline * (characterHeight) - 2),
+				baselineOrigin: new Point(0, Math.Ceiling((FontSize) / dpiScale) * dpiScale),
 				advanceWidths: advanceWidths,
 				glyphOffsets: null,
 				characters: null,
