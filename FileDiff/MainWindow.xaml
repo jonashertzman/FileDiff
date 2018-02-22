@@ -59,6 +59,8 @@
 		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
 		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
+		<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
+		<CommandBinding Command="local:Commands.LastDiff" Executed="CommandLastDiff_Executed" CanExecute="CommandLastDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
 		<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
 		<CommandBinding Command="local:Commands.BrowseLeft" Executed="CommandBrowseLeft_Executed" />
@@ -107,6 +109,12 @@
 					<TextBlock Text="Compare" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
+			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.FirstDiff">
+				<StackPanel Orientation="Horizontal">
+					<ContentControl Content="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="First Diff" VerticalAlignment="Center" />
+				</StackPanel>
+			</Button>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.PreviousDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentControl Content="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
@@ -119,15 +127,19 @@
 					<TextBlock Text="Next Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
+			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.LastDiff">
+				<StackPanel Orientation="Horizontal">
+					<ContentControl Content="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Last Diff" VerticalAlignment="Center" />
+				</StackPanel>
+			</Button>
 			<ToggleButton x:Name="ToggleButtonShowLineChanges" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding ShowLineChanges}" Focusable="False" Click="ToggleButtonShowLineChanges_Click">
 				<StackPanel Orientation="Horizontal">
-
 					<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
 			<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding IgnoreWhiteSpace}" Focusable="False" Click="ToggleButtonIgnoreWhiteSpace_Click">
 				<StackPanel Orientation="Horizontal">
-
 					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>

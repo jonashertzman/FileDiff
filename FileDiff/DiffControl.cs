@@ -417,7 +417,7 @@ namespace FileDiff
 
 		double DpiPixels(double x)
 		{
-			return x * dpiScale;
+			return Math.Round(x / dpiScale) * dpiScale;
 		}
 
 		private Size MeasureString(string text)

@@ -93,6 +93,8 @@ namespace FileDiff
 			InitNavigationButtons();
 			InitScrollbars();
 
+			LeftDiff.Focus();
+
 			Mouse.OverrideCursor = null;
 
 			stopwatch.Stop();
@@ -506,7 +508,7 @@ namespace FileDiff
 
 		private void MoveToLastDiff()
 		{
-			currentLine = ViewModel.LeftSide.Count + 1;
+			currentLine = ViewModel.LeftSide.Count;
 			MoveToPrevoiusDiff();
 		}
 
@@ -787,6 +789,26 @@ namespace FileDiff
 		}
 
 		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = lastDiff > currentLine;
+		}
+
+		private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			MoveToFirstDiff();
+		}
+
+		private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = firstDiff < currentLine;
+		}
+
+		private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			MoveToLastDiff();
+		}
+
+		private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = lastDiff > currentLine;
 		}

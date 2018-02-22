@@ -35,6 +35,20 @@ namespace FileDiff
 			}
 		);
 
+		public static readonly RoutedUICommand FirstDiff = new RoutedUICommand("First Diff", "FirstDiff", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.Up, ModifierKeys.Control)
+			}
+		);
+
+		public static readonly RoutedUICommand LastDiff = new RoutedUICommand("Last Diff", "LastDiff", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.Down, ModifierKeys.Control)
+			}
+		);
+
 		public static readonly RoutedUICommand BrowseLeft = new RoutedUICommand("Browse Left", "BrowseLeft", typeof(Commands),
 			new InputGestureCollection()
 			{
