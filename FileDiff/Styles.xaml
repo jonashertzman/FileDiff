@@ -25,7 +25,7 @@
 	<Style x:Key="CommonButtonIcon" TargetType="ContentControl">
 		<Setter Property="MaxHeight" Value="16" />
 		<Setter Property="MaxWidth" Value="16" />
-		<Setter Property="Margin" Value="6,0" />
+		<Setter Property="Margin" Value="4,0" />
 
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">

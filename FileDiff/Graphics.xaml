@@ -24,105 +24,113 @@
 	</Viewbox>
 
 	<Viewbox x:Key="PreviousDiffIcon">
-		<Path Stretch="Uniform" StrokeThickness="0">
-			<Path.Fill>
-				<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
-					<GradientStop Color="#FF0AC30A" Offset="0" />
-					<GradientStop Color="#FF004900" Offset="1" />
-				</LinearGradientBrush>
-			</Path.Fill>
-			<Path.Data>
-				<PathGeometry>
-					<PathGeometry.Figures>
-						<PathFigure StartPoint="0,10" IsClosed="True">
-							<PathFigure.Segments>
-								<LineSegment Point="10,0" />
-								<LineSegment Point="20,10" />
-							</PathFigure.Segments>
-						</PathFigure>
-					</PathGeometry.Figures>
-				</PathGeometry>
-			</Path.Data>
-		</Path>
+		<Canvas Width="16" Height="15">
+			<Path StrokeThickness="0">
+				<Path.Fill>
+					<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+						<GradientStop Color="#FF0AC30A" Offset="0" />
+						<GradientStop Color="#FF004900" Offset="1" />
+					</LinearGradientBrush>
+				</Path.Fill>
+				<Path.Data>
+					<PathGeometry>
+						<PathGeometry.Figures>
+							<PathFigure StartPoint="8,4" IsClosed="True">
+								<PathFigure.Segments>
+									<LineSegment Point="15,12" />
+									<LineSegment Point="1,12" />
+								</PathFigure.Segments>
+							</PathFigure>
+						</PathGeometry.Figures>
+					</PathGeometry>
+				</Path.Data>
+			</Path>
+		</Canvas>
 	</Viewbox>
 
 	<Viewbox x:Key="NextDiffIcon">
-		<Path Stretch="Uniform" StrokeThickness="0">
-			<Path.Fill>
-				<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
-					<GradientStop Color="#FF0AC30A" Offset="0" />
-					<GradientStop Color="#FF004900" Offset="1" />
-				</LinearGradientBrush>
-			</Path.Fill>
-			<Path.Data>
-				<PathGeometry>
-					<PathGeometry.Figures>
-						<PathFigure StartPoint="0,10" IsClosed="True">
-							<PathFigure.Segments>
-								<LineSegment Point="10,20" />
-								<LineSegment Point="20,10" />
-							</PathFigure.Segments>
-						</PathFigure>
-					</PathGeometry.Figures>
-				</PathGeometry>
-			</Path.Data>
-		</Path>
+		<Canvas Width="16" Height="15">
+			<Path StrokeThickness="0">
+				<Path.Fill>
+					<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+						<GradientStop Color="#FF0AC30A" Offset="0" />
+						<GradientStop Color="#FF004900" Offset="1" />
+					</LinearGradientBrush>
+				</Path.Fill>
+				<Path.Data>
+					<PathGeometry>
+						<PathGeometry.Figures>
+							<PathFigure StartPoint="1,3" IsClosed="True">
+								<PathFigure.Segments>
+									<LineSegment Point="15,3" />
+									<LineSegment Point="8,11" />
+								</PathFigure.Segments>
+							</PathFigure>
+						</PathGeometry.Figures>
+					</PathGeometry>
+				</Path.Data>
+			</Path>
+		</Canvas>
 	</Viewbox>
 
 	<Viewbox x:Key="FirstDiffIcon">
-		<Path Stretch="Uniform" StrokeThickness="0">
-			<Path.Fill>
-				<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
-					<GradientStop Color="#FF0AC30A" Offset="0" />
-					<GradientStop Color="#FF004900" Offset="1" />
-				</LinearGradientBrush>
-			</Path.Fill>
-			<Path.Data>
-				<PathGeometry>
-					<PathGeometry.Figures>
-						<PathFigure StartPoint="0,0" IsClosed="True">
-							<PathFigure.Segments>
-								<LineSegment Point="20,0" />
-								<LineSegment Point="20,4" />
-								<LineSegment Point="10,4" />
-								<LineSegment Point="20,14" />
-								<LineSegment Point="0,14" />
-								<LineSegment Point="10,4" />
-								<LineSegment Point="0,4" />
-							</PathFigure.Segments>
-						</PathFigure>
-					</PathGeometry.Figures>
-				</PathGeometry>
-			</Path.Data>
-		</Path>
+		<Canvas Width="16" Height="15">
+			<Path StrokeThickness="0">
+				<Path.Fill>
+					<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+						<GradientStop Color="#FF0AC30A" Offset="0" />
+						<GradientStop Color="#FF004900" Offset="1" />
+					</LinearGradientBrush>
+				</Path.Fill>
+				<Path.Data>
+					<PathGeometry>
+						<PathGeometry.Figures>
+							<PathFigure StartPoint="1,2" IsClosed="True">
+								<PathFigure.Segments>
+									<LineSegment Point="15,2" />
+									<LineSegment Point="15,4" />
+									<LineSegment Point="8,4" />
+									<LineSegment Point="15,12" />
+									<LineSegment Point="1,12" />
+									<LineSegment Point="8,4" />
+									<LineSegment Point="1,4" />
+								</PathFigure.Segments>
+							</PathFigure>
+						</PathGeometry.Figures>
+					</PathGeometry>
+				</Path.Data>
+			</Path>
+		</Canvas>
 	</Viewbox>
 
 	<Viewbox x:Key="LastDiffIcon">
-		<Path Stretch="Uniform" StrokeThickness="0">
-			<Path.Fill>
-				<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
-					<GradientStop Color="#FF0AC30A" Offset="0" />
-					<GradientStop Color="#FF004900" Offset="1" />
-				</LinearGradientBrush>
-			</Path.Fill>
-			<Path.Data>
-				<PathGeometry>
-					<PathGeometry.Figures>
-						<PathFigure StartPoint="0,0" IsClosed="True">
-							<PathFigure.Segments>
-								<LineSegment Point="20,0" />
-								<LineSegment Point="10,10" />
-								<LineSegment Point="20,10" />
-								<LineSegment Point="20,14" />
-								<LineSegment Point="0,14" />
-								<LineSegment Point="0,10" />
-								<LineSegment Point="10,10" />
-							</PathFigure.Segments>
-						</PathFigure>
-					</PathGeometry.Figures>
-				</PathGeometry>
-			</Path.Data>
-		</Path>
+		<Canvas Width="16" Height="15">
+			<Path StrokeThickness="0">
+				<Path.Fill>
+					<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+						<GradientStop Color="#FF0AC30A" Offset="0" />
+						<GradientStop Color="#FF004900" Offset="1" />
+					</LinearGradientBrush>
+				</Path.Fill>
+				<Path.Data>
+					<PathGeometry>
+						<PathGeometry.Figures>
+							<PathFigure StartPoint="1,3" IsClosed="True">
+								<PathFigure.Segments>
+									<LineSegment Point="15,3" />
+									<LineSegment Point="8,11" />
+									<LineSegment Point="15,11" />
+									<LineSegment Point="15,13" />
+									<LineSegment Point="1,13" />
+									<LineSegment Point="1,11" />
+									<LineSegment Point="8,11" />
+								</PathFigure.Segments>
+							</PathFigure>
+						</PathGeometry.Figures>
+					</PathGeometry>
+				</Path.Data>
+			</Path>
+		</Canvas>
 	</Viewbox>
 
 </ResourceDictionary>
