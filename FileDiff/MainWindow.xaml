@@ -1,4 +1,4 @@
-﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff - Alpha 5" Height="500" Width="700" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
+﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff - Alpha 5" Height="500" Width="900" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
 
 	<Window.Resources>
 
@@ -143,11 +143,13 @@
 			</Button>
 			<ToggleButton x:Name="ToggleButtonShowLineChanges" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding ShowLineChanges}" Focusable="False" Click="ToggleButtonShowLineChanges_Click">
 				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
 			<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding IgnoreWhiteSpace}" Focusable="False" Click="ToggleButtonIgnoreWhiteSpace_Click">
 				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>

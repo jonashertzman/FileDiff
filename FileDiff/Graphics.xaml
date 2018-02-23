@@ -182,4 +182,74 @@
 		</Viewbox>
 	</DataTemplate>
 
+	<DataTemplate x:Key="ShowLineChangesIcon">
+		<Viewbox>
+			<Canvas Width="16" Height="16">
+				<Rectangle Canvas.Left="0" Canvas.Top="4" Width="16" Height="3">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
+							<GradientStop Color="#FFA9A9FF" Offset="0" />
+							<GradientStop Color="#FF2A2AFF" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Canvas.Left="0" Canvas.Top="8" Width="16" Height="3">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
+							<GradientStop Color="#FFA9A9FF" Offset="0" />
+							<GradientStop Color="#FF2A2AFF" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="6" Height="3">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
+							<GradientStop Color="LightPink" Offset="0" />
+							<GradientStop Color="#FFFF5252" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Canvas.Left="7" Canvas.Top="8" Width="6" Height="3">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
+							<GradientStop Color="LightGreen" Offset="0" />
+							<GradientStop Color="#FF03C203" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
+	<DataTemplate x:Key="IgnoreWhiteSpaceIcon">
+		<Viewbox>
+			<Canvas Width="16" Height="16">
+				<Rectangle Canvas.Left="0" Canvas.Top="7" Width="4" Height="3">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
+							<GradientStop Color="#FF838383" Offset="0" />
+							<GradientStop Color="#FF303030" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Canvas.Left="6" Canvas.Top="7" Width="4" Height="3">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
+							<GradientStop Color="#FF838383" Offset="0" />
+							<GradientStop Color="#FF303030" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Canvas.Left="12" Canvas.Top="7" Width="4" Height="3">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
+							<GradientStop Color="#FF838383" Offset="0" />
+							<GradientStop Color="#FF303030" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
 </ResourceDictionary>
