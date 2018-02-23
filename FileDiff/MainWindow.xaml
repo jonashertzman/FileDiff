@@ -57,6 +57,7 @@
 
 	<Window.CommandBindings>
 		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
+		<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
 		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
@@ -103,33 +104,40 @@
 					<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
 				</LinearGradientBrush>
 			</WrapPanel.Background>
+
 			<Button Margin="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Compare">
 				<StackPanel Orientation="Horizontal">
-					<ContentControl Content="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Compare" VerticalAlignment="Center" />
+				</StackPanel>
+			</Button>
+			<Button Margin="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Swap">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Swap" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.FirstDiff">
 				<StackPanel Orientation="Horizontal">
-					<ContentControl Content="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="First Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.PreviousDiff">
 				<StackPanel Orientation="Horizontal">
-					<ContentControl Content="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Previous Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.NextDiff">
 				<StackPanel Orientation="Horizontal">
-					<ContentControl Content="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Next Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.LastDiff">
 				<StackPanel Orientation="Horizontal">
-					<ContentControl Content="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Last Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
@@ -143,6 +151,7 @@
 					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
+
 		</WrapPanel>
 
 		<!--Status Bar-->

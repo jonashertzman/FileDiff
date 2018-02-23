@@ -844,6 +844,15 @@ namespace FileDiff
 			SearchPanel.Visibility = Visibility.Collapsed;
 		}
 
+		private void CommandSwap_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			string temp = ViewModel.LeftPath;
+			ViewModel.LeftPath = ViewModel.RightPath;
+			ViewModel.RightPath = temp;
+
+			Compare();
+		}
+
 		#endregion
 
 	}
