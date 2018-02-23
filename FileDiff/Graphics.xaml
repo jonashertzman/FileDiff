@@ -27,7 +27,7 @@
 
 	<DataTemplate x:Key="SwapIcon">
 		<Viewbox>
-			<Canvas Width="16" Height="15">
+			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
@@ -36,32 +36,28 @@
 						</LinearGradientBrush>
 					</Path.Fill>
 					<Path.Data>
-						<CombinedGeometry>
-							<CombinedGeometry.Geometry1>
-								<PathGeometry>
-									<PathGeometry.Figures>
-										<PathFigure StartPoint="3,0" IsClosed="True">
-											<PathFigure.Segments>
-												<LineSegment Point="10,4" />
-												<LineSegment Point="3,8" />
-											</PathFigure.Segments>
-										</PathFigure>
-									</PathGeometry.Figures>
-								</PathGeometry>
-							</CombinedGeometry.Geometry1>
-							<CombinedGeometry.Geometry2>
-								<PathGeometry>
-									<PathGeometry.Figures>
-										<PathFigure StartPoint="5,10" IsClosed="True">
-											<PathFigure.Segments>
-												<LineSegment Point="12,6" />
-												<LineSegment Point="12,14" />
-											</PathFigure.Segments>
-										</PathFigure>
-									</PathGeometry.Figures>
-								</PathGeometry>
-							</CombinedGeometry.Geometry2>
-						</CombinedGeometry>
+						<GeometryGroup>
+							<PathGeometry>
+								<PathGeometry.Figures>
+									<PathFigure StartPoint="5,0" IsClosed="True">
+										<PathFigure.Segments>
+											<LineSegment Point="12,3.5" />
+											<LineSegment Point="5,7" />
+										</PathFigure.Segments>
+									</PathFigure>
+								</PathGeometry.Figures>
+							</PathGeometry>
+							<PathGeometry>
+								<PathGeometry.Figures>
+									<PathFigure StartPoint="4,11.5" IsClosed="True">
+										<PathFigure.Segments>
+											<LineSegment Point="11,8" />
+											<LineSegment Point="11,15" />
+										</PathFigure.Segments>
+									</PathFigure>
+								</PathGeometry.Figures>
+							</PathGeometry>
+						</GeometryGroup>
 					</Path.Data>
 				</Path>
 			</Canvas>
@@ -70,7 +66,7 @@
 
 	<DataTemplate x:Key="PreviousDiffIcon">
 		<Viewbox>
-			<Canvas Width="16" Height="15">
+			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
@@ -97,7 +93,7 @@
 
 	<DataTemplate x:Key="NextDiffIcon">
 		<Viewbox>
-			<Canvas Width="16" Height="15">
+			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
@@ -124,7 +120,7 @@
 
 	<DataTemplate x:Key="FirstDiffIcon">
 		<Viewbox>
-			<Canvas Width="16" Height="15">
+			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
@@ -156,7 +152,7 @@
 
 	<DataTemplate x:Key="LastDiffIcon">
 		<Viewbox>
-			<Canvas Width="16" Height="15">
+			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
