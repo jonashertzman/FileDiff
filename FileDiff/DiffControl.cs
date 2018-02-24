@@ -79,10 +79,9 @@ namespace FileDiff
 				cachedTypeface = temp;
 			}
 
-			Debug.Print($"{characterHeight}   {characterWidth}   {dpiScale}    {cachedTypeface.Baseline}");
-
 			lineNumberWidth = (Lines.Count.ToString().Length * characterWidth) + DpiPixels(9);
-			double diffMapWidth = Math.Ceiling(0 / dpiScale) * dpiScale;
+			double mapWidth = ShowMap ? Math.Ceiling(12 / dpiScale) * dpiScale : 0;
+			double textMargin = DpiPixels(2);
 
 			// Fill background
 			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
@@ -99,7 +98,7 @@ namespace FileDiff
 				// Draw line background
 				if (line.Type != TextState.FullMatch)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, 0, Math.Max(this.ActualWidth - diffMapWidth, 0), characterHeight));
+					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, 0, Math.Max(this.ActualWidth - mapWidth, 0), characterHeight));
 				}
 
 				// Draw line number
@@ -111,7 +110,7 @@ namespace FileDiff
 					drawingContext.Pop();
 				}
 
-				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberWidth, 0, Math.Max(ActualWidth - lineNumberWidth - diffMapWidth, 0), ActualHeight)));
+				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberWidth, 0, Math.Max(ActualWidth - lineNumberWidth - mapWidth, 0), ActualHeight)));
 
 				// Draw line
 				if (line.Text != "")
@@ -154,11 +153,55 @@ namespace FileDiff
 
 			}
 
+			// Draw line number border
 			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, DpiPixels(1)), new Point(lineNumberWidth - DpiPixels(4), 0), new Point(lineNumberWidth - DpiPixels(4), this.ActualHeight + 1));
 			drawingContext.Pop();
 
-			TextAreaWidth = (int)(ActualWidth - lineNumberWidth);
+			// Draw diff map
+			if (mapWidth > 0)
+			{
+				double scrollableHeight = ActualHeight - (2 * SystemParameters.VerticalScrollBarButtonHeight);
+				double lineHeight = scrollableHeight / Lines.Count;
+
+				Debug.Print(ActualHeight + "    " + scrollableHeight);
+
+				SolidColorBrush lineColor = new SolidColorBrush();
+
+				for (int i = 0; i < Lines.Count; i++)
+				{
+					Line line = Lines[i];
+
+					if (line.Type == TextState.FullMatch)
+					{
+						continue;
+					}
+					else if (line.Type == TextState.PartialMatch)
+					{
+						lineColor = AppSettings.partialMatchBackgroundBrush;
+					}
+					else if (line.Type == TextState.Deleted)
+					{
+						lineColor = AppSettings.deletedBackgroundBrush;
+					}
+					else if (line.Type == TextState.New)
+					{
+						lineColor = AppSettings.newBackgrounBrush;
+					}
+					else if (line.Type == TextState.Filler)
+					{
+						lineColor = AppSettings.deletedBackgroundBrush;
+					}
+
+					drawingContext.DrawRectangle(lineColor, transpatentPen, new Rect(ActualWidth - mapWidth, (Math.Floor(i * lineHeight / dpiScale) * dpiScale) + SystemParameters.VerticalScrollBarButtonHeight, mapWidth, Math.Ceiling(Math.Max(lineHeight, 1) / dpiScale) * dpiScale));
+				}
+
+				drawingContext.PushTransform(new TranslateTransform(.5, -.5));
+				drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, DpiPixels(1)), new Point(ActualWidth - mapWidth, 0), new Point(ActualWidth - mapWidth, this.ActualHeight + 1));
+				drawingContext.Pop();
+			}
+
+			TextAreaWidth = (int)(ActualWidth - lineNumberWidth - mapWidth);
 			MaxScroll = (int)(maxTextwidth - TextAreaWidth);
 
 			stopwatch.Stop();
@@ -335,6 +378,15 @@ namespace FileDiff
 			set { SetValue(TextAreaWidthPropery, value); }
 		}
 
+
+		public static readonly DependencyProperty ShowMapProperty = DependencyProperty.Register("ShowMap", typeof(bool), typeof(DiffControl));
+
+		public bool ShowMap
+		{
+			get { return (bool)GetValue(ShowMapProperty); }
+			set { SetValue(ShowMapProperty, value); }
+		}
+
 		#endregion
 
 		#region Methods
@@ -402,7 +454,7 @@ namespace FileDiff
 				isSideways: false,
 				renderingEmSize: Math.Ceiling((FontSize) / dpiScale) * dpiScale,
 				glyphIndices: glyphIndexes,
-				baselineOrigin: new Point(0, Math.Ceiling((FontSize) / dpiScale) * dpiScale),
+				baselineOrigin: new Point(0, Math.Ceiling((FontSize * cachedTypeface.Baseline) / dpiScale) * dpiScale),
 				advanceWidths: advanceWidths,
 				glyphOffsets: null,
 				characters: null,
@@ -423,14 +475,14 @@ namespace FileDiff
 		private Size MeasureString(string text)
 		{
 			FormattedText formattedText = new FormattedText(
-			text,
-			CultureInfo.CurrentCulture,
-			FlowDirection.LeftToRight,
-			new Typeface(this.FontFamily.ToString()),
-			this.FontSize,
-			Brushes.Black,
-			new NumberSubstitution(),
-			TextFormattingMode.Display);
+				text,
+				CultureInfo.CurrentCulture,
+				FlowDirection.LeftToRight,
+				new Typeface(this.FontFamily.ToString()),
+				this.FontSize,
+				Brushes.Black,
+				new NumberSubstitution(),
+				TextFormattingMode.Display);
 
 			return new Size(formattedText.Width, formattedText.Height);
 		}
