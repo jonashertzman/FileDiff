@@ -70,15 +70,15 @@ namespace FileDiff
 		public static readonly RoutedUICommand Find = new RoutedUICommand("Find", "Find", typeof(Commands),
 			new InputGestureCollection()
 			{
-				new KeyGesture(Key.F, ModifierKeys.Control),
-				new KeyGesture(Key.F3)
+				new KeyGesture(Key.F, ModifierKeys.Control)
 			}
 		);
 
 		public static readonly RoutedUICommand FindNext = new RoutedUICommand("Find Next", "FindNext", typeof(Commands),
 			new InputGestureCollection()
 			{
-				new KeyGesture(Key.G, ModifierKeys.Control)
+				new KeyGesture(Key.G, ModifierKeys.Control),
+				new KeyGesture(Key.F3)
 			}
 		);
 

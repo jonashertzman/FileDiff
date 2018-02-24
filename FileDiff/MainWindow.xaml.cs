@@ -821,12 +821,20 @@ namespace FileDiff
 
 		private void CommandFindNext_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			ProcessSearchResult(activeDiff.SearchNext(SearchBox.Text, MatchCase.IsChecked == true));
+			if (SearchPanel.Visibility != Visibility.Visible)
+			{
+				SearchPanel.Visibility = Visibility.Visible;
+				SearchBox.Focus();
+			}
+			else
+			{
+				ProcessSearchResult(activeDiff.SearchNext(SearchBox.Text, MatchCase.IsChecked == true));
+			}
 		}
 
 		private void CommandFindNext_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = SearchBox.Text != "" && activeDiff.Lines.Count > 0;
+			e.CanExecute = (SearchBox.Text != "" && activeDiff.Lines.Count > 0) || SearchPanel.Visibility != Visibility.Visible;
 		}
 
 		private void CommandFindPrevious_Executed(object sender, ExecutedRoutedEventArgs e)
