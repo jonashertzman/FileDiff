@@ -84,6 +84,9 @@ namespace FileDiff
 			lineNumberMargin = (characterWidth * Lines.Count.ToString().Length) + (2 * textMargin);
 			mapWidth = ShowMap ? Math.Ceiling(12 / dpiScale) * dpiScale : 0;
 
+			VisibleLines = (int)(ActualHeight / characterHeight + 1);
+			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
+
 			// Fill background
 			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
@@ -209,8 +212,8 @@ namespace FileDiff
 				drawingContext.Pop();
 			}
 
-			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - mapWidth);
-			MaxScroll = (int)(maxTextwidth - TextAreaWidth);
+			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - mapWidth - textMargin);
+			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
 
 			stopwatch.Stop();
 			Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
@@ -325,21 +328,6 @@ namespace FileDiff
 
 		#endregion
 
-		#region Properties
-
-		private int VisibleLines
-		{
-			get
-			{
-				if (characterHeight == 0)
-					return 0;
-
-				return (int)(this.ActualHeight / characterHeight + 1);
-			}
-		}
-
-		#endregion
-
 		#region Dependency Properties
 
 		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<Line>), typeof(DiffControl), new FrameworkPropertyMetadata(new ObservableCollection<Line>(), FrameworkPropertyMetadataOptions.AffectsRender));
@@ -369,12 +357,12 @@ namespace FileDiff
 		}
 
 
-		public static readonly DependencyProperty MaxScrollPropery = DependencyProperty.Register("MaxScroll", typeof(int), typeof(DiffControl));
+		public static readonly DependencyProperty MaxHorizontalScrollPropery = DependencyProperty.Register("MaxHorizontalScroll", typeof(int), typeof(DiffControl));
 
-		public int MaxScroll
+		public int MaxHorizontalScroll
 		{
-			get { return (int)GetValue(MaxScrollPropery); }
-			set { SetValue(MaxScrollPropery, value); }
+			get { return (int)GetValue(MaxHorizontalScrollPropery); }
+			set { SetValue(MaxHorizontalScrollPropery, value); }
 		}
 
 
@@ -402,6 +390,33 @@ namespace FileDiff
 		{
 			get { return (int)GetValue(CurrentLineProperty); }
 			set { SetValue(CurrentLineProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty VisibleLinesProperty = DependencyProperty.Register("VisibleLines", typeof(int), typeof(DiffControl));
+
+		public int VisibleLines
+		{
+			get { return (int)GetValue(VisibleLinesProperty); }
+			set { SetValue(VisibleLinesProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty MaxVerialcalScrollProperty = DependencyProperty.Register("MaxVerialcalScroll", typeof(int), typeof(DiffControl));
+
+		public int MaxVerialcalScroll
+		{
+			get { return (int)GetValue(MaxVerialcalScrollProperty); }
+			set { SetValue(MaxVerialcalScrollProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty UpdateAllProperty = DependencyProperty.Register("UpdateAll", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public int UpdateAll
+		{
+			get { return (int)GetValue(UpdateAllProperty); }
+			set { SetValue(UpdateAllProperty, value); }
 		}
 
 		#endregion

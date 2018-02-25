@@ -11,7 +11,7 @@
 				<TabItem Header="General">
 					<Border Padding="5">
 						<StackPanel>
-							<CheckBox Content="Add Shell Extensions to Windows Explorer" Padding="2" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
+							<CheckBox IsEnabled="False" Content="Add Shell Extensions to Windows Explorer" Padding="2" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
 						</StackPanel>
 					</Border>
 

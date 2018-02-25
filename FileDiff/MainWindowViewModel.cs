@@ -150,6 +150,13 @@ namespace FileDiff
 			set { AppSettings.Settings.TabSize = Math.Max(1, value); OnPropertyChanged(nameof(TabSize)); }
 		}
 
+		int updateTrigger;
+		public int UpdateTrigger
+		{
+			get { return updateTrigger; }
+			set { updateTrigger = value; OnPropertyChangedNoRefresh(nameof(UpdateTrigger)); }
+		}
+
 		#endregion
 
 		#region INotifyPropertyChanged
@@ -157,6 +164,12 @@ namespace FileDiff
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public void OnPropertyChanged(string name)
+		{
+			UpdateTrigger++;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+		}
+
+		public void OnPropertyChangedNoRefresh(string name)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
