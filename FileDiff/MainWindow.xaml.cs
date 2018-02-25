@@ -185,8 +185,6 @@ namespace FileDiff
 				leftItems.Add(leftItem);
 				rightItems.Add(rightItem);
 			}
-
-
 		}
 
 		private void InitNavigationButtons()
@@ -547,6 +545,10 @@ namespace FileDiff
 		private void CenterOnLine(int i)
 		{
 			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
+
+			LeftDiff.CurrentLine = i;
+			RightDiff.CurrentLine = i;
+
 			VerticalScrollbar.Value = i - (visibleLines / 2);
 		}
 
