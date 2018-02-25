@@ -91,7 +91,6 @@ namespace FileDiff
 			FillViewModel(leftSide, rightSide);
 
 			InitNavigationButtons();
-			InitScrollbars();
 
 			LeftDiff.Focus();
 
@@ -209,13 +208,6 @@ namespace FileDiff
 					}
 				}
 			}
-		}
-
-		private void InitScrollbars()
-		{
-			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
-			VerticalScrollbar.Maximum = LeftDiff.Lines.Count - visibleLines;
-			VerticalScrollbar.ViewportSize = visibleLines;
 		}
 
 		private void FillViewModel(List<Line> leftSide, List<Line> rightSide)
@@ -662,11 +654,6 @@ namespace FileDiff
 			{
 				ViewModel.RightPath = paths[0];
 			}
-		}
-
-		private void LeftDiff_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			InitScrollbars();
 		}
 
 		private void GridMainContent_MouseWheel(object sender, MouseWheelEventArgs e)
