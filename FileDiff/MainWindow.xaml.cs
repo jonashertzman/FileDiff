@@ -537,9 +537,18 @@ namespace FileDiff
 		private void CenterOnLine(int i)
 		{
 			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
+			int diffLength = 0;
 
-			LeftDiff.CurrentLine = i;
-			RightDiff.CurrentLine = i;
+			while (i + diffLength + 1 < ViewModel.LeftSide.Count && ViewModel.LeftSide[i + diffLength + 1].Type != TextState.FullMatch)
+			{
+				diffLength++;
+			}
+
+			LeftDiff.CurrentDiff = i;
+			LeftDiff.CurrentDiffLength = diffLength;
+
+			RightDiff.CurrentDiff = i;
+			RightDiff.CurrentDiffLength = diffLength;
 
 			VerticalScrollbar.Value = i - (visibleLines / 2);
 		}
