@@ -18,7 +18,6 @@ namespace FileDiff
 		private double characterHeight;
 		private double characterWidth;
 		private double lineNumberMargin;
-		private double mapWidth;
 		private double textMargin;
 		private double maxTextwidth = 0;
 
@@ -43,7 +42,6 @@ namespace FileDiff
 
 		public DiffControl()
 		{
-			Lines = new ObservableCollection<Line>();
 			this.ClipToBounds = true;
 
 			Color selectionColor = SystemColors.HighlightColor;
@@ -51,7 +49,6 @@ namespace FileDiff
 			slectionBrush = new SolidColorBrush(selectionColor);
 
 			transpatentPen = new Pen(Brushes.Transparent, 0);
-
 		}
 
 		#endregion
@@ -60,7 +57,7 @@ namespace FileDiff
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
-			Debug.Print("OnRender");
+			Debug.Print("DiffControl OnRender");
 
 			// Fill background
 			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
@@ -68,8 +65,6 @@ namespace FileDiff
 			if (Lines.Count == 0)
 				return;
 
-			Stopwatch stopwatch = new Stopwatch();
-			stopwatch.Start();
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
@@ -85,7 +80,6 @@ namespace FileDiff
 
 			textMargin = DpiPixels(3);
 			lineNumberMargin = (characterWidth * Lines.Count.ToString().Length) + (2 * textMargin);
-			mapWidth = ShowMap ? Math.Ceiling(12 / dpiScale) * dpiScale : 0;
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
@@ -105,7 +99,7 @@ namespace FileDiff
 				// Draw line background
 				if (line.Type != TextState.FullMatch)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, 0, Math.Max(this.ActualWidth - mapWidth, 0), characterHeight));
+					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
 				}
 
 				// Draw line number
@@ -129,7 +123,7 @@ namespace FileDiff
 					drawingContext.Pop();
 				}
 
-				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - lineNumberMargin - textMargin - mapWidth, 0), ActualHeight)));
+				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - lineNumberMargin - textMargin, 0), ActualHeight)));
 				drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
 
 				// Draw line
@@ -171,7 +165,6 @@ namespace FileDiff
 				drawingContext.Pop(); // Line X offset
 				drawingContext.Pop(); // Clipping rect
 				drawingContext.Pop(); // Line Y offset
-
 			}
 
 			// Draw line number border
@@ -179,52 +172,8 @@ namespace FileDiff
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, DpiPixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
 			drawingContext.Pop();
 
-			// Draw diff map
-			if (mapWidth > 0)
-			{
-				double scrollableHeight = ActualHeight - (2 * SystemParameters.VerticalScrollBarButtonHeight);
-				double lineHeight = scrollableHeight / Lines.Count;
-
-				SolidColorBrush lineColor = new SolidColorBrush();
-
-				for (int i = 0; i < Lines.Count; i++)
-				{
-					Line line = Lines[i];
-
-					if (line.Type == TextState.FullMatch)
-					{
-						continue;
-					}
-					else if (line.Type == TextState.PartialMatch)
-					{
-						lineColor = AppSettings.partialMatchBackgroundBrush;
-					}
-					else if (line.Type == TextState.Deleted)
-					{
-						lineColor = AppSettings.deletedBackgroundBrush;
-					}
-					else if (line.Type == TextState.New)
-					{
-						lineColor = AppSettings.newBackgrounBrush;
-					}
-					else if (line.Type == TextState.Filler)
-					{
-						lineColor = AppSettings.deletedBackgroundBrush;
-					}
-
-					drawingContext.DrawRectangle(lineColor, transpatentPen, new Rect(ActualWidth - mapWidth, (Math.Floor(i * lineHeight / dpiScale) * dpiScale) + SystemParameters.VerticalScrollBarButtonHeight, mapWidth, Math.Ceiling(Math.Max(lineHeight, 1) / dpiScale) * dpiScale));
-				}
-
-				drawingContext.PushTransform(new TranslateTransform(.5, -.5));
-				drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, DpiPixels(1)), new Point(ActualWidth - mapWidth, 0), new Point(ActualWidth - mapWidth, this.ActualHeight + 1));
-				drawingContext.Pop();
-			}
-
-			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - mapWidth - textMargin);
+			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
 			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
-
-			stopwatch.Stop();
-			Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -380,15 +329,6 @@ namespace FileDiff
 		{
 			get { return (int)GetValue(TextAreaWidthPropery); }
 			set { SetValue(TextAreaWidthPropery, value); }
-		}
-
-
-		public static readonly DependencyProperty ShowMapProperty = DependencyProperty.Register("ShowMap", typeof(bool), typeof(DiffControl));
-
-		public bool ShowMap
-		{
-			get { return (bool)GetValue(ShowMapProperty); }
-			set { SetValue(ShowMapProperty, value); }
 		}
 
 

@@ -66,6 +66,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="DiffControl.cs" />
+    <Compile Include="DiffMapControl.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FileItem.cs" />
     <Compile Include="FileItemPair.cs" />
