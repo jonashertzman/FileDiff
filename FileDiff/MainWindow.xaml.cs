@@ -192,6 +192,15 @@ namespace FileDiff
 			firstDiff = -1;
 			lastDiff = -1;
 
+			LeftDiff.CurrentDiff = -1;
+			LeftDiff.CurrentDiffLength = 0;
+
+			RightDiff.CurrentDiff = -1;
+			RightDiff.CurrentDiffLength = 0;
+
+			VerticalScrollbar.Value = 0;
+			LeftHorizontalScrollbar.Value = 0;
+
 			for (int i = 0; i < ViewModel.LeftSide.Count; i++)
 			{
 				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)

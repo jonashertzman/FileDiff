@@ -60,10 +60,13 @@ namespace FileDiff
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
+			Debug.Print("OnRender");
+
+			// Fill background
+			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+
 			if (Lines.Count == 0)
 				return;
-
-			Debug.Print("OnRender");
 
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
@@ -87,8 +90,6 @@ namespace FileDiff
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
-			// Fill background
-			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -113,7 +114,7 @@ namespace FileDiff
 				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength + 1)
 				{
 					lineNumberColor = AppSettings.fullMatchForegroundBrush;
-					drawingContext.DrawRectangle(SystemColors.ControlDarkDarkBrush, transpatentPen, new Rect(0, 0, lineNumberMargin, characterHeight));
+					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, transpatentPen, new Rect(0, 0, lineNumberMargin, characterHeight));
 				}
 				else
 				{
