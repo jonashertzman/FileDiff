@@ -107,7 +107,7 @@ namespace FileDiff
 
 				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength + 1)
 				{
-					lineNumberColor = AppSettings.fullMatchForegroundBrush;
+					lineNumberColor = AppSettings.fullMatchBackgroundBrush;
 					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, transpatentPen, new Rect(0, 0, lineNumberMargin, characterHeight));
 				}
 				else
@@ -367,12 +367,12 @@ namespace FileDiff
 		}
 
 
-		public static readonly DependencyProperty UpdateAllProperty = DependencyProperty.Register("UpdateAll", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+		public static readonly DependencyProperty UpdateTriggerProperty = DependencyProperty.Register("UpdateTrigger", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
-		public int UpdateAll
+		public int UpdateTrigger
 		{
-			get { return (int)GetValue(UpdateAllProperty); }
-			set { SetValue(UpdateAllProperty, value); }
+			get { return (int)GetValue(UpdateTriggerProperty); }
+			set { SetValue(UpdateTriggerProperty, value); }
 		}
 
 		#endregion

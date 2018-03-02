@@ -14,6 +14,7 @@ namespace FileDiff
 		#region Members
 
 		private Pen transpatentPen;
+		private double dpiScale = 0;
 
 		#endregion
 
@@ -42,10 +43,11 @@ namespace FileDiff
 			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
-			double dpiScale = 1 / m.M11;
+			dpiScale = 1 / m.M11;
 
-			double scrollableHeight = ActualHeight - (2 * SystemParameters.VerticalScrollBarButtonHeight);
+			double scrollableHeight = ActualHeight - (2 * RoundToPixels(SystemParameters.VerticalScrollBarButtonHeight));
 			double lineHeight = scrollableHeight / Lines.Count;
+			double drawHeight = Math.Ceiling(Math.Max((lineHeight), 1) / dpiScale) * dpiScale;
 
 			SolidColorBrush lineColor = new SolidColorBrush();
 
@@ -61,26 +63,23 @@ namespace FileDiff
 				}
 				else if (line.Type == TextState.PartialMatch)
 				{
-					lineColor = AppSettings.partialMatchBackgroundBrush;
+					lineColor = Blend(AppSettings.partialMatchBackgroundBrush, AppSettings.partialMatchForegroundBrush);
 				}
-				else if (line.Type == TextState.Deleted)
+				else if (line.Type == TextState.Deleted || line.Type == TextState.Filler)
 				{
-					lineColor = AppSettings.deletedBackgroundBrush;
+					lineColor = Blend(AppSettings.deletedBackgroundBrush, AppSettings.deletedForegroundBrush);
 				}
 				else if (line.Type == TextState.New)
 				{
-					lineColor = AppSettings.newBackgrounBrush;
-				}
-				else if (line.Type == TextState.Filler)
-				{
-					lineColor = AppSettings.deletedBackgroundBrush;
+					lineColor = Blend(AppSettings.newBackgrounBrush, AppSettings.newForegroundBrush);
 				}
 
-				Rect rect = new Rect(Math.Round(1 / dpiScale) * dpiScale, (Math.Floor(i * lineHeight / dpiScale) * dpiScale) + SystemParameters.VerticalScrollBarButtonHeight, ActualWidth, Math.Ceiling(Math.Max(lineHeight, 1) / dpiScale) * dpiScale);
+				Rect rect = new Rect(RoundToPixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth, drawHeight);
 
 				if (rect.Bottom > lastHeight)
 				{
 					drawingContext.DrawRectangle(lineColor, transpatentPen, rect);
+
 					lastHeight = rect.Bottom;
 				}
 			}
@@ -96,6 +95,33 @@ namespace FileDiff
 		{
 			get { return (ObservableCollection<Line>)GetValue(LinesProperty); }
 			set { SetValue(LinesProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty UpdateTriggerProperty = DependencyProperty.Register("UpdateTrigger", typeof(int), typeof(DiffMapControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public int UpdateTrigger
+		{
+			get { return (int)GetValue(UpdateTriggerProperty); }
+			set { SetValue(UpdateTriggerProperty, value); }
+		}
+
+		#endregion
+
+		#region Methods
+
+		public static SolidColorBrush Blend(SolidColorBrush color, SolidColorBrush color2)
+		{
+			byte r = (byte)((color.Color.R + color2.Color.R) / 2);
+			byte g = (byte)((color.Color.G + color2.Color.G) / 2);
+			byte b = (byte)((color.Color.B + color2.Color.B) / 2);
+
+			return new SolidColorBrush(Color.FromRgb(r, g, b));
+		}
+
+		private double RoundToPixels(double x)
+		{
+			return Math.Round(x / dpiScale) * dpiScale;
 		}
 
 		#endregion
