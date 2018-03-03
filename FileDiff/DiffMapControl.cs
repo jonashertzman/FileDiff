@@ -45,7 +45,7 @@ namespace FileDiff
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
 
-			double scrollableHeight = ActualHeight - (2 * RoundToPixels(SystemParameters.VerticalScrollBarButtonHeight));
+			double scrollableHeight = ActualHeight - (2 * RoundToWholePixels(SystemParameters.VerticalScrollBarButtonHeight));
 			double lineHeight = scrollableHeight / Lines.Count;
 			double drawHeight = Math.Ceiling(Math.Max((lineHeight), 1) / dpiScale) * dpiScale;
 
@@ -63,18 +63,18 @@ namespace FileDiff
 				}
 				else if (line.Type == TextState.PartialMatch)
 				{
-					lineColor = Blend(AppSettings.partialMatchBackgroundBrush, AppSettings.partialMatchForegroundBrush);
+					lineColor = BlendColors(AppSettings.partialMatchBackgroundBrush, AppSettings.partialMatchForegroundBrush, .7);
 				}
 				else if (line.Type == TextState.Deleted || line.Type == TextState.Filler)
 				{
-					lineColor = Blend(AppSettings.deletedBackgroundBrush, AppSettings.deletedForegroundBrush);
+					lineColor = BlendColors(AppSettings.deletedBackgroundBrush, AppSettings.deletedForegroundBrush, .7);
 				}
 				else if (line.Type == TextState.New)
 				{
-					lineColor = Blend(AppSettings.newBackgrounBrush, AppSettings.newForegroundBrush);
+					lineColor = BlendColors(AppSettings.newBackgrounBrush, AppSettings.newForegroundBrush, .7);
 				}
 
-				Rect rect = new Rect(RoundToPixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth, drawHeight);
+				Rect rect = new Rect(RoundToWholePixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth, drawHeight);
 
 				if (rect.Bottom > lastHeight)
 				{
@@ -110,16 +110,15 @@ namespace FileDiff
 
 		#region Methods
 
-		public static SolidColorBrush Blend(SolidColorBrush color, SolidColorBrush color2)
+		public static SolidColorBrush BlendColors(SolidColorBrush color1, SolidColorBrush color2, double blendFactor)
 		{
-			byte r = (byte)((color.Color.R + color2.Color.R) / 2);
-			byte g = (byte)((color.Color.G + color2.Color.G) / 2);
-			byte b = (byte)((color.Color.B + color2.Color.B) / 2);
-
+			byte r = (byte)((color1.Color.R * blendFactor) + color2.Color.R * (1 - blendFactor));
+			byte g = (byte)((color1.Color.G * blendFactor) + color2.Color.G * (1 - blendFactor));
+			byte b = (byte)((color1.Color.B * blendFactor) + color2.Color.B * (1 - blendFactor));
 			return new SolidColorBrush(Color.FromRgb(r, g, b));
 		}
 
-		private double RoundToPixels(double x)
+		private double RoundToWholePixels(double x)
 		{
 			return Math.Round(x / dpiScale) * dpiScale;
 		}

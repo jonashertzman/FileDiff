@@ -78,7 +78,7 @@ namespace FileDiff
 
 			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
 
-			textMargin = DpiPixels(3);
+			textMargin = RoundToWholePixels(3);
 			lineNumberMargin = (characterWidth * Lines.Count.ToString().Length) + (2 * textMargin);
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
@@ -169,7 +169,7 @@ namespace FileDiff
 
 			// Draw line number border
 			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
-			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, DpiPixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
+			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
 			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
@@ -455,7 +455,7 @@ namespace FileDiff
 			return run;
 		}
 
-		double DpiPixels(double x)
+		double RoundToWholePixels(double x)
 		{
 			return Math.Round(x / dpiScale) * dpiScale;
 		}
