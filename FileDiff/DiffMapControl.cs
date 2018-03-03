@@ -47,7 +47,6 @@ namespace FileDiff
 
 			double scrollableHeight = ActualHeight - (2 * RoundToWholePixels(SystemParameters.VerticalScrollBarButtonHeight));
 			double lineHeight = scrollableHeight / Lines.Count;
-			double drawHeight = Math.Ceiling(Math.Max((lineHeight), 1) / dpiScale) * dpiScale;
 
 			SolidColorBrush lineColor = new SolidColorBrush();
 
@@ -74,7 +73,14 @@ namespace FileDiff
 					lineColor = BlendColors(AppSettings.newBackgrounBrush, AppSettings.newForegroundBrush, .7);
 				}
 
-				Rect rect = new Rect(RoundToWholePixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth, drawHeight);
+				int count = 1;
+
+				while (i + count < Lines.Count && line.Type == Lines[i + count].Type)
+				{
+					count++;
+				}
+
+				Rect rect = new Rect(RoundToWholePixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth, Math.Ceiling(Math.Max((lineHeight * count), 1) / dpiScale) * dpiScale);
 
 				if (rect.Bottom > lastHeight)
 				{
@@ -82,6 +88,8 @@ namespace FileDiff
 
 					lastHeight = rect.Bottom;
 				}
+
+				i += count - 1;
 			}
 		}
 
