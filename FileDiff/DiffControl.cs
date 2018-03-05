@@ -379,6 +379,12 @@ namespace FileDiff
 
 		#region Methods
 
+
+		internal void ClearSelection()
+		{
+			selection = null;
+		}
+
 		private void PointToCharacter(Point point, out int line, out int character)
 		{
 			if (Lines.Count == 0)
@@ -420,7 +426,7 @@ namespace FileDiff
 			}
 		}
 
-		public GlyphRun CreateGlyphRun(string text, out double runWidth)
+		private GlyphRun CreateGlyphRun(string text, out double runWidth)
 		{
 			ushort[] glyphIndexes = new ushort[text.Length];
 			double[] advanceWidths = new double[text.Length];
@@ -455,7 +461,7 @@ namespace FileDiff
 			return run;
 		}
 
-		double RoundToWholePixels(double x)
+		private double RoundToWholePixels(double x)
 		{
 			return Math.Round(x / dpiScale) * dpiScale;
 		}

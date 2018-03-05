@@ -23,7 +23,6 @@ namespace FileDiff
 
 		private SettingsData Settings { get; set; } = new SettingsData();
 
-		int currentLine = -1;
 		int firstDiff = -1;
 		int lastDiff = -1;
 
@@ -188,15 +187,14 @@ namespace FileDiff
 
 		private void InitNavigationButtons()
 		{
-			currentLine = -1;
 			firstDiff = -1;
 			lastDiff = -1;
 
-			LeftDiff.CurrentDiff = -1;
-			LeftDiff.CurrentDiffLength = 0;
+			ViewModel.CurrentDiff = -1;
+			ViewModel.CurrentDiffLength = 0;
 
-			RightDiff.CurrentDiff = -1;
-			RightDiff.CurrentDiffLength = 0;
+			LeftDiff.ClearSelection();
+			RightDiff.ClearSelection();
 
 			VerticalScrollbar.Value = 0;
 			LeftHorizontalScrollbar.Value = 0;
@@ -208,7 +206,7 @@ namespace FileDiff
 					if (firstDiff == -1 && ViewModel.LeftSide[i].Type != TextState.FullMatch)
 					{
 						firstDiff = i;
-						currentLine = i;
+						ViewModel.CurrentDiff = i;
 						CenterOnLine(i);
 					}
 					if (ViewModel.LeftSide[i].Type != TextState.FullMatch)
@@ -501,25 +499,25 @@ namespace FileDiff
 
 		private void MoveToFirstDiff()
 		{
-			currentLine = -1;
+			ViewModel.CurrentDiff = -1;
 			MoveToNextDiff();
 		}
 
 		private void MoveToLastDiff()
 		{
-			currentLine = ViewModel.LeftSide.Count;
+			ViewModel.CurrentDiff = ViewModel.LeftSide.Count;
 			MoveToPrevoiusDiff();
 		}
 
 		private void MoveToPrevoiusDiff()
 		{
-			for (int i = currentLine - 1; i >= 0; i--)
+			for (int i = ViewModel.CurrentDiff - 1; i >= 0; i--)
 			{
 				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)
 				{
 					if (ViewModel.LeftSide[i].Type != TextState.FullMatch || ViewModel.RightSide[i].Type != TextState.FullMatch)
 					{
-						currentLine = i;
+						ViewModel.CurrentDiff = i;
 						CenterOnLine(i);
 						return;
 					}
@@ -529,13 +527,13 @@ namespace FileDiff
 
 		private void MoveToNextDiff()
 		{
-			for (int i = currentLine + 1; i < ViewModel.LeftSide.Count; i++)
+			for (int i = ViewModel.CurrentDiff + 1; i < ViewModel.LeftSide.Count; i++)
 			{
 				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)
 				{
 					if (ViewModel.LeftSide[i].Type != TextState.FullMatch || ViewModel.RightSide[i].Type != TextState.FullMatch)
 					{
-						currentLine = i;
+						ViewModel.CurrentDiff = i;
 						CenterOnLine(i);
 						return;
 					}
@@ -553,11 +551,8 @@ namespace FileDiff
 				diffLength++;
 			}
 
-			LeftDiff.CurrentDiff = i;
-			LeftDiff.CurrentDiffLength = diffLength;
-
-			RightDiff.CurrentDiff = i;
-			RightDiff.CurrentDiffLength = diffLength;
+			ViewModel.CurrentDiff = i;
+			ViewModel.CurrentDiffLength = diffLength;
 
 			VerticalScrollbar.Value = i - (visibleLines / 2);
 		}
@@ -787,7 +782,7 @@ namespace FileDiff
 
 		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = firstDiff < currentLine;
+			e.CanExecute = firstDiff < ViewModel.CurrentDiff;
 		}
 
 		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -797,7 +792,7 @@ namespace FileDiff
 
 		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = lastDiff > currentLine;
+			e.CanExecute = lastDiff > ViewModel.CurrentDiff;
 		}
 
 		private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -807,7 +802,7 @@ namespace FileDiff
 
 		private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = firstDiff < currentLine;
+			e.CanExecute = firstDiff < ViewModel.CurrentDiff;
 		}
 
 		private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -817,7 +812,7 @@ namespace FileDiff
 
 		private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = lastDiff > currentLine;
+			e.CanExecute = lastDiff > ViewModel.CurrentDiff;
 		}
 
 		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)

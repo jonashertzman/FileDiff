@@ -25,6 +25,20 @@ namespace FileDiff
 			set { rightSide = value; OnPropertyChanged(nameof(RightSide)); }
 		}
 
+		int currentDiff = -1;
+		public int CurrentDiff
+		{
+			get { return currentDiff; }
+			set { currentDiff = value; OnPropertyChanged(nameof(CurrentDiff)); }
+		}
+
+		int currentDiffLength;
+		public int CurrentDiffLength
+		{
+			get { return currentDiffLength; }
+			set { currentDiffLength = value; OnPropertyChanged(nameof(currentDiffLength)); }
+		}
+
 		bool fileMode;
 		public bool FileMode
 		{
@@ -134,7 +148,7 @@ namespace FileDiff
 
 		public FontFamily Font
 		{
-			get { System.Diagnostics.Debug.Print("generate font"); return new FontFamily(AppSettings.Settings.Font); }
+			get { return new FontFamily(AppSettings.Settings.Font); }
 			set { AppSettings.Settings.Font = value.ToString(); OnPropertyChanged(nameof(Font)); }
 		}
 

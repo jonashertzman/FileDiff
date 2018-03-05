@@ -118,7 +118,7 @@ namespace FileDiff
 
 		#region Methods
 
-		public static SolidColorBrush BlendColors(SolidColorBrush color1, SolidColorBrush color2, double blendFactor)
+		private static SolidColorBrush BlendColors(SolidColorBrush color1, SolidColorBrush color2, double blendFactor)
 		{
 			byte r = (byte)((color1.Color.R * blendFactor) + color2.Color.R * (1 - blendFactor));
 			byte g = (byte)((color1.Color.G * blendFactor) + color2.Color.G * (1 - blendFactor));

@@ -200,7 +200,7 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
 						<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Grid>
@@ -238,7 +238,7 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding RightSide}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding RightSide}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 						<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightSide}" UpdateTrigger="{Binding UpdateTrigger}" />
 						<ScrollBar Grid.Column="2" Name="VerticalScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightDiff, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightDiff, Path=MaxVerialcalScroll , Mode=TwoWay}" />
 						<ScrollBar Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" x:Name="RightHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
