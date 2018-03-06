@@ -379,7 +379,6 @@ namespace FileDiff
 
 		#region Methods
 
-
 		internal void ClearSelection()
 		{
 			selection = null;

@@ -49,7 +49,6 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<TextBlock Text="{Binding Name}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
-
 			</Grid>
 		</HierarchicalDataTemplate>
 
