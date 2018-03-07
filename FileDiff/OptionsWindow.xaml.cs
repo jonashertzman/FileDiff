@@ -43,23 +43,23 @@ namespace FileDiff
 
 		private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
 		{
-			FullMatchForeground.Fill = new SolidColorBrush(AppSettings.DefaultFullMatchForeground);
-			FullMatchBackground.Fill = new SolidColorBrush(AppSettings.DefaultFullMatchBackground);
+			FullMatchForeground.Fill = new SolidColorBrush(DefaultSettings.FullMatchForeground);
+			FullMatchBackground.Fill = new SolidColorBrush(DefaultSettings.FullMatchBackground);
 
-			PartialMatchForeground.Fill = new SolidColorBrush(AppSettings.DefaultPartialMatchForeground);
-			PartialMatchBackground.Fill = new SolidColorBrush(AppSettings.DefaultPartialMatchBackground);
+			PartialMatchForeground.Fill = new SolidColorBrush(DefaultSettings.PartialMatchForeground);
+			PartialMatchBackground.Fill = new SolidColorBrush(DefaultSettings.PartialMatchBackground);
 
-			DeletedForeground.Fill = new SolidColorBrush(AppSettings.DefaultDeletedForeground);
-			DeletedBackground.Fill = new SolidColorBrush(AppSettings.DefaultDeletedBackground);
+			DeletedForeground.Fill = new SolidColorBrush(DefaultSettings.DeletedForeground);
+			DeletedBackground.Fill = new SolidColorBrush(DefaultSettings.DeletedBackground);
 
-			NewForeground.Fill = new SolidColorBrush(AppSettings.DefaultNewForeground);
-			NewBackground.Fill = new SolidColorBrush(AppSettings.DefaultNewBackground);
+			NewForeground.Fill = new SolidColorBrush(DefaultSettings.NewForeground);
+			NewBackground.Fill = new SolidColorBrush(DefaultSettings.NewBackground);
 		}
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
 		{
-			TextBoxFont.Text = AppSettings.DefaultFont;
-			TextBoxFontSize.Text = AppSettings.DefaultFontSize.ToString();
+			TextBoxFont.Text = DefaultSettings.Font;
+			TextBoxFontSize.Text = DefaultSettings.FontSize.ToString();
 		}
 
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)
