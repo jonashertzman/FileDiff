@@ -60,7 +60,7 @@ namespace FileDiff
 			Debug.Print("DiffControl OnRender");
 
 			// Fill background
-			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			if (Lines.Count == 0)
 				return;
@@ -107,7 +107,7 @@ namespace FileDiff
 
 				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength + 1)
 				{
-					lineNumberColor = AppSettings.fullMatchBackgroundBrush;
+					lineNumberColor = AppSettings.FullMatchBackground;
 					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, transpatentPen, new Rect(0, 0, lineNumberMargin, characterHeight));
 				}
 				else
@@ -435,7 +435,7 @@ namespace FileDiff
 			{
 				cachedTypeface.CharacterToGlyphMap.TryGetValue(text[n] == '\t' ? ' ' : text[n], out ushort glyphIndex); // Why does the tab glyph render as a rectangle?
 				glyphIndexes[n] = glyphIndex;
-				double width = text[n] == '\t' ? AppSettings.Settings.TabSize * characterWidth : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize / dpiScale) * dpiScale;
+				double width = text[n] == '\t' ? AppSettings.TabSize * characterWidth : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize / dpiScale) * dpiScale;
 				advanceWidths[n] = width;
 
 				totalWidth += width;

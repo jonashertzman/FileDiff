@@ -40,7 +40,7 @@ namespace FileDiff
 		{
 			Debug.Print("DiffMap OnRender");
 
-			drawingContext.DrawRectangle(AppSettings.fullMatchBackgroundBrush, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
@@ -62,15 +62,15 @@ namespace FileDiff
 				}
 				else if (line.Type == TextState.PartialMatch)
 				{
-					lineColor = BlendColors(AppSettings.partialMatchBackgroundBrush, AppSettings.partialMatchForegroundBrush, .7);
+					lineColor = BlendColors(AppSettings.PartialMatchBackground, AppSettings.PartialMatchForeground, .7);
 				}
 				else if (line.Type == TextState.Deleted || line.Type == TextState.Filler)
 				{
-					lineColor = BlendColors(AppSettings.deletedBackgroundBrush, AppSettings.deletedForegroundBrush, .7);
+					lineColor = BlendColors(AppSettings.DeletedBackground, AppSettings.DeletedForeground, .7);
 				}
 				else if (line.Type == TextState.New)
 				{
-					lineColor = BlendColors(AppSettings.newBackgrounBrush, AppSettings.newForegroundBrush, .7);
+					lineColor = BlendColors(AppSettings.NewBackground, AppSettings.NewForeground, .7);
 				}
 
 				int count = 1;

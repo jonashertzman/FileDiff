@@ -10,24 +10,141 @@ namespace FileDiff
 	public static class AppSettings
 	{
 
-		const string SETTINGS_DIRECTORY = "FileDiff";
-		const string SETTINGS_FILE_NAME = "Settings.xml";
+		private const string SETTINGS_DIRECTORY = "FileDiff";
+		private const string SETTINGS_FILE_NAME = "Settings.xml";
+
+		private static SettingsData Settings = new SettingsData();
 
 		#region Properies
 
-		public static SettingsData Settings { get; private set; } = new SettingsData();
+		public static bool IgnoreWhiteSpace
+		{
+			get { return Settings.IgnoreWhiteSpace; }
+			set { Settings.IgnoreWhiteSpace = value; }
+		}
 
-		public static SolidColorBrush fullMatchForegroundBrush { get; set; }
-		public static SolidColorBrush fullMatchBackgroundBrush { get; set; }
+		public static double PositionLeft
+		{
+			get { return Settings.PositionLeft; }
+			set { Settings.PositionLeft = value; }
+		}
 
-		public static SolidColorBrush partialMatchForegroundBrush { get; set; }
-		public static SolidColorBrush partialMatchBackgroundBrush { get; set; }
+		public static double PositionTop
+		{
+			get { return Settings.PositionTop; }
+			set { Settings.PositionTop = value; }
+		}
 
-		public static SolidColorBrush deletedForegroundBrush { get; set; }
-		public static SolidColorBrush deletedBackgroundBrush { get; set; }
+		public static double Width
+		{
+			get { return Settings.Width; }
+			set { Settings.Width = value; }
+		}
 
-		public static SolidColorBrush newForegroundBrush { get; set; }
-		public static SolidColorBrush newBackgrounBrush { get; set; }
+		public static double Height
+		{
+			get { return Settings.Height; }
+			set { Settings.Height = value; }
+		}
+
+		public static WindowState WindowState
+		{
+			get { return Settings.WindowState; }
+			set { Settings.WindowState = value; }
+		}
+
+		public static float LineSimilarityThreshold
+		{
+			get { return Settings.LineSimilarityThreshold; }
+			set { Settings.LineSimilarityThreshold = value; }
+		}
+
+		public static bool ShowLineChanges
+		{
+			get { return Settings.ShowLineChanges; }
+			set { Settings.ShowLineChanges = value; }
+		}
+
+		public static int CharacterMatchThreshold
+		{
+			get { return Settings.CharacterMatchThreshold; }
+			set { Settings.CharacterMatchThreshold = value; }
+		}
+
+		private static FontFamily font;
+		public static FontFamily Font
+		{
+			get { return font; }
+			set { font = value; Settings.Font = value.ToString(); }
+		}
+
+		public static int FontSize
+		{
+			get { return Settings.FontSize; }
+			set { Settings.FontSize = value; }
+		}
+
+		public static int TabSize
+		{
+			get { return Settings.TabSize; }
+			set { Settings.TabSize = value; }
+		}
+
+		private static SolidColorBrush fullMatchForeground;
+		public static SolidColorBrush FullMatchForeground
+		{
+			get { return fullMatchForeground; }
+			set { fullMatchForeground = value; Settings.FullMatchForeground = value.Color; }
+		}
+
+		private static SolidColorBrush fullMatchBackground;
+		public static SolidColorBrush FullMatchBackground
+		{
+			get { return fullMatchBackground; }
+			set { fullMatchBackground = value; Settings.FullMatchBackground = value.Color; }
+		}
+
+		private static SolidColorBrush partialMatchForeground;
+		public static SolidColorBrush PartialMatchForeground
+		{
+			get { return partialMatchForeground; }
+			set { partialMatchForeground = value; Settings.PartialMatchForeground = value.Color; }
+		}
+
+		private static SolidColorBrush partialMatchBackground;
+		public static SolidColorBrush PartialMatchBackground
+		{
+			get { return partialMatchBackground; }
+			set { partialMatchBackground = value; Settings.PartialMatchBackground = value.Color; }
+		}
+
+		private static SolidColorBrush deletedForeground;
+		public static SolidColorBrush DeletedForeground
+		{
+			get { return deletedForeground; }
+			set { deletedForeground = value; Settings.DeletedForeground = value.Color; }
+		}
+
+		private static SolidColorBrush deletedBackground;
+		public static SolidColorBrush DeletedBackground
+		{
+			get { return deletedBackground; }
+			set { deletedBackground = value; Settings.DeletedBackground = value.Color; }
+		}
+
+		private static SolidColorBrush newForeground;
+		public static SolidColorBrush NewForeground
+		{
+			get { return newForeground; }
+			set { newForeground = value; Settings.NewForeground = value.Color; }
+		}
+
+		private static SolidColorBrush newBackground;
+		public static SolidColorBrush NewBackground
+		{
+			get { return newBackground; }
+			set { newBackground = value; Settings.NewBackground = value.Color; }
+		}
 
 		#endregion
 
@@ -58,7 +175,7 @@ namespace FileDiff
 				Settings = new SettingsData();
 			}
 
-			UpdateBrushCache();
+			UpdateCachedSettings();
 		}
 
 		internal static void WriteSettingsToDisk()
@@ -86,19 +203,21 @@ namespace FileDiff
 			}
 		}
 
-		private static void UpdateBrushCache()
+		private static void UpdateCachedSettings()
 		{
-			fullMatchForegroundBrush = new SolidColorBrush(Settings.FullMatchForeground);
-			fullMatchBackgroundBrush = new SolidColorBrush(Settings.FullMatchBackground);
+			Font = new FontFamily(Settings.Font);
 
-			partialMatchForegroundBrush = new SolidColorBrush(Settings.PartialMatchForeground);
-			partialMatchBackgroundBrush = new SolidColorBrush(Settings.PartialMatchBackground);
+			FullMatchForeground = new SolidColorBrush(Settings.FullMatchForeground);
+			FullMatchBackground = new SolidColorBrush(Settings.FullMatchBackground);
 
-			deletedForegroundBrush = new SolidColorBrush(Settings.DeletedForeground);
-			deletedBackgroundBrush = new SolidColorBrush(Settings.DeletedBackground);
+			PartialMatchForeground = new SolidColorBrush(Settings.PartialMatchForeground);
+			PartialMatchBackground = new SolidColorBrush(Settings.PartialMatchBackground);
 
-			newForegroundBrush = new SolidColorBrush(Settings.NewForeground);
-			newBackgrounBrush = new SolidColorBrush(Settings.NewBackground);
+			DeletedForeground = new SolidColorBrush(Settings.DeletedForeground);
+			DeletedBackground = new SolidColorBrush(Settings.DeletedBackground);
+
+			NewForeground = new SolidColorBrush(Settings.NewForeground);
+			NewBackground = new SolidColorBrush(Settings.NewBackground);
 		}
 
 		#endregion

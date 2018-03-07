@@ -88,80 +88,80 @@ namespace FileDiff
 
 		public bool IgnoreWhiteSpace
 		{
-			get { return AppSettings.Settings.IgnoreWhiteSpace; }
-			set { AppSettings.Settings.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
+			get { return AppSettings.IgnoreWhiteSpace; }
+			set { AppSettings.IgnoreWhiteSpace = value; OnPropertyChanged(nameof(IgnoreWhiteSpace)); }
 		}
 
 		public bool ShowLineChanges
 		{
-			get { return AppSettings.Settings.ShowLineChanges; }
-			set { AppSettings.Settings.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
+			get { return AppSettings.ShowLineChanges; }
+			set { AppSettings.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
 		}
 
 		public SolidColorBrush FullMatchForeground
 		{
-			get { return AppSettings.fullMatchForegroundBrush; }
-			set { AppSettings.fullMatchForegroundBrush = value; AppSettings.Settings.FullMatchForeground = value.Color; OnPropertyChanged(nameof(FullMatchForeground)); }
+			get { return AppSettings.FullMatchForeground; }
+			set { AppSettings.FullMatchForeground = value; OnPropertyChanged(nameof(FullMatchForeground)); }
 		}
 
 		public SolidColorBrush FullMatchBackground
 		{
-			get { return AppSettings.fullMatchBackgroundBrush; }
-			set { AppSettings.fullMatchBackgroundBrush = value; AppSettings.Settings.FullMatchBackground = value.Color; OnPropertyChanged(nameof(FullMatchBackground)); }
+			get { return AppSettings.FullMatchBackground; }
+			set { AppSettings.FullMatchBackground = value; OnPropertyChanged(nameof(FullMatchBackground)); }
 		}
 
 		public SolidColorBrush PartialMatchForeground
 		{
-			get { return AppSettings.partialMatchForegroundBrush; }
-			set { AppSettings.partialMatchForegroundBrush = value; AppSettings.Settings.PartialMatchForeground = value.Color; OnPropertyChanged(nameof(PartialMatchForeground)); }
+			get { return AppSettings.PartialMatchForeground; }
+			set { AppSettings.PartialMatchForeground = value; OnPropertyChanged(nameof(PartialMatchForeground)); }
 		}
 
 		public SolidColorBrush PartialMatchBackground
 		{
-			get { return AppSettings.partialMatchBackgroundBrush; }
-			set { AppSettings.partialMatchBackgroundBrush = value; AppSettings.Settings.PartialMatchBackground = value.Color; OnPropertyChanged(nameof(PartialMatchBackground)); }
+			get { return AppSettings.PartialMatchBackground; }
+			set { AppSettings.PartialMatchBackground = value; OnPropertyChanged(nameof(PartialMatchBackground)); }
 		}
 
 		public SolidColorBrush DeletedForeground
 		{
-			get { return AppSettings.deletedForegroundBrush; }
-			set { AppSettings.deletedForegroundBrush = value; AppSettings.Settings.DeletedForeground = value.Color; OnPropertyChanged(nameof(DeletedForeground)); }
+			get { return AppSettings.DeletedForeground; }
+			set { AppSettings.DeletedForeground = value; OnPropertyChanged(nameof(DeletedForeground)); }
 		}
 
 		public SolidColorBrush DeletedBackground
 		{
-			get { return AppSettings.deletedBackgroundBrush; }
-			set { AppSettings.deletedBackgroundBrush = value; AppSettings.Settings.DeletedBackground = value.Color; OnPropertyChanged(nameof(DeletedBackground)); }
+			get { return AppSettings.DeletedBackground; }
+			set { AppSettings.DeletedBackground = value; OnPropertyChanged(nameof(DeletedBackground)); }
 		}
 
 		public SolidColorBrush NewForeground
 		{
-			get { return AppSettings.newForegroundBrush; }
-			set { AppSettings.newForegroundBrush = value; AppSettings.Settings.NewForeground = value.Color; OnPropertyChanged(nameof(NewForeground)); }
+			get { return AppSettings.NewForeground; }
+			set { AppSettings.NewForeground = value; OnPropertyChanged(nameof(NewForeground)); }
 		}
 
 		public SolidColorBrush NewBackground
 		{
-			get { return AppSettings.newBackgrounBrush; }
-			set { AppSettings.newBackgrounBrush = value; AppSettings.Settings.NewBackground = value.Color; OnPropertyChanged(nameof(NewBackground)); }
+			get { return AppSettings.NewBackground; }
+			set { AppSettings.NewBackground = value; OnPropertyChanged(nameof(NewBackground)); }
 		}
 
 		public FontFamily Font
 		{
-			get { return new FontFamily(AppSettings.Settings.Font); }
-			set { AppSettings.Settings.Font = value.ToString(); OnPropertyChanged(nameof(Font)); }
+			get { return AppSettings.Font; }
+			set { AppSettings.Font = value; OnPropertyChanged(nameof(Font)); }
 		}
 
 		public int FontSize
 		{
-			get { return AppSettings.Settings.FontSize; }
-			set { AppSettings.Settings.FontSize = value; OnPropertyChanged(nameof(FontSize)); }
+			get { return AppSettings.FontSize; }
+			set { AppSettings.FontSize = value; OnPropertyChanged(nameof(FontSize)); }
 		}
 
 		public int TabSize
 		{
-			get { return AppSettings.Settings.TabSize; }
-			set { AppSettings.Settings.TabSize = Math.Max(1, value); OnPropertyChanged(nameof(TabSize)); }
+			get { return AppSettings.TabSize; }
+			set { AppSettings.TabSize = Math.Max(1, value); OnPropertyChanged(nameof(TabSize)); }
 		}
 
 		int updateTrigger;

@@ -21,8 +21,6 @@ namespace FileDiff
 
 		public MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
 
-		private SettingsData Settings { get; set; } = new SettingsData();
-
 		int firstDiff = -1;
 		int lastDiff = -1;
 
@@ -294,7 +292,7 @@ namespace FileDiff
 			float leftMatching = (float)bestMatchingCharacters / leftRange[bestLeft].TrimmedText.Length;
 			float rightMatching = (float)bestMatchingCharacters / rightRange[bestRight].TrimmedText.Length;
 
-			if (leftMatching + rightMatching > Settings.LineSimilarityThreshold * 2 || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
+			if (leftMatching + rightMatching > AppSettings.LineSimilarityThreshold * 2 || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
 			{
 				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
 				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
@@ -307,7 +305,7 @@ namespace FileDiff
 					leftRange[bestLeft].Type = TextState.FullMatch;
 					rightRange[bestRight].Type = TextState.FullMatch;
 				}
-				else if (Settings.ShowLineChanges)
+				else if (AppSettings.ShowLineChanges)
 				{
 					leftRange[bestLeft].TextSegments.Clear();
 					rightRange[bestRight].TextSegments.Clear();
@@ -332,9 +330,9 @@ namespace FileDiff
 
 			bool matchTooShort = matchLength == 0;
 
-			if (leftLine.TrimmedText.Length > Settings.CharacterMatchThreshold || rightLine.TrimmedText.Length > Settings.CharacterMatchThreshold)
+			if (leftLine.TrimmedText.Length > AppSettings.CharacterMatchThreshold || rightLine.TrimmedText.Length > AppSettings.CharacterMatchThreshold)
 			{
-				if (matchLength < Settings.CharacterMatchThreshold)
+				if (matchLength < AppSettings.CharacterMatchThreshold)
 				{
 					matchTooShort = true;
 				}
@@ -400,7 +398,7 @@ namespace FileDiff
 			}
 			else
 			{
-				if (matchLength < Settings.CharacterMatchThreshold)
+				if (matchLength < AppSettings.CharacterMatchThreshold)
 				{
 					return 0;
 				}
@@ -570,24 +568,21 @@ namespace FileDiff
 		private void LoadSettings()
 		{
 			AppSettings.ReadSettingsFromDisk();
-			Settings = AppSettings.Settings;
 
-
-			this.Left = Settings.PositionLeft;
-			this.Top = Settings.PositionTop;
-			this.Width = Settings.Width;
-			this.Height = Settings.Height;
-			this.WindowState = Settings.WindowState;
+			this.Left = AppSettings.PositionLeft;
+			this.Top = AppSettings.PositionTop;
+			this.Width = AppSettings.Width;
+			this.Height = AppSettings.Height;
+			this.WindowState = AppSettings.WindowState;
 		}
 
 		private void SaveSettings()
 		{
-			Settings.PositionLeft = this.Left;
-			Settings.PositionTop = this.Top;
-			Settings.Width = this.Width;
-			Settings.Height = this.Height;
-
-			Settings.WindowState = this.WindowState;
+			AppSettings.PositionLeft = this.Left;
+			AppSettings.PositionTop = this.Top;
+			AppSettings.Width = this.Width;
+			AppSettings.Height = this.Height;
+			AppSettings.WindowState = this.WindowState;
 
 			AppSettings.WriteSettingsToDisk();
 		}

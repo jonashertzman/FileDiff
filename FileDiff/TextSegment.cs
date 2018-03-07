@@ -45,14 +45,14 @@ namespace FileDiff
 				switch (type)
 				{
 					case TextState.Deleted:
-						return AppSettings.deletedBackgroundBrush;
+						return AppSettings.DeletedBackground;
 					case TextState.New:
-						return AppSettings.newBackgrounBrush;
+						return AppSettings.NewBackground;
 					case TextState.PartialMatch:
-						return AppSettings.partialMatchBackgroundBrush;
+						return AppSettings.PartialMatchBackground;
 
 					default:
-						return AppSettings.fullMatchBackgroundBrush;
+						return AppSettings.FullMatchBackground;
 				}
 			}
 		}
@@ -64,14 +64,14 @@ namespace FileDiff
 				switch (type)
 				{
 					case TextState.Deleted:
-						return AppSettings.deletedForegroundBrush;
+						return AppSettings.DeletedForeground;
 					case TextState.New:
-						return AppSettings.newForegroundBrush;
+						return AppSettings.NewForeground;
 					case TextState.PartialMatch:
-						return AppSettings.partialMatchForegroundBrush;
+						return AppSettings.PartialMatchForeground;
 
 					default:
-						return AppSettings.fullMatchForegroundBrush;
+						return AppSettings.FullMatchForeground;
 				}
 			}
 		}
