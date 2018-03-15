@@ -1,6 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.IO;
 using System.Windows;
 
 namespace FileDiff
@@ -14,11 +15,19 @@ namespace FileDiff
 		{
 		}
 
-		public FileItem(string name, bool isFolder, TextState type)
+		public FileItem(string name, bool isFolder, TextState type, string path, int level)
 		{
 			Name = name;
 			IsFolder = isFolder;
 			Type = type;
+			Path = path;
+			Level = level;
+
+			if (!isFolder && type != TextState.Filler)
+			{
+				fileSize = new FileInfo(path).Length;
+
+			}
 		}
 
 		#endregion
@@ -38,10 +47,38 @@ namespace FileDiff
 
 		public FileItem CorrespondingItem { get; set; }
 
+		public string Path { get; set; }
+
 		public string Name { get; set; }
+
+		private long fileSize = -1;
+
+		public string Size
+		{
+			get
+			{
+				if (fileSize != -1)
+					return fileSize.ToString();
+
+				return "";
+			}
+		}
+
+		public int Level { get; set; }
 
 		public bool IsFolder { get; set; }
 
+		public double NameWidth
+		{
+			get { return Math.Max(0, AppSettings.NameColumnWidth - (Level * 19)); } // TODO: Get the indentation length programmatically.
+		}
+
+		private double sizeWidth;
+		public double SizeWidth
+		{
+			get { return sizeWidth; }
+			set { sizeWidth = value; OnPropertyChanged(nameof(SizeWidth)); }
+		}
 
 		private TextState type;
 		public TextState Type
@@ -53,6 +90,7 @@ namespace FileDiff
 				OnPropertyChanged(nameof(Type));
 			}
 		}
+
 		private bool isSelected;
 		public bool IsSelected
 		{
@@ -84,6 +122,20 @@ namespace FileDiff
 		}
 
 		public Visibility Visible { get { return type == TextState.Filler ? Visibility.Hidden : Visibility.Visible; } }
+
+		#endregion
+
+		#region Methods 
+
+		internal void UpdateWidth()
+		{
+			OnPropertyChanged(nameof(NameWidth));
+
+			foreach (FileItem f in Children)
+			{
+				f.UpdateWidth();
+			}
+		}
 
 		#endregion
 

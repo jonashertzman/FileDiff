@@ -25,6 +25,20 @@ namespace FileDiff
 			set { rightSide = value; OnPropertyChanged(nameof(RightSide)); }
 		}
 
+		ObservableCollection<FileItem> leftFolder = new ObservableCollection<FileItem>();
+		public ObservableCollection<FileItem> LeftFolder
+		{
+			get { return leftFolder; }
+			set { leftFolder = value; OnPropertyChanged(nameof(LeftFolder)); }
+		}
+
+		ObservableCollection<FileItem> rightFolder = new ObservableCollection<FileItem>();
+		public ObservableCollection<FileItem> RightFolder
+		{
+			get { return rightFolder; }
+			set { rightFolder = value; OnPropertyChanged(nameof(RightFolder)); }
+		}
+
 		int currentDiff = -1;
 		public int CurrentDiff
 		{

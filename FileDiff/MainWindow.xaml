@@ -47,8 +47,10 @@
 				</Grid.Style>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<TextBlock Text="{Binding Name}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
+				<TextBlock Grid.Column="0" Text="{Binding Name}" Width="{Binding NameWidth}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
+				<TextBlock Grid.Column="1" Text="{Binding Size}" Width="{Binding SizeWidth}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
 			</Grid>
 		</HierarchicalDataTemplate>
 
@@ -189,12 +191,41 @@
 
 			<Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True" PreviewDragEnter="LeftSide_DragEnter" PreviewDrop="LeftSide_DragDrop">
 				<Grid>
+					<!--<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>-->
 
 					<!--Left Folder-->
-					<TreeView Name="LeftFolder" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" Visibility="{Binding FolderView}" BorderThickness="0" ScrollViewer.ScrollChanged="LeftFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+					<Grid Grid.Row="0" Visibility="{Binding FolderView}">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<Border Padding="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+							<Grid Name="LeftColumns">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="100" />
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="100" />
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="auto" />
+								</Grid.ColumnDefinitions>
+
+								<TextBlock Grid.Column="0" Text="Name" Margin="3" HorizontalAlignment="Stretch" SizeChanged="TextBlock_SizeChanged" />
+								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+								<TextBlock Grid.Column=" 2" Text=" Size" Margin=" 3" />
+								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment=" Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+								<TextBlock Grid.Column="4" Text="Date" Margin="3" />
+
+							</Grid>
+						</Border>
+						<TreeView Name="LeftFolder" Grid.Row="1" ItemsSource="{Binding LeftFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.ScrollChanged="LeftFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+					</Grid>
 
 					<!--Left File-->
-					<Grid Visibility="{Binding FileView}">
+					<Grid Grid.Row="1" Visibility="{Binding FileView}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
@@ -221,12 +252,41 @@
 
 			<Border Grid.Column="2" Grid.Row="1" BorderThickness="1,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" AllowDrop="True" PreviewDragEnter="RightSide_DragEnter" PreviewDrop="RightSide_DragDrop">
 				<Grid>
+					<!--<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>-->
 
 					<!--Right Folder-->
-					<TreeView Name="RightFolder" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" Visibility="{Binding FolderView}" BorderThickness="0" ScrollViewer.ScrollChanged="RightFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+					<Grid Grid.Row="0" Visibility="{Binding FolderView}">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<Border Padding="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="100" />
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="100" />
+									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="100" />
+								</Grid.ColumnDefinitions>
+
+								<TextBlock Grid.Column="0" Text="Name" Margin="3" />
+								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+								<TextBlock Grid.Column="2" Text="Size" Margin="3" />
+								<GridSplitter Grid.Column="3" Width="4" HorizontalAlignment="Center" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+								<TextBlock Grid.Column="4" Text="Date" Margin="3" />
+
+							</Grid>
+						</Border>
+						<TreeView Name="RightFolder" Grid.Row="1" ItemsSource="{Binding RightFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" Visibility="{Binding FolderView}" BorderThickness="0" ScrollViewer.ScrollChanged="RightFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+					</Grid>
 
 					<!--Right File-->
-					<Grid Visibility="{Binding FileView}">
+					<Grid Grid.Row="1" Visibility="{Binding FileView}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />

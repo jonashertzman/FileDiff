@@ -47,6 +47,11 @@ namespace FileDiff
 			set { Settings.Height = value; }
 		}
 
+
+		public static double NameColumnWidth { get; internal set; } = 100;
+
+
+
 		public static WindowState WindowState
 		{
 			get { return Settings.WindowState; }

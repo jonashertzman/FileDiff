@@ -102,22 +102,24 @@ namespace FileDiff
 			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
 			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
 
-			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems);
+			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems, 1);
 
-			LeftFolder.ItemsSource = leftItems;
-			RightFolder.ItemsSource = rightItems;
+			ViewModel.LeftFolder = leftItems;
+			ViewModel.RightFolder = rightItems;
 		}
 
-		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems)
+		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
 		{
 			SortedDictionary<string, FileItemPair> allItems = new SortedDictionary<string, FileItemPair>();
 
+			// Create a sorted dictionary with matched pairs of files and folders.
+			// Folders are prefixed with "*" to not get conflict between a file named "X" to the left, and a folder to the right named "X".
 			if (leftPath != null)
 			{
 				foreach (string directoryPath in Directory.GetDirectories(leftPath))
 				{
 					string directoryName = directoryPath.Substring(leftPath.Length + 1);
-					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true, TextState.Deleted), new FileItem("", true, TextState.Filler)));
+					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true, TextState.Deleted, directoryPath, level), new FileItem("", true, TextState.Filler, "", level)));
 				}
 			}
 
@@ -129,11 +131,11 @@ namespace FileDiff
 					string key = "*" + directoryName;
 					if (!allItems.ContainsKey(key))
 					{
-						allItems.Add(key, new FileItemPair(new FileItem("", true, TextState.Filler), new FileItem(directoryName, true, TextState.New)));
+						allItems.Add(key, new FileItemPair(new FileItem("", true, TextState.Filler, "", level), new FileItem(directoryName, true, TextState.New, directoryPath, level)));
 					}
 					else
 					{
-						allItems[key].RightItem = new FileItem(directoryName, true, TextState.FullMatch);
+						allItems[key].RightItem = new FileItem(directoryName, true, TextState.FullMatch, directoryPath, level);
 						allItems[key].LeftItem.Type = TextState.FullMatch;
 					}
 				}
@@ -144,7 +146,7 @@ namespace FileDiff
 				foreach (string filePath in Directory.GetFiles(leftPath))
 				{
 					string fileName = filePath.Substring(leftPath.Length + 1);
-					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false, TextState.Deleted), new FileItem("", false, TextState.Filler)));
+					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false, TextState.Deleted, filePath, level), new FileItem("", false, TextState.Filler, "", level)));
 				}
 			}
 
@@ -155,11 +157,11 @@ namespace FileDiff
 					string fileName = filePath.Substring(rightPath.Length + 1);
 					if (!allItems.ContainsKey(fileName))
 					{
-						allItems.Add(fileName, new FileItemPair(new FileItem("", false, TextState.Filler), new FileItem(fileName, false, TextState.New)));
+						allItems.Add(fileName, new FileItemPair(new FileItem("", false, TextState.Filler, "", level), new FileItem(fileName, false, TextState.New, filePath, level)));
 					}
 					else
 					{
-						allItems[fileName].RightItem = new FileItem(fileName, false, TextState.FullMatch);
+						allItems[fileName].RightItem = new FileItem(fileName, false, TextState.FullMatch, filePath, level);
 						allItems[fileName].LeftItem.Type = TextState.FullMatch;
 					}
 				}
@@ -175,7 +177,7 @@ namespace FileDiff
 
 				if (leftItem.IsFolder)
 				{
-					SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children);
+					SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children, level + 1);
 				}
 
 				leftItems.Add(leftItem);
@@ -730,6 +732,16 @@ namespace FileDiff
 		private void LeftDiff_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeDiff = LeftDiff;
+		}
+
+		private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			AppSettings.NameColumnWidth = LeftColumns.ColumnDefinitions[0].Width.Value;
+
+			foreach (FileItem f in ViewModel.LeftFolder)
+			{
+				f.UpdateWidth();
+			}
 		}
 
 		#endregion
