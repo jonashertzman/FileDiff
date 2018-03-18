@@ -203,25 +203,31 @@
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
-						<Border Padding="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+						<ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+
 							<Grid Name="LeftColumns">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="100" />
 									<ColumnDefinition Width="auto" />
 									<ColumnDefinition Width="100" />
 									<ColumnDefinition Width="auto" />
+									<ColumnDefinition Width="100" />
 									<ColumnDefinition Width="auto" />
 								</Grid.ColumnDefinitions>
-
-								<TextBlock Grid.Column="0" Text="Name" Margin="3" HorizontalAlignment="Stretch" SizeChanged="TextBlock_SizeChanged" />
+								<TextBlock Grid.Column="0" Text="Name" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" HorizontalAlignment="Stretch" SizeChanged="TextBlock_SizeChanged" />
 								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-								<TextBlock Grid.Column=" 2" Text=" Size" Margin=" 3" />
+								<TextBlock Grid.Column=" 2" Text=" Size" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" />
 								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment=" Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-								<TextBlock Grid.Column="4" Text="Date" Margin="3" />
-
+								<TextBlock Grid.Column="4" Text="Date" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" />
+								<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment=" Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
 							</Grid>
+
+						</ScrollViewer>
+						<Border Grid.Row="1" Grid.ColumnSpan="6" Padding="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
+							<ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+								<TreeView Name="LeftFolder" VerticalAlignment="Stretch" ItemsSource="{Binding LeftFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.ScrollChanged="LeftFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+							</ScrollViewer>
 						</Border>
-						<TreeView Name="LeftFolder" Grid.Row="1" ItemsSource="{Binding LeftFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.ScrollChanged="LeftFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
 					</Grid>
 
 					<!--Left File-->
@@ -264,7 +270,8 @@
 							<RowDefinition Height="*" />
 						</Grid.RowDefinitions>
 
-						<Border Padding="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+						<ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="100" />
@@ -272,17 +279,22 @@
 									<ColumnDefinition Width="100" />
 									<ColumnDefinition Width="auto" />
 									<ColumnDefinition Width="100" />
+									<ColumnDefinition Width="auto" />
 								</Grid.ColumnDefinitions>
-
-								<TextBlock Grid.Column="0" Text="Name" Margin="3" />
-								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-								<TextBlock Grid.Column="2" Text="Size" Margin="3" />
-								<GridSplitter Grid.Column="3" Width="4" HorizontalAlignment="Center" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-								<TextBlock Grid.Column="4" Text="Date" Margin="3" />
-
+								<TextBlock Grid.Column="0" Text="Name" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" HorizontalAlignment="Stretch" SizeChanged="TextBlock_SizeChanged" />
+								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+								<TextBlock Grid.Column=" 2" Text=" Size" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" />
+								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment=" Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+								<TextBlock Grid.Column="4" Text="Date" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" />
+								<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment=" Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
 							</Grid>
+
+						</ScrollViewer>
+						<Border Grid.Row="1" Grid.ColumnSpan="6" Padding="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
+							<ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+								<TreeView Name="RightFolder" VerticalAlignment="Stretch" ItemsSource="{Binding RightFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.ScrollChanged="RightFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+							</ScrollViewer>
 						</Border>
-						<TreeView Name="RightFolder" Grid.Row="1" ItemsSource="{Binding RightFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" Visibility="{Binding FolderView}" BorderThickness="0" ScrollViewer.ScrollChanged="RightFolder_ScrollChanged" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
 					</Grid>
 
 					<!--Right File-->
