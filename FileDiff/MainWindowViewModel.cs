@@ -112,6 +112,24 @@ namespace FileDiff
 			set { AppSettings.ShowLineChanges = value; OnPropertyChanged(nameof(ShowLineChanges)); }
 		}
 
+		public double NameColumnWidth
+		{
+			get { return AppSettings.NameColumnWidth; }
+			set { AppSettings.NameColumnWidth = value; OnPropertyChanged(nameof(NameColumnWidth)); }
+		}
+
+		public double SizeColumnWidth
+		{
+			get { return AppSettings.SizeColumnWidth; }
+			set { AppSettings.SizeColumnWidth = value; OnPropertyChanged(nameof(SizeColumnWidth)); }
+		}
+
+		public double DateColumnWidth
+		{
+			get { return AppSettings.DateColumnWidth; }
+			set { AppSettings.DateColumnWidth = value; OnPropertyChanged(nameof(DateColumnWidth)); }
+		}
+
 		public SolidColorBrush FullMatchForeground
 		{
 			get { return AppSettings.FullMatchForeground; }

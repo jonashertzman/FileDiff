@@ -47,11 +47,6 @@ namespace FileDiff
 			set { Settings.Height = value; }
 		}
 
-
-		public static double NameColumnWidth { get; internal set; } = 100;
-
-
-
 		public static WindowState WindowState
 		{
 			get { return Settings.WindowState; }
@@ -150,6 +145,12 @@ namespace FileDiff
 			get { return newBackground; }
 			set { newBackground = value; Settings.NewBackground = value.Color; }
 		}
+
+		public static double NameColumnWidth { get; internal set; } = 300;
+
+		public static double SizeColumnWidth { get; internal set; } = 70;
+
+		public static double DateColumnWidth { get; internal set; } = 120;
 
 		#endregion
 

@@ -23,10 +23,14 @@ namespace FileDiff
 			Path = path;
 			Level = level;
 
-			if (!isFolder && type != TextState.Filler)
+			if (type != TextState.Filler)
 			{
-				fileSize = new FileInfo(path).Length;
-
+				FileInfo fi = new FileInfo(path);
+				fileDate = fi.LastWriteTime;
+				if (!isFolder)
+				{
+					fileSize = fi.Length;
+				}
 			}
 		}
 
@@ -52,13 +56,24 @@ namespace FileDiff
 		public string Name { get; set; }
 
 		private long fileSize = -1;
-
 		public string Size
 		{
 			get
 			{
 				if (fileSize != -1)
 					return fileSize.ToString();
+
+				return "";
+			}
+		}
+
+		DateTime fileDate = DateTime.MinValue;
+		public string Date
+		{
+			get
+			{
+				if (fileDate != DateTime.MinValue)
+					return fileDate.ToString();
 
 				return "";
 			}
@@ -73,11 +88,14 @@ namespace FileDiff
 			get { return Math.Max(0, AppSettings.NameColumnWidth - (Level * 19)); } // TODO: Get the indentation length programmatically.
 		}
 
-		private double sizeWidth;
 		public double SizeWidth
 		{
-			get { return sizeWidth; }
-			set { sizeWidth = value; OnPropertyChanged(nameof(SizeWidth)); }
+			get { return Math.Max(0, AppSettings.SizeColumnWidth); }
+		}
+
+		public double DateWidth
+		{
+			get { return Math.Max(0, AppSettings.DateColumnWidth); }
 		}
 
 		private TextState type;
@@ -130,6 +148,8 @@ namespace FileDiff
 		internal void UpdateWidth()
 		{
 			OnPropertyChanged(nameof(NameWidth));
+			OnPropertyChanged(nameof(SizeWidth));
+			OnPropertyChanged(nameof(DateWidth));
 
 			foreach (FileItem f in Children)
 			{

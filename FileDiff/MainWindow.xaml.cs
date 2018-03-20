@@ -23,6 +23,7 @@ namespace FileDiff
 
 		int firstDiff = -1;
 		int lastDiff = -1;
+		bool renderComplete = false;
 
 		DiffControl activeDiff;
 
@@ -614,6 +615,9 @@ namespace FileDiff
 				ViewModel.RightPath = Environment.GetCommandLineArgs()[2];
 				Compare();
 			}
+
+			renderComplete = true;
+			UpdateColumnWidths(LeftColumns);
 		}
 
 		private void Window_Initialized(object sender, EventArgs e)
@@ -692,28 +696,6 @@ namespace FileDiff
 			LeftHorizontalScrollbar.Value = e.NewValue;
 		}
 
-		private void LeftFolder_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
-		{
-			DependencyObject border = VisualTreeHelper.GetChild(RightFolder, 0);
-			if (border != null)
-			{
-				ScrollViewer scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
-				scrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
-				scrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
-			}
-		}
-
-		private void RightFolder_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
-		{
-			DependencyObject border = VisualTreeHelper.GetChild(LeftFolder, 0);
-			if (border != null)
-			{
-				ScrollViewer scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
-				scrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
-				scrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
-			}
-		}
-
 		private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
 		{
 			ProcessSearchResult(activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true));
@@ -734,14 +716,74 @@ namespace FileDiff
 			activeDiff = LeftDiff;
 		}
 
-		private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void LeftColumns_Resized(object sender, SizeChangedEventArgs e)
 		{
-			AppSettings.NameColumnWidth = LeftColumns.ColumnDefinitions[0].Width.Value;
+			if (!renderComplete)
+				return;
+
+			UpdateColumnWidths(LeftColumns);
+		}
+
+		private void RightColumns_Resized(object sender, SizeChangedEventArgs e)
+		{
+			if (!renderComplete)
+				return;
+
+			UpdateColumnWidths(RightColumns);
+		}
+
+		private void UpdateColumnWidths(Grid columnGrid)
+		{
+			ViewModel.NameColumnWidth = columnGrid.ColumnDefinitions[0].Width.Value;
+			ViewModel.SizeColumnWidth = columnGrid.ColumnDefinitions[2].Width.Value;
+			ViewModel.DateColumnWidth = columnGrid.ColumnDefinitions[4].Width.Value;
+
+
+			// TODO: Workaround until I figure out how to data bind the column definition widths two way.
+			LeftColumns.ColumnDefinitions[0].Width = new GridLength(ViewModel.NameColumnWidth);
+			RightColumns.ColumnDefinitions[0].Width = new GridLength(ViewModel.NameColumnWidth);
+			LeftColumns.ColumnDefinitions[2].Width = new GridLength(ViewModel.SizeColumnWidth);
+			RightColumns.ColumnDefinitions[2].Width = new GridLength(ViewModel.SizeColumnWidth);
+			LeftColumns.ColumnDefinitions[4].Width = new GridLength(ViewModel.DateColumnWidth);
+			RightColumns.ColumnDefinitions[4].Width = new GridLength(ViewModel.DateColumnWidth);
+
+
+			double totalWidth = 0;
+
+			foreach (ColumnDefinition d in columnGrid.ColumnDefinitions)
+			{
+				totalWidth += d.Width.Value;
+			}
+
+			LeftFolderTree.Width = totalWidth;
+			RightFolderTree.Width = totalWidth;
 
 			foreach (FileItem f in ViewModel.LeftFolder)
 			{
 				f.UpdateWidth();
 			}
+
+			foreach (FileItem f in ViewModel.RightFolder)
+			{
+				f.UpdateWidth();
+			}
+
+		}
+
+		private void LeftTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+		{
+			LeftColumnScroll.ScrollToHorizontalOffset(LeftTreeScroll.HorizontalOffset);
+
+			RightTreeScroll.ScrollToHorizontalOffset(LeftTreeScroll.HorizontalOffset);
+			RightTreeScroll.ScrollToVerticalOffset(LeftTreeScroll.VerticalOffset);
+		}
+
+		private void RightTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+		{
+			RightColumnScroll.ScrollToHorizontalOffset(RightTreeScroll.HorizontalOffset);
+
+			LeftTreeScroll.ScrollToHorizontalOffset(RightTreeScroll.HorizontalOffset);
+			LeftTreeScroll.ScrollToVerticalOffset(RightTreeScroll.VerticalOffset);
 		}
 
 		#endregion
