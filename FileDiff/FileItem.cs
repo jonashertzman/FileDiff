@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows;
 
 namespace FileDiff
@@ -40,7 +42,7 @@ namespace FileDiff
 
 		public override string ToString()
 		{
-			return $"{Name}  {IsFolder}";
+			return $"{Name}  {type.ToString()}";
 		}
 
 		#endregion
@@ -141,19 +143,58 @@ namespace FileDiff
 
 		public Visibility Visible { get { return type == TextState.Filler ? Visibility.Hidden : Visibility.Visible; } }
 
+		public bool ChildFiffExists
+		{
+			get
+			{
+				foreach (FileItem i in Children)
+				{
+					if (i.Type != TextState.FullMatch)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
+		public string Checksum
+		{
+			get
+			{
+				StringBuilder s = new StringBuilder();
+
+				using (MD5 md5 = MD5.Create())
+				{
+					using (FileStream stream = File.OpenRead(Path))
+					{
+						foreach (byte b in md5.ComputeHash(stream))
+						{
+							s.Append(b.ToString("x2"));
+						}
+					}
+				}
+
+				return s.ToString();
+			}
+		}
+
 		#endregion
 
 		#region Methods 
 
 		internal void UpdateWidth()
 		{
-			OnPropertyChanged(nameof(NameWidth));
-			OnPropertyChanged(nameof(SizeWidth));
-			OnPropertyChanged(nameof(DateWidth));
-
-			foreach (FileItem f in Children)
+			if (type != TextState.Filler)
 			{
-				f.UpdateWidth();
+				OnPropertyChanged(nameof(NameWidth));
+				OnPropertyChanged(nameof(SizeWidth));
+				OnPropertyChanged(nameof(DateWidth));
+
+				foreach (FileItem f in Children)
+				{
+					f.UpdateWidth();
+				}
 			}
 		}
 

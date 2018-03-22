@@ -115,19 +115,19 @@ namespace FileDiff
 		public double NameColumnWidth
 		{
 			get { return AppSettings.NameColumnWidth; }
-			set { AppSettings.NameColumnWidth = value; OnPropertyChanged(nameof(NameColumnWidth)); }
+			set { AppSettings.NameColumnWidth = value; OnPropertyChangedNoRepaint(nameof(NameColumnWidth)); }
 		}
 
 		public double SizeColumnWidth
 		{
 			get { return AppSettings.SizeColumnWidth; }
-			set { AppSettings.SizeColumnWidth = value; OnPropertyChanged(nameof(SizeColumnWidth)); }
+			set { AppSettings.SizeColumnWidth = value; OnPropertyChangedNoRepaint(nameof(SizeColumnWidth)); }
 		}
 
 		public double DateColumnWidth
 		{
 			get { return AppSettings.DateColumnWidth; }
-			set { AppSettings.DateColumnWidth = value; OnPropertyChanged(nameof(DateColumnWidth)); }
+			set { AppSettings.DateColumnWidth = value; OnPropertyChangedNoRepaint(nameof(DateColumnWidth)); }
 		}
 
 		public SolidColorBrush FullMatchForeground
@@ -200,7 +200,7 @@ namespace FileDiff
 		public int UpdateTrigger
 		{
 			get { return updateTrigger; }
-			set { updateTrigger = value; OnPropertyChangedNoRefresh(nameof(UpdateTrigger)); }
+			set { updateTrigger = value; OnPropertyChangedNoRepaint(nameof(UpdateTrigger)); }
 		}
 
 		#endregion
@@ -215,7 +215,7 @@ namespace FileDiff
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
-		public void OnPropertyChangedNoRefresh(string name)
+		public void OnPropertyChangedNoRepaint(string name)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
