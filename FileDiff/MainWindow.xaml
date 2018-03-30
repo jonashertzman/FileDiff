@@ -2,63 +2,6 @@
 
 	<Window.Resources>
 
-		<Style x:Key="FileItemStyle" TargetType="{x:Type TreeViewItem}">
-			<Setter Property="IsSelected" Value="{Binding IsSelected}" />
-			<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-			<Setter Property="Visibility" Value="{Binding Visible}" />
-		</Style>
-
-		<Style x:Key="FileItemTextStyle" TargetType="TextBlock">
-			<Style.Triggers>
-				<DataTrigger Binding="{Binding Type}" Value="FullMatch">
-					<Setter Property="Foreground" Value="{Binding Path=ViewModel.FullMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
-					<Setter Property="Foreground" Value="{Binding Path=ViewModel.PartialMatchForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Type}" Value="Deleted">
-					<Setter Property="Foreground" Value="{Binding Path=ViewModel.DeletedForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-				</DataTrigger>
-				<DataTrigger Binding="{Binding Type}" Value="New">
-					<Setter Property="Foreground" Value="{Binding Path=ViewModel.NewForeground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-				</DataTrigger>
-			</Style.Triggers>
-		</Style>
-
-		<HierarchicalDataTemplate x:Key="FileItemTemplate" ItemsSource="{Binding Children}">
-			<Grid Margin="0,1">
-				<Grid.Style>
-					<Style TargetType="Grid">
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding Type}" Value="FullMatch">
-								<Setter Property="Background" Value="{Binding Path=ViewModel.FullMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="PartialMatch">
-								<Setter Property="Background" Value="{Binding Path=ViewModel.PartialMatchBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="Deleted">
-								<Setter Property="Background" Value="{Binding Path=ViewModel.DeletedBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-							<DataTrigger Binding="{Binding Type}" Value="New">
-								<Setter Property="Background" Value="{Binding Path=ViewModel.NewBackground, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" />
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</Grid.Style>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="4" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="4" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="4" />
-				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Column="0" Text="{Binding Name}" Width="{Binding NameWidth}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
-				<TextBlock Grid.Column="2" Text="{Binding Size}" Width="{Binding SizeWidth}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
-				<TextBlock Grid.Column="4" Text="{Binding Date}" Width="{Binding DateWidth}" Padding="1" Style="{StaticResource FileItemTextStyle }" />
-			</Grid>
-		</HierarchicalDataTemplate>
-
 	</Window.Resources>
 
 	<Window.CommandBindings>
@@ -229,8 +172,9 @@
 
 						</ScrollViewer>
 						<Border Grid.Row="1" Grid.ColumnSpan="6" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-							<ScrollViewer Name="LeftTreeScroll" ScrollChanged="LeftTreeScroll_ScrollChanged" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible">
-								<TreeView Name="LeftFolderTree" Padding="-1,0,0,0" Margin="0" VerticalAlignment="Stretch" ItemsSource="{Binding LeftFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="100" />
+							<ScrollViewer Name="LeftTreeScroll" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible">
+								<!--<TreeView Name="LeftFolderTree" Padding="-1,0,0,0" Margin="0" VerticalAlignment="Stretch" ItemsSource="{Binding LeftFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="100" />-->
+								<local:TreeControl Lines="{Binding LeftFolder}" UpdateTrigger="{Binding UpdateTrigger}" />
 							</ScrollViewer>
 						</Border>
 					</Grid>
@@ -241,7 +185,7 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" />
 						<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Grid>
@@ -296,10 +240,23 @@
 							</Grid>
 
 						</ScrollViewer>
-						<Border Grid.Row="1" Grid.ColumnSpan="6" Padding="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-							<ScrollViewer Name="RightTreeScroll" ScrollChanged="RightTreeScroll_ScrollChanged" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-								<TreeView Name="RightFolderTree" Padding="-1,0,0,0" Margin="0" VerticalAlignment="Stretch" ItemsSource="{Binding RightFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="100" />
-							</ScrollViewer>
+						<Border Grid.Row="1" Grid.ColumnSpan="6" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*" />
+									<RowDefinition Height="auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="auto" />
+								</Grid.ColumnDefinitions>
+								<ScrollViewer Grid.RowSpan="2" Name="RightTreeScroll" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible">
+									<!--<TreeView Name="RightFolderTree" Padding="-1,0,0,0" Margin="0" VerticalAlignment="Stretch" ItemsSource="{Binding RightFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="100" />-->
+									<local:TreeControl Lines="{Binding RightFolder}" UpdateTrigger="{Binding UpdateTrigger}" />
+								</ScrollViewer>
+								<ScrollBar Grid.Row="0" Grid.Column="1" Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightDiff, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightDiff, Path=MaxVerialcalScroll , Mode=TwoWay}" />
+								<StackPanel Grid.Column="2" Grid.Row="1" Height="19" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
+							</Grid>
 						</Border>
 					</Grid>
 

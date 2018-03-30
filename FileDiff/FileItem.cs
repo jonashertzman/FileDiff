@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -141,6 +143,44 @@ namespace FileDiff
 			}
 		}
 
+		public SolidColorBrush BackgroundBrush
+		{
+			get
+			{
+				switch (type)
+				{
+					case TextState.Deleted:
+						return AppSettings.DeletedBackground;
+					case TextState.New:
+						return AppSettings.NewBackground;
+					case TextState.PartialMatch:
+						return AppSettings.PartialMatchBackground;
+
+					default:
+						return AppSettings.FullMatchBackground;
+				}
+			}
+		}
+
+		public SolidColorBrush ForegroundBrush
+		{
+			get
+			{
+				switch (type)
+				{
+					case TextState.Deleted:
+						return AppSettings.DeletedForeground;
+					case TextState.New:
+						return AppSettings.NewForeground;
+					case TextState.PartialMatch:
+						return AppSettings.PartialMatchForeground;
+
+					default:
+						return AppSettings.FullMatchForeground;
+				}
+			}
+		}
+
 		public Visibility Visible { get { return type == TextState.Filler ? Visibility.Hidden : Visibility.Visible; } }
 
 		public bool ChildFiffExists
@@ -176,25 +216,6 @@ namespace FileDiff
 				}
 
 				return s.ToString();
-			}
-		}
-
-		#endregion
-
-		#region Methods 
-
-		internal void UpdateWidth()
-		{
-			if (type != TextState.Filler)
-			{
-				OnPropertyChanged(nameof(NameWidth));
-				OnPropertyChanged(nameof(SizeWidth));
-				OnPropertyChanged(nameof(DateWidth));
-
-				foreach (FileItem f in Children)
-				{
-					f.UpdateWidth();
-				}
 			}
 		}
 

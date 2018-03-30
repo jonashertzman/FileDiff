@@ -111,10 +111,12 @@ namespace FileDiff
 
 		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
 		{
+
+			// Sorted dictionary holding matched pairs of files and folders in the current directory.
+			// Folders are prefixed with "*" to not get conflict between a file named "X" to the left, and a folder named "X" to the right.
 			SortedDictionary<string, FileItemPair> allItems = new SortedDictionary<string, FileItemPair>();
 
-			// Create a sorted dictionary with matched pairs of files and folders.
-			// Folders are prefixed with "*" to not get conflict between a file named "X" to the left, and a folder to the right named "X".
+			// Find directories
 			if (leftPath != null)
 			{
 				foreach (string directoryPath in Directory.GetDirectories(leftPath))
@@ -142,6 +144,7 @@ namespace FileDiff
 				}
 			}
 
+			// Find files
 			if (leftPath != null)
 			{
 				foreach (string filePath in Directory.GetFiles(leftPath))
@@ -178,7 +181,7 @@ namespace FileDiff
 
 				if (leftItem.IsFolder)
 				{
-					//leftItem.IsExpanded = true;
+					leftItem.IsExpanded = true;
 
 					SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children, level + 1);
 
@@ -773,36 +776,6 @@ namespace FileDiff
 			{
 				totalWidth += d.Width.Value;
 			}
-
-			LeftFolderTree.Width = totalWidth;
-			RightFolderTree.Width = totalWidth;
-
-			foreach (FileItem f in ViewModel.LeftFolder)
-			{
-				f.UpdateWidth();
-			}
-
-			foreach (FileItem f in ViewModel.RightFolder)
-			{
-				f.UpdateWidth();
-			}
-
-		}
-
-		private void LeftTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
-		{
-			LeftColumnScroll.ScrollToHorizontalOffset(LeftTreeScroll.HorizontalOffset);
-
-			RightTreeScroll.ScrollToHorizontalOffset(LeftTreeScroll.HorizontalOffset);
-			RightTreeScroll.ScrollToVerticalOffset(LeftTreeScroll.VerticalOffset);
-		}
-
-		private void RightTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
-		{
-			RightColumnScroll.ScrollToHorizontalOffset(RightTreeScroll.HorizontalOffset);
-
-			LeftTreeScroll.ScrollToHorizontalOffset(RightTreeScroll.HorizontalOffset);
-			LeftTreeScroll.ScrollToVerticalOffset(RightTreeScroll.VerticalOffset);
 		}
 
 		#endregion
