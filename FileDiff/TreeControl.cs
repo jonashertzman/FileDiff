@@ -70,11 +70,11 @@ namespace FileDiff
 
 			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
 
-			VisibleLines = (int)(ActualHeight / characterHeight + 1);
-			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
-
 			visibleItems = new List<FileItem>();
 			GetVisibleItems(Lines, visibleItems);
+
+			VisibleLines = (int)(ActualHeight / characterHeight + 1);
+			MaxVerialcalScroll = visibleItems.Count - VisibleLines + 1;
 
 			for (int i = 0; i < visibleItems.Count; i++)
 			{
@@ -113,6 +113,56 @@ namespace FileDiff
 				drawingContext.Pop(); // Line Y offset 
 			}
 		}
+
+		#region Dependency Properties
+
+		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<FileItem>), typeof(TreeControl), new FrameworkPropertyMetadata(new ObservableCollection<FileItem>(), FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public ObservableCollection<FileItem> Lines
+		{
+			get { return (ObservableCollection<FileItem>)GetValue(LinesProperty); }
+			set { SetValue(LinesProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset", typeof(int), typeof(TreeControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public int VerticalOffset
+		{
+			get { return (int)GetValue(VerticalOffsetProperty); }
+			set { SetValue(VerticalOffsetProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty VisibleLinesProperty = DependencyProperty.Register("VisibleLines", typeof(int), typeof(TreeControl));
+
+		public int VisibleLines
+		{
+			get { return (int)GetValue(VisibleLinesProperty); }
+			set { SetValue(VisibleLinesProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty MaxVerialcalScrollProperty = DependencyProperty.Register("MaxVerialcalScroll", typeof(int), typeof(TreeControl));
+
+		public int MaxVerialcalScroll
+		{
+			get { return (int)GetValue(MaxVerialcalScrollProperty); }
+			set { SetValue(MaxVerialcalScrollProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty UpdateTriggerProperty = DependencyProperty.Register("UpdateTrigger", typeof(int), typeof(TreeControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public int UpdateTrigger
+		{
+			get { return (int)GetValue(UpdateTriggerProperty); }
+			set { SetValue(UpdateTriggerProperty, value); }
+		}
+
+		#endregion
+
+		#region Methods
 
 		private void GetVisibleItems(ObservableCollection<FileItem> parent, List<FileItem> visibleItems)
 		{
@@ -174,96 +224,6 @@ namespace FileDiff
 
 			runWidth = totalWidth;
 			return run;
-		}
-
-		#region Dependency Properties
-
-		public static readonly DependencyProperty LinesProperty = DependencyProperty.Register("Lines", typeof(ObservableCollection<FileItem>), typeof(TreeControl), new FrameworkPropertyMetadata(new ObservableCollection<FileItem>(), FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public ObservableCollection<FileItem> Lines
-		{
-			get { return (ObservableCollection<FileItem>)GetValue(LinesProperty); }
-			set { SetValue(LinesProperty, value); }
-		}
-
-
-		public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.Register("VerticalOffset", typeof(int), typeof(TreeControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public int VerticalOffset
-		{
-			get { return (int)GetValue(VerticalOffsetProperty); }
-			set { SetValue(VerticalOffsetProperty, value); }
-		}
-
-
-		public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register("HorizontalOffset", typeof(int), typeof(TreeControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public int HorizontalOffset
-		{
-			get { return (int)GetValue(HorizontalOffsetProperty); }
-			set { SetValue(HorizontalOffsetProperty, value); }
-		}
-
-
-		public static readonly DependencyProperty MaxHorizontalScrollPropery = DependencyProperty.Register("MaxHorizontalScroll", typeof(int), typeof(TreeControl));
-
-		public int MaxHorizontalScroll
-		{
-			get { return (int)GetValue(MaxHorizontalScrollPropery); }
-			set { SetValue(MaxHorizontalScrollPropery, value); }
-		}
-
-
-		public static readonly DependencyProperty TextAreaWidthPropery = DependencyProperty.Register("TextAreaWidth", typeof(int), typeof(TreeControl));
-
-		public int TextAreaWidth
-		{
-			get { return (int)GetValue(TextAreaWidthPropery); }
-			set { SetValue(TextAreaWidthPropery, value); }
-		}
-
-
-		public static readonly DependencyProperty CurrentDiffProperty = DependencyProperty.Register("CurrentDiff", typeof(int), typeof(TreeControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public int CurrentDiff
-		{
-			get { return (int)GetValue(CurrentDiffProperty); }
-			set { SetValue(CurrentDiffProperty, value); }
-		}
-
-		public static readonly DependencyProperty CurrentDiffLengthProperty = DependencyProperty.Register("CurrentDiffLength", typeof(int), typeof(TreeControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public int CurrentDiffLength
-		{
-			get { return (int)GetValue(CurrentDiffLengthProperty); }
-			set { SetValue(CurrentDiffLengthProperty, value); }
-		}
-
-
-		public static readonly DependencyProperty VisibleLinesProperty = DependencyProperty.Register("VisibleLines", typeof(int), typeof(TreeControl));
-
-		public int VisibleLines
-		{
-			get { return (int)GetValue(VisibleLinesProperty); }
-			set { SetValue(VisibleLinesProperty, value); }
-		}
-
-
-		public static readonly DependencyProperty MaxVerialcalScrollProperty = DependencyProperty.Register("MaxVerialcalScroll", typeof(int), typeof(TreeControl));
-
-		public int MaxVerialcalScroll
-		{
-			get { return (int)GetValue(MaxVerialcalScrollProperty); }
-			set { SetValue(MaxVerialcalScrollProperty, value); }
-		}
-
-
-		public static readonly DependencyProperty UpdateTriggerProperty = DependencyProperty.Register("UpdateTrigger", typeof(int), typeof(TreeControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public int UpdateTrigger
-		{
-			get { return (int)GetValue(UpdateTriggerProperty); }
-			set { SetValue(UpdateTriggerProperty, value); }
 		}
 
 		#endregion

@@ -111,7 +111,7 @@
 		</Grid>
 
 		<!--Diff-->
-		<Grid Name="GridMainContent" MouseWheel="GridMainContent_MouseWheel">
+		<Grid Name="GridMainContent">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="327*" />
@@ -145,7 +145,7 @@
 					</Grid.RowDefinitions>-->
 
 					<!--Left Folder-->
-					<Grid Grid.Row="0" Visibility="{Binding FolderView}">
+					<Grid Grid.Row="0" Visibility="{Binding FolderView}" MouseWheel="FolderDiff_MouseWheel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="auto" />
 							<RowDefinition Height="*" />
@@ -172,20 +172,19 @@
 
 						</ScrollViewer>
 						<Border Grid.Row="1" Grid.ColumnSpan="6" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-							<ScrollViewer Name="LeftTreeScroll" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible" ScrollChanged="LeftTreeScroll_ScrollChanged">
-								<!--<TreeView Name="LeftFolderTree" Padding="-1,0,0,0" Margin="0" VerticalAlignment="Stretch" ItemsSource="{Binding LeftFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="100" />-->
-								<local:TreeControl x:Name="LeftTree" HorizontalAlignment="Left" Width="100" Lines="{Binding LeftFolder}" UpdateTrigger="{Binding UpdateTrigger}" />
+							<ScrollViewer Name="LeftFolderScroll" PreviewMouseWheel="HandlePreviewMouseWheel" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible" ScrollChanged="LeftTreeScroll_ScrollChanged">
+								<local:TreeControl x:Name="LeftFolder" HorizontalAlignment="Left" Width="100" Lines="{Binding LeftFolder}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" />
 							</ScrollViewer>
 						</Border>
 					</Grid>
 
 					<!--Left File-->
-					<Grid Grid.Row="1" Visibility="{Binding FileView}">
+					<Grid Grid.Row="1" Visibility="{Binding FileView}" MouseWheel="FileDiff_MouseWheel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" />
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding LeftSide}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" />
 						<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Grid>
@@ -213,7 +212,7 @@
 					</Grid.RowDefinitions>-->
 
 					<!--Right Folder-->
-					<Grid Grid.Row="0" Visibility="{Binding FolderView}">
+					<Grid Grid.Row="0" Name="RightFolderGrid" Visibility="{Binding FolderView}" MouseWheel="FolderDiff_MouseWheel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="auto" />
 							<RowDefinition Height="*" />
@@ -250,18 +249,17 @@
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="auto" />
 								</Grid.ColumnDefinitions>
-								<ScrollViewer Grid.RowSpan="2" Name="RightTreeScroll" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible" ScrollChanged="RightTreeScroll_ScrollChanged">
-									<!--<TreeView Name="RightFolderTree" Padding="-1,0,0,0" Margin="0" VerticalAlignment="Stretch" ItemsSource="{Binding RightFolder}" ItemTemplate="{StaticResource FileItemTemplate}" ItemContainerStyle="{StaticResource FileItemStyle}" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" Width="100" />-->
-									<local:TreeControl x:Name="RightTree" HorizontalAlignment="Left" Width="100" Lines="{Binding RightFolder}" UpdateTrigger="{Binding UpdateTrigger}" />
+								<ScrollViewer Grid.RowSpan="2" Name="RightFolderScroll" PreviewMouseWheel="HandlePreviewMouseWheel" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible" ScrollChanged="RightTreeScroll_ScrollChanged">
+									<local:TreeControl x:Name="RightFolder" HorizontalAlignment="Left" Width="100" Lines="{Binding RightFolder}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" />
 								</ScrollViewer>
-								<ScrollBar Grid.Row="0" Grid.Column="1" Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightDiff, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightDiff, Path=MaxVerialcalScroll , Mode=TwoWay}" />
-								<StackPanel Grid.Column="2" Grid.Row="1" Height="15" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
+								<!--TODO: Use height of scroll bar instead of hard coded value for the margin-->
+								<ScrollBar Grid.Row="0" Grid.Column="1" Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll , Mode=TwoWay}" Margin="0,0,0,17" />
 							</Grid>
 						</Border>
 					</Grid>
 
 					<!--Right File-->
-					<Grid Grid.Row="1" Visibility="{Binding FileView}">
+					<Grid Grid.Row="1" Visibility="{Binding FileView}" MouseWheel="FileDiff_MouseWheel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
@@ -272,9 +270,9 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding RightSide}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding RightSide}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 						<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightSide}" UpdateTrigger="{Binding UpdateTrigger}" />
-						<ScrollBar Grid.Column="2" Name="VerticalScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightDiff, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightDiff, Path=MaxVerialcalScroll , Mode=TwoWay}" />
+						<ScrollBar Grid.Column="2" Name="VerticalFileScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightDiff, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightDiff, Path=MaxVerialcalScroll , Mode=TwoWay}" />
 						<ScrollBar Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" x:Name="RightHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
 						<StackPanel Grid.Column="2" Grid.Row="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
 					</Grid>

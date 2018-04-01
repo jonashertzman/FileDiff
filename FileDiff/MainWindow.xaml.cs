@@ -219,7 +219,7 @@ namespace FileDiff
 			LeftDiff.ClearSelection();
 			RightDiff.ClearSelection();
 
-			VerticalScrollbar.Value = 0;
+			VerticalFileScrollbar.Value = 0;
 			LeftHorizontalScrollbar.Value = 0;
 
 			for (int i = 0; i < ViewModel.LeftSide.Count; i++)
@@ -587,7 +587,7 @@ namespace FileDiff
 			ViewModel.CurrentDiff = i;
 			ViewModel.CurrentDiffLength = diffLength;
 
-			VerticalScrollbar.Value = i - (visibleLines / 2);
+			VerticalFileScrollbar.Value = i - (visibleLines / 2);
 		}
 
 		private void LoadSettings()
@@ -702,10 +702,29 @@ namespace FileDiff
 			}
 		}
 
-		private void GridMainContent_MouseWheel(object sender, MouseWheelEventArgs e)
+		private void FileDiff_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
 			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
-			VerticalScrollbar.Value -= lines;
+			VerticalFileScrollbar.Value -= lines;
+		}
+
+		private void FolderDiff_MouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
+			VerticalTreeScrollbar.Value -= lines;
+		}
+
+		private void HandlePreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (sender is ScrollViewer && !e.Handled)
+			{
+				e.Handled = true;
+				var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+				eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+				eventArg.Source = sender;
+				var parent = ((Control)sender).Parent as UIElement;
+				parent.RaiseEvent(eventArg);
+			}
 		}
 
 		private void LeftHorizontalScrollbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -778,22 +797,22 @@ namespace FileDiff
 			}
 
 			LeftColumns.Width = totalWidth;
-			LeftTree.Width = totalWidth;
+			LeftFolder.Width = totalWidth;
 
 			RightColumns.Width = totalWidth;
-			RightTree.Width = totalWidth;
+			RightFolder.Width = totalWidth;
 		}
 
 		private void LeftTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
 			LeftColumnScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-			RightTreeScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+			RightFolderScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
 
 		private void RightTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
 			RightColumnScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-			LeftTreeScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+			LeftFolderScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
 
 		#endregion
