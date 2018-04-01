@@ -12,6 +12,7 @@ namespace FileDiff
 
 	public class TreeControl : Control
 	{
+		private const double handleWidth = 4;
 
 		private double characterHeight;
 		private double characterWidth;
@@ -99,11 +100,15 @@ namespace FileDiff
 				//drawingContext.DrawGlyphRun(line.ForegroundBrush, g);
 
 
+				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth, characterHeight)));
 				drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point((line.Level) * characterHeight, 0));
+				drawingContext.Pop();
 
-				drawingContext.DrawText(new FormattedText(line.Size, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + 4, 0));
+				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth + handleWidth + AppSettings.SizeColumnWidth, characterHeight)));
+				drawingContext.DrawText(new FormattedText(line.Size, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + handleWidth, 0));
+				drawingContext.Pop();
 
-				drawingContext.DrawText(new FormattedText(line.Date, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + 8, 0));
+				drawingContext.DrawText(new FormattedText(line.Date, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2), 0));
 
 				drawingContext.Pop(); // Line Y offset 
 			}

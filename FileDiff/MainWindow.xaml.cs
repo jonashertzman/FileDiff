@@ -776,6 +776,24 @@ namespace FileDiff
 			{
 				totalWidth += d.Width.Value;
 			}
+
+			LeftColumns.Width = totalWidth;
+			LeftTree.Width = totalWidth;
+
+			RightColumns.Width = totalWidth;
+			RightTree.Width = totalWidth;
+		}
+
+		private void LeftTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+		{
+			LeftColumnScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+			RightTreeScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+		}
+
+		private void RightTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+		{
+			RightColumnScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+			LeftTreeScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
 
 		#endregion
