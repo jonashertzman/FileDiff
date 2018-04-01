@@ -173,7 +173,7 @@
 						</ScrollViewer>
 						<Border Grid.Row="1" Grid.ColumnSpan="6" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
 							<ScrollViewer Name="LeftFolderScroll" PreviewMouseWheel="HandlePreviewMouseWheel" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible" ScrollChanged="LeftTreeScroll_ScrollChanged">
-								<local:TreeControl x:Name="LeftFolder" HorizontalAlignment="Left" Width="100" Lines="{Binding LeftFolder}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" />
+								<local:TreeControl x:Name="LeftFolder" HorizontalAlignment="Left" Width="100" Lines="{Binding LeftFolder}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" />
 							</ScrollViewer>
 						</Border>
 					</Grid>
@@ -250,7 +250,7 @@
 									<ColumnDefinition Width="auto" />
 								</Grid.ColumnDefinitions>
 								<ScrollViewer Grid.RowSpan="2" Name="RightFolderScroll" PreviewMouseWheel="HandlePreviewMouseWheel" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Visible" ScrollChanged="RightTreeScroll_ScrollChanged">
-									<local:TreeControl x:Name="RightFolder" HorizontalAlignment="Left" Width="100" Lines="{Binding RightFolder}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" />
+									<local:TreeControl x:Name="RightFolder" HorizontalAlignment="Left" Width="100" Lines="{Binding RightFolder}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" />
 								</ScrollViewer>
 								<!--TODO: Use height of scroll bar instead of hard coded value for the margin-->
 								<ScrollBar Grid.Row="0" Grid.Column="1" Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll , Mode=TwoWay}" Margin="0,0,0,17" />

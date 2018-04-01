@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace FileDiff
@@ -45,6 +46,8 @@ namespace FileDiff
 		}
 
 		#endregion
+
+		#region Overrides
 
 		protected override void OnRender(DrawingContext drawingContext)
 		{
@@ -96,12 +99,21 @@ namespace FileDiff
 					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
 				}
 
-				//GlyphRun g = CreateGlyphRun(line.Name, out double runWidth);
-				//drawingContext.DrawGlyphRun(line.ForegroundBrush, g);
+				// Draw folder expander
+				if (line.IsFolder)
+				{
+					double expanderWidth = 4.5;
+					drawingContext.DrawRectangle(Brushes.Transparent, new Pen(new SolidColorBrush(Colors.Black), 1), new Rect(expanderWidth + ((line.Level - 1) * characterHeight), expanderWidth, characterHeight - (expanderWidth * 2), characterHeight - (expanderWidth * 2)));
+					drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Black), 1), new Point(expanderWidth, characterHeight / 2), new Point(characterHeight - expanderWidth, characterHeight / 2));
+					if (!line.IsExpanded)
+					{
+						drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Black), 1), new Point(characterHeight / 2, expanderWidth), new Point(characterHeight / 2, characterHeight - expanderWidth));
+					}
+				}
 
-
+				// Draw line text
 				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth, characterHeight)));
-				drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point((line.Level) * characterHeight, 0));
+				drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(line.Level * characterHeight, 0));
 				drawingContext.Pop();
 
 				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth + handleWidth + AppSettings.SizeColumnWidth, characterHeight)));
@@ -113,6 +125,24 @@ namespace FileDiff
 				drawingContext.Pop(); // Line Y offset 
 			}
 		}
+
+		protected override void OnMouseUp(MouseButtonEventArgs e)
+		{
+			int line = (int)(e.GetPosition(this).Y / characterHeight) - VerticalOffset;
+
+			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count && e.GetPosition(this).X < (visibleItems[line].Level * characterHeight))
+			{
+				visibleItems[line].IsExpanded = !visibleItems[line].IsExpanded;
+
+				visibleItems = new List<FileItem>();
+				GetVisibleItems(Lines, visibleItems);
+
+				UpdateTrigger++;
+			}
+			base.OnMouseUp(e);
+		}
+
+		#endregion
 
 		#region Dependency Properties
 

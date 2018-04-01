@@ -181,7 +181,7 @@ namespace FileDiff
 
 				if (leftItem.IsFolder)
 				{
-					leftItem.IsExpanded = true;
+					//leftItem.IsExpanded = true;
 
 					SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children, level + 1);
 
