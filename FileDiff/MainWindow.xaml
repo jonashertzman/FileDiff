@@ -219,7 +219,7 @@
 						</Grid.RowDefinitions>
 
 						<!--TODO: Use width of scroll bar instead of hard coded value for the margin-->
-						<ScrollViewer Name="RightColumnScroll" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Margin="0,0,19,0">
+						<ScrollViewer Name="RightColumnScroll" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Margin="0,0,17,0">
 
 							<Grid Name="RightColumns" HorizontalAlignment="Left">
 								<Grid.ColumnDefinitions>

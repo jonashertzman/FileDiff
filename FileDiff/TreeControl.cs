@@ -104,10 +104,10 @@ namespace FileDiff
 				{
 					double expanderWidth = 4.5;
 					drawingContext.DrawRectangle(Brushes.Transparent, new Pen(new SolidColorBrush(Colors.Black), 1), new Rect(expanderWidth + ((line.Level - 1) * characterHeight), expanderWidth, characterHeight - (expanderWidth * 2), characterHeight - (expanderWidth * 2)));
-					drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Black), 1), new Point(expanderWidth, characterHeight / 2), new Point(characterHeight - expanderWidth, characterHeight / 2));
+					drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Black), 1), new Point(expanderWidth + ((line.Level - 1) * characterHeight), characterHeight / 2), new Point(characterHeight - expanderWidth + ((line.Level - 1) * characterHeight), characterHeight / 2));
 					if (!line.IsExpanded)
 					{
-						drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Black), 1), new Point(characterHeight / 2, expanderWidth), new Point(characterHeight / 2, characterHeight - expanderWidth));
+						drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Black), 1), new Point((characterHeight / 2) + ((line.Level - 1) * characterHeight), expanderWidth), new Point((characterHeight / 2) + ((line.Level - 1) * characterHeight), characterHeight - expanderWidth));
 					}
 				}
 
