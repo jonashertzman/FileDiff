@@ -109,7 +109,7 @@ namespace FileDiff
 				// Draw folder expander
 				if (line.IsFolder)
 				{
-					double expanderWidth = 4.5;
+					double expanderWidth = 5.5;
 					drawingContext.DrawRectangle(Brushes.Transparent, new Pen(new SolidColorBrush(Colors.Black), 1), new Rect(expanderWidth + ((line.Level - 1) * characterHeight), expanderWidth, characterHeight - (expanderWidth * 2), characterHeight - (expanderWidth * 2)));
 					drawingContext.DrawLine(new Pen(new SolidColorBrush(Colors.Black), 1), new Point(expanderWidth + ((line.Level - 1) * characterHeight), characterHeight / 2), new Point(characterHeight - expanderWidth + ((line.Level - 1) * characterHeight), characterHeight / 2));
 					if (!line.IsExpanded)
@@ -147,7 +147,11 @@ namespace FileDiff
 				}
 				else
 				{
-					visibleItems[line].IsSelected = !visibleItems[line].IsSelected;
+					foreach (FileItem i in visibleItems)
+					{
+						i.IsSelected = false;
+					}
+					visibleItems[line].IsSelected = true;
 				}
 				UpdateTrigger++;
 			}
