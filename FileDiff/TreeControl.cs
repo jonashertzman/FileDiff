@@ -19,7 +19,6 @@ namespace FileDiff
 		private double characterWidth;
 
 		private SolidColorBrush slectionBrush;
-		private Pen transpatentPen;
 
 		private GlyphTypeface cachedTypeface;
 
@@ -41,8 +40,6 @@ namespace FileDiff
 			Color selectionColor = SystemColors.HighlightColor;
 			selectionColor.A = 40;
 			slectionBrush = new SolidColorBrush(selectionColor);
-
-			transpatentPen = new Pen(Brushes.Transparent, 0);
 		}
 
 		#endregion
@@ -54,11 +51,13 @@ namespace FileDiff
 			Debug.Print("TreeControl OnRender");
 
 			// Fill background
-			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			if (Lines.Count == 0)
 				return;
 
+			int itemMargin = 1;
+			Pen selectionPen = new Pen(new SolidColorBrush(SystemColors.HighlightColor), itemMargin);
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
@@ -71,7 +70,7 @@ namespace FileDiff
 
 			CreateGlyphRun("W", out characterWidth);
 
-			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
+			characterHeight = Math.Ceiling((MeasureString("W").Height + (2 * itemMargin)) / dpiScale) * dpiScale;
 
 			visibleItems = new List<FileItem>();
 			GetVisibleItems(Lines, visibleItems);
@@ -96,8 +95,16 @@ namespace FileDiff
 				// Draw line background
 				if (line.Type != TextState.FullMatch)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
+					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
 				}
+
+				// Draw selection
+				if (line.IsSelected)
+				{
+					drawingContext.DrawRectangle(null, selectionPen, new Rect(.5, .5, Math.Max(this.ActualWidth - 1, 0), characterHeight - 1));
+				}
+
+				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth, characterHeight)));
 
 				// Draw folder expander
 				if (line.IsFolder)
@@ -112,15 +119,14 @@ namespace FileDiff
 				}
 
 				// Draw line text
-				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth, characterHeight)));
-				drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(line.Level * characterHeight, 0));
+				drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(line.Level * characterHeight, itemMargin));
 				drawingContext.Pop();
 
 				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth + handleWidth + AppSettings.SizeColumnWidth, characterHeight)));
-				drawingContext.DrawText(new FormattedText(line.Size, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + handleWidth, 0));
+				drawingContext.DrawText(new FormattedText(line.Size, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + handleWidth, itemMargin));
 				drawingContext.Pop();
 
-				drawingContext.DrawText(new FormattedText(line.Date, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2), 0));
+				drawingContext.DrawText(new FormattedText(line.Date, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2), itemMargin));
 
 				drawingContext.Pop(); // Line Y offset 
 			}
@@ -130,15 +136,22 @@ namespace FileDiff
 		{
 			int line = (int)(e.GetPosition(this).Y / characterHeight) - VerticalOffset;
 
-			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count && e.GetPosition(this).X < (visibleItems[line].Level * characterHeight))
+			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count)
 			{
-				visibleItems[line].IsExpanded = !visibleItems[line].IsExpanded;
+				if (e.GetPosition(this).X < (visibleItems[line].Level * characterHeight))
+				{
+					visibleItems[line].IsExpanded = !visibleItems[line].IsExpanded;
 
-				visibleItems = new List<FileItem>();
-				GetVisibleItems(Lines, visibleItems);
-
+					visibleItems = new List<FileItem>();
+					GetVisibleItems(Lines, visibleItems);
+				}
+				else
+				{
+					visibleItems[line].IsSelected = !visibleItems[line].IsSelected;
+				}
 				UpdateTrigger++;
 			}
+
 			base.OnMouseUp(e);
 		}
 
