@@ -53,21 +53,35 @@ namespace FileDiff
 			set { currentDiffLength = value; OnPropertyChangedRepaint(nameof(currentDiffLength)); }
 		}
 
-		bool fileMode;
-		public bool FileMode
+		CompareMode mode;
+		public CompareMode Mode
 		{
-			get { return fileMode; }
-			set { fileMode = value; OnPropertyChangedRepaint(nameof(FolderView)); OnPropertyChangedRepaint(nameof(FileView)); }
+			get { return mode; }
+			set { mode = value; OnPropertyChangedRepaint(nameof(FolderView)); OnPropertyChangedRepaint(nameof(FileView)); }
 		}
 
 		public Visibility FileView
 		{
-			get { return fileMode ? Visibility.Visible : Visibility.Collapsed; }
+			get
+			{
+				if (mode == CompareMode.Folder)
+				{
+					return Visibility.Collapsed;
+				}
+				return Visibility.Visible;
+			}
 		}
 
 		public Visibility FolderView
 		{
-			get { return fileMode ? Visibility.Collapsed : Visibility.Visible; }
+			get
+			{
+				if (mode == CompareMode.File)
+				{
+					return Visibility.Collapsed;
+				}
+				return Visibility.Visible;
+			}
 		}
 
 		string leftPath;
@@ -116,6 +130,12 @@ namespace FileDiff
 		{
 			get { return AppSettings.ShowLineChanges; }
 			set { AppSettings.ShowLineChanges = value; OnPropertyChangedRepaint(nameof(ShowLineChanges)); }
+		}
+
+		public bool MasterDetail
+		{
+			get { return AppSettings.MasterDetail; }
+			set { AppSettings.MasterDetail = value; OnPropertyChanged(nameof(MasterDetail)); }
 		}
 
 		public double NameColumnWidth

@@ -49,12 +49,12 @@ namespace FileDiff
 		{
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
-				ViewModel.FileMode = true;
+				ViewModel.Mode = CompareMode.File;
 				CompareFiles();
 			}
 			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
 			{
-				ViewModel.FileMode = false;
+				ViewModel.Mode = CompareMode.Folder;
 				CompareDirectories();
 			}
 		}
@@ -870,7 +870,7 @@ namespace FileDiff
 
 		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = firstDiff < ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileView == Visibility.Visible && firstDiff < ViewModel.CurrentDiff;
 		}
 
 		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -880,7 +880,7 @@ namespace FileDiff
 
 		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = lastDiff > ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileView == Visibility.Visible && lastDiff > ViewModel.CurrentDiff;
 		}
 
 		private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -890,7 +890,7 @@ namespace FileDiff
 
 		private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = firstDiff < ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileView == Visibility.Visible && firstDiff < ViewModel.CurrentDiff;
 		}
 
 		private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -900,7 +900,7 @@ namespace FileDiff
 
 		private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = lastDiff > ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileView == Visibility.Visible && lastDiff > ViewModel.CurrentDiff;
 		}
 
 		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)

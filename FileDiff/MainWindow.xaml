@@ -102,6 +102,12 @@
 					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
+			<ToggleButton x:Name="ToggleButtonMasterDetail" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding MasterDetail}" Focusable="False">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Master Detail" VerticalAlignment="Center" />
+				</StackPanel>
+			</ToggleButton>
 
 		</WrapPanel>
 

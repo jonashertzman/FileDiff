@@ -11,6 +11,8 @@ namespace FileDiff
 
 		public bool ShowLineChanges { get; set; } = true;
 
+		public bool MasterDetail { get; set; } = false;
+
 		// Minimum character length of substrings used when looking for similarities between two lines.
 		public int CharacterMatchThreshold { get; set; } = 4;
 

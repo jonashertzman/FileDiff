@@ -10,4 +10,11 @@
 		Filler
 	}
 
+	public enum CompareMode
+	{
+		File,
+		Folder,
+		TwoLevel
+	}
+
 }

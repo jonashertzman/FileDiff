@@ -23,6 +23,12 @@ namespace FileDiff
 			set { Settings.IgnoreWhiteSpace = value; }
 		}
 
+		public static bool MasterDetail
+		{
+			get { return Settings.MasterDetail; }
+			set { Settings.MasterDetail = value; }
+		}
+
 		public static double PositionLeft
 		{
 			get { return Settings.PositionLeft; }
