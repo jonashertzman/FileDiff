@@ -100,6 +100,11 @@ namespace FileDiff
 
 		private void CompareDirectories()
 		{
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
+
+			Mouse.OverrideCursor = Cursors.Wait;
+
 			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
 			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
 
@@ -107,6 +112,13 @@ namespace FileDiff
 
 			ViewModel.LeftFolder = leftItems;
 			ViewModel.RightFolder = rightItems;
+
+			LeftFolder.Focus();
+
+			Mouse.OverrideCursor = null;
+
+			stopwatch.Stop();
+			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms";
 		}
 
 		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
@@ -806,13 +818,13 @@ namespace FileDiff
 		private void LeftTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
 			LeftColumnScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-			RightFolderScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+			//RightFolderScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
 
 		private void RightTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
 			RightColumnScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-			LeftFolderScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+			//LeftFolderScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
 
 		#endregion

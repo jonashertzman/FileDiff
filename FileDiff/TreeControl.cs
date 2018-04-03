@@ -78,7 +78,7 @@ namespace FileDiff
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = visibleItems.Count - VisibleLines + 1;
 
-			for (int i = 0; i < visibleItems.Count; i++)
+			for (int i = 0; i < VisibleLines; i++)
 			{
 				int lineIndex = i + VerticalOffset;
 
@@ -132,9 +132,14 @@ namespace FileDiff
 			}
 		}
 
+		protected override void OnMouseDown(MouseButtonEventArgs e)
+		{
+			this.Focus();
+		}
+
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			int line = (int)(e.GetPosition(this).Y / characterHeight) - VerticalOffset;
+			int line = (int)(e.GetPosition(this).Y / characterHeight) + VerticalOffset;
 
 			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count)
 			{
@@ -158,6 +163,29 @@ namespace FileDiff
 
 			base.OnMouseUp(e);
 		}
+
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			if (e.Key == Key.PageUp)
+			{
+				VerticalOffset = Math.Max(0, VerticalOffset -= VisibleLines - 1);
+			}
+			else if (e.Key == Key.PageDown)
+			{
+				VerticalOffset = VerticalOffset += VisibleLines - 1;
+			}
+			else if (e.Key == Key.Home && Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				VerticalOffset = 0;
+			}
+			else if (e.Key == Key.End && Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				VerticalOffset = Lines.Count;
+			}
+
+			base.OnKeyDown(e);
+		}
+
 
 		#endregion
 

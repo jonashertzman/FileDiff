@@ -87,20 +87,6 @@ namespace FileDiff
 
 		public bool IsFolder { get; set; }
 
-		public double NameWidth
-		{
-			get { return Math.Max(0, AppSettings.NameColumnWidth - (Level * 19)); } // TODO: Get the indentation length programmatically.
-		}
-
-		public double SizeWidth
-		{
-			get { return Math.Max(0, AppSettings.SizeColumnWidth); }
-		}
-
-		public double DateWidth
-		{
-			get { return Math.Max(0, AppSettings.DateColumnWidth); }
-		}
 
 		private TextState type;
 		public TextState Type
