@@ -749,6 +749,34 @@ namespace FileDiff
 			LeftHorizontalScrollbar.Value = e.NewValue;
 		}
 
+		private void LeftFolderHorizontalScrollbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			LeftColumnScroll.ScrollToHorizontalOffset(e.NewValue);
+			RightFolderHorizontalScrollbar.Value = e.NewValue;
+		}
+
+		private void RightFolderHorizontalScrollbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			RightColumnScroll.ScrollToHorizontalOffset(e.NewValue);
+			LeftFolderHorizontalScrollbar.Value = e.NewValue;
+		}
+
+		private void LeftColumnScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+		{
+			if (!renderComplete)
+				return;
+
+			UpdateColumnWidths(LeftColumns);
+		}
+
+		private void RightColumnScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
+		{
+			if (!renderComplete)
+				return;
+
+			UpdateColumnWidths(RightColumns);
+		}
+
 		private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
 		{
 			ProcessSearchResult(activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true));
@@ -792,7 +820,7 @@ namespace FileDiff
 			ViewModel.DateColumnWidth = columnGrid.ColumnDefinitions[4].Width.Value;
 
 
-			// TODO: Workaround until I figure out how to data bind the column definition widths two way.
+			// HACK: Workaround until I figure out how to data bind the column definition widths two way.
 			LeftColumns.ColumnDefinitions[0].Width = new GridLength(ViewModel.NameColumnWidth);
 			RightColumns.ColumnDefinitions[0].Width = new GridLength(ViewModel.NameColumnWidth);
 			LeftColumns.ColumnDefinitions[2].Width = new GridLength(ViewModel.SizeColumnWidth);
@@ -809,22 +837,12 @@ namespace FileDiff
 			}
 
 			LeftColumns.Width = totalWidth;
-			LeftFolder.Width = totalWidth;
+			LeftFolderHorizontalScrollbar.ViewportSize = LeftFolder.ActualWidth;
+			LeftFolderHorizontalScrollbar.Maximum = totalWidth - LeftFolder.ActualWidth;
 
 			RightColumns.Width = totalWidth;
-			RightFolder.Width = totalWidth;
-		}
-
-		private void LeftTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
-		{
-			LeftColumnScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-			//RightFolderScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-		}
-
-		private void RightTreeScroll_ScrollChanged(object sender, ScrollChangedEventArgs e)
-		{
-			RightColumnScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
-			//LeftFolderScroll.ScrollToHorizontalOffset(e.HorizontalOffset);
+			RightFolderHorizontalScrollbar.ViewportSize = RightFolder.ActualWidth;
+			RightFolderHorizontalScrollbar.Maximum = totalWidth - RightFolder.ActualWidth;
 		}
 
 		#endregion

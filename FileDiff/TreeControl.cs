@@ -104,6 +104,8 @@ namespace FileDiff
 					drawingContext.DrawRectangle(null, selectionPen, new Rect(.5, .5, Math.Max(this.ActualWidth - 1, 0), characterHeight - 1));
 				}
 
+				drawingContext.PushTransform(new TranslateTransform(-HorizontalOffset, 0));
+
 				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth, characterHeight)));
 
 				// Draw folder expander
@@ -128,7 +130,8 @@ namespace FileDiff
 
 				drawingContext.DrawText(new FormattedText(line.Date, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, t, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2), itemMargin));
 
-				drawingContext.Pop(); // Line Y offset 
+				drawingContext.Pop(); // Horizontal offset
+				drawingContext.Pop(); // Line offset 
 			}
 		}
 
@@ -143,7 +146,7 @@ namespace FileDiff
 
 			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count)
 			{
-				if (e.GetPosition(this).X < (visibleItems[line].Level * characterHeight))
+				if (e.GetPosition(this).X < (visibleItems[line].Level * characterHeight) - HorizontalOffset)
 				{
 					visibleItems[line].IsExpanded = !visibleItems[line].IsExpanded;
 
@@ -186,7 +189,6 @@ namespace FileDiff
 			base.OnKeyDown(e);
 		}
 
-
 		#endregion
 
 		#region Dependency Properties
@@ -197,6 +199,15 @@ namespace FileDiff
 		{
 			get { return (ObservableCollection<FileItem>)GetValue(LinesProperty); }
 			set { SetValue(LinesProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.Register("HorizontalOffset", typeof(int), typeof(TreeControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public int HorizontalOffset
+		{
+			get { return (int)GetValue(HorizontalOffsetProperty); }
+			set { SetValue(HorizontalOffsetProperty, value); }
 		}
 
 
