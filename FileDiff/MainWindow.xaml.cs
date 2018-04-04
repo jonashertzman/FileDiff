@@ -839,10 +839,12 @@ namespace FileDiff
 			LeftColumns.Width = totalWidth;
 			LeftFolderHorizontalScrollbar.ViewportSize = LeftFolder.ActualWidth;
 			LeftFolderHorizontalScrollbar.Maximum = totalWidth - LeftFolder.ActualWidth;
+			LeftFolderHorizontalScrollbar.LargeChange = LeftFolder.ActualWidth;
 
 			RightColumns.Width = totalWidth;
 			RightFolderHorizontalScrollbar.ViewportSize = RightFolder.ActualWidth;
 			RightFolderHorizontalScrollbar.Maximum = totalWidth - RightFolder.ActualWidth;
+			RightFolderHorizontalScrollbar.LargeChange = RightFolder.ActualWidth;
 		}
 
 		#endregion

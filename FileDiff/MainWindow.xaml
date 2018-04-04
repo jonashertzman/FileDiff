@@ -181,7 +181,7 @@
 						<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
 							<local:TreeControl x:Name="LeftFolder" Lines="{Binding LeftFolder}" HorizontalOffset="{Binding Value, ElementName=LeftFolderHorizontalScrollbar}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" />
 						</Border>
-						<ScrollBar Grid.Row="2" Name="LeftFolderHorizontalScrollbar" ValueChanged="LeftFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" />
+						<ScrollBar Grid.Row="2" Name="LeftFolderHorizontalScrollbar" ValueChanged="LeftFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
 					</Grid>
 
 					<!--Left File-->
@@ -262,7 +262,7 @@
 							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
 								<ScrollBar Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll , Mode=TwoWay}" />
 							</Border>
-							<ScrollBar Grid.Row="2" Name="RightFolderHorizontalScrollbar" ValueChanged="RightFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" />
+							<ScrollBar Grid.Row="2" Name="RightFolderHorizontalScrollbar" ValueChanged="RightFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
 							<StackPanel Grid.Row="3" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
 						</Grid>
 					</Grid>
