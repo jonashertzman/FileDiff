@@ -50,11 +50,21 @@ namespace FileDiff
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
 				ViewModel.Mode = CompareMode.File;
+
+				FolderRow.Height = new GridLength(0);
+				SplitterRow.Height = new GridLength(0);
+				FileRow.Height = new GridLength(1, GridUnitType.Star);
+
 				CompareFiles();
 			}
 			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
 			{
 				ViewModel.Mode = CompareMode.Folder;
+
+				FolderRow.Height = new GridLength(1, GridUnitType.Star);
+				SplitterRow.Height = new GridLength(0);
+				FileRow.Height = new GridLength(0);
+
 				CompareDirectories();
 			}
 		}
