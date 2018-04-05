@@ -64,7 +64,7 @@ namespace FileDiff
 		{
 			get
 			{
-				if (mode == CompareMode.Folder)
+				if (mode == CompareMode.Folder && !MasterDetail)
 				{
 					return Visibility.Collapsed;
 				}

@@ -155,11 +155,19 @@ namespace FileDiff
 				}
 				else
 				{
-					foreach (FileItem i in visibleItems)
+					if (!visibleItems[line].IsSelected)
 					{
-						i.IsSelected = false;
+						foreach (FileItem i in visibleItems)
+						{
+							i.IsSelected = false;
+						}
+						visibleItems[line].IsSelected = true;
+
+						if (!visibleItems[line].IsFolder && visibleItems[line].Type != TextState.Filler && visibleItems[line].CorrespondingItem.Type != TextState.Filler)
+						{
+							SelectionChanged?.Invoke(visibleItems[line].Path, visibleItems[line].CorrespondingItem.Path);
+						}
 					}
-					visibleItems[line].IsSelected = true;
 				}
 				UpdateTrigger++;
 			}
@@ -188,6 +196,13 @@ namespace FileDiff
 
 			base.OnKeyDown(e);
 		}
+
+		#endregion
+
+		#region Events
+
+		public delegate void SelectionChangedEvent(string leftFile, string rightFile);
+		public event SelectionChangedEvent SelectionChanged;
 
 		#endregion
 

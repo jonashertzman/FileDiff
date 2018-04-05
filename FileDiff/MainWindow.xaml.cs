@@ -55,21 +55,33 @@ namespace FileDiff
 				SplitterRow.Height = new GridLength(0);
 				FileRow.Height = new GridLength(1, GridUnitType.Star);
 
-				CompareFiles();
+				CompareFiles(ViewModel.LeftPath, ViewModel.RightPath);
 			}
 			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
 			{
-				ViewModel.Mode = CompareMode.Folder;
+				if (ViewModel.MasterDetail)
+				{
+					ViewModel.Mode = CompareMode.TwoLevel;
 
-				FolderRow.Height = new GridLength(1, GridUnitType.Star);
-				SplitterRow.Height = new GridLength(0);
-				FileRow.Height = new GridLength(0);
+					FolderRow.Height = new GridLength(1, GridUnitType.Star);
+					SplitterRow.Height = new GridLength(0, GridUnitType.Auto);
+					FileRow.Height = new GridLength(1, GridUnitType.Star);
+				}
+				else
+				{
+					ViewModel.Mode = CompareMode.Folder;
+
+					FolderRow.Height = new GridLength(1, GridUnitType.Star);
+					SplitterRow.Height = new GridLength(0);
+					FileRow.Height = new GridLength(0);
+				}
 
 				CompareDirectories();
 			}
 		}
 
-		private void CompareFiles()
+
+		private void CompareFiles(string leftFile, string rightFile)
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
@@ -80,13 +92,13 @@ namespace FileDiff
 			List<Line> rightSide = new List<Line>();
 
 			int i = 0;
-			foreach (string s in File.ReadAllLines(ViewModel.LeftPath))
+			foreach (string s in File.ReadAllLines(leftFile))
 			{
 				leftSide.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
 			}
 
 			i = 0;
-			foreach (string s in File.ReadAllLines(ViewModel.RightPath))
+			foreach (string s in File.ReadAllLines(rightFile))
 			{
 				rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
 			}
@@ -99,6 +111,7 @@ namespace FileDiff
 			FillViewModel(leftSide, rightSide);
 
 			InitNavigationButtons();
+
 
 			LeftDiff.Focus();
 
@@ -676,10 +689,18 @@ namespace FileDiff
 
 		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)
 		{
-			Compare();
+			if (ViewModel.Mode != CompareMode.Folder)
+			{
+				Compare();
+			}
 		}
 
 		private void ToggleButtonShowLineChanges_Click(object sender, RoutedEventArgs e)
+		{
+			Compare();
+		}
+
+		private void ToggleButtonMasterDetail_Click(object sender, RoutedEventArgs e)
 		{
 			Compare();
 		}
@@ -995,5 +1016,14 @@ namespace FileDiff
 
 		#endregion
 
+		private void LeftFolder_SelectionChanged(string leftFile, string rightFile)
+		{
+			CompareFiles(leftFile, rightFile);
+		}
+
+		private void RightFolder_SelectionChanged(string leftFile, string rightFile)
+		{
+			CompareFiles(rightFile, leftFile);
+		}
 	}
 }

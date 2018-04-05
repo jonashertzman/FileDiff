@@ -84,7 +84,6 @@ namespace FileDiff
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
-
 			for (int i = 0; i < VisibleLines; i++)
 			{
 				int lineIndex = i + VerticalOffset;
@@ -382,6 +381,11 @@ namespace FileDiff
 		internal void ClearSelection()
 		{
 			selection = null;
+			VerticalOffset = 0;
+			HorizontalOffset = 0;
+			TextAreaWidth = 0;
+			MaxHorizontalScroll = 0;
+			maxTextwidth = 0;
 		}
 
 		private void PointToCharacter(Point point, out int line, out int character)
