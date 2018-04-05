@@ -237,17 +237,17 @@ namespace FileDiff
 			VerticalFileScrollbar.Value = 0;
 			LeftHorizontalScrollbar.Value = 0;
 
-			for (int i = 0; i < ViewModel.LeftSide.Count; i++)
+			for (int i = 0; i < ViewModel.LeftFile.Count; i++)
 			{
-				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)
+				if (i == 0 || ViewModel.LeftFile[i - 1].Type == TextState.FullMatch)
 				{
-					if (firstDiff == -1 && ViewModel.LeftSide[i].Type != TextState.FullMatch)
+					if (firstDiff == -1 && ViewModel.LeftFile[i].Type != TextState.FullMatch)
 					{
 						firstDiff = i;
 						ViewModel.CurrentDiff = i;
 						CenterOnLine(i);
 					}
-					if (ViewModel.LeftSide[i].Type != TextState.FullMatch)
+					if (ViewModel.LeftFile[i].Type != TextState.FullMatch)
 					{
 						lastDiff = i;
 					}
@@ -259,33 +259,33 @@ namespace FileDiff
 		{
 			int rightIndex = 0;
 
-			ViewModel.LeftSide = new ObservableCollection<Line>();
-			ViewModel.RightSide = new ObservableCollection<Line>();
+			ViewModel.LeftFile = new ObservableCollection<Line>();
+			ViewModel.RightFile = new ObservableCollection<Line>();
 
 			for (int leftIndex = 0; leftIndex < leftSide.Count; leftIndex++)
 			{
 				if (leftSide[leftIndex].MatchingLineIndex == null)
 				{
-					ViewModel.LeftSide.Add(leftSide[leftIndex]);
-					ViewModel.RightSide.Add(new Line() { Type = TextState.Filler });
+					ViewModel.LeftFile.Add(leftSide[leftIndex]);
+					ViewModel.RightFile.Add(new Line() { Type = TextState.Filler });
 				}
 				else
 				{
 					while (rightIndex < leftSide[leftIndex].MatchingLineIndex)
 					{
-						ViewModel.LeftSide.Add(new Line() { Type = TextState.Filler });
-						ViewModel.RightSide.Add(rightSide[rightIndex]);
+						ViewModel.LeftFile.Add(new Line() { Type = TextState.Filler });
+						ViewModel.RightFile.Add(rightSide[rightIndex]);
 						rightIndex++;
 					}
-					ViewModel.LeftSide.Add(leftSide[leftIndex]);
-					ViewModel.RightSide.Add(rightSide[rightIndex]);
+					ViewModel.LeftFile.Add(leftSide[leftIndex]);
+					ViewModel.RightFile.Add(rightSide[rightIndex]);
 					rightIndex++;
 				}
 			}
 			while (rightIndex < rightSide.Count)
 			{
-				ViewModel.LeftSide.Add(new Line() { Type = TextState.Filler });
-				ViewModel.RightSide.Add(rightSide[rightIndex]);
+				ViewModel.LeftFile.Add(new Line() { Type = TextState.Filler });
+				ViewModel.RightFile.Add(rightSide[rightIndex]);
 				rightIndex++;
 			}
 		}
@@ -553,7 +553,7 @@ namespace FileDiff
 
 		private void MoveToLastDiff()
 		{
-			ViewModel.CurrentDiff = ViewModel.LeftSide.Count;
+			ViewModel.CurrentDiff = ViewModel.LeftFile.Count;
 			MoveToPrevoiusDiff();
 		}
 
@@ -561,9 +561,9 @@ namespace FileDiff
 		{
 			for (int i = ViewModel.CurrentDiff - 1; i >= 0; i--)
 			{
-				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)
+				if (i == 0 || ViewModel.LeftFile[i - 1].Type == TextState.FullMatch)
 				{
-					if (ViewModel.LeftSide[i].Type != TextState.FullMatch || ViewModel.RightSide[i].Type != TextState.FullMatch)
+					if (ViewModel.LeftFile[i].Type != TextState.FullMatch || ViewModel.RightFile[i].Type != TextState.FullMatch)
 					{
 						ViewModel.CurrentDiff = i;
 						CenterOnLine(i);
@@ -575,11 +575,11 @@ namespace FileDiff
 
 		private void MoveToNextDiff()
 		{
-			for (int i = ViewModel.CurrentDiff + 1; i < ViewModel.LeftSide.Count; i++)
+			for (int i = ViewModel.CurrentDiff + 1; i < ViewModel.LeftFile.Count; i++)
 			{
-				if (i == 0 || ViewModel.LeftSide[i - 1].Type == TextState.FullMatch)
+				if (i == 0 || ViewModel.LeftFile[i - 1].Type == TextState.FullMatch)
 				{
-					if (ViewModel.LeftSide[i].Type != TextState.FullMatch || ViewModel.RightSide[i].Type != TextState.FullMatch)
+					if (ViewModel.LeftFile[i].Type != TextState.FullMatch || ViewModel.RightFile[i].Type != TextState.FullMatch)
 					{
 						ViewModel.CurrentDiff = i;
 						CenterOnLine(i);
@@ -594,7 +594,7 @@ namespace FileDiff
 			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
 			int diffLength = 0;
 
-			while (i + diffLength + 1 < ViewModel.LeftSide.Count && ViewModel.LeftSide[i + diffLength + 1].Type != TextState.FullMatch)
+			while (i + diffLength + 1 < ViewModel.LeftFile.Count && ViewModel.LeftFile[i + diffLength + 1].Type != TextState.FullMatch)
 			{
 				diffLength++;
 			}

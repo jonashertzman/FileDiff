@@ -11,18 +11,18 @@ namespace FileDiff
 
 		#region Properties
 
-		ObservableCollection<Line> leftSide = new ObservableCollection<Line>();
-		public ObservableCollection<Line> LeftSide
+		ObservableCollection<Line> leftFile = new ObservableCollection<Line>();
+		public ObservableCollection<Line> LeftFile
 		{
-			get { return leftSide; }
-			set { leftSide = value; OnPropertyChangedRepaint(nameof(LeftSide)); }
+			get { return leftFile; }
+			set { leftFile = value; OnPropertyChangedRepaint(nameof(LeftFile)); }
 		}
 
-		ObservableCollection<Line> rightSide = new ObservableCollection<Line>();
-		public ObservableCollection<Line> RightSide
+		ObservableCollection<Line> rightFile = new ObservableCollection<Line>();
+		public ObservableCollection<Line> RightFile
 		{
-			get { return rightSide; }
-			set { rightSide = value; OnPropertyChangedRepaint(nameof(RightSide)); }
+			get { return rightFile; }
+			set { rightFile = value; OnPropertyChangedRepaint(nameof(RightFile)); }
 		}
 
 		ObservableCollection<FileItem> leftFolder = new ObservableCollection<FileItem>();
@@ -144,8 +144,8 @@ namespace FileDiff
 			{
 				leftPath = value;
 
-				LeftSide = new ObservableCollection<Line>();
-				RightSide = new ObservableCollection<Line>();
+				LeftFile = new ObservableCollection<Line>();
+				RightFile = new ObservableCollection<Line>();
 
 				LeftFolder = new ObservableCollection<FileItem>();
 				RightFolder = new ObservableCollection<FileItem>();
@@ -162,8 +162,8 @@ namespace FileDiff
 			{
 				rightPath = value;
 
-				LeftSide = new ObservableCollection<Line>();
-				RightSide = new ObservableCollection<Line>();
+				LeftFile = new ObservableCollection<Line>();
+				RightFile = new ObservableCollection<Line>();
 
 				LeftFolder = new ObservableCollection<FileItem>();
 				RightFolder = new ObservableCollection<FileItem>();
@@ -187,7 +187,7 @@ namespace FileDiff
 		public bool MasterDetail
 		{
 			get { return AppSettings.MasterDetail; }
-			set { AppSettings.MasterDetail = value; OnPropertyChanged(nameof(MasterDetail)); }
+			set { AppSettings.MasterDetail = value; OnPropertyChanged(nameof(MasterDetail)); OnPropertyChanged(nameof(Mode)); }
 		}
 
 		public double NameColumnWidth
