@@ -13,8 +13,7 @@
 	public enum CompareMode
 	{
 		File,
-		Folder,
-		TwoLevel
+		Folder
 	}
 
 }

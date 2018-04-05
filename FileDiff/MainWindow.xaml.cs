@@ -51,35 +51,15 @@ namespace FileDiff
 			{
 				ViewModel.Mode = CompareMode.File;
 
-				FolderRow.Height = new GridLength(0);
-				SplitterRow.Height = new GridLength(0);
-				FileRow.Height = new GridLength(1, GridUnitType.Star);
-
 				CompareFiles(ViewModel.LeftPath, ViewModel.RightPath);
 			}
 			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
 			{
-				if (ViewModel.MasterDetail)
-				{
-					ViewModel.Mode = CompareMode.TwoLevel;
-
-					FolderRow.Height = new GridLength(1, GridUnitType.Star);
-					SplitterRow.Height = new GridLength(0, GridUnitType.Auto);
-					FileRow.Height = new GridLength(1, GridUnitType.Star);
-				}
-				else
-				{
-					ViewModel.Mode = CompareMode.Folder;
-
-					FolderRow.Height = new GridLength(1, GridUnitType.Star);
-					SplitterRow.Height = new GridLength(0);
-					FileRow.Height = new GridLength(0);
-				}
+				ViewModel.Mode = CompareMode.Folder;
 
 				CompareDirectories();
 			}
 		}
-
 
 		private void CompareFiles(string leftFile, string rightFile)
 		{

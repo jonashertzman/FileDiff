@@ -120,9 +120,9 @@
 		<Grid Name="GridMainContent">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="0" Name="FolderRow" />
-				<RowDefinition Height="0" Name="SplitterRow" />
-				<RowDefinition Height="*" Name="FileRow" />
+				<RowDefinition Height="{Binding FolderRowHeight}" Name="FolderRow" />
+				<RowDefinition Height="{Binding SplitterRowHeight}" Name="SplitterRow" />
+				<RowDefinition Height="{Binding FileRowHeight}" Name="FileRow" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 

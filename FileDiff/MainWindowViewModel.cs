@@ -57,7 +57,15 @@ namespace FileDiff
 		public CompareMode Mode
 		{
 			get { return mode; }
-			set { mode = value; OnPropertyChangedRepaint(nameof(FolderView)); OnPropertyChangedRepaint(nameof(FileView)); }
+			set
+			{
+				mode = value;
+				OnPropertyChangedRepaint(nameof(FileView));
+				OnPropertyChangedRepaint(nameof(FolderView));
+				OnPropertyChangedRepaint(nameof(FolderRowHeight));
+				OnPropertyChangedRepaint(nameof(SplitterRowHeight));
+				OnPropertyChangedRepaint(nameof(FileRowHeight));
+			}
 		}
 
 		public Visibility FileView
@@ -81,6 +89,50 @@ namespace FileDiff
 					return Visibility.Collapsed;
 				}
 				return Visibility.Visible;
+			}
+		}
+
+		public GridLength FolderRowHeight
+		{
+			get
+			{
+				if (mode == CompareMode.File)
+				{
+					return new GridLength(0);
+				}
+				return new GridLength(1, GridUnitType.Star);
+			}
+		}
+
+		public GridLength SplitterRowHeight
+		{
+			get
+			{
+				if (mode == CompareMode.File)
+				{
+					return new GridLength(0);
+				}
+				if (MasterDetail)
+				{
+					return new GridLength(0, GridUnitType.Auto);
+				}
+				return new GridLength(0);
+			}
+		}
+
+		public GridLength FileRowHeight
+		{
+			get
+			{
+				if (mode == CompareMode.Folder)
+				{
+					if (MasterDetail)
+					{
+						return new GridLength(1, GridUnitType.Star);
+					}
+					return new GridLength(0);
+				}
+				return new GridLength(1, GridUnitType.Star);
 			}
 		}
 
