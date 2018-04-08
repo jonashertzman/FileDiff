@@ -100,8 +100,13 @@ namespace FileDiff
 				{
 					return new GridLength(0);
 				}
+				else if (MasterDetail)
+				{
+					return new GridLength(AppSettings.FolderRowHeight, GridUnitType.Pixel);
+				}
 				return new GridLength(1, GridUnitType.Star);
 			}
+			set { AppSettings.FolderRowHeight = value.Value; OnPropertyChanged(nameof(MasterDetail)); OnPropertyChanged(nameof(FolderRowHeight)); }
 		}
 
 		public GridLength SplitterRowHeight

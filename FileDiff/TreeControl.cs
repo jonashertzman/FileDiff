@@ -152,6 +152,7 @@ namespace FileDiff
 
 					visibleItems = new List<FileItem>();
 					GetVisibleItems(Lines, visibleItems);
+					UpdateTrigger++;
 				}
 				else
 				{
@@ -167,9 +168,9 @@ namespace FileDiff
 						{
 							SelectionChanged?.Invoke(visibleItems[line].Path, visibleItems[line].CorrespondingItem.Path);
 						}
+						UpdateTrigger++;
 					}
 				}
-				UpdateTrigger++;
 			}
 
 			base.OnMouseUp(e);

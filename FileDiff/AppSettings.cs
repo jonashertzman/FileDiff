@@ -53,6 +53,12 @@ namespace FileDiff
 			set { Settings.Height = value; }
 		}
 
+		public static double FolderRowHeight
+		{
+			get { return Settings.FolderRowHeight; }
+			set { Settings.FolderRowHeight = value; }
+		}
+
 		public static WindowState WindowState
 		{
 			get { return Settings.WindowState; }

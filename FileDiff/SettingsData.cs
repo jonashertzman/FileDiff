@@ -39,6 +39,7 @@ namespace FileDiff
 		public double PositionTop { get; set; }
 		public double Width { get; set; } = 700;
 		public double Height { get; set; } = 500;
+		public double FolderRowHeight { get; set; } = 300;
 		public WindowState WindowState { get; set; }
 
 	}
