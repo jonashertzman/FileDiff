@@ -640,6 +640,40 @@ namespace FileDiff
 			}
 		}
 
+		private void UpdateColumnWidths(Grid columnGrid)
+		{
+			ViewModel.NameColumnWidth = columnGrid.ColumnDefinitions[0].Width.Value;
+			ViewModel.SizeColumnWidth = columnGrid.ColumnDefinitions[2].Width.Value;
+			ViewModel.DateColumnWidth = columnGrid.ColumnDefinitions[4].Width.Value;
+
+
+			// HACK: Workaround until I figure out how to data bind the column definition widths two way.
+			LeftColumns.ColumnDefinitions[0].Width = new GridLength(ViewModel.NameColumnWidth);
+			RightColumns.ColumnDefinitions[0].Width = new GridLength(ViewModel.NameColumnWidth);
+			LeftColumns.ColumnDefinitions[2].Width = new GridLength(ViewModel.SizeColumnWidth);
+			RightColumns.ColumnDefinitions[2].Width = new GridLength(ViewModel.SizeColumnWidth);
+			LeftColumns.ColumnDefinitions[4].Width = new GridLength(ViewModel.DateColumnWidth);
+			RightColumns.ColumnDefinitions[4].Width = new GridLength(ViewModel.DateColumnWidth);
+
+
+			double totalWidth = 0;
+
+			foreach (ColumnDefinition d in columnGrid.ColumnDefinitions)
+			{
+				totalWidth += d.Width.Value;
+			}
+
+			LeftColumns.Width = totalWidth;
+			LeftFolderHorizontalScrollbar.ViewportSize = LeftFolder.ActualWidth;
+			LeftFolderHorizontalScrollbar.Maximum = totalWidth - LeftFolder.ActualWidth;
+			LeftFolderHorizontalScrollbar.LargeChange = LeftFolder.ActualWidth;
+
+			RightColumns.Width = totalWidth;
+			RightFolderHorizontalScrollbar.ViewportSize = RightFolder.ActualWidth;
+			RightFolderHorizontalScrollbar.Maximum = totalWidth - RightFolder.ActualWidth;
+			RightFolderHorizontalScrollbar.LargeChange = RightFolder.ActualWidth;
+		}
+
 		#endregion
 
 		#region Events
@@ -824,38 +858,14 @@ namespace FileDiff
 			UpdateColumnWidths(RightColumns);
 		}
 
-		private void UpdateColumnWidths(Grid columnGrid)
+		private void LeftFolder_SelectionChanged(string leftFile, string rightFile)
 		{
-			ViewModel.NameColumnWidth = columnGrid.ColumnDefinitions[0].Width.Value;
-			ViewModel.SizeColumnWidth = columnGrid.ColumnDefinitions[2].Width.Value;
-			ViewModel.DateColumnWidth = columnGrid.ColumnDefinitions[4].Width.Value;
+			CompareFiles(leftFile, rightFile);
+		}
 
-
-			// HACK: Workaround until I figure out how to data bind the column definition widths two way.
-			LeftColumns.ColumnDefinitions[0].Width = new GridLength(ViewModel.NameColumnWidth);
-			RightColumns.ColumnDefinitions[0].Width = new GridLength(ViewModel.NameColumnWidth);
-			LeftColumns.ColumnDefinitions[2].Width = new GridLength(ViewModel.SizeColumnWidth);
-			RightColumns.ColumnDefinitions[2].Width = new GridLength(ViewModel.SizeColumnWidth);
-			LeftColumns.ColumnDefinitions[4].Width = new GridLength(ViewModel.DateColumnWidth);
-			RightColumns.ColumnDefinitions[4].Width = new GridLength(ViewModel.DateColumnWidth);
-
-
-			double totalWidth = 0;
-
-			foreach (ColumnDefinition d in columnGrid.ColumnDefinitions)
-			{
-				totalWidth += d.Width.Value;
-			}
-
-			LeftColumns.Width = totalWidth;
-			LeftFolderHorizontalScrollbar.ViewportSize = LeftFolder.ActualWidth;
-			LeftFolderHorizontalScrollbar.Maximum = totalWidth - LeftFolder.ActualWidth;
-			LeftFolderHorizontalScrollbar.LargeChange = LeftFolder.ActualWidth;
-
-			RightColumns.Width = totalWidth;
-			RightFolderHorizontalScrollbar.ViewportSize = RightFolder.ActualWidth;
-			RightFolderHorizontalScrollbar.Maximum = totalWidth - RightFolder.ActualWidth;
-			RightFolderHorizontalScrollbar.LargeChange = RightFolder.ActualWidth;
+		private void RightFolder_SelectionChanged(string leftFile, string rightFile)
+		{
+			CompareFiles(rightFile, leftFile);
 		}
 
 		#endregion
@@ -869,13 +879,13 @@ namespace FileDiff
 
 		private void CommnadOptions_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel };
+			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
 			optionsWindow.ShowDialog();
 		}
 
 		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			AboutWindow aboutWindow = new AboutWindow();
+			AboutWindow aboutWindow = new AboutWindow() { Owner = this };
 			aboutWindow.ShowDialog();
 		}
 
@@ -996,14 +1006,5 @@ namespace FileDiff
 
 		#endregion
 
-		private void LeftFolder_SelectionChanged(string leftFile, string rightFile)
-		{
-			CompareFiles(leftFile, rightFile);
-		}
-
-		private void RightFolder_SelectionChanged(string leftFile, string rightFile)
-		{
-			CompareFiles(rightFile, leftFile);
-		}
 	}
 }

@@ -15,8 +15,6 @@ namespace FileDiff
 		public OptionsWindow()
 		{
 			InitializeComponent();
-			Owner = App.Current.MainWindow;
-			DataContext = (Owner as MainWindow).ViewModel;
 		}
 
 		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
