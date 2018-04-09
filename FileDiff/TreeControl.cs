@@ -100,7 +100,7 @@ namespace FileDiff
 				}
 
 				// Draw selection
-				if (line.IsSelected)
+				if (line == SelectedFile)
 				{
 					drawingContext.DrawRectangle(null, selectionPen, new Rect(.5, .5, Math.Max(this.ActualWidth - 1, 0), characterHeight - 1));
 				}
@@ -157,17 +157,12 @@ namespace FileDiff
 				}
 				else
 				{
-					if (!visibleItems[line].IsSelected)
+					if (visibleItems[line] != SelectedFile)
 					{
-						foreach (FileItem i in visibleItems)
-						{
-							i.IsSelected = false;
-						}
-						visibleItems[line].IsSelected = true;
-
 						if (!visibleItems[line].IsFolder && visibleItems[line].Type != TextState.Filler && visibleItems[line].CorrespondingItem.Type != TextState.Filler)
 						{
-							SelectionChanged?.Invoke(visibleItems[line].Path, visibleItems[line].CorrespondingItem.Path);
+							SelectedFile = visibleItems[line];
+							SelectionChanged?.Invoke(SelectedFile);
 						}
 						UpdateTrigger++;
 					}
@@ -203,7 +198,7 @@ namespace FileDiff
 
 		#region Events
 
-		public delegate void SelectionChangedEvent(string leftFile, string rightFile);
+		public delegate void SelectionChangedEvent(FileItem file);
 		public event SelectionChangedEvent SelectionChanged;
 
 		#endregion
@@ -216,6 +211,15 @@ namespace FileDiff
 		{
 			get { return (ObservableCollection<FileItem>)GetValue(LinesProperty); }
 			set { SetValue(LinesProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty SelectedFileProperty = DependencyProperty.Register("SelectedFile", typeof(FileItem), typeof(TreeControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public FileItem SelectedFile
+		{
+			get { return (FileItem)GetValue(SelectedFileProperty); }
+			set { SetValue(SelectedFileProperty, value); }
 		}
 
 

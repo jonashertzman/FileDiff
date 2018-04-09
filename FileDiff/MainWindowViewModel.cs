@@ -192,7 +192,19 @@ namespace FileDiff
 		public bool MasterDetail
 		{
 			get { return AppSettings.MasterDetail; }
-			set { AppSettings.MasterDetail = value; OnPropertyChanged(nameof(MasterDetail)); OnPropertyChanged(nameof(Mode)); }
+			set
+			{
+				AppSettings.MasterDetail = value;
+
+				OnPropertyChanged(nameof(MasterDetail));
+				OnPropertyChanged(nameof(Mode));
+
+				OnPropertyChangedRepaint(nameof(FileView));
+				OnPropertyChangedRepaint(nameof(FolderView));
+				OnPropertyChangedRepaint(nameof(FolderRowHeight));
+				OnPropertyChangedRepaint(nameof(SplitterRowHeight));
+				OnPropertyChangedRepaint(nameof(FileRowHeight));
+			}
 		}
 
 		public double NameColumnWidth

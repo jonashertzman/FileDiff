@@ -714,11 +714,6 @@ namespace FileDiff
 			Compare();
 		}
 
-		private void ToggleButtonMasterDetail_Click(object sender, RoutedEventArgs e)
-		{
-			Compare();
-		}
-
 		private void LeftSide_DragEnter(object sender, DragEventArgs e)
 		{
 			e.Effects = DragDropEffects.All;
@@ -858,14 +853,18 @@ namespace FileDiff
 			UpdateColumnWidths(RightColumns);
 		}
 
-		private void LeftFolder_SelectionChanged(string leftFile, string rightFile)
+		private void LeftFolder_SelectionChanged(FileItem file)
 		{
-			CompareFiles(leftFile, rightFile);
+			RightFolder.SelectedFile = file.CorrespondingItem;
+
+			CompareFiles(LeftFolder.SelectedFile.Path, RightFolder.SelectedFile.Path);
 		}
 
-		private void RightFolder_SelectionChanged(string leftFile, string rightFile)
+		private void RightFolder_SelectionChanged(FileItem file)
 		{
-			CompareFiles(rightFile, leftFile);
+			LeftFolder.SelectedFile = file.CorrespondingItem;
+
+			CompareFiles(LeftFolder.SelectedFile.Path, RightFolder.SelectedFile.Path);
 		}
 
 		#endregion

@@ -99,21 +99,6 @@ namespace FileDiff
 			}
 		}
 
-		private bool isSelected;
-		public bool IsSelected
-		{
-			get { return this.isSelected; }
-			set
-			{
-				if (value != this.isSelected)
-				{
-					this.isSelected = value;
-					CorrespondingItem.IsSelected = value;
-					OnPropertyChanged(nameof(IsSelected));
-				}
-			}
-		}
-
 		private bool isExpanded;
 		public bool IsExpanded
 		{
