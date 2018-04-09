@@ -51,7 +51,7 @@ namespace FileDiff
 			{
 				ViewModel.Mode = CompareMode.File;
 
-				CompareFiles(ViewModel.LeftPath, ViewModel.RightPath);
+				CompareFiles();
 			}
 			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
 			{
@@ -61,39 +61,56 @@ namespace FileDiff
 			}
 		}
 
-		private void CompareFiles(string leftFile, string rightFile)
+		private void CompareFiles()
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
 
 			Mouse.OverrideCursor = Cursors.Wait;
 
+			string leftFile = "";
+			string rightFile = "";
+
+
+			if (ViewModel.Mode == CompareMode.File)
+			{
+				leftFile = ViewModel.LeftPath;
+				rightFile = ViewModel.RightPath;
+			}
+			else if (ViewModel.MasterDetail)
+			{
+				leftFile = LeftFolder.SelectedFile.Path;
+				rightFile = RightFolder.SelectedFile.Path;
+			}
+
 			List<Line> leftSide = new List<Line>();
 			List<Line> rightSide = new List<Line>();
 
-			int i = 0;
-			foreach (string s in File.ReadAllLines(leftFile))
+			if (File.Exists(leftFile) && File.Exists(rightFile))
 			{
-				leftSide.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
-			}
+				int i = 0;
+				foreach (string s in File.ReadAllLines(leftFile))
+				{
+					leftSide.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
+				}
 
-			i = 0;
-			foreach (string s in File.ReadAllLines(rightFile))
-			{
-				rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
-			}
+				i = 0;
+				foreach (string s in File.ReadAllLines(rightFile))
+				{
+					rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
+				}
 
-			if (leftSide.Count > 0 && rightSide.Count > 0)
-			{
-				MatchLines(leftSide, rightSide);
+				if (leftSide.Count > 0 && rightSide.Count > 0)
+				{
+					MatchLines(leftSide, rightSide);
+				}
+
+				LeftDiff.Focus();
 			}
 
 			FillViewModel(leftSide, rightSide);
 
 			InitNavigationButtons();
-
-
-			LeftDiff.Focus();
 
 			Mouse.OverrideCursor = null;
 
@@ -703,15 +720,20 @@ namespace FileDiff
 
 		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)
 		{
-			if (ViewModel.Mode != CompareMode.Folder)
-			{
-				Compare();
-			}
+			CompareFiles();
 		}
 
 		private void ToggleButtonShowLineChanges_Click(object sender, RoutedEventArgs e)
 		{
-			Compare();
+			CompareFiles();
+		}
+
+		private void ToggleButtonMasterDetail_Click(object sender, RoutedEventArgs e)
+		{
+			if (ViewModel.MasterDetail)
+			{
+				CompareFiles();
+			}
 		}
 
 		private void LeftSide_DragEnter(object sender, DragEventArgs e)
@@ -857,14 +879,14 @@ namespace FileDiff
 		{
 			RightFolder.SelectedFile = file.CorrespondingItem;
 
-			CompareFiles(LeftFolder.SelectedFile.Path, RightFolder.SelectedFile.Path);
+			CompareFiles();
 		}
 
 		private void RightFolder_SelectionChanged(FileItem file)
 		{
 			LeftFolder.SelectedFile = file.CorrespondingItem;
 
-			CompareFiles(LeftFolder.SelectedFile.Path, RightFolder.SelectedFile.Path);
+			CompareFiles();
 		}
 
 		#endregion
