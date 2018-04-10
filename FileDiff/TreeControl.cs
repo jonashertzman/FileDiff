@@ -178,7 +178,7 @@ namespace FileDiff
 
 			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count)
 			{
-				if (!visibleItems[line].IsFolder && visibleItems[line].Type != TextState.Filler && visibleItems[line].CorrespondingItem.Type != TextState.Filler)
+				if (visibleItems[line].Type != TextState.Filler && visibleItems[line].CorrespondingItem.Type != TextState.Filler)
 				{
 					Process p = new Process();
 					p.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
