@@ -33,4 +33,12 @@
 		</Style.Triggers>
 	</Style>
 
+	<Style x:Key="ToolbarToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
+		<Style.Triggers>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter Property="Background" Value="Transparent"></Setter>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
 </ResourceDictionary>

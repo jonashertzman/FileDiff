@@ -77,7 +77,7 @@ namespace FileDiff
 				leftFile = ViewModel.LeftPath;
 				rightFile = ViewModel.RightPath;
 			}
-			else if (ViewModel.MasterDetail)
+			else if (ViewModel.MasterDetail && LeftFolder.SelectedFile != null && RightFolder.SelectedFile != null)
 			{
 				leftFile = LeftFolder.SelectedFile.Path;
 				rightFile = RightFolder.SelectedFile.Path;
@@ -730,7 +730,7 @@ namespace FileDiff
 
 		private void ToggleButtonMasterDetail_Click(object sender, RoutedEventArgs e)
 		{
-			if (ViewModel.MasterDetail)
+			if (ViewModel.FileVissible)
 			{
 				CompareFiles();
 			}
@@ -944,7 +944,7 @@ namespace FileDiff
 
 		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileView == Visibility.Visible && firstDiff < ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff;
 		}
 
 		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -954,7 +954,7 @@ namespace FileDiff
 
 		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileView == Visibility.Visible && lastDiff > ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff;
 		}
 
 		private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -964,7 +964,7 @@ namespace FileDiff
 
 		private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileView == Visibility.Visible && firstDiff < ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff;
 		}
 
 		private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -974,7 +974,7 @@ namespace FileDiff
 
 		private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileView == Visibility.Visible && lastDiff > ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff;
 		}
 
 		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)

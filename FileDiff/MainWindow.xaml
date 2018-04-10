@@ -90,19 +90,19 @@
 					<TextBlock Text="Last Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<ToggleButton x:Name="ToggleButtonShowLineChanges" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding ShowLineChanges}" Focusable="False" Click="ToggleButtonShowLineChanges_Click">
+			<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}" Focusable="False" Click="ToggleButtonShowLineChanges_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
-			<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding IgnoreWhiteSpace}" Focusable="False" Click="ToggleButtonIgnoreWhiteSpace_Click">
+			<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Focusable="False" Click="ToggleButtonIgnoreWhiteSpace_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
-			<ToggleButton x:Name="ToggleButtonMasterDetail" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}" IsChecked="{Binding MasterDetail}" Focusable="False" Click="ToggleButtonMasterDetail_Click">
+			<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Focusable="False" Click="ToggleButtonMasterDetail_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Master Detail" VerticalAlignment="Center" />

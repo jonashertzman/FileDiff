@@ -60,35 +60,27 @@ namespace FileDiff
 			set
 			{
 				mode = value;
-				OnPropertyChangedRepaint(nameof(FileView));
-				OnPropertyChangedRepaint(nameof(FolderView));
+				OnPropertyChangedRepaint(nameof(FileVissible));
+				OnPropertyChangedRepaint(nameof(FolderVissible));
 				OnPropertyChangedRepaint(nameof(FolderRowHeight));
 				OnPropertyChangedRepaint(nameof(SplitterRowHeight));
 				OnPropertyChangedRepaint(nameof(FileRowHeight));
 			}
 		}
 
-		public Visibility FileView
+		public bool FileVissible
 		{
 			get
 			{
-				if (mode == CompareMode.Folder && !MasterDetail)
-				{
-					return Visibility.Collapsed;
-				}
-				return Visibility.Visible;
+				return mode == CompareMode.File || (mode == CompareMode.Folder && MasterDetail);
 			}
 		}
 
-		public Visibility FolderView
+		public bool FolderVissible
 		{
 			get
 			{
-				if (mode == CompareMode.File)
-				{
-					return Visibility.Collapsed;
-				}
-				return Visibility.Visible;
+				return mode == CompareMode.Folder;
 			}
 		}
 
@@ -199,8 +191,8 @@ namespace FileDiff
 				OnPropertyChanged(nameof(MasterDetail));
 				OnPropertyChanged(nameof(Mode));
 
-				OnPropertyChangedRepaint(nameof(FileView));
-				OnPropertyChangedRepaint(nameof(FolderView));
+				OnPropertyChangedRepaint(nameof(FileVissible));
+				OnPropertyChangedRepaint(nameof(FolderVissible));
 				OnPropertyChangedRepaint(nameof(FolderRowHeight));
 				OnPropertyChangedRepaint(nameof(SplitterRowHeight));
 				OnPropertyChangedRepaint(nameof(FileRowHeight));
