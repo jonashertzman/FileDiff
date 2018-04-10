@@ -172,6 +172,30 @@ namespace FileDiff
 			base.OnMouseUp(e);
 		}
 
+		protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+		{
+			int line = (int)(e.GetPosition(this).Y / characterHeight) + VerticalOffset;
+
+			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count)
+			{
+				if (!visibleItems[line].IsFolder && visibleItems[line].Type != TextState.Filler && visibleItems[line].CorrespondingItem.Type != TextState.Filler)
+				{
+					Process p = new Process();
+					p.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
+					if (this.Name == "LeftFolder")
+					{
+						p.StartInfo.Arguments = $"\"{visibleItems[line].Path}\" \"{visibleItems[line].CorrespondingItem.Path}\"";
+					}
+					else
+					{
+						p.StartInfo.Arguments = $"\"{visibleItems[line].CorrespondingItem.Path}\" \"{visibleItems[line].Path}\"";
+					}
+					p.Start();
+				}
+			}
+			base.OnMouseDoubleClick(e);
+		}
+
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (e.Key == Key.PageUp)
