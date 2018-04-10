@@ -123,7 +123,7 @@ namespace FileDiff
 					drawingContext.Pop();
 				}
 
-				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - lineNumberMargin - textMargin, 0), ActualHeight)));
+				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin, 0, Math.Max(ActualWidth - lineNumberMargin - textMargin, 0), ActualHeight)));
 				drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
 
 				// Draw line
@@ -137,7 +137,7 @@ namespace FileDiff
 						textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
 						if (line.Type != textSegment.Type)
 						{
-							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(0, 0, runWidth, characterHeight));
+							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
 						}
 						drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, textSegment.RenderedText);
 						nextPosition += runWidth;
