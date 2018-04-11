@@ -55,61 +55,61 @@
 				</LinearGradientBrush>
 			</WrapPanel.Background>
 
-			<Button Margin="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Compare">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Compare">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Compare" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Swap">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Swap">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Swap" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Up">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Up">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource UpIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Up" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.FirstDiff">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="First Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.PreviousDiff">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Previous Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.NextDiff">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Next Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.LastDiff">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.LastDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Last Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}" Focusable="False" Click="ToggleButtonShowLineChanges_Click">
+			<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}" Click="ToggleButtonShowLineChanges_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
-			<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Focusable="False" Click="ToggleButtonIgnoreWhiteSpace_Click">
+			<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonIgnoreWhiteSpace_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
-			<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Focusable="False" Click="ToggleButtonMasterDetail_Click">
+			<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Master Detail" VerticalAlignment="Center" />
