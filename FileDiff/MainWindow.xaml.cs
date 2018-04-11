@@ -71,7 +71,6 @@ namespace FileDiff
 			string leftFile = "";
 			string rightFile = "";
 
-
 			if (ViewModel.Mode == CompareMode.File)
 			{
 				leftFile = ViewModel.LeftPath;
@@ -88,24 +87,31 @@ namespace FileDiff
 
 			if (File.Exists(leftFile) && File.Exists(rightFile))
 			{
-				int i = 0;
-				foreach (string s in File.ReadAllLines(leftFile))
+				try
 				{
-					leftSide.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
-				}
+					int i = 0;
+					foreach (string s in File.ReadAllLines(leftFile))
+					{
+						leftSide.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
+					}
 
-				i = 0;
-				foreach (string s in File.ReadAllLines(rightFile))
+					i = 0;
+					foreach (string s in File.ReadAllLines(rightFile))
+					{
+						rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
+					}
+
+					if (leftSide.Count > 0 && rightSide.Count > 0)
+					{
+						MatchLines(leftSide, rightSide);
+					}
+
+					LeftDiff.Focus();
+				}
+				catch (UnauthorizedAccessException e)
 				{
-					rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
+					MessageBox.Show(e.Message);
 				}
-
-				if (leftSide.Count > 0 && rightSide.Count > 0)
-				{
-					MatchLines(leftSide, rightSide);
-				}
-
-				LeftDiff.Focus();
 			}
 
 			FillViewModel(leftSide, rightSide);
@@ -143,6 +149,10 @@ namespace FileDiff
 
 		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
 		{
+			if (Directory.Exists(leftPath) && !DirectoryAllowed(leftPath) || Directory.Exists(rightPath) && !DirectoryAllowed(rightPath))
+			{
+				return;
+			}
 
 			// Sorted dictionary holding matched pairs of files and folders in the current directory.
 			// Folders are prefixed with "*" to not get conflict between a file named "X" to the left, and a folder named "X" to the right.
@@ -238,6 +248,19 @@ namespace FileDiff
 				leftItems.Add(leftItem);
 				rightItems.Add(rightItem);
 			}
+		}
+
+		public bool DirectoryAllowed(string path)
+		{
+			try
+			{
+				Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly);
+			}
+			catch
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private void InitNavigationButtons()
@@ -1023,6 +1046,18 @@ namespace FileDiff
 			ViewModel.RightPath = temp;
 
 			Compare();
+		}
+
+		private void CommandUp_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			try
+			{
+				ViewModel.LeftPath = Path.GetDirectoryName(ViewModel.LeftPath);
+				ViewModel.RightPath = Path.GetDirectoryName(ViewModel.RightPath);
+
+				Compare();
+			}
+			catch (ArgumentException) { }
 		}
 
 		#endregion

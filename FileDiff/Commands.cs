@@ -23,6 +23,8 @@ namespace FileDiff
 
 		public static readonly RoutedUICommand Swap = new RoutedUICommand("Swap", "Swap", typeof(Commands));
 
+		public static readonly RoutedUICommand Up = new RoutedUICommand("Up", "Up", typeof(Commands));
+
 		public static readonly RoutedUICommand PreviousDiff = new RoutedUICommand("Previous Diff", "PreviousDiff", typeof(Commands),
 			new InputGestureCollection()
 			{

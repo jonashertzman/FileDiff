@@ -7,6 +7,7 @@
 	<Window.CommandBindings>
 		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
 		<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
+		<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
 		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
@@ -60,10 +61,16 @@
 					<TextBlock Text="Compare" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<Button Margin="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Swap">
+			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Swap">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Swap" VerticalAlignment="Center" />
+				</StackPanel>
+			</Button>
+			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.Up">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource UpIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Up" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
 			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False" Command="local:Commands.FirstDiff">
