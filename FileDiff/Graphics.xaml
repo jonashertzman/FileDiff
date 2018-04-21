@@ -2,8 +2,8 @@
 
 	<DataTemplate x:Key="CompareIcon">
 		<Viewbox>
-			<Canvas Width="100" Height="100">
-				<Rectangle Canvas.Left="0" Canvas.Top="10" Width="40" Height="80">
+			<Canvas Width="160" Height="160">
+				<Rectangle Canvas.Left="0" Canvas.Top="10" Width="70" Height="140">
 					<Rectangle.Fill>
 						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
 							<GradientStop Color="LightPink" Offset="0" />
@@ -11,7 +11,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="50" Canvas.Top="0" Width="40" Height="80">
+				<Rectangle Canvas.Left="80" Canvas.Top="0" Width="70" Height="140">
 					<Rectangle.Fill>
 						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
 							<GradientStop Color="LightGreen" Offset="0" />
@@ -19,15 +19,15 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Ellipse Stroke="#FF565656" StrokeThickness="12" Canvas.Left="15" Canvas.Top="15" Width="65" Height="65" />
-				<Line Stroke="#FF565656" StrokeThickness="12" X1="70" Y1="70" X2="100" Y2="100" />
+				<Ellipse Stroke="#FF565656" StrokeThickness="20" Canvas.Left="15" Canvas.Top="15" Width="100" Height="100" />
+				<Line Stroke="#FF565656" StrokeThickness="20" X1="90" Y1="90" X2="150" Y2="150" />
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
 
 	<DataTemplate x:Key="SwapIcon">
 		<Viewbox>
-			<Canvas Width="16" Height="16">
+			<Canvas Width="160" Height="160">
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
@@ -39,20 +39,20 @@
 						<GeometryGroup>
 							<PathGeometry>
 								<PathGeometry.Figures>
-									<PathFigure StartPoint="5,0" IsClosed="True">
+									<PathFigure StartPoint="50,0" IsClosed="True">
 										<PathFigure.Segments>
-											<LineSegment Point="12,3.5" />
-											<LineSegment Point="5,7" />
+											<LineSegment Point="120,35" />
+											<LineSegment Point="50,70" />
 										</PathFigure.Segments>
 									</PathFigure>
 								</PathGeometry.Figures>
 							</PathGeometry>
 							<PathGeometry>
 								<PathGeometry.Figures>
-									<PathFigure StartPoint="4,11.5" IsClosed="True">
+									<PathFigure StartPoint="40,115" IsClosed="True">
 										<PathFigure.Segments>
-											<LineSegment Point="11,8" />
-											<LineSegment Point="11,15" />
+											<LineSegment Point="110,80" />
+											<LineSegment Point="110,150" />
 										</PathFigure.Segments>
 									</PathFigure>
 								</PathGeometry.Figures>
