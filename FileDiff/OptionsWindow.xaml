@@ -37,6 +37,7 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
 							<Label Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
@@ -53,22 +54,43 @@
 							<Label Grid.Row="2" Grid.Column="2" Content="Background" Style="{StaticResource CommonTextLabel}" />
 							<Button x:Name="ButtonResetColors" Grid.Row="2" Grid.Column="6" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetColors_Click" />
 
-							<Label Grid.Row="3" Content="Normal Text" Style="{StaticResource CommonTextLabel}" />
+							<Label Grid.Row="3" Content="Normal" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="FullMatchForeground" Grid.Row="3" Grid.Column="1" Fill="{Binding FullMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="FullMatchBackground" Grid.Row="3" Grid.Column="2" Fill="{Binding FullMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="4" Content="Added Text" Style="{StaticResource CommonTextLabel}" />
+							<Label Grid.Row="4" Content="Added" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="NewForeground" Grid.Row="4" Grid.Column="1" Fill="{Binding NewForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="NewBackground" Grid.Row="4" Grid.Column="2" Fill="{Binding NewBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="5" Content="Deleted Text" Style="{StaticResource CommonTextLabel}" />
+							<Label Grid.Row="5" Content="Deleted" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="DeletedForeground" Grid.Row="5" Grid.Column="1" Fill="{Binding DeletedForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="DeletedBackground" Grid.Row="5" Grid.Column="2" Fill="{Binding DeletedBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="6" Content="Changed Text" Style="{StaticResource CommonTextLabel}" />
+							<Label Grid.Row="6" Content="Changed" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="PartialMatchForeground" Grid.Row="6" Grid.Column="1" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="PartialMatchBackground" Grid.Row="6" Grid.Column="2" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
+							<Label Grid.Row="7" Content="Ignored" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="IgnoredForeground" Grid.Row="7" Grid.Column="1" Fill="{Binding IgnoredForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="IgnoredBackground" Grid.Row="7" Grid.Column="2" Fill="{Binding IgnoredBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+						</Grid>
+					</Border>
+				</TabItem>
+
+				<TabItem Header="Ignores">
+					<Border Padding="5">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition />
+								<RowDefinition Height="auto" />
+							</Grid.RowDefinitions>
+							<DataGrid x:Name="dataGridSearchPhrases" Grid.Row="0" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFolders}" Margin="5">
+								<DataGrid.Columns>
+									<DataGridTextColumn Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Directories" CanUserResize="False" Width="*" />
+								</DataGrid.Columns>
+							</DataGrid>
+							<TextBlock Grid.Row="1" Text="These are case insensitive and can contain wildcards." Margin="5,0,5,0" Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
 						</Grid>
 					</Border>
 				</TabItem>

@@ -126,6 +126,8 @@ namespace FileDiff
 						return AppSettings.NewBackground;
 					case TextState.PartialMatch:
 						return AppSettings.PartialMatchBackground;
+					case TextState.Ignored:
+						return AppSettings.IgnoredBackground;
 
 					default:
 						return AppSettings.FullMatchBackground;
@@ -145,6 +147,8 @@ namespace FileDiff
 						return AppSettings.NewForeground;
 					case TextState.PartialMatch:
 						return AppSettings.PartialMatchForeground;
+					case TextState.Ignored:
+						return AppSettings.IgnoredForeground;
 
 					default:
 						return AppSettings.FullMatchForeground;

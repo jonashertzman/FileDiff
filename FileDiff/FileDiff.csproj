@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="Selection.cs" />
     <Compile Include="SettingsData.cs" />
+    <Compile Include="TextAttribute.cs" />
     <Compile Include="TextSegment.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="TreeControl.cs" />

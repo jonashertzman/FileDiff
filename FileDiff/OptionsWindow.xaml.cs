@@ -53,6 +53,9 @@ namespace FileDiff
 
 			NewForeground.Fill = new SolidColorBrush(DefaultSettings.NewForeground);
 			NewBackground.Fill = new SolidColorBrush(DefaultSettings.NewBackground);
+
+			IgnoredForeground.Fill = new SolidColorBrush(DefaultSettings.IgnoredForeground);
+			IgnoredBackground.Fill = new SolidColorBrush(DefaultSettings.IgnoredBackground);
 		}
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
@@ -65,5 +68,6 @@ namespace FileDiff
 		{
 			DialogResult = true;
 		}
+
 	}
 }

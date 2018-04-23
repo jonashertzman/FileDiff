@@ -39,6 +39,12 @@ namespace FileDiff
 			set { rightFolder = value; OnPropertyChangedRepaint(nameof(RightFolder)); }
 		}
 
+		public ObservableCollection<TextAttribute> IgnoredFolders
+		{
+			get { return AppSettings.IgnoredFolders; }
+			set { AppSettings.IgnoredFolders = value; OnPropertyChangedRepaint(nameof(IgnoredFolders)); }
+		}
+
 		int currentDiff = -1;
 		public int CurrentDiff
 		{
@@ -263,6 +269,18 @@ namespace FileDiff
 		{
 			get { return AppSettings.NewBackground; }
 			set { AppSettings.NewBackground = value; OnPropertyChangedRepaint(nameof(NewBackground)); }
+		}
+
+		public SolidColorBrush IgnoredForeground
+		{
+			get { return AppSettings.IgnoredForeground; }
+			set { AppSettings.IgnoredForeground = value; OnPropertyChangedRepaint(nameof(IgnoredForeground)); }
+		}
+
+		public SolidColorBrush IgnoredBackground
+		{
+			get { return AppSettings.IgnoredBackground; }
+			set { AppSettings.IgnoredBackground = value; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
 		}
 
 		public FontFamily Font

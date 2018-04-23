@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -158,11 +159,31 @@ namespace FileDiff
 			set { newBackground = value; Settings.NewBackground = value.Color; }
 		}
 
+		private static SolidColorBrush ignoredForeground;
+		public static SolidColorBrush IgnoredForeground
+		{
+			get { return ignoredForeground; }
+			set { ignoredForeground = value; Settings.IgnoredForeground = value.Color; }
+		}
+
+		private static SolidColorBrush ignoredBackground;
+		public static SolidColorBrush IgnoredBackground
+		{
+			get { return ignoredBackground; }
+			set { ignoredBackground = value; Settings.IgnoredBackground = value.Color; }
+		}
+
 		public static double NameColumnWidth { get; internal set; } = 300;
 
 		public static double SizeColumnWidth { get; internal set; } = 70;
 
 		public static double DateColumnWidth { get; internal set; } = 120;
+
+		public static ObservableCollection<TextAttribute> IgnoredFolders
+		{
+			get { return Settings.IgnoredFolders; }
+			set { Settings.IgnoredFolders = value; }
+		}
 
 		#endregion
 
@@ -236,6 +257,9 @@ namespace FileDiff
 
 			NewForeground = new SolidColorBrush(Settings.NewForeground);
 			NewBackground = new SolidColorBrush(Settings.NewBackground);
+
+			IgnoredForeground = new SolidColorBrush(Settings.IgnoredForeground);
+			IgnoredBackground = new SolidColorBrush(Settings.IgnoredBackground);
 		}
 
 		#endregion

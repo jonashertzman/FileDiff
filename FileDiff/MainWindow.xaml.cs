@@ -225,12 +225,20 @@ namespace FileDiff
 				{
 					//leftItem.IsExpanded = true;
 
-					SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children, level + 1);
-
-					if (leftItem.Type == TextState.FullMatch && leftItem.ChildFiffExists)
+					if (DirectoryIsIgnored(leftItem.Name) || DirectoryIsIgnored(rightItem.Name))
 					{
-						leftItem.Type = TextState.PartialMatch;
-						rightItem.Type = TextState.PartialMatch;
+						leftItem.Type = TextState.Ignored;
+						rightItem.Type = TextState.Ignored;
+					}
+					else
+					{
+						SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children, level + 1);
+
+						if (leftItem.Type == TextState.FullMatch && leftItem.ChildFiffExists)
+						{
+							leftItem.Type = TextState.PartialMatch;
+							rightItem.Type = TextState.PartialMatch;
+						}
 					}
 				}
 				else
@@ -248,6 +256,93 @@ namespace FileDiff
 				leftItems.Add(leftItem);
 				rightItems.Add(rightItem);
 			}
+		}
+
+		private bool DirectoryIsIgnored(string directory)
+		{
+			foreach (TextAttribute a in ViewModel.IgnoredFolders)
+			{
+				if (WildcardCompare(directory, a.Text, true))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private bool WildcardCompare(string compare, string wildString, bool ignoreCase)
+		{
+			if (ignoreCase)
+			{
+				wildString = wildString.ToUpper();
+				compare = compare.ToUpper();
+			}
+
+			int wildStringLength = wildString.Length;
+			int CompareLength = compare.Length;
+
+			int wildMatched = wildStringLength;
+			int compareBase = CompareLength;
+
+			int wildPosition = 0;
+			int comparePosition = 0;
+
+			// Match until first wildcard '*'
+			while (comparePosition < CompareLength && (wildPosition >= wildStringLength || wildString[wildPosition] != '*'))
+			{
+				if (wildPosition >= wildStringLength || (wildString[wildPosition] != compare[comparePosition] && wildString[wildPosition] != '?'))
+				{
+					return false;
+				}
+
+				wildPosition++;
+				comparePosition++;
+			}
+
+			// Process wildcard
+			while (comparePosition < CompareLength)
+			{
+				if (wildPosition < wildStringLength)
+				{
+					if (wildString[wildPosition] == '*')
+					{
+						wildPosition++;
+
+						if (wildPosition == wildStringLength)
+						{
+							return true;
+						}
+
+						wildMatched = wildPosition;
+						compareBase = comparePosition + 1;
+
+						continue;
+					}
+
+					if (wildString[wildPosition] == compare[comparePosition] || wildString[wildPosition] == '?')
+					{
+						wildPosition++;
+						comparePosition++;
+
+						continue;
+					}
+				}
+
+				wildPosition = wildMatched;
+				comparePosition = compareBase++;
+			}
+
+			while (wildPosition < wildStringLength && wildString[wildPosition] == '*')
+			{
+				wildPosition++;
+			}
+
+			if (wildPosition < wildStringLength)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		public bool DirectoryAllowed(string path)
@@ -925,6 +1020,7 @@ namespace FileDiff
 		{
 			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
 			optionsWindow.ShowDialog();
+			SaveSettings();
 		}
 
 		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)

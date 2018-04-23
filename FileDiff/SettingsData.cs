@@ -1,9 +1,9 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Media;
 
 namespace FileDiff
 {
-
 	public class SettingsData
 	{
 
@@ -31,6 +31,9 @@ namespace FileDiff
 		public Color NewForeground { get; set; } = DefaultSettings.NewForeground;
 		public Color NewBackground { get; set; } = DefaultSettings.NewBackground;
 
+		public Color IgnoredForeground { get; set; } = DefaultSettings.IgnoredForeground;
+		public Color IgnoredBackground { get; set; } = DefaultSettings.IgnoredBackground;
+
 		public string Font { get; set; } = DefaultSettings.Font;
 		public int FontSize { get; set; } = DefaultSettings.FontSize;
 		public int TabSize { get; set; } = DefaultSettings.TabSize;
@@ -42,5 +45,8 @@ namespace FileDiff
 		public double FolderRowHeight { get; set; } = 300;
 		public WindowState WindowState { get; set; }
 
+		public ObservableCollection<TextAttribute> IgnoredFolders { get; set; } = new ObservableCollection<TextAttribute>();
+
 	}
 }
+

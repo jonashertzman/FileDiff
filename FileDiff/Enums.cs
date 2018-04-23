@@ -7,7 +7,8 @@
 		PartialMatch,
 		Deleted,
 		New,
-		Filler
+		Filler,
+		Ignored
 	}
 
 	public enum CompareMode
