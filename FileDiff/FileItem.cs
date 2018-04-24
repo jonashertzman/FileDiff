@@ -158,13 +158,13 @@ namespace FileDiff
 
 		public Visibility Visible { get { return type == TextState.Filler ? Visibility.Hidden : Visibility.Visible; } }
 
-		public bool ChildFiffExists
+		public bool ChildDiffExists
 		{
 			get
 			{
 				foreach (FileItem i in Children)
 				{
-					if (i.Type != TextState.FullMatch)
+					if (i.Type != TextState.FullMatch && i.Type != TextState.Ignored)
 					{
 						return true;
 					}

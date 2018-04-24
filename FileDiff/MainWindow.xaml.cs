@@ -234,7 +234,7 @@ namespace FileDiff
 					{
 						SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children, level + 1);
 
-						if (leftItem.Type == TextState.FullMatch && leftItem.ChildFiffExists)
+						if (leftItem.Type == TextState.FullMatch && leftItem.ChildDiffExists)
 						{
 							leftItem.Type = TextState.PartialMatch;
 							rightItem.Type = TextState.PartialMatch;
