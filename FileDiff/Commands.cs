@@ -98,5 +98,9 @@ namespace FileDiff
 			}
 		);
 
+		public static readonly RoutedUICommand OpenContainingFolder = new RoutedUICommand("Open Containing Folder", "OpenContainingFolder", typeof(Commands));
+
+		public static readonly RoutedUICommand CopyPathToClipboard = new RoutedUICommand("Copy Path to Clipboard", "CopyPathToClipboard", typeof(Commands));
+
 	}
 }

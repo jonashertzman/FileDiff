@@ -24,7 +24,7 @@ namespace FileDiff
 
 		private double dpiScale = 0;
 
-		List<FileItem> visibleItems = new List<FileItem>();
+		private List<FileItem> visibleItems = new List<FileItem>();
 
 		#region Constructor
 
@@ -141,57 +141,51 @@ namespace FileDiff
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
-			this.Focus();
-		}
+			int lineIndex = (int)(e.GetPosition(this).Y / characterHeight) + VerticalOffset;
 
-		protected override void OnMouseUp(MouseButtonEventArgs e)
-		{
-			int line = (int)(e.GetPosition(this).Y / characterHeight) + VerticalOffset;
-
-			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count)
+			if (lineIndex < visibleItems.Count)
 			{
-				if (e.GetPosition(this).X < (visibleItems[line].Level * characterHeight) - HorizontalOffset)
+				// Item selected		
+				if (e.GetPosition(this).X > (visibleItems[lineIndex].Level * characterHeight) - HorizontalOffset || !visibleItems[lineIndex].IsFolder)
 				{
-					visibleItems[line].IsExpanded = !visibleItems[line].IsExpanded;
+					if (visibleItems[lineIndex] != SelectedFile && visibleItems[lineIndex].Type != TextState.Filler)
+					{
+						SelectedFile = visibleItems[lineIndex];
+						SelectionChanged?.Invoke(SelectedFile);
+						UpdateTrigger++;
+					}
+				}
+
+				// Folder expander clicked
+				else if (e.LeftButton == MouseButtonState.Pressed && visibleItems[lineIndex].Type != TextState.Filler)
+				{
+					visibleItems[lineIndex].IsExpanded = !visibleItems[lineIndex].IsExpanded;
 
 					visibleItems = new List<FileItem>();
 					GetVisibleItems(Lines, visibleItems);
 					UpdateTrigger++;
 				}
-				else
-				{
-					if (visibleItems[line] != SelectedFile)
-					{
-						if (!visibleItems[line].IsFolder && visibleItems[line].Type != TextState.Filler && visibleItems[line].CorrespondingItem.Type != TextState.Filler)
-						{
-							SelectedFile = visibleItems[line];
-							SelectionChanged?.Invoke(SelectedFile);
-						}
-						UpdateTrigger++;
-					}
-				}
 			}
-
-			base.OnMouseUp(e);
+			this.Focus();
 		}
 
 		protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
 		{
-			int line = (int)(e.GetPosition(this).Y / characterHeight) + VerticalOffset;
+			int lineIndex = (int)(e.GetPosition(this).Y / characterHeight) + VerticalOffset;
 
-			if (e.ChangedButton == MouseButton.Left && line < visibleItems.Count)
+			if (e.ChangedButton == MouseButton.Left && lineIndex < visibleItems.Count)
 			{
-				if (visibleItems[line].Type != TextState.Filler && visibleItems[line].CorrespondingItem.Type != TextState.Filler)
+				if (visibleItems[lineIndex].Type != TextState.Filler && visibleItems[lineIndex].CorrespondingItem.Type != TextState.Filler)
 				{
 					Process p = new Process();
 					p.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
 					if (this.Name == "LeftFolder")
 					{
-						p.StartInfo.Arguments = $"\"{visibleItems[line].Path}\" \"{visibleItems[line].CorrespondingItem.Path}\"";
+						p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].Path}\" \"{visibleItems[lineIndex].CorrespondingItem.Path}\"";
 					}
 					else
 					{
-						p.StartInfo.Arguments = $"\"{visibleItems[line].CorrespondingItem.Path}\" \"{visibleItems[line].Path}\"";
+						p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].CorrespondingItem.Path}\" \"{visibleItems[lineIndex].Path}\"";
 					}
 					p.Start();
 				}

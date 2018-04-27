@@ -19,13 +19,17 @@ namespace FileDiff
 
 		#region Members
 
-		public MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
+		MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
 
 		int firstDiff = -1;
 		int lastDiff = -1;
 		bool renderComplete = false;
 
 		DiffControl activeDiff;
+		string activeSelection;
+
+		string rightSelection = "";
+		string leftSelection = "";
 
 		#endregion
 
@@ -47,6 +51,10 @@ namespace FileDiff
 
 		private void Compare()
 		{
+			rightSelection = "";
+			leftSelection = "";
+			activeSelection = "";
+
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
 				ViewModel.Mode = CompareMode.File;
@@ -85,36 +93,43 @@ namespace FileDiff
 			List<Line> leftSide = new List<Line>();
 			List<Line> rightSide = new List<Line>();
 
-			if (File.Exists(leftFile) && File.Exists(rightFile))
+			try
 			{
-				try
+				if (File.Exists(leftFile))
 				{
+					leftSelection = leftFile;
+
 					int i = 0;
 					foreach (string s in File.ReadAllLines(leftFile))
 					{
 						leftSide.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
 					}
+				}
 
-					i = 0;
+				if (File.Exists(rightFile))
+				{
+					rightSelection = rightFile;
+
+					int i = 0;
 					foreach (string s in File.ReadAllLines(rightFile))
 					{
 						rightSide.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
 					}
-
-					if (leftSide.Count > 0 && rightSide.Count > 0)
-					{
-						MatchLines(leftSide, rightSide);
-					}
-
-					LeftDiff.Focus();
 				}
-				catch (UnauthorizedAccessException e)
+
+				if (leftSide.Count > 0 && rightSide.Count > 0)
 				{
-					MessageBox.Show(e.Message);
+					MatchLines(leftSide, rightSide);
 				}
+			}
+			catch (UnauthorizedAccessException e)
+			{
+				MessageBox.Show(e.Message);
 			}
 
 			FillViewModel(leftSide, rightSide);
+
+			LeftDiff.Focus();
 
 			InitNavigationButtons();
 
@@ -133,6 +148,9 @@ namespace FileDiff
 
 			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
 			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
+
+			ViewModel.LeftFile = new ObservableCollection<Line>();
+			ViewModel.RightFile = new ObservableCollection<Line>();
 
 			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems, 1);
 
@@ -345,7 +363,7 @@ namespace FileDiff
 			return true;
 		}
 
-		public bool DirectoryAllowed(string path)
+		private bool DirectoryAllowed(string path)
 		{
 			try
 			{
@@ -970,11 +988,23 @@ namespace FileDiff
 		private void RightDiff_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeDiff = RightDiff;
+			activeSelection = RightDiff.Lines.Count > 0 ? rightSelection : "";
 		}
 
 		private void LeftDiff_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeDiff = LeftDiff;
+			activeSelection = LeftDiff.Lines.Count > 0 ? leftSelection : "";
+		}
+
+		private void LeftFolder_GotFocus(object sender, RoutedEventArgs e)
+		{
+			activeSelection = leftSelection;
+		}
+
+		private void RightFolder_GotFocus(object sender, RoutedEventArgs e)
+		{
+			activeSelection = rightSelection;
 		}
 
 		private void LeftColumns_Resized(object sender, SizeChangedEventArgs e)
@@ -993,16 +1023,22 @@ namespace FileDiff
 			UpdateColumnWidths(RightColumns);
 		}
 
-		private void LeftFolder_SelectionChanged(FileItem file)
+		private void LeftFolder_SelectionChanged(FileItem selectedItem)
 		{
-			RightFolder.SelectedFile = file.CorrespondingItem;
+			leftSelection = selectedItem.Path;
+			rightSelection = selectedItem.CorrespondingItem.Path;
+
+			RightFolder.SelectedFile = selectedItem.CorrespondingItem;
 
 			CompareFiles();
 		}
 
-		private void RightFolder_SelectionChanged(FileItem file)
+		private void RightFolder_SelectionChanged(FileItem selectedItem)
 		{
-			LeftFolder.SelectedFile = file.CorrespondingItem;
+			rightSelection = selectedItem.Path;
+			leftSelection = selectedItem.CorrespondingItem.Path;
+
+			LeftFolder.SelectedFile = selectedItem.CorrespondingItem;
 
 			CompareFiles();
 		}
@@ -1154,6 +1190,28 @@ namespace FileDiff
 				Compare();
 			}
 			catch (ArgumentException) { }
+		}
+
+		private void CommandOpenContainingFolder_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			string args = $"/Select, {activeSelection}";
+			ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+			Process.Start(pfi);
+		}
+
+		private void CommandOpenContainingFolder_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = activeSelection != "";
+		}
+
+		private void CommandCopyPathToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			Clipboard.SetText(Path.GetFullPath(activeSelection));
+		}
+
+		private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = activeSelection != "";
 		}
 
 		#endregion
