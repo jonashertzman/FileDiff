@@ -398,7 +398,7 @@ namespace FileDiff
 					{
 						firstDiff = i;
 						ViewModel.CurrentDiff = i;
-						CenterOnLine(i);
+						MoveToDiffLine(i);
 					}
 					if (ViewModel.LeftFile[i].Type != TextState.FullMatch)
 					{
@@ -719,7 +719,7 @@ namespace FileDiff
 					if (ViewModel.LeftFile[i].Type != TextState.FullMatch || ViewModel.RightFile[i].Type != TextState.FullMatch)
 					{
 						ViewModel.CurrentDiff = i;
-						CenterOnLine(i);
+						MoveToDiffLine(i);
 						return;
 					}
 				}
@@ -735,16 +735,15 @@ namespace FileDiff
 					if (ViewModel.LeftFile[i].Type != TextState.FullMatch || ViewModel.RightFile[i].Type != TextState.FullMatch)
 					{
 						ViewModel.CurrentDiff = i;
-						CenterOnLine(i);
+						MoveToDiffLine(i);
 						return;
 					}
 				}
 			}
 		}
 
-		private void CenterOnLine(int i)
+		private void MoveToDiffLine(int i)
 		{
-			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
 			int diffLength = 0;
 
 			while (i + diffLength + 1 < ViewModel.LeftFile.Count && ViewModel.LeftFile[i + diffLength + 1].Type != TextState.FullMatch)
@@ -755,6 +754,12 @@ namespace FileDiff
 			ViewModel.CurrentDiff = i;
 			ViewModel.CurrentDiffLength = diffLength;
 
+			CenterOnLine(i);
+		}
+
+		private void CenterOnLine(int i)
+		{
+			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
 			VerticalFileScrollbar.Value = i - (visibleLines / 2);
 		}
 
