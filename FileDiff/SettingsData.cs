@@ -9,6 +9,8 @@ namespace FileDiff
 
 		public bool IgnoreWhiteSpace { get; set; } = true;
 
+		public bool ShowWhiteSpaceCharacters { get; set; } = false;
+
 		public bool ShowLineChanges { get; set; } = true;
 
 		public bool MasterDetail { get; set; } = false;

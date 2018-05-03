@@ -24,6 +24,12 @@ namespace FileDiff
 			set { Settings.IgnoreWhiteSpace = value; }
 		}
 
+		public static bool ShowWhiteSpaceCharacters
+		{
+			get { return Settings.ShowWhiteSpaceCharacters; }
+			set { Settings.ShowWhiteSpaceCharacters = value; }
+		}
+
 		public static bool MasterDetail
 		{
 			get { return Settings.MasterDetail; }

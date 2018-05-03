@@ -116,6 +116,11 @@
 					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
 			</ToggleButton>
+			<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="¶" VerticalAlignment="Center" Margin="5,0" FontWeight="Bold" />
+				</StackPanel>
+			</ToggleButton>
 			<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />

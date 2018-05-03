@@ -181,6 +181,12 @@ namespace FileDiff
 			set { AppSettings.IgnoreWhiteSpace = value; OnPropertyChangedRepaint(nameof(IgnoreWhiteSpace)); }
 		}
 
+		public bool ShowWhiteSpaceCharacters
+		{
+			get { return AppSettings.ShowWhiteSpaceCharacters; }
+			set { AppSettings.ShowWhiteSpaceCharacters = value; OnPropertyChangedRepaint(nameof(ShowWhiteSpaceCharacters)); }
+		}
+
 		public bool ShowLineChanges
 		{
 			get { return AppSettings.ShowLineChanges; }

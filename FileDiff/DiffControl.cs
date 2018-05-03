@@ -438,7 +438,7 @@ namespace FileDiff
 			double totalWidth = 0;
 			for (int n = 0; n < text.Length; n++)
 			{
-				cachedTypeface.CharacterToGlyphMap.TryGetValue(text[n] == '\t' ? ' ' : text[n], out ushort glyphIndex); // Why does the tab glyph render as a rectangle?
+				cachedTypeface.CharacterToGlyphMap.TryGetValue(ReplaceGlyph(text[n]), out ushort glyphIndex);
 				glyphIndexes[n] = glyphIndex;
 				double width = text[n] == '\t' ? AppSettings.TabSize * characterWidth : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize / dpiScale) * dpiScale;
 				advanceWidths[n] = width;
@@ -463,6 +463,30 @@ namespace FileDiff
 
 			runWidth = totalWidth;
 			return run;
+		}
+
+		private char ReplaceGlyph(char c)
+		{
+			if (AppSettings.ShowWhiteSpaceCharacters)
+			{
+				if (c == '\t')
+				{
+					return '›';
+				}
+				else if (c == ' ')
+				{
+					return '·';
+				}
+			}
+			else
+			{
+				if (c == '\t') // Why does the tab glyph render as a rectangle?
+				{
+					return ' ';
+				}
+			}
+
+			return c;
 		}
 
 		private double RoundToWholePixels(double x)
