@@ -3,11 +3,28 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace FileDiff
 {
 	public class MainWindowViewModel : INotifyPropertyChanged
 	{
+
+		#region Members
+
+		DispatcherTimer timer = new DispatcherTimer();
+
+		#endregion
+
+		#region Constructor
+
+		public MainWindowViewModel()
+		{
+			timer.Interval = new TimeSpan(300000);
+			timer.Tick += Timer_Tick;
+		}
+
+		#endregion
 
 		#region Properties
 
@@ -214,19 +231,19 @@ namespace FileDiff
 		public double NameColumnWidth
 		{
 			get { return AppSettings.NameColumnWidth; }
-			set { AppSettings.NameColumnWidth = value; OnPropertyChangedRepaint(nameof(NameColumnWidth)); }
+			set { AppSettings.NameColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(NameColumnWidth)); }
 		}
 
 		public double SizeColumnWidth
 		{
 			get { return AppSettings.SizeColumnWidth; }
-			set { AppSettings.SizeColumnWidth = value; OnPropertyChangedRepaint(nameof(SizeColumnWidth)); }
+			set { AppSettings.SizeColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(SizeColumnWidth)); }
 		}
 
 		public double DateColumnWidth
 		{
 			get { return AppSettings.DateColumnWidth; }
-			set { AppSettings.DateColumnWidth = value; OnPropertyChangedRepaint(nameof(DateColumnWidth)); }
+			set { AppSettings.DateColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(DateColumnWidth)); }
 		}
 
 		public SolidColorBrush FullMatchForeground
@@ -316,9 +333,29 @@ namespace FileDiff
 
 		#endregion
 
+		#region Events
+
+		private void Timer_Tick(object sender, EventArgs e)
+		{
+			timer.Stop();
+			UpdateTrigger++;
+		}
+
+		#endregion
+
 		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		private void OnPropertyChangedSlowRepaint(string name)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+			if (!timer.IsEnabled)
+			{
+				timer.Start();
+			}
+		}
 
 		public void OnPropertyChangedRepaint(string name)
 		{
