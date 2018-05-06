@@ -122,11 +122,7 @@ namespace FileDiff
 					MatchLines(leftSide, rightSide);
 				}
 			}
-			catch (UnauthorizedAccessException e)
-			{
-				MessageBox.Show(e.Message);
-			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				MessageBox.Show(e.Message);
 			}

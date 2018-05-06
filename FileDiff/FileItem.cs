@@ -181,12 +181,23 @@ namespace FileDiff
 
 				using (MD5 md5 = MD5.Create())
 				{
-					using (FileStream stream = File.OpenRead(Path))
+					try
 					{
-						foreach (byte b in md5.ComputeHash(stream))
+						using (FileStream stream = File.OpenRead(Path))
 						{
-							s.Append(b.ToString("x2"));
+							foreach (byte b in md5.ComputeHash(stream))
+							{
+								s.Append(b.ToString("x2"));
+							}
 						}
+					}
+					catch (IOException)
+					{
+						return "";
+					}
+					catch (Exception e)
+					{
+						MessageBox.Show(e.Message);
 					}
 				}
 
