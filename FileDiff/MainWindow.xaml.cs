@@ -126,6 +126,10 @@ namespace FileDiff
 			{
 				MessageBox.Show(e.Message);
 			}
+			catch (IOException e)
+			{
+				MessageBox.Show(e.Message);
+			}
 
 			FillViewModel(leftSide, rightSide);
 
