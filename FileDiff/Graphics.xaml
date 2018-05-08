@@ -3,19 +3,19 @@
 	<DataTemplate x:Key="CompareIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="0" Canvas.Top="10" Width="70" Height="140">
-					<Rectangle.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-							<GradientStop Color="LightPink" Offset="0" />
-							<GradientStop Color="#FFFF5252" Offset="1" />
-						</LinearGradientBrush>
-					</Rectangle.Fill>
-				</Rectangle>
-				<Rectangle Canvas.Left="80" Canvas.Top="0" Width="70" Height="140">
+				<Rectangle Canvas.Left="60" Canvas.Top="20" Width="100" Height="140">
 					<Rectangle.Fill>
 						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
 							<GradientStop Color="LightGreen" Offset="0" />
 							<GradientStop Color="#FF03C203" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+				<Rectangle Canvas.Left="0" Canvas.Top="0" Width="100" Height="140">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+							<GradientStop Color="LightPink" Offset="0" />
+							<GradientStop Color="#FFFF5252" Offset="1" />
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>

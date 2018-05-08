@@ -104,7 +104,7 @@
 					<TextBlock Text="Last Diff" VerticalAlignment="Center" />
 				</StackPanel>
 			</Button>
-			<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}" Click="ToggleButtonShowLineChanges_Click">
+			<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />

@@ -864,11 +864,6 @@ namespace FileDiff
 			CompareFiles();
 		}
 
-		private void ToggleButtonShowLineChanges_Click(object sender, RoutedEventArgs e)
-		{
-			CompareFiles();
-		}
-
 		private void ToggleButtonMasterDetail_Click(object sender, RoutedEventArgs e)
 		{
 			if (ViewModel.FileVissible)
