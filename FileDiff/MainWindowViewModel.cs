@@ -62,6 +62,12 @@ namespace FileDiff
 			set { AppSettings.IgnoredFolders = value; OnPropertyChangedRepaint(nameof(IgnoredFolders)); }
 		}
 
+		public ObservableCollection<TextAttribute> IgnoredFiles
+		{
+			get { return AppSettings.IgnoredFiles; }
+			set { AppSettings.IgnoredFiles = value; OnPropertyChangedRepaint(nameof(IgnoredFiles)); }
+		}
+
 		int currentDiff = -1;
 		public int CurrentDiff
 		{

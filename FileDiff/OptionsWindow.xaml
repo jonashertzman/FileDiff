@@ -9,13 +9,13 @@
 		<Border Grid.ColumnSpan="1" Margin="5">
 			<TabControl Margin="5">
 
-				<TabItem Header="General">
+				<!--<TabItem Header="General">
 					<Border Padding="5">
 						<StackPanel>
 							<CheckBox IsEnabled="False" Content="Add Shell Extensions to Windows Explorer" Padding="2" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
 						</StackPanel>
 					</Border>
-				</TabItem>
+				</TabItem>-->
 
 				<TabItem Header="Preview">
 					<Border Padding="5">
@@ -85,12 +85,25 @@
 								<RowDefinition />
 								<RowDefinition Height="auto" />
 							</Grid.RowDefinitions>
-							<DataGrid x:Name="dataGridSearchPhrases" Grid.Row="0" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFolders}" Margin="5">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition />
+								<ColumnDefinition />
+							</Grid.ColumnDefinitions>
+
+							<DataGrid Grid.Row="0" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFolders}" Margin="5">
 								<DataGrid.Columns>
 									<DataGridTextColumn Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Directories" CanUserResize="False" Width="*" />
 								</DataGrid.Columns>
 							</DataGrid>
-							<TextBlock Grid.Row="1" Text="These are case insensitive and can contain wildcards." Margin="5,0,5,0" Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+
+							<DataGrid Grid.Row="0" Grid.Column="1" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFiles}" Margin="5">
+								<DataGrid.Columns>
+									<DataGridTextColumn Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Files" CanUserResize="False" Width="*" />
+								</DataGrid.Columns>
+							</DataGrid>
+
+							<TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="These are case insensitive and can contain wildcards." Margin="5,0,5,0" Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+
 						</Grid>
 					</Border>
 				</TabItem>

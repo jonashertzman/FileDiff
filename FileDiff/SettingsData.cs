@@ -49,6 +49,8 @@ namespace FileDiff
 
 		public ObservableCollection<TextAttribute> IgnoredFolders { get; set; } = new ObservableCollection<TextAttribute>();
 
+		public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();
+
 	}
 }
 

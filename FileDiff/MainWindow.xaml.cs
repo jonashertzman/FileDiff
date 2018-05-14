@@ -261,12 +261,20 @@ namespace FileDiff
 				}
 				else
 				{
-					if (leftItem.Type == TextState.FullMatch)
+					if (FileIsIgnored(leftItem.Name) || FileIsIgnored(rightItem.Name))
 					{
-						if (leftItem.Size != rightItem.Size || (leftItem.Date != rightItem.Date && leftItem.Checksum != rightItem.Checksum))
+						leftItem.Type = TextState.Ignored;
+						rightItem.Type = TextState.Ignored;
+					}
+					else
+					{
+						if (leftItem.Type == TextState.FullMatch)
 						{
-							leftItem.Type = TextState.PartialMatch;
-							rightItem.Type = TextState.PartialMatch;
+							if (leftItem.Size != rightItem.Size || (leftItem.Date != rightItem.Date && leftItem.Checksum != rightItem.Checksum))
+							{
+								leftItem.Type = TextState.PartialMatch;
+								rightItem.Type = TextState.PartialMatch;
+							}
 						}
 					}
 				}
@@ -279,6 +287,18 @@ namespace FileDiff
 		private bool DirectoryIsIgnored(string directory)
 		{
 			foreach (TextAttribute a in ViewModel.IgnoredFolders)
+			{
+				if (WildcardCompare(directory, a.Text, true))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private bool FileIsIgnored(string directory)
+		{
+			foreach (TextAttribute a in ViewModel.IgnoredFiles)
 			{
 				if (WildcardCompare(directory, a.Text, true))
 				{

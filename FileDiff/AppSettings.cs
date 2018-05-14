@@ -191,6 +191,12 @@ namespace FileDiff
 			set { Settings.IgnoredFolders = value; }
 		}
 
+		public static ObservableCollection<TextAttribute> IgnoredFiles
+		{
+			get { return Settings.IgnoredFiles; }
+			set { Settings.IgnoredFiles = value; }
+		}
+
 		#endregion
 
 		#region Methods
