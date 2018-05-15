@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace FileDiff
 {
-	public class TextSegment : INotifyPropertyChanged
+	public class TextSegment
 	{
 
 		public TextSegment()
@@ -14,7 +14,7 @@ namespace FileDiff
 		public TextSegment(string text, TextState textState)
 		{
 			this.Text = text;
-			this.type = textState;
+			this.Type = textState;
 		}
 
 		public override string ToString()
@@ -22,19 +22,9 @@ namespace FileDiff
 			return Text;
 		}
 
-		private TextState type;
-		public TextState Type
-		{
-			get { return type; }
-			set { type = value; OnPropertyChanged(nameof(Type)); }
-		}
+		public TextState Type { get; set; }
 
-		private string text;
-		public string Text
-		{
-			get { return text; }
-			set { text = value; OnPropertyChanged(nameof(Text)); }
-		}
+		public string Text { get; set; }
 
 		public GlyphRun RenderedText { get; set; }
 
@@ -42,7 +32,7 @@ namespace FileDiff
 		{
 			get
 			{
-				switch (type)
+				switch (Type)
 				{
 					case TextState.Deleted:
 						return AppSettings.DeletedBackground;
@@ -61,7 +51,7 @@ namespace FileDiff
 		{
 			get
 			{
-				switch (type)
+				switch (Type)
 				{
 					case TextState.Deleted:
 						return AppSettings.DeletedForeground;
@@ -75,17 +65,6 @@ namespace FileDiff
 				}
 			}
 		}
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string name)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-		}
-
-		#endregion
 
 	}
 }

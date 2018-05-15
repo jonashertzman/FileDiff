@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace FileDiff
 {
-	public class Line : INotifyPropertyChanged
+	public class Line
 	{
 
 		#region Members
@@ -59,19 +59,12 @@ namespace FileDiff
 
 				TextSegments.Clear();
 				TextSegments.Add(new TextSegment(value, Type));
-
-				OnPropertyChanged(nameof(Text));
 			}
 		}
 
 		public string TrimmedText { get; set; }
 
-		private ObservableCollection<TextSegment> textSegments = new ObservableCollection<TextSegment>();
-		public ObservableCollection<TextSegment> TextSegments
-		{
-			get { return textSegments; }
-			set { textSegments = value; OnPropertyChanged(nameof(TextSegments)); }
-		}
+		public ObservableCollection<TextSegment> TextSegments { get; set; } = new ObservableCollection<TextSegment>();
 
 		public bool IsWhitespaceLine { get; set; }
 
@@ -103,12 +96,7 @@ namespace FileDiff
 			}
 		}
 
-		private int? lineindex;
-		public int? LineIndex
-		{
-			get { return lineindex; }
-			set { lineindex = value; OnPropertyChanged(nameof(LineIndex)); }
-		}
+		public int? LineIndex { get; set; }
 
 		private TextState type;
 		public TextState Type
@@ -119,7 +107,6 @@ namespace FileDiff
 				type = value;
 				TextSegments.Clear();
 				TextSegments.Add(new TextSegment(Text, value));
-				OnPropertyChanged(nameof(Type));
 			}
 		}
 
@@ -187,17 +174,6 @@ namespace FileDiff
 				}
 			}
 			return position;
-		}
-
-		#endregion
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string name)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
 		#endregion

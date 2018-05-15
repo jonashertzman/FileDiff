@@ -518,7 +518,7 @@ namespace FileDiff
 					leftRange[bestLeft].Type = TextState.FullMatch;
 					rightRange[bestRight].Type = TextState.FullMatch;
 				}
-				else if (AppSettings.ShowLineChanges)
+				else
 				{
 					leftRange[bestLeft].TextSegments.Clear();
 					rightRange[bestRight].TextSegments.Clear();

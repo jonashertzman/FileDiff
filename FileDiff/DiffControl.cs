@@ -135,11 +135,11 @@ namespace FileDiff
 						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
 						textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
-						if (line.Type != textSegment.Type)
+						if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
 						{
 							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
 						}
-						drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, textSegment.RenderedText);
+						drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, textSegment.RenderedText);
 						nextPosition += runWidth;
 
 						drawingContext.Pop();
