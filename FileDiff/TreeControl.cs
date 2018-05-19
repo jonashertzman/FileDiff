@@ -18,8 +18,6 @@ namespace FileDiff
 		private double characterHeight;
 		private double characterWidth;
 
-		private SolidColorBrush slectionBrush;
-
 		private GlyphTypeface cachedTypeface;
 
 		private double dpiScale = 0;
@@ -36,10 +34,6 @@ namespace FileDiff
 		public TreeControl()
 		{
 			this.ClipToBounds = true;
-
-			Color selectionColor = SystemColors.HighlightColor;
-			selectionColor.A = 40;
-			slectionBrush = new SolidColorBrush(selectionColor);
 		}
 
 		#endregion

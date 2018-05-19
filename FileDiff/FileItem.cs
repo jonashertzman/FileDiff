@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace FileDiff
 {
-	public class FileItem : INotifyPropertyChanged
+	public class FileItem
 	{
 
 		#region Constructor
@@ -44,7 +44,7 @@ namespace FileDiff
 
 		public override string ToString()
 		{
-			return $"{Name}  {type.ToString()}";
+			return $"{Name}  {Type.ToString()}";
 		}
 
 		#endregion
@@ -88,16 +88,7 @@ namespace FileDiff
 		public bool IsFolder { get; set; }
 
 
-		private TextState type;
-		public TextState Type
-		{
-			get { return type; }
-			set
-			{
-				type = value;
-				OnPropertyChanged(nameof(Type));
-			}
-		}
+		public TextState Type { get; set; }
 
 		private bool isExpanded;
 		public bool IsExpanded
@@ -109,7 +100,6 @@ namespace FileDiff
 				{
 					this.isExpanded = value;
 					CorrespondingItem.IsExpanded = value;
-					OnPropertyChanged(nameof(IsExpanded));
 				}
 			}
 		}
@@ -118,7 +108,7 @@ namespace FileDiff
 		{
 			get
 			{
-				switch (type)
+				switch (Type)
 				{
 					case TextState.Deleted:
 						return AppSettings.DeletedBackground;
@@ -139,7 +129,7 @@ namespace FileDiff
 		{
 			get
 			{
-				switch (type)
+				switch (Type)
 				{
 					case TextState.Deleted:
 						return AppSettings.DeletedForeground;
@@ -156,7 +146,7 @@ namespace FileDiff
 			}
 		}
 
-		public Visibility Visible { get { return type == TextState.Filler ? Visibility.Hidden : Visibility.Visible; } }
+		public Visibility Visible { get { return Type == TextState.Filler ? Visibility.Hidden : Visibility.Visible; } }
 
 		public bool ChildDiffExists
 		{
@@ -203,17 +193,6 @@ namespace FileDiff
 
 				return s.ToString();
 			}
-		}
-
-		#endregion
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string propName)
-		{
-			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 		}
 
 		#endregion

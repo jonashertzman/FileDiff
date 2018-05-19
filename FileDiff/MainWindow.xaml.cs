@@ -149,8 +149,8 @@ namespace FileDiff
 			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
 			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
 
-			ViewModel.LeftFile = new ObservableCollection<Line>();
-			ViewModel.RightFile = new ObservableCollection<Line>();
+			//ViewModel.LeftFile = new ObservableCollection<Line>();
+			//ViewModel.RightFile = new ObservableCollection<Line>();
 
 			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems, 1);
 
