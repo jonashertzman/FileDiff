@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -29,11 +28,14 @@ namespace FileDiff
 
 			if (type != TextState.Filler)
 			{
-				FileInfo fi = new FileInfo(path);
-				fileDate = fi.LastWriteTime;
-				if (!isFolder)
+				if (path.Length < 260)
 				{
-					fileSize = fi.Length;
+					FileInfo fi = new FileInfo(path);
+					fileDate = fi.LastWriteTime;
+					if (!isFolder)
+					{
+						fileSize = fi.Length;
+					}
 				}
 			}
 		}
@@ -167,6 +169,9 @@ namespace FileDiff
 		{
 			get
 			{
+				if (IsFolder || Type == TextState.Filler)
+					return "";
+
 				StringBuilder s = new StringBuilder();
 
 				using (MD5 md5 = MD5.Create())

@@ -149,9 +149,6 @@ namespace FileDiff
 			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
 			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
 
-			//ViewModel.LeftFile = new ObservableCollection<Line>();
-			//ViewModel.RightFile = new ObservableCollection<Line>();
-
 			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems, 1);
 
 			ViewModel.LeftFolder = leftItems;
@@ -167,6 +164,11 @@ namespace FileDiff
 
 		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
 		{
+			if (leftPath?.Length > 259 || rightPath?.Length > 259)
+			{
+				return;
+			}
+
 			if (Directory.Exists(leftPath) && !DirectoryAllowed(leftPath) || Directory.Exists(rightPath) && !DirectoryAllowed(rightPath))
 			{
 				return;
@@ -179,7 +181,7 @@ namespace FileDiff
 			// Find directories
 			if (leftPath != null)
 			{
-				foreach (string directoryPath in Directory.GetDirectories(leftPath))
+				foreach (string directoryPath in Directory.GetDirectories(FixRootPath(leftPath)))
 				{
 					string directoryName = directoryPath.Substring(leftPath.Length + 1);
 					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true, TextState.Deleted, directoryPath, level), new FileItem("", true, TextState.Filler, "", level)));
@@ -188,7 +190,7 @@ namespace FileDiff
 
 			if (rightPath != null)
 			{
-				foreach (string directoryPath in Directory.GetDirectories(rightPath))
+				foreach (string directoryPath in Directory.GetDirectories(FixRootPath(rightPath)))
 				{
 					string directoryName = directoryPath.Substring(rightPath.Length + 1);
 					string key = "*" + directoryName;
@@ -207,7 +209,7 @@ namespace FileDiff
 			// Find files
 			if (leftPath != null)
 			{
-				foreach (string filePath in Directory.GetFiles(leftPath))
+				foreach (string filePath in Directory.GetFiles(FixRootPath(leftPath)))
 				{
 					string fileName = filePath.Substring(leftPath.Length + 1);
 					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false, TextState.Deleted, filePath, level), new FileItem("", false, TextState.Filler, "", level)));
@@ -216,7 +218,7 @@ namespace FileDiff
 
 			if (rightPath != null)
 			{
-				foreach (string filePath in Directory.GetFiles(rightPath))
+				foreach (string filePath in Directory.GetFiles(FixRootPath(rightPath)))
 				{
 					string fileName = filePath.Substring(rightPath.Length + 1);
 					if (!allItems.ContainsKey(fileName))
@@ -250,7 +252,7 @@ namespace FileDiff
 					}
 					else
 					{
-						SearchDirectory(leftItem.Name == "" ? null : Path.Combine(leftPath, leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(rightPath, rightItem.Name), rightItem.Children, level + 1);
+						SearchDirectory(leftItem.Name == "" ? null : Path.Combine(FixRootPath(leftPath), leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(FixRootPath(rightPath), rightItem.Name), rightItem.Children, level + 1);
 
 						if (leftItem.Type == TextState.FullMatch && leftItem.ChildDiffExists)
 						{
@@ -282,6 +284,16 @@ namespace FileDiff
 				leftItems.Add(leftItem);
 				rightItems.Add(rightItem);
 			}
+		}
+
+		private string FixRootPath(string path)
+		{
+			// Directory.GetDirectories, Directory.GetFiles and Path.Combine does not work on root paths without trailing backslashes.
+			if (path.EndsWith(":"))
+			{
+				return path += "\\";
+			}
+			return path;
 		}
 
 		private bool DirectoryIsIgnored(string directory)
