@@ -152,4 +152,9 @@
     <None Include="Resources\Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+ "C:\Program Files\7-Zip\7z" a ..\..\..\docs\download\FileDiff.zip "$(TargetPath)" ..\..\..\LICENSE
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
