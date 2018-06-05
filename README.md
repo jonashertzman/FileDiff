@@ -2,7 +2,7 @@
 
 A free open source diff tool.
 
-Download latest version [here]<https://jonashertzman.github.io/FileDiff/download/FileDiff.zip>
+Download latest version at <https://jonashertzman.github.io/FileDiff/download/FileDiff.zip>
 
 Source code available at <https://github.com/jonashertzman/FileDiff>
 
