@@ -2,6 +2,10 @@
 
 A free open source diff tool.
 
+Download latest version [here]( https://jonashertzman.github.io/FileDiff/download/FileDiff.zip).
+
+Source code available at <https://github.com/jonashertzman/FileDiff>.
+
 ## Features
 
 ### File compare
@@ -16,4 +20,4 @@ A free open source diff tool.
 
 ![screen](/docs/images/Screen3.png)
 
-Source code: <https://github.com/jonashertzman/FileDiff>
+
