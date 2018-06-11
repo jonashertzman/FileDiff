@@ -22,10 +22,9 @@ namespace FileDiff
 		private double maxTextwidth = 0;
 
 		private Selection selection = null;
-		private Point? MouseDownPoint = null;
+		private Point? mouseDownPosition = null;
 
 		private SolidColorBrush slectionBrush;
-		private Pen transpatentPen;
 
 		private GlyphTypeface cachedTypeface;
 
@@ -47,8 +46,6 @@ namespace FileDiff
 			Color selectionColor = SystemColors.HighlightColor;
 			selectionColor.A = 40;
 			slectionBrush = new SolidColorBrush(selectionColor);
-
-			transpatentPen = new Pen(Brushes.Transparent, 0);
 		}
 
 		#endregion
@@ -60,7 +57,7 @@ namespace FileDiff
 			Debug.Print("DiffControl OnRender");
 
 			// Fill background
-			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			if (Lines.Count == 0)
 				return;
@@ -99,7 +96,7 @@ namespace FileDiff
 				// Draw line background
 				if (line.Type != TextState.FullMatch)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, transpatentPen, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
+					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
 				}
 
 				// Draw line number
@@ -108,7 +105,7 @@ namespace FileDiff
 				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength + 1)
 				{
 					lineNumberColor = AppSettings.FullMatchBackground;
-					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, transpatentPen, new Rect(0, 0, lineNumberMargin, characterHeight));
+					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 				}
 				else
 				{
@@ -137,7 +134,7 @@ namespace FileDiff
 						textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
 						if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
 						{
-							drawingContext.DrawRectangle(textSegment.BackgroundBrush, transpatentPen, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
+							drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
 						}
 						drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, textSegment.RenderedText);
 						nextPosition += runWidth;
@@ -159,7 +156,7 @@ namespace FileDiff
 					{
 						selectionRect.Width = Math.Max(0, line.CharacterPosition(selection.BottomCharacter + 1) - selectionRect.X);
 					}
-					drawingContext.DrawRectangle(slectionBrush, transpatentPen, selectionRect);
+					drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
 				}
 
 				drawingContext.Pop(); // Line X offset
@@ -182,12 +179,7 @@ namespace FileDiff
 			{
 				if (Lines.Count > 0)
 				{
-					selection = new Selection();
-					selection.StartLine = 0;
-					selection.StartCharacter = 0;
-					selection.EndLine = Lines.Count - 1;
-					selection.EndCharacter = Math.Max(0, Lines[Lines.Count - 1].Text.Length - 1);
-
+					selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length - 1));
 					InvalidateVisual();
 				}
 			}
@@ -244,9 +236,7 @@ namespace FileDiff
 
 			if (e.ChangedButton == MouseButton.Left)
 			{
-				selection = new Selection();
-				MouseDownPoint = e.GetPosition(this);
-				PointToCharacter(e.GetPosition(this), out selection.StartLine, out selection.StartCharacter);
+				mouseDownPosition = e.GetPosition(this);
 			}
 
 			base.OnMouseDown(e);
@@ -254,33 +244,56 @@ namespace FileDiff
 
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			if (e.ChangedButton == MouseButton.Left && MouseDownPoint != null)
+			if (e.ChangedButton == MouseButton.Left && mouseDownPosition != null)
 			{
-				if (e.GetPosition(this) != MouseDownPoint)
+				Point currentMousePosition = e.GetPosition(this);
+
+				if (currentMousePosition != mouseDownPosition || currentMousePosition.X < lineNumberMargin)
 				{
-					PointToCharacter(e.GetPosition(this), out selection.EndLine, out selection.EndCharacter);
+					PointToCharacter(mouseDownPosition.Value, out int downLine, out int downCharacter);
+					PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
+
+					if (mouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
+					{
+						downCharacter = upLine < downLine ? Lines[downLine].Text.Length : 0;
+						upCharacter = upLine < downLine ? 0 : Lines[upLine].Text.Length;
+					}
+
+					selection = new Selection(downLine, downCharacter, upLine, upCharacter);
 				}
 				else
 				{
 					selection = null;
 				}
 
-				MouseDownPoint = null;
+				mouseDownPosition = null;
 				InvalidateVisual();
 			}
+
 			base.OnMouseUp(e);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (Mouse.LeftButton == MouseButtonState.Pressed && MouseDownPoint != null)
+			if (Mouse.LeftButton == MouseButtonState.Pressed && mouseDownPosition != null)
 			{
-				PointToCharacter(e.GetPosition(this), out selection.EndLine, out selection.EndCharacter);
+				Point currentMousePosition = e.GetPosition(this);
+
+				PointToCharacter(mouseDownPosition.Value, out int downLine, out int downCharacter);
+				PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
+
+				if (mouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
+				{
+					downCharacter = upLine < downLine ? Lines[downLine].Text.Length : 0;
+					upCharacter = upLine < downLine ? 0 : Lines[upLine].Text.Length;
+				}
+
+				selection = new Selection(downLine, downCharacter, upLine, upCharacter);
+
 				InvalidateVisual();
 			}
 
 			base.OnMouseMove(e);
-
 		}
 
 		#endregion

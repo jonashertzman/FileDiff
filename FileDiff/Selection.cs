@@ -12,6 +12,23 @@
 
 		#endregion
 
+		#region Constructor
+
+		public Selection()
+		{
+
+		}
+
+		public Selection(int startLine, int startCharacter, int endLine, int endCharacter)
+		{
+			StartLine = startLine;
+			StartCharacter = startCharacter;
+			EndLine = endLine;
+			EndCharacter = endCharacter;
+		}
+
+		#endregion
+
 		#region Properties
 
 		public int TopLine
