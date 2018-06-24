@@ -549,7 +549,7 @@ namespace FileDiff
 			}
 		}
 
-		private void HighlightCharacterMatches(Line leftLine, Line rightLine, List<object> leftRange, List<object> rightRange)
+		private void HighlightCharacterMatches(Line leftLine, Line rightLine, List<char> leftRange, List<char> rightRange)
 		{
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
@@ -600,7 +600,7 @@ namespace FileDiff
 			}
 		}
 
-		private string CharactersToString(List<object> characters)
+		private string CharactersToString(List<char> characters)
 		{
 			var sb = new StringBuilder();
 			foreach (var c in characters)
@@ -610,7 +610,7 @@ namespace FileDiff
 			return sb.ToString();
 		}
 
-		private int CountMatchingCharacters(List<object> leftRange, List<object> rightRange, bool lastLine)
+		private int CountMatchingCharacters(List<char> leftRange, List<char> rightRange, bool lastLine)
 		{
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
@@ -644,7 +644,7 @@ namespace FileDiff
 
 		private void MatchLines(List<Line> leftRange, List<Line> rightRange)
 		{
-			FindLongestMatch(new List<object>(leftRange.ToArray()), new List<object>(rightRange.ToArray()), out int matchIndex, out int matchingIndex, out int matchLength);
+			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
 			// Single line matches and ranges containing only whitespace are in most cases false positives.
 			if (matchLength < 2 || WhitespaceRange(leftRange.GetRange(matchIndex, matchLength)))
@@ -685,7 +685,7 @@ namespace FileDiff
 			return true;
 		}
 
-		private void FindLongestMatch(List<object> leftRange, List<object> rightRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength)
+		private void FindLongestMatch<T>(List<T> leftRange, List<T> rightRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength)
 		{
 			int matchIndex = -1;
 

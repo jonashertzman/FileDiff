@@ -68,11 +68,11 @@ namespace FileDiff
 
 		public bool IsWhitespaceLine { get; set; }
 
-		public List<object> Characters
+		public List<char> Characters
 		{
 			get
 			{
-				List<object> list = new List<object>();
+				List<char> list = new List<char>();
 
 				foreach (char c in text.ToCharArray())
 				{
@@ -82,11 +82,11 @@ namespace FileDiff
 			}
 		}
 
-		public List<object> TrimmedCharacters
+		public List<char> TrimmedCharacters
 		{
 			get
 			{
-				List<object> list = new List<object>();
+				List<char> list = new List<char>();
 
 				foreach (char c in TrimmedText.ToCharArray())
 				{
@@ -152,7 +152,7 @@ namespace FileDiff
 
 		#endregion
 
-		#region Metods
+		#region Methods
 
 		internal double CharacterPosition(int characterIndex)
 		{

@@ -13,7 +13,6 @@ namespace FileDiff
 
 		#region Members
 
-		private Pen transpatentPen;
 		private double dpiScale = 0;
 
 		#endregion
@@ -28,8 +27,6 @@ namespace FileDiff
 		public DiffMapControl()
 		{
 			this.ClipToBounds = true;
-
-			transpatentPen = new Pen(Brushes.Transparent, 0);
 		}
 
 		#endregion
@@ -40,7 +37,7 @@ namespace FileDiff
 		{
 			Debug.Print("DiffMap OnRender");
 
-			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, transpatentPen, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
@@ -84,7 +81,7 @@ namespace FileDiff
 
 				if (rect.Bottom > lastHeight)
 				{
-					drawingContext.DrawRectangle(lineColor, transpatentPen, rect);
+					drawingContext.DrawRectangle(lineColor, null, rect);
 
 					lastHeight = rect.Bottom;
 				}
