@@ -30,6 +30,9 @@ namespace FileDiff
 
 		private double dpiScale = 0;
 
+		private int cursorLine = 0;
+		private int cursorCharacter = 0;
+
 		#endregion
 
 		#region Constructor
@@ -159,6 +162,12 @@ namespace FileDiff
 					drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
 				}
 
+				// Draw cursor
+				if (this.IsFocused && cursorLine == lineIndex && selection == null)
+				{
+					drawingContext.DrawRectangle(Brushes.Black, null, new Rect(line.CharacterPosition(cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
+				}
+
 				drawingContext.Pop(); // Line X offset
 				drawingContext.Pop(); // Clipping rect
 				drawingContext.Pop(); // Line Y offset
@@ -171,6 +180,54 @@ namespace FileDiff
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
 			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
+		}
+
+		protected override void OnTextInput(TextCompositionEventArgs e)
+		{
+			if (e.Text.Length > 0)
+			{
+				Debug.Print(e.Text);
+
+				if (selection != null)
+				{
+					DeleteSelection();
+				}
+
+				Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text.Substring(cursorCharacter);
+				cursorCharacter++;
+			}
+
+			this.InvalidateVisual();
+
+			base.OnTextInput(e);
+		}
+
+		private void DeleteSelection()
+		{
+			for (int index = selection.BottomLine; index >= selection.TopLine; index--)
+			{
+				if (selection.TopLine == selection.BottomLine)
+				{
+					Lines[index].Text = Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length));
+				}
+				else if (index == selection.TopLine)
+				{
+					Lines[index].Text = Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index + 1].Text;
+					Lines.RemoveAt(index + 1);
+				}
+				else if (index == selection.BottomLine)
+				{
+					Lines[index].Text = Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length));
+				}
+				else if (index > selection.TopLine && index < selection.BottomLine)
+				{
+					Lines.RemoveAt(index);
+				}
+			}
+
+			cursorLine = selection.TopLine;
+			cursorCharacter = selection.TopCharacter;
+			selection = null;
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -244,9 +301,12 @@ namespace FileDiff
 
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
+			Point currentMousePosition = e.GetPosition(this);
+
+			PointToCharacter(currentMousePosition, out cursorLine, out cursorCharacter);
+
 			if (e.ChangedButton == MouseButton.Left && mouseDownPosition != null)
 			{
-				Point currentMousePosition = e.GetPosition(this);
 
 				if (currentMousePosition != mouseDownPosition || currentMousePosition.X < lineNumberMargin)
 				{
@@ -279,6 +339,8 @@ namespace FileDiff
 			{
 				Point currentMousePosition = e.GetPosition(this);
 
+				PointToCharacter(currentMousePosition, out cursorLine, out cursorCharacter);
+
 				PointToCharacter(mouseDownPosition.Value, out int downLine, out int downCharacter);
 				PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
 
@@ -294,6 +356,13 @@ namespace FileDiff
 			}
 
 			base.OnMouseMove(e);
+		}
+
+		protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+		{
+			InvalidateVisual();
+
+			base.OnLostKeyboardFocus(e);
 		}
 
 		#endregion
@@ -352,6 +421,7 @@ namespace FileDiff
 			get { return (int)GetValue(CurrentDiffProperty); }
 			set { SetValue(CurrentDiffProperty, value); }
 		}
+
 
 		public static readonly DependencyProperty CurrentDiffLengthProperty = DependencyProperty.Register("CurrentDiffLength", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
