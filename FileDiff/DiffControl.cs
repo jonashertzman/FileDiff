@@ -83,7 +83,6 @@ namespace FileDiff
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
-			VerticalOffset = Math.Min(VerticalOffset, MaxVerialcalScroll);
 
 			for (int i = 0; i < VisibleLines; i++)
 			{

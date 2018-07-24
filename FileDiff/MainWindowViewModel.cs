@@ -68,6 +68,21 @@ namespace FileDiff
 			set { AppSettings.IgnoredFiles = value; OnPropertyChangedRepaint(nameof(IgnoredFiles)); }
 		}
 
+		public int MaxVerialcalScroll
+		{
+			get
+			{
+				return Math.Max(leftFile.Count, rightFile.Count) - VisibleLines + 1;
+			}
+		}
+
+		int visibleLines;
+		public int VisibleLines
+		{
+			get { return visibleLines; }
+			set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		}
+
 		int currentDiff = -1;
 		public int CurrentDiff
 		{
