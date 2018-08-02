@@ -187,13 +187,40 @@ namespace FileDiff
 			{
 				Debug.Print(e.Text);
 
-				if (selection != null)
+				if (e.Text == "\b")
 				{
-					DeleteSelection();
+					if (selection != null)
+					{
+						DeleteSelection();
+					}
+					else
+					{
+						if (cursorCharacter == 0)
+						{
+							if (cursorLine > 0)
+							{
+								cursorCharacter = Lines[cursorLine - 1].Text.Length;
+								Lines[cursorLine - 1].Text = Lines[cursorLine - 1].Text + Lines[cursorLine].Text;
+								Lines.RemoveAt(cursorLine);
+								cursorLine--;
+							}
+						}
+						else
+						{
+							Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter - 1) + Lines[cursorLine].Text.Substring(cursorCharacter);
+							cursorCharacter--;
+						}
+					}
 				}
-
-				Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text.Substring(cursorCharacter);
-				cursorCharacter++;
+				else
+				{
+					if (selection != null)
+					{
+						DeleteSelection();
+					}
+					Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text.Substring(cursorCharacter);
+					cursorCharacter++;
+				}
 			}
 
 			this.InvalidateVisual();
@@ -231,7 +258,30 @@ namespace FileDiff
 
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
-			if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
+			if (e.Key == Key.Delete)
+			{
+				if (selection != null)
+				{
+					DeleteSelection();
+				}
+				else
+				{
+					if (cursorCharacter == Lines[cursorLine].Text.Length)
+					{
+						if (cursorLine < Lines.Count - 1)
+						{
+							Lines[cursorLine].Text = Lines[cursorLine].Text + Lines[cursorLine + 1].Text;
+							Lines.RemoveAt(cursorLine + 1);
+						}
+					}
+					else
+					{
+						Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + 1);
+					}
+				}
+				InvalidateVisual();
+			}
+			else if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
 			{
 				if (Lines.Count > 0)
 				{
