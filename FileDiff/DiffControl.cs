@@ -239,33 +239,6 @@ namespace FileDiff
 			base.OnTextInput(e);
 		}
 
-		private void DeleteSelection()
-		{
-			for (int index = selection.BottomLine; index >= selection.TopLine; index--)
-			{
-				if (selection.TopLine == selection.BottomLine)
-				{
-					Lines[index].Text = Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length));
-				}
-				else if (index == selection.TopLine)
-				{
-					Lines[index].Text = Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index + 1].Text;
-					Lines.RemoveAt(index + 1);
-				}
-				else if (index == selection.BottomLine)
-				{
-					Lines[index].Text = Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length));
-				}
-				else if (index > selection.TopLine && index < selection.BottomLine)
-				{
-					Lines.RemoveAt(index);
-				}
-			}
-
-			cursorLine = selection.TopLine;
-			cursorCharacter = selection.TopCharacter;
-			selection = null;
-		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
@@ -346,30 +319,7 @@ namespace FileDiff
 			base.OnKeyDown(e);
 		}
 
-		private void CopyToClipboard()
-		{
-			StringBuilder sb = new StringBuilder();
-			int lineIndex = selection.TopLine;
-			do
-			{
-				if (Lines[lineIndex].Type != TextState.Filler)
-				{
-					if (lineIndex != selection.TopLine)
-					{
-						sb.AppendLine("");
-					}
-					int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
-					int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter;
-					if (startCharacter < Lines[lineIndex].Text.Length)
-					{
-						sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
-					}
-				}
-				lineIndex++;
-			} while (lineIndex <= selection.BottomLine);
 
-			Clipboard.SetText(sb.ToString());
-		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
@@ -554,6 +504,59 @@ namespace FileDiff
 			TextAreaWidth = 0;
 			MaxHorizontalScroll = 0;
 			maxTextwidth = 0;
+		}
+
+		private void DeleteSelection()
+		{
+			for (int index = selection.BottomLine; index >= selection.TopLine; index--)
+			{
+				if (selection.TopLine == selection.BottomLine)
+				{
+					Lines[index].Text = Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length));
+				}
+				else if (index == selection.TopLine)
+				{
+					Lines[index].Text = Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index + 1].Text;
+					Lines.RemoveAt(index + 1);
+				}
+				else if (index == selection.BottomLine)
+				{
+					Lines[index].Text = Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length));
+				}
+				else if (index > selection.TopLine && index < selection.BottomLine)
+				{
+					Lines.RemoveAt(index);
+				}
+			}
+
+			cursorLine = selection.TopLine;
+			cursorCharacter = selection.TopCharacter;
+			selection = null;
+		}
+
+		private void CopyToClipboard()
+		{
+			StringBuilder sb = new StringBuilder();
+			int lineIndex = selection.TopLine;
+			do
+			{
+				if (Lines[lineIndex].Type != TextState.Filler)
+				{
+					if (lineIndex != selection.TopLine)
+					{
+						sb.AppendLine("");
+					}
+					int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
+					int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter;
+					if (startCharacter < Lines[lineIndex].Text.Length)
+					{
+						sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
+					}
+				}
+				lineIndex++;
+			} while (lineIndex <= selection.BottomLine);
+
+			Clipboard.SetText(sb.ToString());
 		}
 
 		private void PointToCharacter(Point point, out int line, out int character)
