@@ -315,27 +315,15 @@ namespace FileDiff
 			{
 				if (selection != null)
 				{
-					StringBuilder sb = new StringBuilder();
-					int lineIndex = selection.TopLine;
-					do
-					{
-						if (Lines[lineIndex].Type != TextState.Filler)
-						{
-							if (lineIndex != selection.TopLine)
-							{
-								sb.AppendLine("");
-							}
-							int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
-							int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter;
-							if (startCharacter < Lines[lineIndex].Text.Length)
-							{
-								sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
-							}
-						}
-						lineIndex++;
-					} while (lineIndex <= selection.BottomLine);
-
-					Clipboard.SetText(sb.ToString());
+					CopyToClipboard();
+				}
+			}
+			else if (e.Key == Key.X && Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				if (selection != null)
+				{
+					CopyToClipboard();
+					DeleteSelection();
 				}
 			}
 			else if (e.Key == Key.PageUp)
@@ -356,6 +344,31 @@ namespace FileDiff
 			}
 
 			base.OnKeyDown(e);
+		}
+
+		private void CopyToClipboard()
+		{
+			StringBuilder sb = new StringBuilder();
+			int lineIndex = selection.TopLine;
+			do
+			{
+				if (Lines[lineIndex].Type != TextState.Filler)
+				{
+					if (lineIndex != selection.TopLine)
+					{
+						sb.AppendLine("");
+					}
+					int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
+					int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter;
+					if (startCharacter < Lines[lineIndex].Text.Length)
+					{
+						sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
+					}
+				}
+				lineIndex++;
+			} while (lineIndex <= selection.BottomLine);
+
+			Clipboard.SetText(sb.ToString());
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
