@@ -292,6 +292,17 @@ namespace FileDiff
 				}
 				InvalidateVisual();
 			}
+			else if (e.Key == Key.Tab)
+			{
+				if (selection != null)
+				{
+					DeleteSelection();
+				}
+				Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter);
+				cursorCharacter++;
+				e.Handled = true;
+				InvalidateVisual();
+			}
 			else if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
 			{
 				if (Lines.Count > 0)
