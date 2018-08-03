@@ -212,6 +212,17 @@ namespace FileDiff
 						}
 					}
 				}
+				else if (e.Text == "\r")
+				{
+					if (selection != null)
+					{
+						DeleteSelection();
+					}
+					Lines.Insert(cursorLine + 1, new Line() { Text = Lines[cursorLine].Text.Substring(cursorCharacter) });
+					Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter);
+					cursorLine++;
+					cursorCharacter = 0;
+				}
 				else
 				{
 					if (selection != null)
