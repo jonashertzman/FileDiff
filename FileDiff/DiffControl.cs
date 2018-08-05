@@ -239,7 +239,6 @@ namespace FileDiff
 			base.OnTextInput(e);
 		}
 
-
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
 			if (e.Key == Key.Delete)
@@ -318,8 +317,6 @@ namespace FileDiff
 
 			base.OnKeyDown(e);
 		}
-
-
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{

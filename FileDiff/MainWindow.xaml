@@ -13,6 +13,7 @@
 		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
 		<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
 		<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
+		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" />
 		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
@@ -65,67 +66,183 @@
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Compare">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Compare" VerticalAlignment="Center" />
 				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Compare" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
 			</Button>
+
+			<ToggleButton Style="{ StaticResource ToolbarToggleButton}" Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
+				</StackPanel>
+				<ToggleButton.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Enable Editing" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</ToggleButton.ToolTip>
+			</ToggleButton>
+
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Swap">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Swap" VerticalAlignment="Center" />
 				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Swap" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
 			</Button>
+
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Up">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource UpIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Up" VerticalAlignment="Center" />
 				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Up" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
 			</Button>
+
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="First Diff" VerticalAlignment="Center" />
 				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="First Diff" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
 			</Button>
+
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Previous Diff" VerticalAlignment="Center" />
 				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Previous Diff" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
 			</Button>
+
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Next Diff" VerticalAlignment="Center" />
 				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Next Diff" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
 			</Button>
+
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.LastDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Last Diff" VerticalAlignment="Center" />
 				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Last Diff" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
 			</Button>
+
+			<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource CopyLeftSide}" Style="{StaticResource CommonButtonIcon}" />
+				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Copy Left Site to Right" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+
+			<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource CopyRightSide}" Style="{StaticResource CommonButtonIcon}" />
+				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Copy Right Side to Left" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+
 			<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />
 				</StackPanel>
+				<ToggleButton.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</ToggleButton.ToolTip>
 			</ToggleButton>
+
 			<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonIgnoreWhiteSpace_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
 				</StackPanel>
+				<ToggleButton.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</ToggleButton.ToolTip>
 			</ToggleButton>
+
 			<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="¶" VerticalAlignment="Center" Margin="5,0" FontWeight="Bold" />
+					<TextBlock Text="¶" FontWeight="Bold" Margin="7, 2" />
 				</StackPanel>
+				<ToggleButton.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Show Special Characters" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</ToggleButton.ToolTip>
 			</ToggleButton>
+
 			<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Master Detail" VerticalAlignment="Center" />
 				</StackPanel>
+				<ToggleButton.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Master Detail" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</ToggleButton.ToolTip>
 			</ToggleButton>
 
 		</WrapPanel>

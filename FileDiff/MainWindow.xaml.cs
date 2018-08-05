@@ -1246,6 +1246,11 @@ namespace FileDiff
 			e.CanExecute = activeSelection != "";
 		}
 
+		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+
+		}
+
 		#endregion
 
 	}
