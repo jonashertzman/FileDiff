@@ -27,6 +27,10 @@ namespace FileDiff
 
 		public static readonly RoutedUICommand Edit = new RoutedUICommand("Edit", "Edit", typeof(Commands));
 
+		public static readonly RoutedUICommand CopyLeftDiff = new RoutedUICommand("Copy Left Diff", "CopyLeftDiff", typeof(Commands));
+
+		public static readonly RoutedUICommand CopyRightDiff = new RoutedUICommand("Copy Right Diff", "CopyRightDiff", typeof(Commands));
+
 		public static readonly RoutedUICommand PreviousDiff = new RoutedUICommand("Previous Diff", "PreviousDiff", typeof(Commands),
 			new InputGestureCollection()
 			{
@@ -45,6 +49,13 @@ namespace FileDiff
 			new InputGestureCollection()
 			{
 				new KeyGesture(Key.Up, ModifierKeys.Control)
+			}
+		);
+
+		public static readonly RoutedUICommand CurrentDiff = new RoutedUICommand("Current Diff", "CurrentDiff", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.Space, ModifierKeys.Control)
 			}
 		);
 

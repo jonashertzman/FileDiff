@@ -104,7 +104,7 @@ namespace FileDiff
 				// Draw line number
 				SolidColorBrush lineNumberColor = new SolidColorBrush();
 
-				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength + 1)
+				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength)
 				{
 					lineNumberColor = AppSettings.FullMatchBackground;
 					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));

@@ -11,13 +11,16 @@
 
 	<Window.CommandBindings>
 		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
+		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" />
 		<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
 		<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
-		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" />
 		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
+		<CommandBinding Command="local:Commands.CurrentDiff" Executed="CommandCurrentDiff_Executed" CanExecute="CommandCurrentDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.LastDiff" Executed="CommandLastDiff_Executed" CanExecute="CommandLastDiff_CanExecute" />
+		<CommandBinding Command="local:Commands.CopyLeftDiff" Executed="CommandCopyLeftDiff_Executed" CanExecute="CommandCopyLeftDiff_CanExecute" />
+		<CommandBinding Command="local:Commands.CopyRightDiff" Executed="CommandCopyRightDiff_Executed" CanExecute="CommandCopyRightDiff_CanExecute"/>
 		<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
 		<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
 		<CommandBinding Command="local:Commands.BrowseLeft" Executed="CommandBrowseLeft_Executed" />
@@ -115,6 +118,8 @@
 				</Button.ToolTip>
 			</Button>
 
+			<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+			
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstDiff">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
@@ -136,6 +141,19 @@
 					<ToolTip>
 						<StackPanel>
 							<TextBlock Text="Previous Diff" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CurrentDiff">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource CurrentDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel>
+							<TextBlock Text="Current Diff" VerticalAlignment="Center" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -167,7 +185,9 @@
 				</Button.ToolTip>
 			</Button>
 
-			<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}">
+			<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+			
+			<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.CopyLeftDiff" IsEnabled="{Binding FileVissible}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource CopyLeftSide}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
@@ -180,7 +200,7 @@
 				</Button.ToolTip>
 			</Button>
 
-			<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}">
+			<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.CopyRightDiff" IsEnabled="{Binding FileVissible}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource CopyRightSide}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
