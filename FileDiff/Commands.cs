@@ -21,11 +21,13 @@ namespace FileDiff
 			}
 		);
 
+		public static readonly RoutedUICommand Save = new RoutedUICommand("Save", "Save", typeof(Commands));
+
+		public static readonly RoutedUICommand Edit = new RoutedUICommand("Edit", "Edit", typeof(Commands));
+
 		public static readonly RoutedUICommand Swap = new RoutedUICommand("Swap", "Swap", typeof(Commands));
 
 		public static readonly RoutedUICommand Up = new RoutedUICommand("Up", "Up", typeof(Commands));
-
-		public static readonly RoutedUICommand Edit = new RoutedUICommand("Edit", "Edit", typeof(Commands));
 
 		public static readonly RoutedUICommand CopyLeftDiff = new RoutedUICommand("Copy Left Diff", "CopyLeftDiff", typeof(Commands));
 

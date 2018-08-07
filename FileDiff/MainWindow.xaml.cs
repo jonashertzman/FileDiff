@@ -1122,6 +1122,16 @@ namespace FileDiff
 			Compare();
 		}
 
+		private void CommandSave_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+
+		}
+
+		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+
+		}
+
 		private void CommandBrowseLeft_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
@@ -1270,11 +1280,6 @@ namespace FileDiff
 		private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = activeSelection != "";
-		}
-
-		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-
 		}
 
 		private void CommandCopyLeftDiff_Executed(object sender, ExecutedRoutedEventArgs e)
