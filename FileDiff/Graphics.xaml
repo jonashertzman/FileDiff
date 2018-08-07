@@ -315,6 +315,21 @@
 		</Viewbox>
 	</DataTemplate>
 
+	<DataTemplate x:Key="ShowSpecialCharactersIcon">
+		<Viewbox>
+			<Canvas Width="160" Height="160">
+				<Rectangle Canvas.Left="60" Canvas.Top="30" Width="20" Height="120" Fill="Black" />
+				<Rectangle Canvas.Left="100" Canvas.Top="30" Width="20" Height="120" Fill="Black" />
+				<Rectangle Canvas.Left="60" Canvas.Top="20" Width="80" Height="20" Fill="Black" />
+				<Ellipse Fill="Black" Canvas.Left="30" Canvas.Top="20" Width="60" Height="60">
+					<Ellipse.Clip>
+						<RectangleGeometry Rect="0,0,35,65" />
+					</Ellipse.Clip>
+				</Ellipse>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
 	<DataTemplate x:Key="MasterDetailIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
@@ -357,8 +372,7 @@
 	<DataTemplate x:Key="EditIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Ellipse Stroke="#FF8B8B8B" StrokeThickness="20" Canvas.Top="0" Canvas.Left="30" Width="100" Height="120">
-				</Ellipse>
+				<Ellipse Stroke="#FF8B8B8B" StrokeThickness="20" Canvas.Top="0" Canvas.Left="30" Width="100" Height="120" />
 				<Rectangle Canvas.Left="20" Canvas.Top="60" Width="120" Height="90">
 					<Rectangle.Fill>
 						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">

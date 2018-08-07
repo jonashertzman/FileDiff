@@ -87,7 +87,7 @@
 				<Button.ToolTip>
 					<ToolTip>
 						<StackPanel>
-							<TextBlock Text="Compare" VerticalAlignment="Center" />
+							<TextBlock Text="Save" VerticalAlignment="Center" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -255,7 +255,7 @@
 
 			<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="¶" FontWeight="Bold" Margin="7, 2" />
+					<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<ToggleButton.ToolTip>
 					<ToolTip>
