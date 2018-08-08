@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -35,11 +36,25 @@ namespace FileDiff
 			set { leftFile = value; OnPropertyChangedRepaint(nameof(LeftFile)); }
 		}
 
+		Encoding leftFileEncoding = Encoding.Default;
+		public Encoding LeftFileEncoding
+		{
+			get { return leftFileEncoding; }
+			set { leftFileEncoding = value; OnPropertyChanged(nameof(LeftFileEncoding)); }
+		}
+
 		ObservableCollection<Line> rightFile = new ObservableCollection<Line>();
 		public ObservableCollection<Line> RightFile
 		{
 			get { return rightFile; }
 			set { rightFile = value; OnPropertyChangedRepaint(nameof(RightFile)); }
+		}
+
+		Encoding rightFileEncoding = Encoding.Default;
+		public Encoding RightFileEncoding
+		{
+			get { return rightFileEncoding; }
+			set { rightFileEncoding = value; OnPropertyChanged(nameof(RightFileEncoding)); }
 		}
 
 		ObservableCollection<FileItem> leftFolder = new ObservableCollection<FileItem>();
