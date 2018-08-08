@@ -21,47 +21,62 @@ namespace FileDiff
 			}
 		);
 
-		public static readonly RoutedUICommand Save = new RoutedUICommand("Save", "Save", typeof(Commands));
+		public static readonly RoutedUICommand Save = new RoutedUICommand("Save Files", "Save", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.S, ModifierKeys.Control)
+			}
+		);
 
-		public static readonly RoutedUICommand Edit = new RoutedUICommand("Edit", "Edit", typeof(Commands));
+		public static readonly RoutedUICommand Edit = new RoutedUICommand("Enable Editing", "Edit", typeof(Commands));
 
 		public static readonly RoutedUICommand Swap = new RoutedUICommand("Swap", "Swap", typeof(Commands));
 
-		public static readonly RoutedUICommand Up = new RoutedUICommand("Up", "Up", typeof(Commands));
+		public static readonly RoutedUICommand Up = new RoutedUICommand("Go to Parent Folder", "Up", typeof(Commands));
 
-		public static readonly RoutedUICommand CopyLeftDiff = new RoutedUICommand("Copy Left Diff", "CopyLeftDiff", typeof(Commands));
+		public static readonly RoutedUICommand CopyLeftDiff = new RoutedUICommand("Copy Left Diff Right", "CopyLeftDiff", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.Right, ModifierKeys.Control)
+			}
+		);
 
-		public static readonly RoutedUICommand CopyRightDiff = new RoutedUICommand("Copy Right Diff", "CopyRightDiff", typeof(Commands));
+		public static readonly RoutedUICommand CopyRightDiff = new RoutedUICommand("Copy Right Diff Left", "CopyRightDiff", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.Left, ModifierKeys.Control)
+			}
+		);
 
-		public static readonly RoutedUICommand PreviousDiff = new RoutedUICommand("Previous Diff", "PreviousDiff", typeof(Commands),
+		public static readonly RoutedUICommand PreviousDiff = new RoutedUICommand("Move to Previous Diff", "PreviousDiff", typeof(Commands),
 			new InputGestureCollection()
 			{
 				new KeyGesture(Key.Up)
 			}
 		);
 
-		public static readonly RoutedUICommand NextDiff = new RoutedUICommand("Next Diff", "NextDiff", typeof(Commands),
+		public static readonly RoutedUICommand NextDiff = new RoutedUICommand("Move to Next Diff", "NextDiff", typeof(Commands),
 			new InputGestureCollection()
 			{
 					new KeyGesture(Key.Down)
 			}
 		);
 
-		public static readonly RoutedUICommand FirstDiff = new RoutedUICommand("First Diff", "FirstDiff", typeof(Commands),
+		public static readonly RoutedUICommand FirstDiff = new RoutedUICommand("Move to First Diff", "FirstDiff", typeof(Commands),
 			new InputGestureCollection()
 			{
 				new KeyGesture(Key.Up, ModifierKeys.Control)
 			}
 		);
 
-		public static readonly RoutedUICommand CurrentDiff = new RoutedUICommand("Current Diff", "CurrentDiff", typeof(Commands),
+		public static readonly RoutedUICommand CurrentDiff = new RoutedUICommand("Move to Current Diff", "CurrentDiff", typeof(Commands),
 			new InputGestureCollection()
 			{
 				new KeyGesture(Key.Space, ModifierKeys.Control)
 			}
 		);
 
-		public static readonly RoutedUICommand LastDiff = new RoutedUICommand("Last Diff", "LastDiff", typeof(Commands),
+		public static readonly RoutedUICommand LastDiff = new RoutedUICommand("Move to Last Diff", "LastDiff", typeof(Commands),
 			new InputGestureCollection()
 			{
 				new KeyGesture(Key.Down, ModifierKeys.Control)

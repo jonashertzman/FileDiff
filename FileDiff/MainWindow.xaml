@@ -72,9 +72,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Compare" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -85,9 +86,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Save" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="Ctrl+S" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -98,9 +100,9 @@
 					<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<ToggleButton.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Enable Editing" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
 						</StackPanel>
 					</ToolTip>
 				</ToggleButton.ToolTip>
@@ -111,9 +113,9 @@
 					<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Swap" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -124,9 +126,9 @@
 					<ContentPresenter ContentTemplate="{StaticResource UpIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Up" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -139,9 +141,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="First Diff" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="Ctrl+Up" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -152,9 +155,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Previous Diff" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="Up" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -165,9 +169,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource CurrentDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Current Diff" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="Ctrl+Space" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -178,9 +183,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Next Diff" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="Down" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -191,9 +197,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Last Diff" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="Ctrl+Down" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -206,9 +213,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource CopyLeftSide}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Copy Left Site to Right" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="Ctrl+Right" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -219,9 +227,10 @@
 					<ContentPresenter ContentTemplate="{StaticResource CopyRightSide}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<Button.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Copy Right Side to Left" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="Ctrl+Left" Style="{StaticResource ShortcutTooltip}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
@@ -232,9 +241,9 @@
 					<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<ToggleButton.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Show Line Changes" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Show Line Changes" />
 						</StackPanel>
 					</ToolTip>
 				</ToggleButton.ToolTip>
@@ -245,9 +254,9 @@
 					<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<ToggleButton.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Ignore White Space" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Ignore White Space" />
 						</StackPanel>
 					</ToolTip>
 				</ToggleButton.ToolTip>
@@ -258,8 +267,8 @@
 					<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<ToggleButton.ToolTip>
-					<ToolTip>
-						<StackPanel>
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Show Special Characters" VerticalAlignment="Center" />
 						</StackPanel>
 					</ToolTip>
@@ -271,9 +280,9 @@
 					<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
 				<ToggleButton.ToolTip>
-					<ToolTip>
-						<StackPanel>
-							<TextBlock Text="Master Detail" VerticalAlignment="Center" />
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="Master Detail View" VerticalAlignment="Center" />
 						</StackPanel>
 					</ToolTip>
 				</ToggleButton.ToolTip>

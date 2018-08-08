@@ -19,8 +19,20 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Ellipse Stroke="#FF565656" StrokeThickness="20" Canvas.Left="15" Canvas.Top="15" Width="100" Height="100" />
-				<Line Stroke="#FF565656" StrokeThickness="20" X1="90" Y1="90" X2="150" Y2="150" />
+				<Path StrokeThickness="23">
+					<Path.Stroke>
+						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+							<GradientStop Color="#FF707070" Offset="0" />
+							<GradientStop Color="#FF3C3C3C" Offset="1" />
+						</LinearGradientBrush>
+					</Path.Stroke>
+					<Path.Data>
+						<GeometryGroup FillRule="Nonzero">
+							<EllipseGeometry Center="65,65" RadiusX="40" RadiusY="40" />
+							<LineGeometry StartPoint="90,90" EndPoint="150,150" />
+						</GeometryGroup>
+					</Path.Data>
+				</Path>
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
@@ -317,15 +329,35 @@
 
 	<DataTemplate x:Key="ShowSpecialCharactersIcon">
 		<Viewbox>
-			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="60" Canvas.Top="30" Width="20" Height="120" Fill="Black" />
-				<Rectangle Canvas.Left="100" Canvas.Top="30" Width="20" Height="120" Fill="Black" />
-				<Rectangle Canvas.Left="60" Canvas.Top="20" Width="80" Height="20" Fill="Black" />
-				<Ellipse Fill="Black" Canvas.Left="30" Canvas.Top="20" Width="60" Height="60">
-					<Ellipse.Clip>
-						<RectangleGeometry Rect="0,0,35,65" />
-					</Ellipse.Clip>
-				</Ellipse>
+			<Canvas Width="16" Height="16">
+				<Path StrokeThickness="0">
+					<Path.Fill>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.6,0">
+							<GradientStop Color="#FF646464" Offset="0" />
+							<GradientStop Color="Black" Offset="1" />
+						</LinearGradientBrush>
+					</Path.Fill>
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="5,15" IsClosed="True">
+									<PathFigure.Segments>
+										<LineSegment Point="5,8" />
+										<ArcSegment Point="5,2" Size="3.5, 3" SweepDirection="Clockwise" />
+										<LineSegment Point="13,2" />
+										<LineSegment Point="13,4" />
+										<LineSegment Point="11,4" />
+										<LineSegment Point="11,15" />
+										<LineSegment Point="9,15" />
+										<LineSegment Point="9,4" />
+										<LineSegment Point="7,4" />
+										<LineSegment Point="7,15" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
