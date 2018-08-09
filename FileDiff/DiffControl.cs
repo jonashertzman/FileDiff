@@ -570,7 +570,7 @@ namespace FileDiff
 			if (line >= Lines.Count)
 			{
 				line = Lines.Count - 1;
-				character = Lines[line].Text.Length - 1;
+				character = Math.Max(Lines[line].Text.Length - 1, 0);
 				return;
 			}
 

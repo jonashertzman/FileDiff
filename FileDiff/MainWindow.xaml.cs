@@ -98,7 +98,7 @@ namespace FileDiff
 				if (File.Exists(leftPath))
 				{
 					leftSelection = leftPath;
-					ViewModel.LeftFileEncoding = GetEncoding(leftPath);
+					ViewModel.LeftFileEncoding = Unicode.GetEncoding(leftPath);
 					LeftEncoding.Text = ViewModel.LeftFileEncoding.EncodingName;
 
 					int i = 0;
@@ -111,10 +111,10 @@ namespace FileDiff
 				if (File.Exists(rightPath))
 				{
 					rightSelection = rightPath;
-					ViewModel.RightFileEncoding = GetEncoding(rightPath);
+					ViewModel.RightFileEncoding = Unicode.GetEncoding(rightPath);
 					RightEncoding.Text = ViewModel.RightFileEncoding.EncodingName;
 
-										int i = 0;
+					int i = 0;
 					foreach (string s in File.ReadAllLines(rightPath, ViewModel.RightFileEncoding))
 					{
 						rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
@@ -140,7 +140,7 @@ namespace FileDiff
 			Mouse.OverrideCursor = null;
 
 			stopwatch.Stop();
-			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms  left side {leftLines.Count} lines  right site {rightLines.Count} lines";
+			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms";
 		}
 
 		private void CompareDirectories()
@@ -288,25 +288,6 @@ namespace FileDiff
 				leftItems.Add(leftItem);
 				rightItems.Add(rightItem);
 			}
-		}
-
-		public static Encoding GetEncoding(string path)
-		{
-			// Read the BOM
-			var bom = new byte[4];
-			using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
-			{
-				fileStream.Read(bom, 0, 4);
-			}
-
-			// Analyze the BOM
-			if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76) return Encoding.UTF7;
-			if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf) return Encoding.UTF8;
-			if (bom[0] == 0xff && bom[1] == 0xfe) return Encoding.Unicode; //UTF-16LE
-			if (bom[0] == 0xfe && bom[1] == 0xff) return Encoding.BigEndianUnicode; //UTF-16BE
-			if (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff) return Encoding.UTF32;
-
-			return Encoding.Default;
 		}
 
 		private string FixRootPath(string path)
@@ -1147,7 +1128,46 @@ namespace FileDiff
 
 		private void CommandSave_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			string leftPath = "";
+			string rightPath = "";
+			if (ViewModel.Mode == CompareMode.File)
+			{
+				leftPath = ViewModel.LeftPath;
+				rightPath = ViewModel.RightPath;
+			}
+			else if (ViewModel.MasterDetail && LeftFolder.SelectedFile != null && RightFolder.SelectedFile != null)
+			{
+				leftPath = LeftFolder.SelectedFile.Path;
+				rightPath = RightFolder.SelectedFile.Path;
+			}
 
+			if (File.Exists(leftPath))
+			{
+				using (StreamWriter sw = new StreamWriter(leftPath, false, ViewModel.LeftFileEncoding))
+				{
+					foreach (Line l in ViewModel.LeftFile)
+					{
+						if (l.Type != TextState.Filler)
+						{
+							sw.WriteLine(l.Text);
+						}
+					}
+				}
+			}
+
+			if (File.Exists(rightPath))
+			{
+				using (StreamWriter sw = new StreamWriter(rightPath, false, ViewModel.RightFileEncoding))
+				{
+					foreach (Line l in ViewModel.RightFile)
+					{
+						if (l.Type != TextState.Filler)
+						{
+							sw.WriteLine(l.Text);
+						}
+					}
+				}
+			}
 		}
 
 		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
