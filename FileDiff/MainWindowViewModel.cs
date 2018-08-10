@@ -36,12 +36,14 @@ namespace FileDiff
 			set { leftFile = value; OnPropertyChangedRepaint(nameof(LeftFile)); }
 		}
 
-		Encoding leftFileEncoding = Encoding.Default;
-		public Encoding LeftFileEncoding
+		FileEncoding leftFileEncoding = new FileEncoding();
+		public FileEncoding LeftFileEncoding
 		{
 			get { return leftFileEncoding; }
 			set { leftFileEncoding = value; OnPropertyChanged(nameof(LeftFileEncoding)); }
 		}
+
+		public bool leftFileDirty = false;
 
 		ObservableCollection<Line> rightFile = new ObservableCollection<Line>();
 		public ObservableCollection<Line> RightFile
@@ -50,11 +52,18 @@ namespace FileDiff
 			set { rightFile = value; OnPropertyChangedRepaint(nameof(RightFile)); }
 		}
 
-		Encoding rightFileEncoding = Encoding.Default;
-		public Encoding RightFileEncoding
+		FileEncoding rightFileEncoding = new FileEncoding();
+		public FileEncoding RightFileEncoding
 		{
 			get { return rightFileEncoding; }
 			set { rightFileEncoding = value; OnPropertyChanged(nameof(RightFileEncoding)); }
+		}
+
+		public bool rightFileDirty = false;
+
+		public bool Dirty
+		{
+			get { return leftFileDirty || rightFileDirty; }
 		}
 
 		ObservableCollection<FileItem> leftFolder = new ObservableCollection<FileItem>();

@@ -5,7 +5,8 @@ namespace FileDiff
 {
 	static class Unicode
 	{
-		public static Encoding GetEncoding(string path)
+
+		public static FileEncoding GetEncoding(string path)
 		{
 			var bytes = new byte[1000];
 			int bytesRead = 0;
@@ -15,32 +16,34 @@ namespace FileDiff
 			}
 
 			// Check for BOM
-			if (bytes[0] == 0x2b && bytes[1] == 0x2f && bytes[2] == 0x76)
-				return Encoding.UTF7;
-			if (bytes[0] == 0xef && bytes[1] == 0xbb && bytes[2] == 0xbf)
-				return Encoding.UTF8;
-			if (bytes[0] == 0xff && bytes[1] == 0xfe)
-				return Encoding.Unicode;
-			if (bytes[0] == 0xfe && bytes[1] == 0xff)
-				return Encoding.BigEndianUnicode;
-			if (bytes[0] == 0 && bytes[1] == 0 && bytes[2] == 0xfe && bytes[3] == 0xff)
-				return Encoding.UTF32;
+			if (bytes[0] == 0x2B && bytes[1] == 0x2F && bytes[2] == 0x76)
+				return new FileEncoding(Encoding.UTF7, true);
+			if (bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
+				return new FileEncoding(Encoding.UTF8, true);
+			if (bytes[0] == 0xFF && bytes[1] == 0xFE)
+				return new FileEncoding(Encoding.Unicode, true);
+			if (bytes[0] == 0xFE && bytes[1] == 0xFF)
+				return new FileEncoding(Encoding.BigEndianUnicode, true);
+			if (bytes[0] == 0x00 && bytes[1] == 0x00 && bytes[2] == 0xFE && bytes[3] == 0xFF)
+				return new FileEncoding(new UTF32Encoding(true, true), true);
 
-			if (Unicode.ValidUtf8(bytes, bytesRead))
+			// Check if data passes as a bom-less UTF-8 file
+			if (ValidUtf8(bytes, bytesRead))
 			{
-				return Encoding.UTF8;
+				return new FileEncoding(Encoding.UTF8, false);
 			}
 
-			// If null bytes exists we assume it is UTF-16
+			// If null bytes exists we assume it is bom-less UTF-16
 			for (int i = 0; i < bytesRead; i++)
 			{
 				if (bytes[i] == 0)
 				{
-					return Encoding.Unicode;
+					return new FileEncoding(Encoding.Unicode, false);
 				}
 			}
 
-			return Encoding.Default;
+			// Otherwise, use windows default
+			return new FileEncoding(Encoding.Default, false);
 		}
 
 		public static bool ValidUtf8(byte[] bytes, int length)

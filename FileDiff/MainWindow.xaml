@@ -11,7 +11,7 @@
 
 	<Window.CommandBindings>
 		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
-		<CommandBinding Command="local:Commands.Save" Executed="CommandSave_Executed" />
+		<CommandBinding Command="local:Commands.Save" Executed="CommandSave_Executed" CanExecute="CommandSave_CanExecute" />
 		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" />
 		<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
 		<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />

@@ -99,10 +99,11 @@ namespace FileDiff
 				{
 					leftSelection = leftPath;
 					ViewModel.LeftFileEncoding = Unicode.GetEncoding(leftPath);
-					LeftEncoding.Text = ViewModel.LeftFileEncoding.EncodingName;
+					ViewModel.leftFileDirty = false;
+					LeftEncoding.Text = ViewModel.LeftFileEncoding.ToString();
 
 					int i = 0;
-					foreach (string s in File.ReadAllLines(leftPath, ViewModel.LeftFileEncoding))
+					foreach (string s in File.ReadAllLines(leftPath, ViewModel.LeftFileEncoding.Type))
 					{
 						leftLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
 					}
@@ -112,10 +113,11 @@ namespace FileDiff
 				{
 					rightSelection = rightPath;
 					ViewModel.RightFileEncoding = Unicode.GetEncoding(rightPath);
-					RightEncoding.Text = ViewModel.RightFileEncoding.EncodingName;
+					ViewModel.rightFileDirty = false;
+					RightEncoding.Text = ViewModel.RightFileEncoding.ToString();
 
 					int i = 0;
-					foreach (string s in File.ReadAllLines(rightPath, ViewModel.RightFileEncoding))
+					foreach (string s in File.ReadAllLines(rightPath, ViewModel.RightFileEncoding.Type))
 					{
 						rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
 					}
@@ -1141,9 +1143,9 @@ namespace FileDiff
 				rightPath = RightFolder.SelectedFile.Path;
 			}
 
-			if (File.Exists(leftPath))
+			if (File.Exists(leftPath) && ViewModel.leftFileDirty)
 			{
-				using (StreamWriter sw = new StreamWriter(leftPath, false, ViewModel.LeftFileEncoding))
+				using (StreamWriter sw = new StreamWriter(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
 				{
 					foreach (Line l in ViewModel.LeftFile)
 					{
@@ -1155,9 +1157,9 @@ namespace FileDiff
 				}
 			}
 
-			if (File.Exists(rightPath))
+			if (File.Exists(rightPath) && ViewModel.rightFileDirty)
 			{
-				using (StreamWriter sw = new StreamWriter(rightPath, false, ViewModel.RightFileEncoding))
+				using (StreamWriter sw = new StreamWriter(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
 				{
 					foreach (Line l in ViewModel.RightFile)
 					{
@@ -1168,6 +1170,11 @@ namespace FileDiff
 					}
 				}
 			}
+		}
+
+		private void CommandSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = ViewModel.Dirty;
 		}
 
 		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1334,6 +1341,7 @@ namespace FileDiff
 				ViewModel.RightFile[i].Type = TextState.FullMatch;
 			}
 
+			ViewModel.rightFileDirty = true;
 			ViewModel.CurrentDiffLength = 0;
 			ViewModel.UpdateTrigger++;
 
@@ -1354,6 +1362,7 @@ namespace FileDiff
 				ViewModel.RightFile[i].Type = TextState.FullMatch;
 			}
 
+			ViewModel.leftFileDirty = true;
 			ViewModel.CurrentDiffLength = 0;
 			ViewModel.UpdateTrigger++;
 
