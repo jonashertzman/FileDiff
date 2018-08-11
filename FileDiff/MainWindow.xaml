@@ -108,17 +108,43 @@
 				</Button.ToolTip>
 			</Button>
 
-			<ToggleButton Style="{ StaticResource ToolbarToggleButton}" Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}">
-				<StackPanel Orientation="Horizontal">
-					<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
-				</StackPanel>
-				<ToggleButton.ToolTip>
-					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+			<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}">
+				<ToggleButton.Resources>
+					<DataTemplate x:Key="Unpressed">
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding Path=Command.Text}" />
+							<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
+							<StackPanel.ToolTip>
+								<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="Enable Editing" />
+									</StackPanel>
+								</ToolTip>
+							</StackPanel.ToolTip>
 						</StackPanel>
-					</ToolTip>
-				</ToggleButton.ToolTip>
+					</DataTemplate>
+					<DataTemplate x:Key="Pressed">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource EditIcon2}" Style="{StaticResource CommonButtonIcon}" />
+							<StackPanel.ToolTip>
+								<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="Unlocked" />
+									</StackPanel>
+								</ToolTip>
+							</StackPanel.ToolTip>
+						</StackPanel>
+					</DataTemplate>
+				</ToggleButton.Resources>
+				<ToggleButton.Style>
+					<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
+						<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
+						<Style.Triggers>
+							<Trigger Property="IsChecked" Value="True">
+								<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</ToggleButton.Style>
 			</ToggleButton>
 
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Swap">
