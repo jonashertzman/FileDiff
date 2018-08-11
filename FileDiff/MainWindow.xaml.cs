@@ -99,7 +99,7 @@ namespace FileDiff
 				{
 					leftSelection = leftPath;
 					ViewModel.LeftFileEncoding = Unicode.GetEncoding(leftPath);
-					ViewModel.leftFileDirty = false;
+					ViewModel.LeftFileDirty = false;
 					LeftEncoding.Text = ViewModel.LeftFileEncoding.ToString();
 
 					int i = 0;
@@ -113,7 +113,7 @@ namespace FileDiff
 				{
 					rightSelection = rightPath;
 					ViewModel.RightFileEncoding = Unicode.GetEncoding(rightPath);
-					ViewModel.rightFileDirty = false;
+					ViewModel.RightFileDirty = false;
 					RightEncoding.Text = ViewModel.RightFileEncoding.ToString();
 
 					int i = 0;
@@ -1128,22 +1128,11 @@ namespace FileDiff
 			Compare();
 		}
 
-		private void CommandSave_Executed(object sender, ExecutedRoutedEventArgs e)
+		private void CommandSaveLeftFile_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			string leftPath = "";
-			string rightPath = "";
-			if (ViewModel.Mode == CompareMode.File)
-			{
-				leftPath = ViewModel.LeftPath;
-				rightPath = ViewModel.RightPath;
-			}
-			else if (ViewModel.MasterDetail && LeftFolder.SelectedFile != null && RightFolder.SelectedFile != null)
-			{
-				leftPath = LeftFolder.SelectedFile.Path;
-				rightPath = RightFolder.SelectedFile.Path;
-			}
+			string leftPath = ViewModel.Mode == CompareMode.File ? ViewModel.LeftPath : LeftFolder.SelectedFile.Path;
 
-			if (File.Exists(leftPath) && ViewModel.leftFileDirty)
+			if (File.Exists(leftPath) && ViewModel.LeftFileDirty)
 			{
 				using (StreamWriter sw = new StreamWriter(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
 				{
@@ -1156,8 +1145,18 @@ namespace FileDiff
 					}
 				}
 			}
+		}
 
-			if (File.Exists(rightPath) && ViewModel.rightFileDirty)
+		private void CommandSaveLeftFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = ViewModel.LeftFileDirty;
+		}
+
+		private void CommandSaveRightFile_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			string rightPath = ViewModel.Mode == CompareMode.File ? ViewModel.RightPath : RightFolder.SelectedFile.Path;
+
+			if (File.Exists(rightPath) && ViewModel.RightFileDirty)
 			{
 				using (StreamWriter sw = new StreamWriter(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
 				{
@@ -1172,9 +1171,9 @@ namespace FileDiff
 			}
 		}
 
-		private void CommandSave_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void CommandSaveRightFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.Dirty;
+			e.CanExecute = ViewModel.RightFileDirty;
 		}
 
 		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1341,7 +1340,7 @@ namespace FileDiff
 				ViewModel.RightFile[i].Type = TextState.FullMatch;
 			}
 
-			ViewModel.rightFileDirty = true;
+			ViewModel.RightFileDirty = true;
 			ViewModel.CurrentDiffLength = 0;
 			ViewModel.UpdateTrigger++;
 
@@ -1362,7 +1361,7 @@ namespace FileDiff
 				ViewModel.RightFile[i].Type = TextState.FullMatch;
 			}
 
-			ViewModel.leftFileDirty = true;
+			ViewModel.LeftFileDirty = true;
 			ViewModel.CurrentDiffLength = 0;
 			ViewModel.UpdateTrigger++;
 

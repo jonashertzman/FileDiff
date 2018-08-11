@@ -43,7 +43,12 @@ namespace FileDiff
 			set { leftFileEncoding = value; OnPropertyChanged(nameof(LeftFileEncoding)); }
 		}
 
-		public bool leftFileDirty = false;
+		bool leftFileDirty = false;
+		public bool LeftFileDirty
+		{
+			get { return leftFileDirty; }
+			set { leftFileDirty = value; OnPropertyChanged(nameof(LeftFileDirty)); }
+		}
 
 		ObservableCollection<Line> rightFile = new ObservableCollection<Line>();
 		public ObservableCollection<Line> RightFile
@@ -59,11 +64,11 @@ namespace FileDiff
 			set { rightFileEncoding = value; OnPropertyChanged(nameof(RightFileEncoding)); }
 		}
 
-		public bool rightFileDirty = false;
-
-		public bool Dirty
+		bool rightFileDirty = false;
+		public bool RightFileDirty
 		{
-			get { return leftFileDirty || rightFileDirty; }
+			get { return rightFileDirty; }
+			set { rightFileDirty = value; OnPropertyChanged(nameof(RightFileDirty)); }
 		}
 
 		ObservableCollection<FileItem> leftFolder = new ObservableCollection<FileItem>();

@@ -11,7 +11,8 @@
 
 	<Window.CommandBindings>
 		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
-		<CommandBinding Command="local:Commands.Save" Executed="CommandSave_Executed" CanExecute="CommandSave_CanExecute" />
+		<CommandBinding Command="local:Commands.SaveLeftFile" Executed="CommandSaveLeftFile_Executed" CanExecute="CommandSaveLeftFile_CanExecute" />
+		<CommandBinding Command="local:Commands.SaveRightFile" Executed="CommandSaveRightFile_Executed" CanExecute="CommandSaveRightFile_CanExecute" />
 		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" />
 		<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
 		<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
@@ -81,7 +82,7 @@
 				</Button.ToolTip>
 			</Button>
 
-			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Save">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveLeftFile">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</StackPanel>
@@ -89,7 +90,19 @@
 					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{Binding Path=Command.Text}" />
-							<TextBlock Text="Ctrl+S" Style="{StaticResource ShortcutTooltip}" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveRightFile">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource SaveIcon2}" Style="{StaticResource CommonButtonIcon}" />
+				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
 						</StackPanel>
 					</ToolTip>
 				</Button.ToolTip>
