@@ -7,15 +7,11 @@ namespace FileDiff
 
 		#region Constructor
 
-		public FileEncoding()
-		{
-
-		}
-
-		public FileEncoding(Encoding type, bool bom)
+		public FileEncoding(Encoding type, bool bom, NewlineMode newline)
 		{
 			this.Type = type;
 			this.Bom = bom;
+			this.Newline = newline;
 		}
 
 		#endregion
@@ -51,11 +47,12 @@ namespace FileDiff
 				name = Type.WebName;
 			}
 
-
 			if (Bom)
 			{
 				name += " BOM";
 			}
+
+			name += $" ({Newline.ToString()})";
 
 			return name;
 		}
@@ -67,6 +64,8 @@ namespace FileDiff
 		public Encoding Type { get; set; }
 
 		public bool Bom { get; set; }
+
+		public NewlineMode Newline { get; set; }
 
 		public Encoding GetEncoding
 		{
@@ -94,6 +93,22 @@ namespace FileDiff
 				}
 
 				return Encoding.Default;
+			}
+		}
+
+		public string GetNewLineString
+		{
+			get
+			{
+				if (Newline == NewlineMode.Mac)
+				{
+					return "\r";
+				}
+				else if (Newline == NewlineMode.Unix)
+				{
+					return "\n";
+				}
+				return "\r\n";
 			}
 		}
 

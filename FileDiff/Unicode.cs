@@ -8,29 +8,51 @@ namespace FileDiff
 
 		public static FileEncoding GetEncoding(string path)
 		{
-			var bytes = new byte[1000];
+			var bytes = new byte[10000];
 			int bytesRead = 0;
+			NewlineMode newlineMode = NewlineMode.Windows;
+
 			using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
 			{
 				bytesRead = fileStream.Read(bytes, 0, bytes.Length);
 			}
 
-			// Check for BOM
+			// Check what type of newline characters the file uses
+			for (int i = 0; i < bytesRead; i++)
+			{
+				if (bytes[i] == '\n')
+				{
+					newlineMode = NewlineMode.Unix;
+					break;
+				}
+				else if (bytes[i] == '\r')
+				{
+					if (i < bytesRead - 1 && bytes[i + 1] == '\n')
+					{
+						newlineMode = NewlineMode.Windows;
+						break;
+					}
+					newlineMode = NewlineMode.Mac;
+					break;
+				}
+			}
+
+			// Check if the file has a BOM
 			if (bytes[0] == 0x2B && bytes[1] == 0x2F && bytes[2] == 0x76)
-				return new FileEncoding(Encoding.UTF7, true);
+				return new FileEncoding(Encoding.UTF7, true, newlineMode);
 			if (bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
-				return new FileEncoding(Encoding.UTF8, true);
+				return new FileEncoding(Encoding.UTF8, true, newlineMode);
 			if (bytes[0] == 0xFF && bytes[1] == 0xFE)
-				return new FileEncoding(Encoding.Unicode, true);
+				return new FileEncoding(Encoding.Unicode, true, newlineMode);
 			if (bytes[0] == 0xFE && bytes[1] == 0xFF)
-				return new FileEncoding(Encoding.BigEndianUnicode, true);
+				return new FileEncoding(Encoding.BigEndianUnicode, true, newlineMode);
 			if (bytes[0] == 0x00 && bytes[1] == 0x00 && bytes[2] == 0xFE && bytes[3] == 0xFF)
-				return new FileEncoding(new UTF32Encoding(true, true), true);
+				return new FileEncoding(new UTF32Encoding(true, true), true, newlineMode);
 
 			// Check if data passes as a bom-less UTF-8 file
 			if (ValidUtf8(bytes, bytesRead))
 			{
-				return new FileEncoding(Encoding.UTF8, false);
+				return new FileEncoding(Encoding.UTF8, false, newlineMode);
 			}
 
 			// If null bytes exists we assume it is bom-less UTF-16
@@ -38,12 +60,12 @@ namespace FileDiff
 			{
 				if (bytes[i] == 0)
 				{
-					return new FileEncoding(Encoding.Unicode, false);
+					return new FileEncoding(Encoding.Unicode, false, newlineMode);
 				}
 			}
 
 			// Otherwise, use windows default
-			return new FileEncoding(Encoding.Default, false);
+			return new FileEncoding(Encoding.Default, false, newlineMode);
 		}
 
 		public static bool ValidUtf8(byte[] bytes, int length)

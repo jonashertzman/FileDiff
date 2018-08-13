@@ -11,9 +11,6 @@ using System.Windows.Media;
 
 namespace FileDiff
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : Window
 	{
 
@@ -100,7 +97,6 @@ namespace FileDiff
 					leftSelection = leftPath;
 					ViewModel.LeftFileEncoding = Unicode.GetEncoding(leftPath);
 					ViewModel.LeftFileDirty = false;
-					LeftEncoding.Text = ViewModel.LeftFileEncoding.ToString();
 
 					int i = 0;
 					foreach (string s in File.ReadAllLines(leftPath, ViewModel.LeftFileEncoding.Type))
@@ -114,7 +110,6 @@ namespace FileDiff
 					rightSelection = rightPath;
 					ViewModel.RightFileEncoding = Unicode.GetEncoding(rightPath);
 					ViewModel.RightFileDirty = false;
-					RightEncoding.Text = ViewModel.RightFileEncoding.ToString();
 
 					int i = 0;
 					foreach (string s in File.ReadAllLines(rightPath, ViewModel.RightFileEncoding.Type))
@@ -1136,6 +1131,7 @@ namespace FileDiff
 			{
 				using (StreamWriter sw = new StreamWriter(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
 				{
+					sw.NewLine = ViewModel.LeftFileEncoding.GetNewLineString;
 					foreach (Line l in ViewModel.LeftFile)
 					{
 						if (l.Type != TextState.Filler)
@@ -1160,6 +1156,7 @@ namespace FileDiff
 			{
 				using (StreamWriter sw = new StreamWriter(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
 				{
+					sw.NewLine = ViewModel.RightFileEncoding.GetNewLineString;
 					foreach (Line l in ViewModel.RightFile)
 					{
 						if (l.Type != TextState.Filler)
@@ -1206,7 +1203,7 @@ namespace FileDiff
 
 		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && !ViewModel.EditMode;
 		}
 
 		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1216,7 +1213,7 @@ namespace FileDiff
 
 		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && !ViewModel.EditMode;
 		}
 
 		private void CommandCurrentDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1226,7 +1223,7 @@ namespace FileDiff
 
 		private void CommandCurrentDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.CurrentDiff != -1 && ViewModel.CurrentDiffLength > 0;
+			e.CanExecute = ViewModel.CurrentDiff != -1 && ViewModel.CurrentDiffLength > 0 && !ViewModel.EditMode;
 		}
 
 		private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1236,7 +1233,7 @@ namespace FileDiff
 
 		private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && firstDiff != -1;
+			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && firstDiff != -1 && !ViewModel.EditMode;
 		}
 
 		private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1246,7 +1243,7 @@ namespace FileDiff
 
 		private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff;
+			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && !ViewModel.EditMode;
 		}
 
 		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1336,8 +1333,7 @@ namespace FileDiff
 			for (int i = ViewModel.CurrentDiff; i < ViewModel.CurrentDiff + ViewModel.CurrentDiffLength; i++)
 			{
 				ViewModel.RightFile[i].Text = ViewModel.LeftFile[i].Text;
-				ViewModel.LeftFile[i].Type = TextState.FullMatch;
-				ViewModel.RightFile[i].Type = TextState.FullMatch;
+				ViewModel.RightFile[i].Type = ViewModel.LeftFile[i].Type;
 			}
 
 			ViewModel.RightFileDirty = true;
@@ -1357,8 +1353,7 @@ namespace FileDiff
 			for (int i = ViewModel.CurrentDiff; i < ViewModel.CurrentDiff + ViewModel.CurrentDiffLength; i++)
 			{
 				ViewModel.LeftFile[i].Text = ViewModel.RightFile[i].Text;
-				ViewModel.LeftFile[i].Type = TextState.FullMatch;
-				ViewModel.RightFile[i].Type = TextState.FullMatch;
+				ViewModel.LeftFile[i].Type = ViewModel.RightFile[i].Type;
 			}
 
 			ViewModel.LeftFileDirty = true;
