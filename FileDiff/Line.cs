@@ -49,8 +49,7 @@ namespace FileDiff
 			set
 			{
 				text = value;
-				TrimmedText = value.Trim();
-
+				TrimmedText = value.Trim();				
 				hash = value.GetHashCode();
 
 				string textNoWhitespace = Regex.Replace(value, @"\s+", "");

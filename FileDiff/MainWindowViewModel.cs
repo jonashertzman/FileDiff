@@ -46,13 +46,20 @@ namespace FileDiff
 		bool leftFileDirty = false;
 		public bool LeftFileDirty
 		{
-			get { return leftFileDirty; }
+			get { return leftFileDirty || leftFileEdited; }
 			set { leftFileDirty = value; OnPropertyChanged(nameof(LeftFileDirty)); }
 		}
 
 		public string LeftFileDescription
 		{
 			get { return LeftFileEncoding?.ToString(); }
+		}
+
+		bool leftFileEdited = false;
+		public bool LeftFileEdited
+		{
+			get { return leftFileEdited; }
+			set { leftFileEdited = value; OnPropertyChanged(nameof(LeftFileEdited)); OnPropertyChanged(nameof(LeftFileDirty)); }
 		}
 
 
@@ -74,7 +81,7 @@ namespace FileDiff
 		bool rightFileDirty = false;
 		public bool RightFileDirty
 		{
-			get { return rightFileDirty; }
+			get { return rightFileDirty || RightFileEdited; }
 			set { rightFileDirty = value; OnPropertyChanged(nameof(RightFileDirty)); }
 		}
 
@@ -83,13 +90,20 @@ namespace FileDiff
 			get { return RightFileEncoding?.ToString(); }
 		}
 
+		bool rightFileEdited = false;
+		public bool RightFileEdited
+		{
+			get { return rightFileEdited; }
+			set { rightFileEdited = value; OnPropertyChanged(nameof(RightFileEdited)); OnPropertyChanged(nameof(RightFileDirty)); }
+		}
+
 
 
 		bool editMode = false;
 		public bool EditMode
 		{
 			get { return editMode; }
-			set { editMode = value; OnPropertyChanged(nameof(EdgeMode)); }
+			set { editMode = value; OnPropertyChanged(nameof(EditMode)); }
 		}
 
 		ObservableCollection<FileItem> leftFolder = new ObservableCollection<FileItem>();

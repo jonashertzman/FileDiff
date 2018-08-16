@@ -44,6 +44,18 @@ namespace FileDiff
 
 		#endregion
 
+		#region Properties
+
+		private bool NoManualEdit
+		{
+			get
+			{
+				return !ViewModel.LeftFileEdited && !ViewModel.RightFileEdited;
+			}
+		}
+
+		#endregion
+
 		#region Methods
 
 		private void Compare()
@@ -413,9 +425,15 @@ namespace FileDiff
 		{
 			ViewModel.CurrentDiff = -1;
 			ViewModel.CurrentDiffLength = 1;
+			ViewModel.EditMode = false;
+			ViewModel.LeftFileDirty = false;
+			ViewModel.LeftFileEdited = false;
+			ViewModel.RightFileDirty = false;
+			ViewModel.RightFileEdited = false;
 
-			LeftDiff.ClearSelection();
-			RightDiff.ClearSelection();
+
+			LeftDiff.Init();
+			RightDiff.Init();
 
 			VerticalFileScrollbar.Value = 0;
 			LeftHorizontalScrollbar.Value = 0;
@@ -1140,6 +1158,8 @@ namespace FileDiff
 						}
 					}
 				}
+				ViewModel.LeftFileDirty = false;
+				ViewModel.LeftFileEdited = false;
 			}
 		}
 
@@ -1165,6 +1185,8 @@ namespace FileDiff
 						}
 					}
 				}
+				ViewModel.RightFileDirty = false;
+				ViewModel.RightFileEdited = false;
 			}
 		}
 
@@ -1176,6 +1198,11 @@ namespace FileDiff
 		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 
+		}
+
+		private void CommandEdit_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = NoManualEdit;
 		}
 
 		private void CommandBrowseLeft_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1203,7 +1230,7 @@ namespace FileDiff
 
 		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && !ViewModel.EditMode;
+			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && NoManualEdit;
 		}
 
 		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1213,7 +1240,7 @@ namespace FileDiff
 
 		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && !ViewModel.EditMode;
+			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && NoManualEdit;
 		}
 
 		private void CommandCurrentDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1223,7 +1250,7 @@ namespace FileDiff
 
 		private void CommandCurrentDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.CurrentDiff != -1 && ViewModel.CurrentDiffLength > 0 && !ViewModel.EditMode;
+			e.CanExecute = ViewModel.CurrentDiff != -1 && ViewModel.CurrentDiffLength > 0 && NoManualEdit;
 		}
 
 		private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1233,7 +1260,7 @@ namespace FileDiff
 
 		private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && firstDiff != -1 && !ViewModel.EditMode;
+			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && firstDiff != -1 && NoManualEdit;
 		}
 
 		private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1243,7 +1270,7 @@ namespace FileDiff
 
 		private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && !ViewModel.EditMode;
+			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && NoManualEdit;
 		}
 
 		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1345,7 +1372,7 @@ namespace FileDiff
 
 		private void CommandCopyLeftDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.CurrentDiff != -1;
+			e.CanExecute = ViewModel.CurrentDiff != -1 && NoManualEdit;
 		}
 
 		private void CommandCopyRightDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1365,7 +1392,7 @@ namespace FileDiff
 
 		private void CommandCopyRightDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.CurrentDiff != -1;
+			e.CanExecute = ViewModel.CurrentDiff != -1 && NoManualEdit;
 		}
 
 		#endregion

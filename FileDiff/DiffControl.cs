@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -162,7 +163,7 @@ namespace FileDiff
 				}
 
 				// Draw cursor
-				if (this.IsFocused && cursorLine == lineIndex && selection == null)
+				if (EditMode && this.IsFocused && cursorLine == lineIndex && selection == null)
 				{
 					drawingContext.DrawRectangle(Brushes.Black, null, new Rect(line.CharacterPosition(cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
 				}
@@ -183,10 +184,8 @@ namespace FileDiff
 
 		protected override void OnTextInput(TextCompositionEventArgs e)
 		{
-			if (e.Text.Length > 0)
+			if (EditMode && e.Text.Length > 0)
 			{
-				Debug.Print(e.Text);
-
 				if (e.Text == "\b")
 				{
 					if (selection != null)
@@ -200,14 +199,14 @@ namespace FileDiff
 							if (cursorLine > 0)
 							{
 								cursorCharacter = Lines[cursorLine - 1].Text.Length;
-								Lines[cursorLine - 1].Text = Lines[cursorLine - 1].Text + Lines[cursorLine].Text;
-								Lines.RemoveAt(cursorLine);
+								SetLineText(cursorLine - 1, Lines[cursorLine - 1].Text + Lines[cursorLine].Text);
+								RemoveLine(cursorLine);
 								cursorLine--;
 							}
 						}
 						else
 						{
-							Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter - 1) + Lines[cursorLine].Text.Substring(cursorCharacter);
+							SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter - 1) + Lines[cursorLine].Text.Substring(cursorCharacter));
 							cursorCharacter--;
 						}
 					}
@@ -218,8 +217,8 @@ namespace FileDiff
 					{
 						DeleteSelection();
 					}
-					Lines.Insert(cursorLine + 1, new Line() { Text = Lines[cursorLine].Text.Substring(cursorCharacter) });
-					Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter);
+					InsertNewLine(cursorLine + 1, Lines[cursorLine].Text.Substring(cursorCharacter));
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter));
 					cursorLine++;
 					cursorCharacter = 0;
 				}
@@ -229,12 +228,12 @@ namespace FileDiff
 					{
 						DeleteSelection();
 					}
-					Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text.Substring(cursorCharacter);
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text.Substring(cursorCharacter));
 					cursorCharacter++;
 				}
-			}
 
-			this.InvalidateVisual();
+				this.InvalidateVisual();
+			}
 
 			base.OnTextInput(e);
 		}
@@ -253,13 +252,13 @@ namespace FileDiff
 					{
 						if (cursorLine < Lines.Count - 1)
 						{
-							Lines[cursorLine].Text = Lines[cursorLine].Text + Lines[cursorLine + 1].Text;
-							Lines.RemoveAt(cursorLine + 1);
+							SetLineText(cursorLine, Lines[cursorLine].Text + Lines[cursorLine + 1].Text);
+							RemoveLine(cursorLine + 1);
 						}
 					}
 					else
 					{
-						Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + 1);
+						SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + 1));
 					}
 				}
 				InvalidateVisual();
@@ -270,7 +269,7 @@ namespace FileDiff
 				{
 					DeleteSelection();
 				}
-				Lines[cursorLine].Text = Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter);
+				SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
 				cursorCharacter++;
 				e.Handled = true;
 				InvalidateVisual();
@@ -296,6 +295,39 @@ namespace FileDiff
 				{
 					CopyToClipboard();
 					DeleteSelection();
+				}
+			}
+			else if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				if (Clipboard.ContainsText())
+				{
+					if (selection != null)
+					{
+						DeleteSelection();
+					}
+
+					string[] pastedRows = Clipboard.GetText().Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+					string leftOfCursor = Lines[cursorLine].Text.Substring(0, cursorCharacter);
+					string rightOfCursor = Lines[cursorLine].Text.Substring(cursorCharacter);
+
+					for (int i = 0; i < pastedRows.Length; i++)
+					{
+						if (i > 0)
+						{
+							InsertNewLine(cursorLine, "");
+						}
+
+						SetLineText(cursorLine, (i == 0 ? leftOfCursor : "") + pastedRows[i] + (i == pastedRows.Length - 1 ? rightOfCursor : ""));
+						cursorCharacter = (i == 0 ? leftOfCursor.Length : 0) + pastedRows[i].Length;
+
+						if (i < pastedRows.Length - 1)
+						{
+							cursorLine++;
+						}
+					}
+
+					InvalidateVisual();
 				}
 			}
 			else if (e.Key == Key.PageUp)
@@ -481,6 +513,24 @@ namespace FileDiff
 		}
 
 
+		public static readonly DependencyProperty EditedProperty = DependencyProperty.Register("Edited", typeof(bool), typeof(DiffControl));
+
+		public bool Edited
+		{
+			get { return (bool)GetValue(EditedProperty); }
+			set { SetValue(EditedProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty EditModeProperty = DependencyProperty.Register("EditMode", typeof(bool), typeof(DiffControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public bool EditMode
+		{
+			get { return (bool)GetValue(EditModeProperty); }
+			set { SetValue(EditModeProperty, value); }
+		}
+
+
 		public static readonly DependencyProperty UpdateTriggerProperty = DependencyProperty.Register("UpdateTrigger", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public int UpdateTrigger
@@ -493,7 +543,7 @@ namespace FileDiff
 
 		#region Methods
 
-		internal void ClearSelection()
+		internal void Init()
 		{
 			selection = null;
 			VerticalOffset = 0;
@@ -501,6 +551,8 @@ namespace FileDiff
 			TextAreaWidth = 0;
 			MaxHorizontalScroll = 0;
 			maxTextwidth = 0;
+			cursorLine = 0;
+			cursorCharacter = 0;
 		}
 
 		private void DeleteSelection()
@@ -509,26 +561,45 @@ namespace FileDiff
 			{
 				if (selection.TopLine == selection.BottomLine)
 				{
-					Lines[index].Text = Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length));
+					SetLineText(index, Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length)));
 				}
 				else if (index == selection.TopLine)
 				{
-					Lines[index].Text = Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index + 1].Text;
-					Lines.RemoveAt(index + 1);
+					SetLineText(index, Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index + 1].Text);
+					RemoveLine(index + 1);
 				}
 				else if (index == selection.BottomLine)
 				{
-					Lines[index].Text = Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length));
+					SetLineText(index, Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length)));
 				}
 				else if (index > selection.TopLine && index < selection.BottomLine)
 				{
-					Lines.RemoveAt(index);
+					RemoveLine(index);
 				}
 			}
 
 			cursorLine = selection.TopLine;
 			cursorCharacter = selection.TopCharacter;
 			selection = null;
+		}
+
+		private void InsertNewLine(int index, string newText)
+		{
+			Lines.Insert(index, new Line() { Text = newText });
+			Edited = true;
+		}
+
+		private void RemoveLine(int index)
+		{
+			Lines.RemoveAt(index);
+			Edited = true;
+		}
+
+		private void SetLineText(int index, string newText)
+		{
+			Lines[index].Text = newText;
+			Lines[index].Type = TextState.FullMatch;
+			Edited = true;
 		}
 
 		private void CopyToClipboard()

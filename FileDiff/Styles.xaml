@@ -35,7 +35,7 @@
 		<Setter Property="Margin" Value="2" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
-				<Setter Property="Opacity" Value="0.25"></Setter>
+				<Setter Property="Opacity" Value="0.4"></Setter>
 			</Trigger>
 		</Style.Triggers>
 	</Style>
@@ -59,27 +59,6 @@
 			</Trigger>
 		</Style.Triggers>
 	</Style>
-
-	<!--<Style x:Key="EditToolbarToggleButton" BasedOn="{StaticResource ToolbarToggleButton}" TargetType="ToggleButton">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="ToggleButton">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter Content="{TemplateBinding Content}" />
-						<TextBlock Text="Edit" VerticalAlignment="Center" />
-					</StackPanel>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		<Style.Triggers>
-			<Trigger Property="IsChecked" Value="True">
-				<Setter Property="Content" Value="{StaticResource SaveIcon}" />
-			</Trigger>
-			<Trigger Property="IsChecked" Value="False">
-				<Setter Property="Content" Value="{StaticResource EditIcon}" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>-->
 
 	<Style TargetType="DataGrid" x:Key="EditableDataGrid">
 		<Setter Property="AutoGenerateColumns" Value="False" />
