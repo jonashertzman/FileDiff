@@ -183,7 +183,7 @@ namespace FileDiff
 				}
 
 				// Draw cursor
-				if (EditMode && this.IsFocused && cursorLine == lineIndex && selection == null)
+				if (EditMode && this.IsFocused && cursorLine == lineIndex)
 				{
 					drawingContext.DrawRectangle(Brushes.Black, null, new Rect(line.CharacterPosition(cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
 				}
@@ -283,7 +283,7 @@ namespace FileDiff
 				}
 				InvalidateVisual();
 			}
-			else if (e.Key == Key.Tab)
+			else if (e.Key == Key.Tab && EditMode)
 			{
 				if (selection != null)
 				{
@@ -309,15 +309,17 @@ namespace FileDiff
 					CopyToClipboard();
 				}
 			}
-			else if (e.Key == Key.X && Keyboard.Modifiers == ModifierKeys.Control)
+			else if (e.Key == Key.X && Keyboard.Modifiers == ModifierKeys.Control && EditMode)
 			{
 				if (selection != null)
 				{
 					CopyToClipboard();
 					DeleteSelection();
+
+					InvalidateVisual();
 				}
 			}
-			else if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control)
+			else if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control && EditMode)
 			{
 				if (Clipboard.ContainsText())
 				{
@@ -366,8 +368,70 @@ namespace FileDiff
 			{
 				VerticalOffset = Lines.Count;
 			}
-
-			base.OnKeyDown(e);
+			else if (e.Key == Key.Down && EditMode)
+			{
+				if (cursorLine < Lines.Count - 1)
+				{
+					cursorLine++;
+					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
+					selection = null;
+					InvalidateVisual();
+				}
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Up && EditMode)
+			{
+				if (cursorLine > 0)
+				{
+					cursorLine--;
+					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
+					selection = null;
+					InvalidateVisual();
+				}
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Left && EditMode)
+			{
+				if (cursorCharacter == 0)
+				{
+					if (cursorLine > 0)
+					{
+						cursorLine--;
+						cursorCharacter = Lines[cursorLine].Text.Length;
+						selection = null;
+					}
+				}
+				else
+				{
+					cursorCharacter--;
+					selection = null;
+				}
+				e.Handled = true;
+				InvalidateVisual();
+			}
+			else if (e.Key == Key.Right && EditMode)
+			{
+				if (cursorCharacter >= Lines[cursorLine].Text.Length)
+				{
+					if (cursorLine < Lines.Count - 1)
+					{
+						cursorLine++;
+						cursorCharacter = 0;
+						selection = null;
+					}
+				}
+				else
+				{
+					cursorCharacter++;
+					selection = null;
+				}
+				e.Handled = true;
+				InvalidateVisual();
+			}
+			else
+			{
+				base.OnKeyDown(e);
+			}
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -402,6 +466,11 @@ namespace FileDiff
 					}
 
 					selection = new Selection(downLine, downCharacter, upLine, upCharacter);
+
+					if (selection.StartLine < cursorLine || (selection.StartLine == cursorLine && selection.StartCharacter < cursorCharacter))
+					{
+						cursorCharacter = upCharacter + 1;
+					}
 				}
 				else
 				{
@@ -433,6 +502,11 @@ namespace FileDiff
 				}
 
 				selection = new Selection(downLine, selectionStartCharacter, upLine, upCharacter);
+
+				if (selection.StartLine < cursorLine || (selection.StartLine == cursorLine && selection.StartCharacter < cursorCharacter))
+				{
+					cursorCharacter = upCharacter + 1;
+				}
 
 				InvalidateVisual();
 			}
