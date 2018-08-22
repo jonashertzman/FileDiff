@@ -23,7 +23,27 @@ namespace FileDiff
 		private double maxTextwidth = 0;
 
 		private Selection selection = null;
-		private Point? mouseDownPosition = null;
+
+		private int downLine;
+		private int downCharacter;
+
+		private Point? asdf = null;
+		private Point? mouseDownPosition
+		{
+			get
+			{
+				return asdf;
+			}
+			set
+			{
+				asdf = value;
+				if (value != null)
+				{
+					PointToCharacter(value.Value, out downLine, out downCharacter);
+				}
+			}
+		}
+
 
 		private SolidColorBrush slectionBrush;
 
@@ -373,7 +393,6 @@ namespace FileDiff
 
 				if (currentMousePosition != mouseDownPosition || currentMousePosition.X < lineNumberMargin)
 				{
-					PointToCharacter(mouseDownPosition.Value, out int downLine, out int downCharacter);
 					PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
 
 					if (mouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
@@ -403,17 +422,17 @@ namespace FileDiff
 				Point currentMousePosition = e.GetPosition(this);
 
 				PointToCharacter(currentMousePosition, out cursorLine, out cursorCharacter);
-
-				PointToCharacter(mouseDownPosition.Value, out int downLine, out int downCharacter);
 				PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
+
+				int selectionStartCharacter = downCharacter;
 
 				if (mouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
 				{
-					downCharacter = upLine < downLine ? Lines[downLine].Text.Length : 0;
+					selectionStartCharacter = upLine < downLine ? Lines[downLine].Text.Length : 0;
 					upCharacter = upLine < downLine ? 0 : Lines[upLine].Text.Length;
 				}
 
-				selection = new Selection(downLine, downCharacter, upLine, upCharacter);
+				selection = new Selection(downLine, selectionStartCharacter, upLine, upCharacter);
 
 				InvalidateVisual();
 			}
