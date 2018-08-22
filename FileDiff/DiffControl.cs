@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -27,23 +26,22 @@ namespace FileDiff
 		private int downLine;
 		private int downCharacter;
 
-		private Point? asdf = null;
+		private Point? _mouseDownPosition = null;
 		private Point? mouseDownPosition
 		{
 			get
 			{
-				return asdf;
+				return _mouseDownPosition;
 			}
 			set
 			{
-				asdf = value;
+				_mouseDownPosition = value;
 				if (value != null)
 				{
 					PointToCharacter(value.Value, out downLine, out downCharacter);
 				}
 			}
 		}
-
 
 		private SolidColorBrush slectionBrush;
 
