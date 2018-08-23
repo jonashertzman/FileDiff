@@ -347,19 +347,47 @@ namespace FileDiff
 			}
 			else if (e.Key == Key.PageUp)
 			{
-				VerticalOffset = Math.Max(0, VerticalOffset -= VisibleLines - 1);
+				if (EditMode)
+				{
+					cursorLine = Math.Max(cursorLine - VisibleLines, 0);
+					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
+					selection = null;
+					EnsureCursorVisibility();
+				}
+				else
+				{
+					VerticalOffset = Math.Max(0, VerticalOffset -= VisibleLines - 1);
+				}
 			}
 			else if (e.Key == Key.PageDown)
 			{
-				VerticalOffset = VerticalOffset += VisibleLines - 1;
+				if (EditMode)
+				{
+					cursorLine = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
+					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
+					selection = null;
+					EnsureCursorVisibility();
+				}
+				else
+				{
+					VerticalOffset = VerticalOffset += VisibleLines - 1;
+				}
 			}
 			else if (e.Key == Key.Home && Keyboard.Modifiers == ModifierKeys.Control)
 			{
 				VerticalOffset = 0;
+				if (EditMode)
+				{
+					cursorLine = 0;
+				}
 			}
 			else if (e.Key == Key.End && Keyboard.Modifiers == ModifierKeys.Control)
 			{
 				VerticalOffset = Lines.Count;
+				if (EditMode)
+				{
+					cursorLine = Lines.Count - 1;
+				}
 			}
 			else if (e.Key == Key.Down && EditMode)
 			{
@@ -368,6 +396,7 @@ namespace FileDiff
 					cursorLine++;
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.Up && EditMode)
@@ -377,6 +406,7 @@ namespace FileDiff
 					cursorLine--;
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.Left && EditMode)
@@ -387,14 +417,14 @@ namespace FileDiff
 					{
 						cursorLine--;
 						cursorCharacter = Lines[cursorLine].Text.Length;
-						selection = null;
 					}
 				}
 				else
 				{
 					cursorCharacter--;
-					selection = null;
 				}
+				selection = null;
+				EnsureCursorVisibility();
 			}
 			else if (e.Key == Key.Right && EditMode)
 			{
@@ -404,14 +434,14 @@ namespace FileDiff
 					{
 						cursorLine++;
 						cursorCharacter = 0;
-						selection = null;
 					}
 				}
 				else
 				{
 					cursorCharacter++;
-					selection = null;
 				}
+				selection = null;
+				EnsureCursorVisibility();
 			}
 			else
 			{
@@ -707,6 +737,18 @@ namespace FileDiff
 			} while (lineIndex <= selection.BottomLine);
 
 			Clipboard.SetText(sb.ToString());
+		}
+
+		private void EnsureCursorVisibility()
+		{
+			if (cursorLine < VerticalOffset)
+			{
+				VerticalOffset = cursorLine;
+			}
+			else if (cursorLine > VerticalOffset + VisibleLines - 2)
+			{
+				VerticalOffset = cursorLine - (VisibleLines - 2);
+			}
 		}
 
 		private void PointToCharacter(Point point, out int line, out int character)
