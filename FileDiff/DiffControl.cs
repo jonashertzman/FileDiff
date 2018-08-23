@@ -249,11 +249,14 @@ namespace FileDiff
 					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text.Substring(cursorCharacter));
 					cursorCharacter++;
 				}
-
-				this.InvalidateVisual();
+			}
+			else
+			{
+				base.OnTextInput(e);
+				return;
 			}
 
-			base.OnTextInput(e);
+			this.InvalidateVisual();
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -279,7 +282,6 @@ namespace FileDiff
 						SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + 1));
 					}
 				}
-				InvalidateVisual();
 			}
 			else if (e.Key == Key.Tab && EditMode)
 			{
@@ -289,15 +291,12 @@ namespace FileDiff
 				}
 				SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
 				cursorCharacter++;
-				e.Handled = true;
-				InvalidateVisual();
 			}
 			else if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
 			{
 				if (Lines.Count > 0)
 				{
 					selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length - 1));
-					InvalidateVisual();
 				}
 			}
 			else if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
@@ -313,8 +312,6 @@ namespace FileDiff
 				{
 					CopyToClipboard();
 					DeleteSelection();
-
-					InvalidateVisual();
 				}
 			}
 			else if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control && EditMode)
@@ -346,8 +343,6 @@ namespace FileDiff
 							cursorLine++;
 						}
 					}
-
-					InvalidateVisual();
 				}
 			}
 			else if (e.Key == Key.PageUp)
@@ -373,9 +368,7 @@ namespace FileDiff
 					cursorLine++;
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
-					InvalidateVisual();
 				}
-				e.Handled = true;
 			}
 			else if (e.Key == Key.Up && EditMode)
 			{
@@ -384,9 +377,7 @@ namespace FileDiff
 					cursorLine--;
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
-					InvalidateVisual();
 				}
-				e.Handled = true;
 			}
 			else if (e.Key == Key.Left && EditMode)
 			{
@@ -404,8 +395,6 @@ namespace FileDiff
 					cursorCharacter--;
 					selection = null;
 				}
-				e.Handled = true;
-				InvalidateVisual();
 			}
 			else if (e.Key == Key.Right && EditMode)
 			{
@@ -423,13 +412,15 @@ namespace FileDiff
 					cursorCharacter++;
 					selection = null;
 				}
-				e.Handled = true;
-				InvalidateVisual();
 			}
 			else
 			{
 				base.OnKeyDown(e);
+				return;
 			}
+
+			e.Handled = true;
+			InvalidateVisual();
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
