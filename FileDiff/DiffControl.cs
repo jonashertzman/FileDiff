@@ -352,7 +352,6 @@ namespace FileDiff
 					cursorLine = Math.Max(cursorLine - VisibleLines, 0);
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
-					EnsureCursorVisibility();
 				}
 				else
 				{
@@ -366,7 +365,6 @@ namespace FileDiff
 					cursorLine = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
-					EnsureCursorVisibility();
 				}
 				else
 				{
@@ -379,6 +377,7 @@ namespace FileDiff
 				if (EditMode)
 				{
 					cursorLine = 0;
+					cursorCharacter = 0;
 				}
 			}
 			else if (e.Key == Key.End && Keyboard.Modifiers == ModifierKeys.Control)
@@ -387,6 +386,7 @@ namespace FileDiff
 				if (EditMode)
 				{
 					cursorLine = Lines.Count - 1;
+					cursorCharacter = Lines[cursorLine].Text.Length;
 				}
 			}
 			else if (e.Key == Key.Down && EditMode)
@@ -396,7 +396,6 @@ namespace FileDiff
 					cursorLine++;
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
-					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.Up && EditMode)
@@ -406,7 +405,6 @@ namespace FileDiff
 					cursorLine--;
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
-					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.Left && EditMode)
@@ -424,7 +422,6 @@ namespace FileDiff
 					cursorCharacter--;
 				}
 				selection = null;
-				EnsureCursorVisibility();
 			}
 			else if (e.Key == Key.Right && EditMode)
 			{
@@ -441,7 +438,6 @@ namespace FileDiff
 					cursorCharacter++;
 				}
 				selection = null;
-				EnsureCursorVisibility();
 			}
 			else
 			{
@@ -449,6 +445,7 @@ namespace FileDiff
 				return;
 			}
 
+			EnsureCursorVisibility();
 			e.Handled = true;
 			InvalidateVisual();
 		}
@@ -749,6 +746,40 @@ namespace FileDiff
 			{
 				VerticalOffset = cursorLine - (VisibleLines - 2);
 			}
+
+			double cursorPosX = CharacterX(cursorLine, cursorCharacter);
+
+			if (cursorPosX < HorizontalOffset)
+			{
+				HorizontalOffset = (int)cursorPosX;
+			}
+			else if (cursorPosX > HorizontalOffset + TextAreaWidth - 10)
+			{
+				HorizontalOffset = (int)cursorPosX - (TextAreaWidth - 10);
+			}
+		}
+
+		private double CharacterX(int line, int character)
+		{
+			double totalWidth = 0;
+			int index = 0;
+
+			foreach (TextSegment textSegment in Lines[line].TextSegments)
+			{
+				if (textSegment.RenderedText != null)
+				{
+					foreach (double characterWidth in textSegment?.RenderedText.AdvanceWidths)
+					{
+						if (index == character)
+						{
+							return totalWidth;
+						}
+						totalWidth += characterWidth;
+						index++;
+					}
+				}
+			}
+			return totalWidth;
 		}
 
 		private void PointToCharacter(Point point, out int line, out int character)
