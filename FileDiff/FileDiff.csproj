@@ -83,6 +83,7 @@
     <Compile Include="TextAttribute.cs" />
     <Compile Include="TextSegment.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="TextUtils.cs" />
     <Compile Include="TreeControl.cs" />
     <Compile Include="Unicode.cs" />
     <Page Include="AboutWindow.xaml">

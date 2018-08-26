@@ -43,7 +43,7 @@ namespace FileDiff
 			}
 		}
 
-		private SolidColorBrush slectionBrush;
+		private readonly SolidColorBrush slectionBrush;
 
 		private GlyphTypeface cachedTypeface;
 
@@ -93,7 +93,8 @@ namespace FileDiff
 			{
 				cachedTypeface = temp;
 			}
-			GlyphRun g = CreateGlyphRun("W", out characterWidth);
+
+			GlyphRun g = TextUtils.CreateGlyphRun("W", this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out characterWidth);
 
 			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
 
@@ -135,7 +136,8 @@ namespace FileDiff
 
 				if (line.LineIndex != null)
 				{
-					GlyphRun rowNumberText = CreateGlyphRun(line.LineIndex.ToString(), out double rowNumberWidth);
+					GlyphRun rowNumberText = TextUtils.CreateGlyphRun(line.LineIndex.ToString(), this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out double rowNumberWidth);
+
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
 					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberText);
 					drawingContext.Pop();
@@ -152,12 +154,12 @@ namespace FileDiff
 					{
 						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
-						textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
+						GlyphRun segmentRun = textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, out double runWidth);
 						if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
 						{
 							drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
 						}
-						drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, textSegment.RenderedText);
+						drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
 						nextPosition += runWidth;
 
 						drawingContext.Pop();
@@ -171,11 +173,11 @@ namespace FileDiff
 					Rect selectionRect = new Rect(0, 0, this.ActualWidth + HorizontalOffset, characterHeight);
 					if (selection.TopLine == lineIndex)
 					{
-						selectionRect.X = Math.Max(0, +line.CharacterPosition(selection.TopCharacter));
+						selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, selection.TopCharacter));
 					}
 					if (selection.BottomLine == lineIndex)
 					{
-						selectionRect.Width = Math.Max(0, line.CharacterPosition(selection.BottomCharacter + 1) - selectionRect.X);
+						selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, selection.BottomCharacter + 1) - selectionRect.X);
 					}
 					drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
 				}
@@ -183,7 +185,7 @@ namespace FileDiff
 				// Draw cursor
 				if (EditMode && this.IsFocused && cursorLine == lineIndex)
 				{
-					drawingContext.DrawRectangle(Brushes.Black, null, new Rect(line.CharacterPosition(cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
+					drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
 				}
 
 				drawingContext.Pop(); // Line X offset
@@ -257,6 +259,7 @@ namespace FileDiff
 			}
 
 			this.InvalidateVisual();
+			EnsureCursorVisibility();
 		}
 
 		protected override void OnKeyDown(KeyEventArgs e)
@@ -282,6 +285,7 @@ namespace FileDiff
 						SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + 1));
 					}
 				}
+				EnsureCursorVisibility();
 			}
 			else if (e.Key == Key.Tab && EditMode)
 			{
@@ -291,6 +295,7 @@ namespace FileDiff
 				}
 				SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
 				cursorCharacter++;
+				EnsureCursorVisibility();
 			}
 			else if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
 			{
@@ -312,6 +317,7 @@ namespace FileDiff
 				{
 					CopyToClipboard();
 					DeleteSelection();
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control && EditMode)
@@ -343,6 +349,7 @@ namespace FileDiff
 							cursorLine++;
 						}
 					}
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.PageUp)
@@ -352,6 +359,7 @@ namespace FileDiff
 					cursorLine = Math.Max(cursorLine - VisibleLines, 0);
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
+					EnsureCursorVisibility();
 				}
 				else
 				{
@@ -365,6 +373,7 @@ namespace FileDiff
 					cursorLine = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
+					EnsureCursorVisibility();
 				}
 				else
 				{
@@ -378,6 +387,7 @@ namespace FileDiff
 				{
 					cursorLine = 0;
 					cursorCharacter = 0;
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.End && Keyboard.Modifiers == ModifierKeys.Control)
@@ -387,6 +397,7 @@ namespace FileDiff
 				{
 					cursorLine = Lines.Count - 1;
 					cursorCharacter = Lines[cursorLine].Text.Length;
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.Down && EditMode)
@@ -396,6 +407,7 @@ namespace FileDiff
 					cursorLine++;
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.Up && EditMode)
@@ -405,6 +417,7 @@ namespace FileDiff
 					cursorLine--;
 					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
 					selection = null;
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.Left && EditMode)
@@ -422,6 +435,7 @@ namespace FileDiff
 					cursorCharacter--;
 				}
 				selection = null;
+				EnsureCursorVisibility();
 			}
 			else if (e.Key == Key.Right && EditMode)
 			{
@@ -438,6 +452,7 @@ namespace FileDiff
 					cursorCharacter++;
 				}
 				selection = null;
+				EnsureCursorVisibility();
 			}
 			else
 			{
@@ -445,7 +460,6 @@ namespace FileDiff
 				return;
 			}
 
-			EnsureCursorVisibility();
 			e.Handled = true;
 			InvalidateVisual();
 		}
@@ -747,7 +761,7 @@ namespace FileDiff
 				VerticalOffset = cursorLine - (VisibleLines - 2);
 			}
 
-			double cursorPosX = CharacterX(cursorLine, cursorCharacter);
+			double cursorPosX = CharacterPosition(cursorLine, cursorCharacter);
 
 			if (cursorPosX < HorizontalOffset)
 			{
@@ -759,27 +773,26 @@ namespace FileDiff
 			}
 		}
 
-		private double CharacterX(int line, int character)
+		private double CharacterPosition(int lineIndex, int characterIndex)
 		{
-			double totalWidth = 0;
-			int index = 0;
+			double position = 0;
+			int i = 0;
 
-			foreach (TextSegment textSegment in Lines[line].TextSegments)
+			foreach (TextSegment textSegment in Lines[lineIndex].TextSegments)
 			{
-				if (textSegment.RenderedText != null)
+				if (textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, out double runWidth) != null)
 				{
-					foreach (double characterWidth in textSegment?.RenderedText.AdvanceWidths)
+					foreach (double x in textSegment.RenderedText.AdvanceWidths)
 					{
-						if (index == character)
+						if (i++ == characterIndex)
 						{
-							return totalWidth;
+							return position;
 						}
-						totalWidth += characterWidth;
-						index++;
+						position += x;
 					}
 				}
 			}
-			return totalWidth;
+			return position;
 		}
 
 		private void PointToCharacter(Point point, out int line, out int character)
@@ -821,65 +834,6 @@ namespace FileDiff
 					}
 				}
 			}
-		}
-
-		private GlyphRun CreateGlyphRun(string text, out double runWidth)
-		{
-			ushort[] glyphIndexes = new ushort[text.Length];
-			double[] advanceWidths = new double[text.Length];
-
-			double totalWidth = 0;
-			for (int n = 0; n < text.Length; n++)
-			{
-				cachedTypeface.CharacterToGlyphMap.TryGetValue(ReplaceGlyph(text[n]), out ushort glyphIndex);
-				glyphIndexes[n] = glyphIndex;
-				double width = text[n] == '\t' ? AppSettings.TabSize * characterWidth : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize / dpiScale) * dpiScale;
-				advanceWidths[n] = width;
-
-				totalWidth += width;
-			}
-
-			GlyphRun run = new GlyphRun(
-				glyphTypeface: cachedTypeface,
-				bidiLevel: 0,
-				isSideways: false,
-				renderingEmSize: Math.Ceiling((FontSize) / dpiScale) * dpiScale,
-				glyphIndices: glyphIndexes,
-				baselineOrigin: new Point(0, Math.Ceiling((FontSize * cachedTypeface.Baseline) / dpiScale) * dpiScale),
-				advanceWidths: advanceWidths,
-				glyphOffsets: null,
-				characters: null,
-				deviceFontName: null,
-				clusterMap: null,
-				caretStops: null,
-				language: null);
-
-			runWidth = totalWidth;
-			return run;
-		}
-
-		private char ReplaceGlyph(char c)
-		{
-			if (AppSettings.ShowWhiteSpaceCharacters)
-			{
-				if (c == '\t')
-				{
-					return '›';
-				}
-				else if (c == ' ')
-				{
-					return '·';
-				}
-			}
-			else
-			{
-				if (c == '\t') // Why does the tab glyph render as a rectangle?
-				{
-					return ' ';
-				}
-			}
-
-			return c;
 		}
 
 		private double RoundToWholePixels(double x)

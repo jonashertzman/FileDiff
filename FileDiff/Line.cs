@@ -49,7 +49,7 @@ namespace FileDiff
 			set
 			{
 				text = value;
-				TrimmedText = value.Trim();				
+				TrimmedText = value.Trim();
 				hash = value.GetHashCode();
 
 				string textNoWhitespace = Regex.Replace(value, @"\s+", "");
@@ -148,32 +148,6 @@ namespace FileDiff
 		}
 
 		public int? MatchingLineIndex { get; set; }
-
-		#endregion
-
-		#region Methods
-
-		internal double CharacterPosition(int characterIndex)
-		{
-			double position = 0;
-			int i = 0;
-
-			foreach (TextSegment textSegment in TextSegments)
-			{
-				if (textSegment.RenderedText != null)
-				{
-					foreach (double x in textSegment.RenderedText.AdvanceWidths)
-					{
-						if (i++ == characterIndex)
-						{
-							return position;
-						}
-						position += x;
-					}
-				}
-			}
-			return position;
-		}
 
 		#endregion
 

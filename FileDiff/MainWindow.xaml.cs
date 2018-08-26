@@ -1042,7 +1042,7 @@ namespace FileDiff
 			UpdateColumnWidths(RightColumns);
 		}
 
-		private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			ProcessSearchResult(activeDiff.Search(SearchBox.Text, MatchCase.IsChecked == true));
 		}
