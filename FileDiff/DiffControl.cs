@@ -204,7 +204,7 @@ namespace FileDiff
 
 		protected override void OnTextInput(TextCompositionEventArgs e)
 		{
-			if (EditMode && e.Text.Length > 0)
+			if (EditMode && e.Text.Length > 0 && Lines.Count > 0)
 			{
 				if (e.Text == "\b")
 				{
@@ -264,6 +264,11 @@ namespace FileDiff
 
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
+			if (Lines.Count == 0)
+			{
+				return;
+			}
+
 			if (e.Key == Key.Delete)
 			{
 				if (selection != null)
@@ -482,7 +487,7 @@ namespace FileDiff
 
 			PointToCharacter(currentMousePosition, out cursorLine, out cursorCharacter);
 
-			if (e.ChangedButton == MouseButton.Left && mouseDownPosition != null)
+			if (e.ChangedButton == MouseButton.Left && mouseDownPosition != null && Lines.Count > 0)
 			{
 
 				if (currentMousePosition != mouseDownPosition || currentMousePosition.X < lineNumberMargin)
@@ -516,7 +521,7 @@ namespace FileDiff
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (Mouse.LeftButton == MouseButtonState.Pressed && mouseDownPosition != null)
+			if (Mouse.LeftButton == MouseButtonState.Pressed && mouseDownPosition != null && Lines.Count > 0)
 			{
 				Point currentMousePosition = e.GetPosition(this);
 
@@ -676,6 +681,12 @@ namespace FileDiff
 			maxTextwidth = 0;
 			cursorLine = 0;
 			cursorCharacter = 0;
+
+			if (Lines.Count == 0)
+			{
+				InsertNewLine(0, "");
+				Edited = false;
+			}
 		}
 
 		private void DeleteSelection()

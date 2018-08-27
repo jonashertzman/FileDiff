@@ -136,8 +136,22 @@ namespace FileDiff
 		{
 			get
 			{
-				return Math.Max(leftFile.Count, rightFile.Count) - VisibleLines + 1;
+				return Math.Max(maxLeftVerialcalScroll, maxRightVerialcalScroll);
 			}
+		}
+
+		int maxLeftVerialcalScroll;
+		public int MaxLeftVerialcalScroll
+		{
+			get { return maxLeftVerialcalScroll; }
+			set { maxLeftVerialcalScroll = value; OnPropertyChanged(nameof(MaxLeftVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		}
+
+		int maxRightVerialcalScroll;
+		public int MaxRightVerialcalScroll
+		{
+			get { return maxRightVerialcalScroll; }
+			set { maxRightVerialcalScroll = value; OnPropertyChanged(nameof(MaxRightVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
 		}
 
 		int visibleLines;
