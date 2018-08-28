@@ -136,11 +136,10 @@ namespace FileDiff
 
 				if (line.LineIndex != null)
 				{
-					string lineNumberText = line.LineIndex == -1 ? "+" : line.LineIndex.ToString();
-					GlyphRun rowNumberText = TextUtils.CreateGlyphRun(lineNumberText, this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out double rowNumberWidth);
+					GlyphRun rowNumberRun = line.GetRenderedLineIndexText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out double rowNumberWidth);
 
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
-					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberText);
+					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
 					drawingContext.Pop();
 				}
 

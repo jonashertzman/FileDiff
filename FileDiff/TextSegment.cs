@@ -24,7 +24,7 @@ namespace FileDiff
 
 		public TextState Type { get; set; }
 
-		public string Text { get; set; }
+		public string Text { get; private set; }
 
 		public GlyphRun RenderedText { get; private set; }
 		private double renderedTextWidth;
