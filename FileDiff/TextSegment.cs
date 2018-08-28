@@ -28,6 +28,7 @@ namespace FileDiff
 
 		public GlyphRun RenderedText { get; private set; }
 		private double renderedTextWidth;
+
 		private FontFamily renderedFontFamily;
 		private FontStyle renderedFontStyle;
 		private FontWeight renderedFontWeight;
@@ -35,10 +36,11 @@ namespace FileDiff
 		private double renderedFontSize;
 		private double renderedDpiScale;
 		private bool renderedWhiteSpace;
+		private int renderedTabSize;
 
-		public GlyphRun GetRenderedText(FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch, double fontSize, double dpiScale, bool whiteSpace, out double runWidth)
+		public GlyphRun GetRenderedText(FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch, double fontSize, double dpiScale, bool whiteSpace, int tabSize, out double runWidth)
 		{
-			if (!fontFamily.Equals(renderedFontFamily) || !fontStyle.Equals(renderedFontStyle) || !fontWeight.Equals(renderedFontWeight) || !fontStretch.Equals(renderedFontStretch) || fontSize != renderedFontSize || dpiScale != renderedDpiScale || whiteSpace != renderedWhiteSpace)
+			if (!fontFamily.Equals(renderedFontFamily) || !fontStyle.Equals(renderedFontStyle) || !fontWeight.Equals(renderedFontWeight) || !fontStretch.Equals(renderedFontStretch) || fontSize != renderedFontSize || dpiScale != renderedDpiScale || whiteSpace != renderedWhiteSpace || tabSize != renderedTabSize)
 			{
 				RenderedText = TextUtils.CreateGlyphRun(Text, fontFamily, fontStyle, fontWeight, fontStretch, fontSize, dpiScale, out renderedTextWidth);
 
@@ -49,6 +51,7 @@ namespace FileDiff
 				renderedFontSize = fontSize;
 				renderedDpiScale = dpiScale;
 				renderedWhiteSpace = whiteSpace;
+				renderedTabSize = tabSize;
 			}
 
 			runWidth = renderedTextWidth;

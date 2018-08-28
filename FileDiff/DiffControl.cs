@@ -136,7 +136,8 @@ namespace FileDiff
 
 				if (line.LineIndex != null)
 				{
-					GlyphRun rowNumberText = TextUtils.CreateGlyphRun(line.LineIndex.ToString(), this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out double rowNumberWidth);
+					string lineNumberText = line.LineIndex == -1 ? "+" : line.LineIndex.ToString();
+					GlyphRun rowNumberText = TextUtils.CreateGlyphRun(lineNumberText, this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out double rowNumberWidth);
 
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
 					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberText);
@@ -154,7 +155,7 @@ namespace FileDiff
 					{
 						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
-						GlyphRun segmentRun = textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, out double runWidth);
+						GlyphRun segmentRun = textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
 						if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
 						{
 							drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
@@ -719,7 +720,7 @@ namespace FileDiff
 
 		private void InsertNewLine(int index, string newText)
 		{
-			Lines.Insert(index, new Line() { Text = newText });
+			Lines.Insert(index, new Line() { Text = newText, LineIndex = -1 });
 			Edited = true;
 		}
 
@@ -733,6 +734,10 @@ namespace FileDiff
 		{
 			Lines[index].Text = newText;
 			Lines[index].Type = TextState.FullMatch;
+			if (Lines[index].LineIndex == null)
+			{
+				Lines[index].LineIndex = -1;
+			}
 			Edited = true;
 		}
 
@@ -744,7 +749,7 @@ namespace FileDiff
 			{
 				if (Lines[lineIndex].Type != TextState.Filler)
 				{
-					if (lineIndex != selection.TopLine)
+					if (sb.Length > 0)
 					{
 						sb.AppendLine("");
 					}
@@ -791,7 +796,7 @@ namespace FileDiff
 
 			foreach (TextSegment textSegment in Lines[lineIndex].TextSegments)
 			{
-				if (textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, out double runWidth) != null)
+				if (textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth) != null)
 				{
 					foreach (double x in textSegment.RenderedText.AdvanceWidths)
 					{
