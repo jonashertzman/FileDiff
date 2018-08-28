@@ -928,7 +928,10 @@ namespace FileDiff
 
 		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)
 		{
-			CompareFiles();
+			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
+			{
+				CompareFiles();
+			}
 		}
 
 		private void ToggleButtonMasterDetail_Click(object sender, RoutedEventArgs e)
@@ -939,9 +942,10 @@ namespace FileDiff
 			}
 		}
 
-		private void LeftSide_DragEnter(object sender, DragEventArgs e)
+		private void LeftSide_PreviewDragOver(object sender, DragEventArgs e)
 		{
-			e.Effects = DragDropEffects.All;
+			e.Effects = DragDropEffects.Move;
+			e.Handled = true;
 		}
 
 		private void LeftSide_DragDrop(object sender, DragEventArgs e)
@@ -959,9 +963,10 @@ namespace FileDiff
 			}
 		}
 
-		private void RightSide_DragEnter(object sender, DragEventArgs e)
+		private void RightSide_PreviewDragOver(object sender, DragEventArgs e)
 		{
-			e.Effects = DragDropEffects.All;
+			e.Effects = DragDropEffects.Move;
+			e.Handled = true;
 		}
 
 		private void RightSide_DragDrop(object sender, DragEventArgs e)
