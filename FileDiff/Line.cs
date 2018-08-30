@@ -151,6 +151,7 @@ namespace FileDiff
 		public GlyphRun RenderedText { get; private set; }
 		private double renderedTextWidth;
 
+		private int? renderedLineIndex;
 		private FontFamily renderedFontFamily;
 		private FontStyle renderedFontStyle;
 		private FontWeight renderedFontWeight;
@@ -160,11 +161,11 @@ namespace FileDiff
 
 		public GlyphRun GetRenderedLineIndexText(FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch, double fontSize, double dpiScale, out double runWidth)
 		{
-			if (!fontFamily.Equals(renderedFontFamily) || !fontStyle.Equals(renderedFontStyle) || !fontWeight.Equals(renderedFontWeight) || !fontStretch.Equals(renderedFontStretch) || fontSize != renderedFontSize || dpiScale != renderedDpiScale)
+			if (renderedLineIndex != LineIndex || !fontFamily.Equals(renderedFontFamily) || !fontStyle.Equals(renderedFontStyle) || !fontWeight.Equals(renderedFontWeight) || !fontStretch.Equals(renderedFontStretch) || fontSize != renderedFontSize || dpiScale != renderedDpiScale)
 			{
-				System.Diagnostics.Debug.Print(LineIndex.ToString());
 				RenderedText = TextUtils.CreateGlyphRun(LineIndex == -1 ? "+" : LineIndex.ToString(), fontFamily, fontStyle, fontWeight, fontStretch, fontSize, dpiScale, out renderedTextWidth);
 
+				renderedLineIndex = LineIndex;
 				renderedFontFamily = fontFamily;
 				renderedFontStyle = fontStyle;
 				renderedFontWeight = fontWeight;

@@ -124,7 +124,7 @@ namespace FileDiff
 				// Draw line number
 				SolidColorBrush lineNumberColor = new SolidColorBrush();
 
-				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength)
+				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
 				{
 					lineNumberColor = AppSettings.FullMatchBackground;
 					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
@@ -385,24 +385,47 @@ namespace FileDiff
 					VerticalOffset = VerticalOffset += VisibleLines - 1;
 				}
 			}
-			else if (e.Key == Key.Home && Keyboard.Modifiers == ModifierKeys.Control)
+			else if (e.Key == Key.Home  )
 			{
-				VerticalOffset = 0;
-				if (EditMode)
+				if (Keyboard.Modifiers == ModifierKeys.Control)
 				{
-					cursorLine = 0;
-					cursorCharacter = 0;
-					EnsureCursorVisibility();
+					VerticalOffset = 0;
+					if (EditMode)
+					{
+						cursorLine = 0;
+						cursorCharacter = 0;
+						EnsureCursorVisibility();
+					}
+				}
+				else
+				{
+					HorizontalOffset = 0;
+					if (EditMode)
+					{
+						cursorCharacter = 0;
+						EnsureCursorVisibility();
+					}
 				}
 			}
-			else if (e.Key == Key.End && Keyboard.Modifiers == ModifierKeys.Control)
+			else if (e.Key == Key.End  )
 			{
-				VerticalOffset = Lines.Count;
-				if (EditMode)
+				if (Keyboard.Modifiers == ModifierKeys.Control)
 				{
-					cursorLine = Lines.Count - 1;
-					cursorCharacter = Lines[cursorLine].Text.Length;
-					EnsureCursorVisibility();
+					VerticalOffset = Lines.Count;
+					if (EditMode)
+					{
+						cursorLine = Lines.Count - 1;
+						cursorCharacter = Lines[cursorLine].Text.Length;
+						EnsureCursorVisibility();
+					}
+				}
+				else
+				{
+					if (EditMode)
+					{
+						cursorCharacter = Lines[cursorLine].Text.Length;
+						EnsureCursorVisibility();
+					}
 				}
 			}
 			else if (e.Key == Key.Down && EditMode)
@@ -733,7 +756,7 @@ namespace FileDiff
 		{
 			Lines[index].Text = newText;
 			Lines[index].Type = TextState.FullMatch;
-			if (Lines[index].LineIndex == null)
+			if (Lines[index].LineIndex == null && newText !="")
 			{
 				Lines[index].LineIndex = -1;
 			}
