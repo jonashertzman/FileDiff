@@ -269,6 +269,9 @@ namespace FileDiff
 				return;
 			}
 
+			bool controlDown = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+			bool shiftDown = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+
 			if (e.Key == Key.Delete)
 			{
 				if (selection != null)
@@ -302,21 +305,21 @@ namespace FileDiff
 				cursorCharacter++;
 				EnsureCursorVisibility();
 			}
-			else if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
+			else if (e.Key == Key.A && controlDown)
 			{
 				if (Lines.Count > 0)
 				{
 					selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length - 1));
 				}
 			}
-			else if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
+			else if (e.Key == Key.C && controlDown)
 			{
 				if (selection != null)
 				{
 					CopyToClipboard();
 				}
 			}
-			else if (e.Key == Key.X && Keyboard.Modifiers == ModifierKeys.Control && EditMode)
+			else if (e.Key == Key.X && controlDown && EditMode)
 			{
 				if (selection != null)
 				{
@@ -325,7 +328,7 @@ namespace FileDiff
 					EnsureCursorVisibility();
 				}
 			}
-			else if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control && EditMode)
+			else if (e.Key == Key.V && controlDown && EditMode)
 			{
 				if (Clipboard.ContainsText())
 				{
@@ -385,9 +388,9 @@ namespace FileDiff
 					VerticalOffset = VerticalOffset += VisibleLines - 1;
 				}
 			}
-			else if (e.Key == Key.Home  )
+			else if (e.Key == Key.Home)
 			{
-				if (Keyboard.Modifiers == ModifierKeys.Control)
+				if (controlDown)
 				{
 					VerticalOffset = 0;
 					if (EditMode)
@@ -407,9 +410,9 @@ namespace FileDiff
 					}
 				}
 			}
-			else if (e.Key == Key.End  )
+			else if (e.Key == Key.End)
 			{
-				if (Keyboard.Modifiers == ModifierKeys.Control)
+				if (controlDown)
 				{
 					VerticalOffset = Lines.Count;
 					if (EditMode)
@@ -448,39 +451,57 @@ namespace FileDiff
 					EnsureCursorVisibility();
 				}
 			}
-			else if (e.Key == Key.Left && EditMode)
+			else if (e.Key == Key.Left)
 			{
-				if (cursorCharacter == 0)
+				if (EditMode)
 				{
-					if (cursorLine > 0)
+					if (cursorCharacter == 0)
 					{
-						cursorLine--;
-						cursorCharacter = Lines[cursorLine].Text.Length;
+						if (cursorLine > 0)
+						{
+							cursorLine--;
+							cursorCharacter = Lines[cursorLine].Text.Length;
+						}
 					}
+					else
+					{
+						cursorCharacter--;
+					}
+					selection = null;
+					EnsureCursorVisibility();
 				}
-				else
+				else if (controlDown)
 				{
-					cursorCharacter--;
+					e.Handled = false;
+					base.OnKeyDown(e);
+					return;
 				}
-				selection = null;
-				EnsureCursorVisibility();
 			}
-			else if (e.Key == Key.Right && EditMode)
+			else if (e.Key == Key.Right)
 			{
-				if (cursorCharacter >= Lines[cursorLine].Text.Length)
+				if (EditMode)
 				{
-					if (cursorLine < Lines.Count - 1)
+					if (cursorCharacter >= Lines[cursorLine].Text.Length)
 					{
-						cursorLine++;
-						cursorCharacter = 0;
+						if (cursorLine < Lines.Count - 1)
+						{
+							cursorLine++;
+							cursorCharacter = 0;
+						}
 					}
+					else
+					{
+						cursorCharacter++;
+					}
+					selection = null;
+					EnsureCursorVisibility();
 				}
-				else
+				else if (controlDown)
 				{
-					cursorCharacter++;
+					e.Handled = false;
+					base.OnKeyDown(e);
+					return;
 				}
-				selection = null;
-				EnsureCursorVisibility();
 			}
 			else
 			{
@@ -756,7 +777,7 @@ namespace FileDiff
 		{
 			Lines[index].Text = newText;
 			Lines[index].Type = TextState.FullMatch;
-			if (Lines[index].LineIndex == null && newText !="")
+			if (Lines[index].LineIndex == null && newText != "")
 			{
 				Lines[index].LineIndex = -1;
 			}
