@@ -177,7 +177,7 @@ namespace FileDiff
 					}
 					if (selection.BottomLine == lineIndex)
 					{
-						selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, selection.BottomCharacter + 1) - selectionRect.X);
+						selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, selection.BottomCharacter) - selectionRect.X);
 					}
 					drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
 				}
@@ -309,7 +309,16 @@ namespace FileDiff
 			{
 				if (Lines.Count > 0)
 				{
-					selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length - 1));
+					if (EditMode)
+					{
+						cursorLine = 0;
+						cursorCharacter = 0;
+						SetCursorPosition(Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length), true);
+					}
+					else
+					{
+						selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length));
+					}
 				}
 			}
 			else if (e.Key == Key.C && controlDown)
@@ -364,10 +373,8 @@ namespace FileDiff
 			{
 				if (EditMode)
 				{
-					cursorLine = Math.Max(cursorLine - VisibleLines, 0);
-					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
-					selection = null;
-					EnsureCursorVisibility();
+					int line = Math.Max(cursorLine - VisibleLines, 0);
+					SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftDown);
 				}
 				else
 				{
@@ -378,10 +385,8 @@ namespace FileDiff
 			{
 				if (EditMode)
 				{
-					cursorLine = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
-					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
-					selection = null;
-					EnsureCursorVisibility();
+					int line = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
+					SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftDown);
 				}
 				else
 				{
@@ -395,9 +400,7 @@ namespace FileDiff
 					VerticalOffset = 0;
 					if (EditMode)
 					{
-						cursorLine = 0;
-						cursorCharacter = 0;
-						EnsureCursorVisibility();
+						SetCursorPosition(0, 0, shiftDown);
 					}
 				}
 				else
@@ -405,8 +408,7 @@ namespace FileDiff
 					HorizontalOffset = 0;
 					if (EditMode)
 					{
-						cursorCharacter = 0;
-						EnsureCursorVisibility();
+						SetCursorPosition(cursorLine, 0, shiftDown);
 					}
 				}
 			}
@@ -417,17 +419,14 @@ namespace FileDiff
 					VerticalOffset = Lines.Count;
 					if (EditMode)
 					{
-						cursorLine = Lines.Count - 1;
-						cursorCharacter = Lines[cursorLine].Text.Length;
-						EnsureCursorVisibility();
+						SetCursorPosition(Lines.Count - 1, Lines[Lines.Count - 1].Text.Length, shiftDown);
 					}
 				}
 				else
 				{
 					if (EditMode)
 					{
-						cursorCharacter = Lines[cursorLine].Text.Length;
-						EnsureCursorVisibility();
+						SetCursorPosition(cursorLine, Lines[cursorLine].Text.Length, shiftDown);
 					}
 				}
 			}
@@ -435,20 +434,14 @@ namespace FileDiff
 			{
 				if (cursorLine < Lines.Count - 1)
 				{
-					cursorLine++;
-					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
-					selection = null;
-					EnsureCursorVisibility();
+					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine].Text.Length), shiftDown);
 				}
 			}
 			else if (e.Key == Key.Up && EditMode)
 			{
 				if (cursorLine > 0)
 				{
-					cursorLine--;
-					cursorCharacter = Math.Min(cursorCharacter, Lines[cursorLine].Text.Length);
-					selection = null;
-					EnsureCursorVisibility();
+					SetCursorPosition(cursorLine - 1, Math.Min(cursorCharacter, Lines[cursorLine].Text.Length), shiftDown);
 				}
 			}
 			else if (e.Key == Key.Left)
@@ -459,16 +452,13 @@ namespace FileDiff
 					{
 						if (cursorLine > 0)
 						{
-							cursorLine--;
-							cursorCharacter = Lines[cursorLine].Text.Length;
+							SetCursorPosition(cursorLine - 1, Lines[cursorLine - 1].Text.Length, shiftDown);
 						}
 					}
 					else
 					{
-						cursorCharacter--;
+						SetCursorPosition(cursorLine, cursorCharacter - 1, shiftDown);
 					}
-					selection = null;
-					EnsureCursorVisibility();
 				}
 				else if (controlDown)
 				{
@@ -485,16 +475,13 @@ namespace FileDiff
 					{
 						if (cursorLine < Lines.Count - 1)
 						{
-							cursorLine++;
-							cursorCharacter = 0;
+							SetCursorPosition(cursorLine + 1, 0, shiftDown);
 						}
 					}
 					else
 					{
-						cursorCharacter++;
+						SetCursorPosition(cursorLine, cursorCharacter + 1, shiftDown);
 					}
-					selection = null;
-					EnsureCursorVisibility();
 				}
 				else if (controlDown)
 				{
@@ -545,11 +532,6 @@ namespace FileDiff
 					}
 
 					selection = new Selection(downLine, downCharacter, upLine, upCharacter);
-
-					if (selection.StartLine < cursorLine || (selection.StartLine == cursorLine && selection.StartCharacter < cursorCharacter))
-					{
-						cursorCharacter = upCharacter + 1;
-					}
 				}
 				else
 				{
@@ -581,11 +563,6 @@ namespace FileDiff
 				}
 
 				selection = new Selection(downLine, selectionStartCharacter, upLine, upCharacter);
-
-				if (selection.StartLine < cursorLine || (selection.StartLine == cursorLine && selection.StartCharacter < cursorCharacter))
-				{
-					cursorCharacter = upCharacter + 1;
-				}
 
 				InvalidateVisual();
 			}
@@ -739,7 +716,7 @@ namespace FileDiff
 			{
 				if (selection.TopLine == selection.BottomLine)
 				{
-					SetLineText(index, Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length)));
+					SetLineText(index, Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(selection.BottomCharacter, Lines[index].Text.Length)));
 				}
 				else if (index == selection.TopLine)
 				{
@@ -748,7 +725,7 @@ namespace FileDiff
 				}
 				else if (index == selection.BottomLine)
 				{
-					SetLineText(index, Lines[index].Text.Substring(Math.Min(selection.BottomCharacter + 1, Lines[index].Text.Length)));
+					SetLineText(index, Lines[index].Text.Substring(Math.Min(selection.BottomCharacter, Lines[index].Text.Length)));
 				}
 				else if (index > selection.TopLine && index < selection.BottomLine)
 				{
@@ -797,7 +774,7 @@ namespace FileDiff
 						sb.AppendLine("");
 					}
 					int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
-					int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter;
+					int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter : Lines[lineIndex].Text.Length - startCharacter;
 					if (startCharacter < Lines[lineIndex].Text.Length)
 					{
 						sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
@@ -807,6 +784,31 @@ namespace FileDiff
 			} while (lineIndex <= selection.BottomLine);
 
 			Clipboard.SetText(sb.ToString());
+		}
+
+		private void SetCursorPosition(int line, int character, bool select)
+		{
+			if (select)
+			{
+				if (selection == null)
+				{
+					selection = new Selection(cursorLine, cursorCharacter, line, character);
+				}
+				else
+				{
+					selection.EndLine = line;
+					selection.EndCharacter = character;
+				}
+			}
+			else
+			{
+				selection = null;
+			}
+
+			cursorLine = line;
+			cursorCharacter = character;
+
+			EnsureCursorVisibility();
 		}
 
 		private void EnsureCursorVisibility()
