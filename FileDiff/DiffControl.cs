@@ -269,8 +269,8 @@ namespace FileDiff
 				return;
 			}
 
-			bool controlDown = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-			bool shiftDown = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+			bool controlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+			bool shiftPressed = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
 
 			if (e.Key == Key.Delete)
 			{
@@ -305,7 +305,11 @@ namespace FileDiff
 				cursorCharacter++;
 				EnsureCursorVisibility();
 			}
-			else if (e.Key == Key.A && controlDown)
+			else if (e.Key == Key.Escape)
+			{
+				selection = null;
+			}
+			else if (e.Key == Key.A && controlPressed)
 			{
 				if (Lines.Count > 0)
 				{
@@ -321,14 +325,14 @@ namespace FileDiff
 					}
 				}
 			}
-			else if (e.Key == Key.C && controlDown)
+			else if (e.Key == Key.C && controlPressed)
 			{
 				if (selection != null)
 				{
 					CopyToClipboard();
 				}
 			}
-			else if (e.Key == Key.X && controlDown && EditMode)
+			else if (e.Key == Key.X && controlPressed && EditMode)
 			{
 				if (selection != null)
 				{
@@ -337,7 +341,7 @@ namespace FileDiff
 					EnsureCursorVisibility();
 				}
 			}
-			else if (e.Key == Key.V && controlDown && EditMode)
+			else if (e.Key == Key.V && controlPressed && EditMode)
 			{
 				if (Clipboard.ContainsText())
 				{
@@ -374,7 +378,7 @@ namespace FileDiff
 				if (EditMode)
 				{
 					int line = Math.Max(cursorLine - VisibleLines, 0);
-					SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftDown);
+					SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftPressed);
 				}
 				else
 				{
@@ -386,7 +390,7 @@ namespace FileDiff
 				if (EditMode)
 				{
 					int line = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
-					SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftDown);
+					SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftPressed);
 				}
 				else
 				{
@@ -395,12 +399,12 @@ namespace FileDiff
 			}
 			else if (e.Key == Key.Home)
 			{
-				if (controlDown)
+				if (controlPressed)
 				{
 					VerticalOffset = 0;
 					if (EditMode)
 					{
-						SetCursorPosition(0, 0, shiftDown);
+						SetCursorPosition(0, 0, shiftPressed);
 					}
 				}
 				else
@@ -408,25 +412,25 @@ namespace FileDiff
 					HorizontalOffset = 0;
 					if (EditMode)
 					{
-						SetCursorPosition(cursorLine, 0, shiftDown);
+						SetCursorPosition(cursorLine, 0, shiftPressed);
 					}
 				}
 			}
 			else if (e.Key == Key.End)
 			{
-				if (controlDown)
+				if (controlPressed)
 				{
 					VerticalOffset = Lines.Count;
 					if (EditMode)
 					{
-						SetCursorPosition(Lines.Count - 1, Lines[Lines.Count - 1].Text.Length, shiftDown);
+						SetCursorPosition(Lines.Count - 1, Lines[Lines.Count - 1].Text.Length, shiftPressed);
 					}
 				}
 				else
 				{
 					if (EditMode)
 					{
-						SetCursorPosition(cursorLine, Lines[cursorLine].Text.Length, shiftDown);
+						SetCursorPosition(cursorLine, Lines[cursorLine].Text.Length, shiftPressed);
 					}
 				}
 			}
@@ -434,14 +438,14 @@ namespace FileDiff
 			{
 				if (cursorLine < Lines.Count - 1)
 				{
-					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine].Text.Length), shiftDown);
+					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine].Text.Length), shiftPressed);
 				}
 			}
 			else if (e.Key == Key.Up && EditMode)
 			{
 				if (cursorLine > 0)
 				{
-					SetCursorPosition(cursorLine - 1, Math.Min(cursorCharacter, Lines[cursorLine].Text.Length), shiftDown);
+					SetCursorPosition(cursorLine - 1, Math.Min(cursorCharacter, Lines[cursorLine].Text.Length), shiftPressed);
 				}
 			}
 			else if (e.Key == Key.Left)
@@ -452,15 +456,15 @@ namespace FileDiff
 					{
 						if (cursorLine > 0)
 						{
-							SetCursorPosition(cursorLine - 1, Lines[cursorLine - 1].Text.Length, shiftDown);
+							SetCursorPosition(cursorLine - 1, Lines[cursorLine - 1].Text.Length, shiftPressed);
 						}
 					}
 					else
 					{
-						SetCursorPosition(cursorLine, cursorCharacter - 1, shiftDown);
+						SetCursorPosition(cursorLine, cursorCharacter - 1, shiftPressed);
 					}
 				}
-				else if (controlDown)
+				else if (controlPressed)
 				{
 					e.Handled = false;
 					base.OnKeyDown(e);
@@ -475,15 +479,15 @@ namespace FileDiff
 					{
 						if (cursorLine < Lines.Count - 1)
 						{
-							SetCursorPosition(cursorLine + 1, 0, shiftDown);
+							SetCursorPosition(cursorLine + 1, 0, shiftPressed);
 						}
 					}
 					else
 					{
-						SetCursorPosition(cursorLine, cursorCharacter + 1, shiftDown);
+						SetCursorPosition(cursorLine, cursorCharacter + 1, shiftPressed);
 					}
 				}
-				else if (controlDown)
+				else if (controlPressed)
 				{
 					e.Handled = false;
 					base.OnKeyDown(e);
