@@ -838,7 +838,6 @@ namespace FileDiff
 			this.Top = AppSettings.PositionTop;
 			this.Width = AppSettings.Width;
 			this.Height = AppSettings.Height;
-			this.WindowState = AppSettings.WindowState;
 		}
 
 		private void SaveSettings()
@@ -905,6 +904,8 @@ namespace FileDiff
 
 		private void Window_ContentRendered(object sender, EventArgs e)
 		{
+			this.WindowState = AppSettings.WindowState; // This should be in the LoadSettings function but that seems to execute too early making it impossible to maximize the window on a secondary screen.
+
 			if (Environment.GetCommandLineArgs().Length > 2)
 			{
 				ViewModel.LeftPath = Environment.GetCommandLineArgs()[1];
