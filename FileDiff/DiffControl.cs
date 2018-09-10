@@ -438,14 +438,14 @@ namespace FileDiff
 			{
 				if (cursorLine < Lines.Count - 1)
 				{
-					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine].Text.Length), shiftPressed);
+					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine + 1].Text.Length), shiftPressed);
 				}
 			}
 			else if (e.Key == Key.Up && EditMode)
 			{
 				if (cursorLine > 0)
 				{
-					SetCursorPosition(cursorLine - 1, Math.Min(cursorCharacter, Lines[cursorLine].Text.Length), shiftPressed);
+					SetCursorPosition(cursorLine - 1, Math.Min(cursorCharacter, Lines[cursorLine - 1].Text.Length), shiftPressed);
 				}
 			}
 			else if (e.Key == Key.Left)
@@ -461,7 +461,13 @@ namespace FileDiff
 					}
 					else
 					{
-						SetCursorPosition(cursorLine, cursorCharacter - 1, shiftPressed);
+						int step = 1;
+						if (controlPressed)
+						{
+							while (cursorCharacter - step > 0 && char.IsLetterOrDigit(Lines[cursorLine].Text[cursorCharacter - step]))
+								step++;
+						}
+						SetCursorPosition(cursorLine, cursorCharacter - step, shiftPressed);
 					}
 				}
 				else if (controlPressed)
@@ -484,7 +490,13 @@ namespace FileDiff
 					}
 					else
 					{
-						SetCursorPosition(cursorLine, cursorCharacter + 1, shiftPressed);
+						int step = 1;
+						if (controlPressed)
+						{
+							while (cursorCharacter + step < Lines[cursorLine].Text.Length && char.IsLetterOrDigit(Lines[cursorLine].Text[cursorCharacter + step]))
+								step++;
+						}
+						SetCursorPosition(cursorLine, cursorCharacter + step, shiftPressed);
 					}
 				}
 				else if (controlPressed)
