@@ -923,19 +923,12 @@ namespace FileDiff
 
 		internal int Search(string text, bool matchCase)
 		{
-			int searchStart = 0;
-
-			if (selection != null)
-			{
-				searchStart = selection.EndLine;
-			}
-
 			for (int i = 0; i < Lines.Count; i++)
 			{
 				int hit = Lines[i].Text.IndexOf(text, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
 				if (hit != -1)
 				{
-					selection = new Selection() { StartLine = i, EndLine = i, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+					selection = new Selection() { StartLine = i, EndLine = i, StartCharacter = hit, EndCharacter = hit + text.Length };
 					InvalidateVisual();
 					return i;
 				}
@@ -974,7 +967,7 @@ namespace FileDiff
 
 				if (hit != -1)
 				{
-					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length };
 					InvalidateVisual();
 					return lineIndex;
 				}
@@ -1013,7 +1006,7 @@ namespace FileDiff
 
 				if (hit != -1)
 				{
-					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length };
 					InvalidateVisual();
 					return lineIndex;
 				}
