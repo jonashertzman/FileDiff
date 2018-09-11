@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Media;
 
 namespace FileDiff
@@ -50,7 +49,6 @@ namespace FileDiff
 			{
 				text = value;
 				TrimmedText = value.Trim();
-
 				hash = value.GetHashCode();
 
 				string textNoWhitespace = Regex.Replace(value, @"\s+", "");
@@ -150,30 +148,34 @@ namespace FileDiff
 
 		public int? MatchingLineIndex { get; set; }
 
-		#endregion
+		public GlyphRun RenderedText { get; private set; }
+		private double renderedTextWidth;
 
-		#region Methods
+		private int? renderedLineIndex;
+		private FontFamily renderedFontFamily;
+		private FontStyle renderedFontStyle;
+		private FontWeight renderedFontWeight;
+		private FontStretch renderedFontStretch;
+		private double renderedFontSize;
+		private double renderedDpiScale;
 
-		internal double CharacterPosition(int characterIndex)
+		public GlyphRun GetRenderedLineIndexText(FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch, double fontSize, double dpiScale, out double runWidth)
 		{
-			double position = 0;
-			int i = 0;
-
-			foreach (TextSegment textSegment in TextSegments)
+			if (renderedLineIndex != LineIndex || !fontFamily.Equals(renderedFontFamily) || !fontStyle.Equals(renderedFontStyle) || !fontWeight.Equals(renderedFontWeight) || !fontStretch.Equals(renderedFontStretch) || fontSize != renderedFontSize || dpiScale != renderedDpiScale)
 			{
-				if (textSegment.RenderedText != null)
-				{
-					foreach (double x in textSegment.RenderedText.AdvanceWidths)
-					{
-						if (i++ == characterIndex)
-						{
-							return position;
-						}
-						position += x;
-					}
-				}
+				RenderedText = TextUtils.CreateGlyphRun(LineIndex == -1 ? "+" : LineIndex.ToString(), fontFamily, fontStyle, fontWeight, fontStretch, fontSize, dpiScale, out renderedTextWidth);
+
+				renderedLineIndex = LineIndex;
+				renderedFontFamily = fontFamily;
+				renderedFontStyle = fontStyle;
+				renderedFontWeight = fontWeight;
+				renderedFontStretch = fontStretch;
+				renderedFontSize = fontSize;
+				renderedDpiScale = dpiScale;
 			}
-			return position;
+
+			runWidth = renderedTextWidth;
+			return RenderedText;
 		}
 
 		#endregion

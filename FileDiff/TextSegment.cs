@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace FileDiff
@@ -24,9 +24,39 @@ namespace FileDiff
 
 		public TextState Type { get; set; }
 
-		public string Text { get; set; }
+		public string Text { get; private set; }
 
-		public GlyphRun RenderedText { get; set; }
+		public GlyphRun RenderedText { get; private set; }
+		private double renderedTextWidth;
+
+		private FontFamily renderedFontFamily;
+		private FontStyle renderedFontStyle;
+		private FontWeight renderedFontWeight;
+		private FontStretch renderedFontStretch;
+		private double renderedFontSize;
+		private double renderedDpiScale;
+		private bool renderedWhiteSpace;
+		private int renderedTabSize;
+
+		public GlyphRun GetRenderedText(FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch, double fontSize, double dpiScale, bool whiteSpace, int tabSize, out double runWidth)
+		{
+			if (!fontFamily.Equals(renderedFontFamily) || !fontStyle.Equals(renderedFontStyle) || !fontWeight.Equals(renderedFontWeight) || !fontStretch.Equals(renderedFontStretch) || fontSize != renderedFontSize || dpiScale != renderedDpiScale || whiteSpace != renderedWhiteSpace || tabSize != renderedTabSize)
+			{
+				RenderedText = TextUtils.CreateGlyphRun(Text, fontFamily, fontStyle, fontWeight, fontStretch, fontSize, dpiScale, out renderedTextWidth);
+
+				renderedFontFamily = fontFamily;
+				renderedFontStyle = fontStyle;
+				renderedFontWeight = fontWeight;
+				renderedFontStretch = fontStretch;
+				renderedFontSize = fontSize;
+				renderedDpiScale = dpiScale;
+				renderedWhiteSpace = whiteSpace;
+				renderedTabSize = tabSize;
+			}
+
+			runWidth = renderedTextWidth;
+			return RenderedText;
+		}
 
 		public SolidColorBrush BackgroundBrush
 		{

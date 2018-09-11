@@ -17,4 +17,11 @@
 		Folder
 	}
 
+	public enum NewlineMode
+	{
+		Windows,
+		Unix,
+		Mac
+	}
+
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -35,11 +36,74 @@ namespace FileDiff
 			set { leftFile = value; OnPropertyChangedRepaint(nameof(LeftFile)); }
 		}
 
+		FileEncoding leftFileEncoding = null;
+		public FileEncoding LeftFileEncoding
+		{
+			get { return leftFileEncoding; }
+			set { leftFileEncoding = value; OnPropertyChanged(nameof(LeftFileEncoding)); OnPropertyChanged(nameof(LeftFileDescription)); }
+		}
+
+		bool leftFileDirty = false;
+		public bool LeftFileDirty
+		{
+			get { return leftFileDirty || leftFileEdited; }
+			set { leftFileDirty = value; OnPropertyChanged(nameof(LeftFileDirty)); }
+		}
+
+		public string LeftFileDescription
+		{
+			get { return LeftFileEncoding?.ToString(); }
+		}
+
+		bool leftFileEdited = false;
+		public bool LeftFileEdited
+		{
+			get { return leftFileEdited; }
+			set { leftFileEdited = value; OnPropertyChanged(nameof(LeftFileEdited)); OnPropertyChanged(nameof(LeftFileDirty)); }
+		}
+
+
+
 		ObservableCollection<Line> rightFile = new ObservableCollection<Line>();
 		public ObservableCollection<Line> RightFile
 		{
 			get { return rightFile; }
 			set { rightFile = value; OnPropertyChangedRepaint(nameof(RightFile)); }
+		}
+
+		FileEncoding rightFileEncoding = null;
+		public FileEncoding RightFileEncoding
+		{
+			get { return rightFileEncoding; }
+			set { rightFileEncoding = value; OnPropertyChanged(nameof(RightFileEncoding)); OnPropertyChanged(nameof(RightFileDescription)); }
+		}
+
+		bool rightFileDirty = false;
+		public bool RightFileDirty
+		{
+			get { return rightFileDirty || RightFileEdited; }
+			set { rightFileDirty = value; OnPropertyChanged(nameof(RightFileDirty)); }
+		}
+
+		public string RightFileDescription
+		{
+			get { return RightFileEncoding?.ToString(); }
+		}
+
+		bool rightFileEdited = false;
+		public bool RightFileEdited
+		{
+			get { return rightFileEdited; }
+			set { rightFileEdited = value; OnPropertyChanged(nameof(RightFileEdited)); OnPropertyChanged(nameof(RightFileDirty)); }
+		}
+
+
+
+		bool editMode = false;
+		public bool EditMode
+		{
+			get { return editMode; }
+			set { editMode = value; OnPropertyChanged(nameof(EditMode)); }
 		}
 
 		ObservableCollection<FileItem> leftFolder = new ObservableCollection<FileItem>();
@@ -66,6 +130,35 @@ namespace FileDiff
 		{
 			get { return AppSettings.IgnoredFiles; }
 			set { AppSettings.IgnoredFiles = value; OnPropertyChangedRepaint(nameof(IgnoredFiles)); }
+		}
+
+		public int MaxVerialcalScroll
+		{
+			get
+			{
+				return Math.Max(maxLeftVerialcalScroll, maxRightVerialcalScroll);
+			}
+		}
+
+		int maxLeftVerialcalScroll;
+		public int MaxLeftVerialcalScroll
+		{
+			get { return maxLeftVerialcalScroll; }
+			set { maxLeftVerialcalScroll = value; OnPropertyChanged(nameof(MaxLeftVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		}
+
+		int maxRightVerialcalScroll;
+		public int MaxRightVerialcalScroll
+		{
+			get { return maxRightVerialcalScroll; }
+			set { maxRightVerialcalScroll = value; OnPropertyChanged(nameof(MaxRightVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		}
+
+		int visibleLines;
+		public int VisibleLines
+		{
+			get { return visibleLines; }
+			set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
 		}
 
 		int currentDiff = -1;
@@ -169,14 +262,8 @@ namespace FileDiff
 			set
 			{
 				leftPath = value;
-
-				LeftFile = new ObservableCollection<Line>();
-				RightFile = new ObservableCollection<Line>();
-
-				LeftFolder = new ObservableCollection<FileItem>();
-				RightFolder = new ObservableCollection<FileItem>();
-
 				OnPropertyChangedRepaint(nameof(LeftPath));
+				Clear();
 			}
 		}
 
@@ -187,14 +274,8 @@ namespace FileDiff
 			set
 			{
 				rightPath = value;
-
-				LeftFile = new ObservableCollection<Line>();
-				RightFile = new ObservableCollection<Line>();
-
-				LeftFolder = new ObservableCollection<FileItem>();
-				RightFolder = new ObservableCollection<FileItem>();
-
 				OnPropertyChangedRepaint(nameof(RightPath));
+				Clear();
 			}
 		}
 
@@ -335,6 +416,22 @@ namespace FileDiff
 		{
 			get { return updateTrigger; }
 			set { updateTrigger = value; OnPropertyChanged(nameof(UpdateTrigger)); }
+		}
+
+		#endregion
+
+		#region Methods
+
+		private void Clear()
+		{
+			LeftFile = new ObservableCollection<Line>();
+			LeftFileEncoding = null;
+
+			RightFile = new ObservableCollection<Line>();
+			RightFileEncoding = null;
+
+			LeftFolder = new ObservableCollection<FileItem>();
+			RightFolder = new ObservableCollection<FileItem>();
 		}
 
 		#endregion

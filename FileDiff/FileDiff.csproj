@@ -72,6 +72,7 @@
     <Compile Include="DiffControl.cs" />
     <Compile Include="DiffMapControl.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="FileEncoding.cs" />
     <Compile Include="FileItem.cs" />
     <Compile Include="FileItemPair.cs" />
     <Compile Include="OptionsWindow.xaml.cs">
@@ -82,7 +83,9 @@
     <Compile Include="TextAttribute.cs" />
     <Compile Include="TextSegment.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="TextUtils.cs" />
     <Compile Include="TreeControl.cs" />
+    <Compile Include="Unicode.cs" />
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

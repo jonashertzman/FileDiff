@@ -22,13 +22,35 @@ namespace FileDiff
 		private double maxTextwidth = 0;
 
 		private Selection selection = null;
-		private Point? mouseDownPosition = null;
 
-		private SolidColorBrush slectionBrush;
+		private int downLine;
+		private int downCharacter;
+
+		private Point? _mouseDownPosition = null;
+		private Point? mouseDownPosition
+		{
+			get
+			{
+				return _mouseDownPosition;
+			}
+			set
+			{
+				_mouseDownPosition = value;
+				if (value != null)
+				{
+					PointToCharacter(value.Value, out downLine, out downCharacter);
+				}
+			}
+		}
+
+		private readonly SolidColorBrush slectionBrush;
 
 		private GlyphTypeface cachedTypeface;
 
 		private double dpiScale = 0;
+
+		private int cursorLine = 0;
+		private int cursorCharacter = 0;
 
 		#endregion
 
@@ -71,7 +93,8 @@ namespace FileDiff
 			{
 				cachedTypeface = temp;
 			}
-			GlyphRun g = CreateGlyphRun("W", out characterWidth);
+
+			GlyphRun g = TextUtils.CreateGlyphRun("W", this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out characterWidth);
 
 			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
 
@@ -80,7 +103,6 @@ namespace FileDiff
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
-			VerticalOffset = Math.Min(VerticalOffset, MaxVerialcalScroll);
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -102,7 +124,7 @@ namespace FileDiff
 				// Draw line number
 				SolidColorBrush lineNumberColor = new SolidColorBrush();
 
-				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength + 1)
+				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
 				{
 					lineNumberColor = AppSettings.FullMatchBackground;
 					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
@@ -114,9 +136,10 @@ namespace FileDiff
 
 				if (line.LineIndex != null)
 				{
-					GlyphRun rowNumberText = CreateGlyphRun(line.LineIndex.ToString(), out double rowNumberWidth);
+					GlyphRun rowNumberRun = line.GetRenderedLineIndexText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out double rowNumberWidth);
+
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
-					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberText);
+					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
 					drawingContext.Pop();
 				}
 
@@ -131,12 +154,12 @@ namespace FileDiff
 					{
 						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
-						textSegment.RenderedText = CreateGlyphRun(textSegment.Text, out double runWidth);
+						GlyphRun segmentRun = textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
 						if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
 						{
 							drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
 						}
-						drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, textSegment.RenderedText);
+						drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
 						nextPosition += runWidth;
 
 						drawingContext.Pop();
@@ -150,13 +173,19 @@ namespace FileDiff
 					Rect selectionRect = new Rect(0, 0, this.ActualWidth + HorizontalOffset, characterHeight);
 					if (selection.TopLine == lineIndex)
 					{
-						selectionRect.X = Math.Max(0, +line.CharacterPosition(selection.TopCharacter));
+						selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, selection.TopCharacter));
 					}
 					if (selection.BottomLine == lineIndex)
 					{
-						selectionRect.Width = Math.Max(0, line.CharacterPosition(selection.BottomCharacter + 1) - selectionRect.X);
+						selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, selection.BottomCharacter) - selectionRect.X);
 					}
 					drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
+				}
+
+				// Draw cursor
+				if (EditMode && this.IsFocused && cursorLine == lineIndex)
+				{
+					drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
 				}
 
 				drawingContext.Pop(); // Line X offset
@@ -173,61 +202,319 @@ namespace FileDiff
 			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
 		}
 
-		protected override void OnKeyDown(KeyEventArgs e)
+		protected override void OnTextInput(TextCompositionEventArgs e)
 		{
-			if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
+			if (EditMode && e.Text.Length > 0 && Lines.Count > 0)
 			{
-				if (Lines.Count > 0)
+				if (e.Text == "\b")
 				{
-					selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length - 1));
-					InvalidateVisual();
+					if (selection != null)
+					{
+						DeleteSelection();
+					}
+					else
+					{
+						if (cursorCharacter == 0)
+						{
+							if (cursorLine > 0)
+							{
+								cursorCharacter = Lines[cursorLine - 1].Text.Length;
+								SetLineText(cursorLine - 1, Lines[cursorLine - 1].Text + Lines[cursorLine].Text);
+								RemoveLine(cursorLine);
+								cursorLine--;
+							}
+						}
+						else
+						{
+							SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter - 1) + Lines[cursorLine].Text.Substring(cursorCharacter));
+							cursorCharacter--;
+						}
+					}
+				}
+				else if (e.Text == "\r")
+				{
+					if (selection != null)
+					{
+						DeleteSelection();
+					}
+					InsertNewLine(cursorLine + 1, Lines[cursorLine].Text.Substring(cursorCharacter));
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter));
+					cursorLine++;
+					cursorCharacter = 0;
+				}
+				else
+				{
+					if (selection != null)
+					{
+						DeleteSelection();
+					}
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text.Substring(cursorCharacter));
+					cursorCharacter++;
 				}
 			}
-			else if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
+			else
+			{
+				base.OnTextInput(e);
+				return;
+			}
+
+			this.InvalidateVisual();
+			EnsureCursorVisibility();
+		}
+
+		protected override void OnKeyDown(KeyEventArgs e)
+		{
+			if (Lines.Count == 0)
+			{
+				return;
+			}
+
+			bool controlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+			bool shiftPressed = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+
+			if (e.Key == Key.Delete)
 			{
 				if (selection != null)
 				{
-					StringBuilder sb = new StringBuilder();
-					int lineIndex = selection.TopLine;
-					do
+					DeleteSelection();
+				}
+				else
+				{
+					if (cursorCharacter == Lines[cursorLine].Text.Length)
 					{
-						if (Lines[lineIndex].Type != TextState.Filler)
+						if (cursorLine < Lines.Count - 1)
 						{
-							if (lineIndex != selection.TopLine)
-							{
-								sb.AppendLine("");
-							}
-							int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
-							int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter + 1 : Lines[lineIndex].Text.Length - startCharacter;
-							if (startCharacter < Lines[lineIndex].Text.Length)
-							{
-								sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
-							}
+							SetLineText(cursorLine, Lines[cursorLine].Text + Lines[cursorLine + 1].Text);
+							RemoveLine(cursorLine + 1);
 						}
-						lineIndex++;
-					} while (lineIndex <= selection.BottomLine);
+					}
+					else
+					{
+						SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + 1));
+					}
+				}
+				EnsureCursorVisibility();
+			}
+			else if (e.Key == Key.Tab && EditMode)
+			{
+				if (selection != null)
+				{
+					DeleteSelection();
+				}
+				SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
+				cursorCharacter++;
+				EnsureCursorVisibility();
+			}
+			else if (e.Key == Key.Escape)
+			{
+				selection = null;
+			}
+			else if (e.Key == Key.A && controlPressed)
+			{
+				if (Lines.Count > 0)
+				{
+					if (EditMode)
+					{
+						selection = null;
+						cursorLine = 0;
+						cursorCharacter = 0;
+						SetCursorPosition(Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length), true);
+					}
+					else
+					{
+						selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length));
+					}
+				}
+			}
+			else if (e.Key == Key.C && controlPressed)
+			{
+				if (selection != null)
+				{
+					CopyToClipboard();
+				}
+			}
+			else if (e.Key == Key.X && controlPressed && EditMode)
+			{
+				if (selection != null)
+				{
+					CopyToClipboard();
+					DeleteSelection();
+					EnsureCursorVisibility();
+				}
+			}
+			else if (e.Key == Key.V && controlPressed && EditMode)
+			{
+				if (Clipboard.ContainsText())
+				{
+					if (selection != null)
+					{
+						DeleteSelection();
+					}
 
-					Clipboard.SetText(sb.ToString());
+					string[] pastedRows = Clipboard.GetText().Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+					string leftOfCursor = Lines[cursorLine].Text.Substring(0, cursorCharacter);
+					string rightOfCursor = Lines[cursorLine].Text.Substring(cursorCharacter);
+
+					for (int i = 0; i < pastedRows.Length; i++)
+					{
+						if (i > 0)
+						{
+							InsertNewLine(cursorLine, "");
+						}
+
+						SetLineText(cursorLine, (i == 0 ? leftOfCursor : "") + pastedRows[i] + (i == pastedRows.Length - 1 ? rightOfCursor : ""));
+						cursorCharacter = (i == 0 ? leftOfCursor.Length : 0) + pastedRows[i].Length;
+
+						if (i < pastedRows.Length - 1)
+						{
+							cursorLine++;
+						}
+					}
+					EnsureCursorVisibility();
 				}
 			}
 			else if (e.Key == Key.PageUp)
 			{
-				VerticalOffset = Math.Max(0, VerticalOffset -= VisibleLines - 1);
+				if (EditMode)
+				{
+					int line = Math.Max(cursorLine - VisibleLines, 0);
+					SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftPressed);
+				}
+				else
+				{
+					VerticalOffset = Math.Max(0, VerticalOffset -= VisibleLines - 1);
+				}
 			}
 			else if (e.Key == Key.PageDown)
 			{
-				VerticalOffset = VerticalOffset += VisibleLines - 1;
+				if (EditMode)
+				{
+					int line = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
+					SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftPressed);
+				}
+				else
+				{
+					VerticalOffset = VerticalOffset += VisibleLines - 1;
+				}
 			}
-			else if (e.Key == Key.Home && Keyboard.Modifiers == ModifierKeys.Control)
+			else if (e.Key == Key.Home)
 			{
-				VerticalOffset = 0;
+				if (controlPressed)
+				{
+					VerticalOffset = 0;
+					if (EditMode)
+					{
+						SetCursorPosition(0, 0, shiftPressed);
+					}
+				}
+				else
+				{
+					HorizontalOffset = 0;
+					if (EditMode)
+					{
+						SetCursorPosition(cursorLine, 0, shiftPressed);
+					}
+				}
 			}
-			else if (e.Key == Key.End && Keyboard.Modifiers == ModifierKeys.Control)
+			else if (e.Key == Key.End)
 			{
-				VerticalOffset = Lines.Count;
+				if (controlPressed)
+				{
+					VerticalOffset = Lines.Count;
+					if (EditMode)
+					{
+						SetCursorPosition(Lines.Count - 1, Lines[Lines.Count - 1].Text.Length, shiftPressed);
+					}
+				}
+				else
+				{
+					if (EditMode)
+					{
+						SetCursorPosition(cursorLine, Lines[cursorLine].Text.Length, shiftPressed);
+					}
+				}
+			}
+			else if (e.Key == Key.Down && EditMode)
+			{
+				if (cursorLine < Lines.Count - 1)
+				{
+					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine + 1].Text.Length), shiftPressed);
+				}
+			}
+			else if (e.Key == Key.Up && EditMode)
+			{
+				if (cursorLine > 0)
+				{
+					SetCursorPosition(cursorLine - 1, Math.Min(cursorCharacter, Lines[cursorLine - 1].Text.Length), shiftPressed);
+				}
+			}
+			else if (e.Key == Key.Left)
+			{
+				if (EditMode)
+				{
+					if (cursorCharacter == 0)
+					{
+						if (cursorLine > 0)
+						{
+							SetCursorPosition(cursorLine - 1, Lines[cursorLine - 1].Text.Length, shiftPressed);
+						}
+					}
+					else
+					{
+						int step = 1;
+						if (controlPressed)
+						{
+							while (cursorCharacter - step > 0 && char.IsLetterOrDigit(Lines[cursorLine].Text[cursorCharacter - step]))
+								step++;
+						}
+						SetCursorPosition(cursorLine, cursorCharacter - step, shiftPressed);
+					}
+				}
+				else if (controlPressed)
+				{
+					e.Handled = false;
+					base.OnKeyDown(e);
+					return;
+				}
+			}
+			else if (e.Key == Key.Right)
+			{
+				if (EditMode)
+				{
+					if (cursorCharacter >= Lines[cursorLine].Text.Length)
+					{
+						if (cursorLine < Lines.Count - 1)
+						{
+							SetCursorPosition(cursorLine + 1, 0, shiftPressed);
+						}
+					}
+					else
+					{
+						int step = 1;
+						if (controlPressed)
+						{
+							while (cursorCharacter + step < Lines[cursorLine].Text.Length && char.IsLetterOrDigit(Lines[cursorLine].Text[cursorCharacter + step]))
+								step++;
+						}
+						SetCursorPosition(cursorLine, cursorCharacter + step, shiftPressed);
+					}
+				}
+				else if (controlPressed)
+				{
+					e.Handled = false;
+					base.OnKeyDown(e);
+					return;
+				}
+			}
+			else
+			{
+				base.OnKeyDown(e);
+				return;
 			}
 
-			base.OnKeyDown(e);
+			e.Handled = true;
+			InvalidateVisual();
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -244,13 +531,15 @@ namespace FileDiff
 
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			if (e.ChangedButton == MouseButton.Left && mouseDownPosition != null)
+			Point currentMousePosition = e.GetPosition(this);
+
+			PointToCharacter(currentMousePosition, out cursorLine, out cursorCharacter);
+
+			if (e.ChangedButton == MouseButton.Left && mouseDownPosition != null && Lines.Count > 0)
 			{
-				Point currentMousePosition = e.GetPosition(this);
 
 				if (currentMousePosition != mouseDownPosition || currentMousePosition.X < lineNumberMargin)
 				{
-					PointToCharacter(mouseDownPosition.Value, out int downLine, out int downCharacter);
 					PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
 
 					if (mouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
@@ -275,25 +564,34 @@ namespace FileDiff
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (Mouse.LeftButton == MouseButtonState.Pressed && mouseDownPosition != null)
+			if (Mouse.LeftButton == MouseButtonState.Pressed && mouseDownPosition != null && Lines.Count > 0)
 			{
 				Point currentMousePosition = e.GetPosition(this);
 
-				PointToCharacter(mouseDownPosition.Value, out int downLine, out int downCharacter);
+				PointToCharacter(currentMousePosition, out cursorLine, out cursorCharacter);
 				PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
+
+				int selectionStartCharacter = downCharacter;
 
 				if (mouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
 				{
-					downCharacter = upLine < downLine ? Lines[downLine].Text.Length : 0;
+					selectionStartCharacter = upLine < downLine ? Lines[downLine].Text.Length : 0;
 					upCharacter = upLine < downLine ? 0 : Lines[upLine].Text.Length;
 				}
 
-				selection = new Selection(downLine, downCharacter, upLine, upCharacter);
+				selection = new Selection(downLine, selectionStartCharacter, upLine, upCharacter);
 
 				InvalidateVisual();
 			}
 
 			base.OnMouseMove(e);
+		}
+
+		protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+		{
+			InvalidateVisual();
+
+			base.OnLostKeyboardFocus(e);
 		}
 
 		#endregion
@@ -353,6 +651,7 @@ namespace FileDiff
 			set { SetValue(CurrentDiffProperty, value); }
 		}
 
+
 		public static readonly DependencyProperty CurrentDiffLengthProperty = DependencyProperty.Register("CurrentDiffLength", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public int CurrentDiffLength
@@ -380,6 +679,24 @@ namespace FileDiff
 		}
 
 
+		public static readonly DependencyProperty EditedProperty = DependencyProperty.Register("Edited", typeof(bool), typeof(DiffControl));
+
+		public bool Edited
+		{
+			get { return (bool)GetValue(EditedProperty); }
+			set { SetValue(EditedProperty, value); }
+		}
+
+
+		public static readonly DependencyProperty EditModeProperty = DependencyProperty.Register("EditMode", typeof(bool), typeof(DiffControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
+
+		public bool EditMode
+		{
+			get { return (bool)GetValue(EditModeProperty); }
+			set { SetValue(EditModeProperty, value); }
+		}
+
+
 		public static readonly DependencyProperty UpdateTriggerProperty = DependencyProperty.Register("UpdateTrigger", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
 
 		public int UpdateTrigger
@@ -392,7 +709,7 @@ namespace FileDiff
 
 		#region Methods
 
-		internal void ClearSelection()
+		internal void Init()
 		{
 			selection = null;
 			VerticalOffset = 0;
@@ -400,6 +717,160 @@ namespace FileDiff
 			TextAreaWidth = 0;
 			MaxHorizontalScroll = 0;
 			maxTextwidth = 0;
+			cursorLine = 0;
+			cursorCharacter = 0;
+
+			if (Lines.Count == 0)
+			{
+				InsertNewLine(0, "");
+				Edited = false;
+			}
+		}
+
+		private void DeleteSelection()
+		{
+			for (int index = selection.BottomLine; index >= selection.TopLine; index--)
+			{
+				if (selection.TopLine == selection.BottomLine)
+				{
+					SetLineText(index, Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(selection.BottomCharacter, Lines[index].Text.Length)));
+				}
+				else if (index == selection.TopLine)
+				{
+					SetLineText(index, Lines[index].Text.Substring(0, selection.TopCharacter) + Lines[index + 1].Text);
+					RemoveLine(index + 1);
+				}
+				else if (index == selection.BottomLine)
+				{
+					SetLineText(index, Lines[index].Text.Substring(Math.Min(selection.BottomCharacter, Lines[index].Text.Length)));
+				}
+				else if (index > selection.TopLine && index < selection.BottomLine)
+				{
+					RemoveLine(index);
+				}
+			}
+
+			cursorLine = selection.TopLine;
+			cursorCharacter = selection.TopCharacter;
+			selection = null;
+		}
+
+		private void InsertNewLine(int index, string newText)
+		{
+			Lines.Insert(index, new Line() { Text = newText, LineIndex = -1 });
+			Edited = true;
+		}
+
+		private void RemoveLine(int index)
+		{
+			Lines.RemoveAt(index);
+			Edited = true;
+		}
+
+		private void SetLineText(int index, string newText)
+		{
+			Lines[index].Text = newText;
+			Lines[index].Type = TextState.FullMatch;
+			if (Lines[index].LineIndex == null && newText != "")
+			{
+				Lines[index].LineIndex = -1;
+			}
+			Edited = true;
+		}
+
+		private void CopyToClipboard()
+		{
+			StringBuilder sb = new StringBuilder();
+			int lineIndex = selection.TopLine;
+			do
+			{
+				if (Lines[lineIndex].Type != TextState.Filler)
+				{
+					if (sb.Length > 0)
+					{
+						sb.AppendLine("");
+					}
+					int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
+					int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter : Lines[lineIndex].Text.Length - startCharacter;
+					if (startCharacter < Lines[lineIndex].Text.Length)
+					{
+						sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
+					}
+				}
+				lineIndex++;
+			} while (lineIndex <= selection.BottomLine);
+
+			Clipboard.SetText(sb.ToString());
+		}
+
+		private void SetCursorPosition(int line, int character, bool select)
+		{
+			if (select)
+			{
+				if (selection == null)
+				{
+					selection = new Selection(cursorLine, cursorCharacter, line, character);
+				}
+				else
+				{
+					selection.EndLine = line;
+					selection.EndCharacter = character;
+				}
+			}
+			else
+			{
+				selection = null;
+			}
+
+			cursorLine = line;
+			cursorCharacter = character;
+
+			EnsureCursorVisibility();
+		}
+
+		private void EnsureCursorVisibility()
+		{
+			if (cursorLine < VerticalOffset)
+			{
+				VerticalOffset = cursorLine;
+			}
+			else if (cursorLine > VerticalOffset + VisibleLines - 2)
+			{
+				VerticalOffset = cursorLine - (VisibleLines - 2);
+			}
+
+			double cursorPosX = CharacterPosition(cursorLine, cursorCharacter);
+
+			if (cursorPosX < HorizontalOffset)
+			{
+				HorizontalOffset = (int)cursorPosX;
+			}
+			else if (cursorPosX > HorizontalOffset + TextAreaWidth - 10)
+			{
+				HorizontalOffset = (int)cursorPosX - (TextAreaWidth - 10);
+			}
+		}
+
+		private double CharacterPosition(int lineIndex, int characterIndex)
+		{
+			double position = 0;
+			int i = 0;
+
+			foreach (TextSegment textSegment in Lines[lineIndex].TextSegments)
+			{
+				if (textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth) != null)
+				{
+					foreach (double x in textSegment.RenderedText.AdvanceWidths)
+					{
+						if (i++ == characterIndex)
+						{
+							return position;
+						}
+						position += x;
+					}
+				}
+			}
+			return position;
 		}
 
 		private void PointToCharacter(Point point, out int line, out int character)
@@ -416,7 +887,7 @@ namespace FileDiff
 			if (line >= Lines.Count)
 			{
 				line = Lines.Count - 1;
-				character = Lines[line].Text.Length - 1;
+				character = Math.Max(Lines[line].Text.Length - 1, 0);
 				return;
 			}
 
@@ -443,65 +914,6 @@ namespace FileDiff
 			}
 		}
 
-		private GlyphRun CreateGlyphRun(string text, out double runWidth)
-		{
-			ushort[] glyphIndexes = new ushort[text.Length];
-			double[] advanceWidths = new double[text.Length];
-
-			double totalWidth = 0;
-			for (int n = 0; n < text.Length; n++)
-			{
-				cachedTypeface.CharacterToGlyphMap.TryGetValue(ReplaceGlyph(text[n]), out ushort glyphIndex);
-				glyphIndexes[n] = glyphIndex;
-				double width = text[n] == '\t' ? AppSettings.TabSize * characterWidth : Math.Ceiling(cachedTypeface.AdvanceWidths[glyphIndex] * this.FontSize / dpiScale) * dpiScale;
-				advanceWidths[n] = width;
-
-				totalWidth += width;
-			}
-
-			GlyphRun run = new GlyphRun(
-				glyphTypeface: cachedTypeface,
-				bidiLevel: 0,
-				isSideways: false,
-				renderingEmSize: Math.Ceiling((FontSize) / dpiScale) * dpiScale,
-				glyphIndices: glyphIndexes,
-				baselineOrigin: new Point(0, Math.Ceiling((FontSize * cachedTypeface.Baseline) / dpiScale) * dpiScale),
-				advanceWidths: advanceWidths,
-				glyphOffsets: null,
-				characters: null,
-				deviceFontName: null,
-				clusterMap: null,
-				caretStops: null,
-				language: null);
-
-			runWidth = totalWidth;
-			return run;
-		}
-
-		private char ReplaceGlyph(char c)
-		{
-			if (AppSettings.ShowWhiteSpaceCharacters)
-			{
-				if (c == '\t')
-				{
-					return '›';
-				}
-				else if (c == ' ')
-				{
-					return '·';
-				}
-			}
-			else
-			{
-				if (c == '\t') // Why does the tab glyph render as a rectangle?
-				{
-					return ' ';
-				}
-			}
-
-			return c;
-		}
-
 		private double RoundToWholePixels(double x)
 		{
 			return Math.Round(x / dpiScale) * dpiScale;
@@ -524,19 +936,12 @@ namespace FileDiff
 
 		internal int Search(string text, bool matchCase)
 		{
-			int searchStart = 0;
-
-			if (selection != null)
-			{
-				searchStart = selection.EndLine;
-			}
-
 			for (int i = 0; i < Lines.Count; i++)
 			{
 				int hit = Lines[i].Text.IndexOf(text, matchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase);
 				if (hit != -1)
 				{
-					selection = new Selection() { StartLine = i, EndLine = i, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+					selection = new Selection() { StartLine = i, EndLine = i, StartCharacter = hit, EndCharacter = hit + text.Length };
 					InvalidateVisual();
 					return i;
 				}
@@ -575,7 +980,7 @@ namespace FileDiff
 
 				if (hit != -1)
 				{
-					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length };
 					InvalidateVisual();
 					return lineIndex;
 				}
@@ -614,7 +1019,7 @@ namespace FileDiff
 
 				if (hit != -1)
 				{
-					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length - 1 };
+					selection = new Selection() { StartLine = lineIndex, EndLine = lineIndex, StartCharacter = hit, EndCharacter = hit + text.Length };
 					InvalidateVisual();
 					return lineIndex;
 				}
