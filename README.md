@@ -21,3 +21,8 @@ Features
 ### Master detail compare
 
 ![screen](docs/images/Screen3.png)
+
+### Editable diffs
+
+### High DPI support
+![screen](docs/images/Screen4.png)
