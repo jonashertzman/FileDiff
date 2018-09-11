@@ -315,6 +315,7 @@ namespace FileDiff
 				{
 					if (EditMode)
 					{
+						selection = null;
 						cursorLine = 0;
 						cursorCharacter = 0;
 						SetCursorPosition(Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length), true);
