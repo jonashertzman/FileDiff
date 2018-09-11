@@ -7,22 +7,23 @@ Download latest version [here](https://jonashertzman.github.io/FileDiff/download
 
 Source code available at <https://github.com/jonashertzman/FileDiff>
 
-Features
---------
+### Features
+- File compare
+- Multi level directory compare
+- Combined master detail compare
+- Editable diffs
+- High DPI support
 
-### File compare
+### Screen shots
 
 ![screen](docs/images/Screen1.png)
-
-### Multi level directory compare
+*File compare.*
 
 ![screen](docs/images/Screen2.png)
-
-### Master detail compare
+*Directory compare.*
 
 ![screen](docs/images/Screen3.png)
+*Combined master detail compare for quickly going through multiple diffs in large file trees.* 
 
-### Editable diffs
-
-### High DPI support
 ![screen](docs/images/Screen4.png)
+*Full DPI support.*
