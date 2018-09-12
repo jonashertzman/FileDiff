@@ -1127,9 +1127,49 @@ namespace FileDiff
 
 		private void CommnadOptions_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			// Store existing settings data in case the changes are canceled.
+			var oldFont = ViewModel.Font;
+			var oldFontSize = ViewModel.FontSize;
+			var oldTabSize = ViewModel.TabSize;
+			var oldDeletedBackground = ViewModel.DeletedBackground;
+			var oldDeletedForeground = ViewModel.DeletedForeground;
+			var oldFullMatchBackground = ViewModel.FullMatchBackground;
+			var oldFullMatchForeground = ViewModel.FullMatchForeground;
+			var oldIgnoredBackground = ViewModel.IgnoredBackground;
+			var oldIgnoredForeground = ViewModel.IgnoredForeground;
+			var oldNewBackground = ViewModel.NewBackground;
+			var oldNewForeground = ViewModel.NewForeground;
+			var oldPartialMatchBackground = ViewModel.PartialMatchBackground;
+			var oldPartialMatchForeground = ViewModel.PartialMatchForeground;
+			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
+			var oldIgnoredFolders = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFolders);
+
 			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
 			optionsWindow.ShowDialog();
-			SaveSettings();
+
+			if (optionsWindow.DialogResult == true)
+			{
+				SaveSettings();
+			}
+			else
+			{
+				// Options window was canceled, revert to old settings.
+				ViewModel.Font = oldFont;
+				ViewModel.FontSize = oldFontSize;
+				ViewModel.TabSize = oldTabSize;
+				ViewModel.DeletedBackground = oldDeletedBackground;
+				ViewModel.DeletedForeground = oldDeletedForeground;
+				ViewModel.FullMatchBackground = oldFullMatchBackground;
+				ViewModel.FullMatchForeground = oldFullMatchForeground;
+				ViewModel.IgnoredBackground = oldIgnoredBackground;
+				ViewModel.IgnoredForeground = oldIgnoredForeground;
+				ViewModel.NewBackground = oldNewBackground;
+				ViewModel.NewForeground = oldNewForeground;
+				ViewModel.PartialMatchBackground = oldPartialMatchBackground;
+				ViewModel.PartialMatchForeground = oldPartialMatchForeground;
+				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
+				ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);
+			}
 		}
 
 		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)

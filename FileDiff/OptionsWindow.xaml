@@ -113,7 +113,7 @@
 
 		<StackPanel Grid.Column="1" Margin="5">
 			<Button Content="OK" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" IsDefault="True" Click="ButtonOk_Click" />
-			<Button Content="Cancel" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" IsCancel="True" Visibility="Hidden" />
+			<Button Content="Cancel" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" IsCancel="True" />
 		</StackPanel>
 
 	</Grid>
