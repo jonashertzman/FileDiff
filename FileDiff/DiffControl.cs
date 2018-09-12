@@ -272,11 +272,20 @@ namespace FileDiff
 			bool controlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
 			bool shiftPressed = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
 
-			if (e.Key == Key.Delete)
+			if (e.Key == Key.Delete && EditMode)
 			{
 				if (selection != null)
 				{
 					DeleteSelection();
+				}
+				else if (shiftPressed)
+				{
+					RemoveLine(cursorLine);
+					if (cursorLine >= Lines.Count)
+					{
+						cursorLine = Math.Max(Lines.Count - 1, 0);
+						cursorCharacter = 0;
+					}
 				}
 				else
 				{
@@ -297,13 +306,38 @@ namespace FileDiff
 			}
 			else if (e.Key == Key.Tab && EditMode)
 			{
-				if (selection != null)
+				if (selection != null && selection.TopLine < selection.BottomLine)
+				{
+					for (int i = selection.TopLine; i <= selection.BottomLine; i++)
+					{
+						if (shiftPressed)
+						{
+							if (Lines[i].Text.Length > 0 && Lines[i].Text[0] == '\t')
+							{
+								Lines[i].Text = Lines[i].Text.Remove(0, 1);
+							}
+						}
+						else
+						{
+							Lines[i].Text = "\t" + Lines[i].Text;
+						}
+					}
+					selection = new Selection(selection.TopLine, 0, selection.BottomLine, Lines[selection.BottomLine].Text.Length);
+
+				}
+				else if (selection != null && selection.TopLine == selection.BottomLine)
 				{
 					DeleteSelection();
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
+					cursorCharacter++;
+					EnsureCursorVisibility();
 				}
-				SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
-				cursorCharacter++;
-				EnsureCursorVisibility();
+				else
+				{
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
+					cursorCharacter++;
+					EnsureCursorVisibility();
+				}
 			}
 			else if (e.Key == Key.Escape)
 			{
@@ -764,6 +798,10 @@ namespace FileDiff
 		private void RemoveLine(int index)
 		{
 			Lines.RemoveAt(index);
+			if(Lines.Count == 0)
+			{
+				InsertNewLine(0, "");
+			}
 			Edited = true;
 		}
 
