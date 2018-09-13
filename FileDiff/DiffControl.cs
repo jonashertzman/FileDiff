@@ -323,7 +323,7 @@ namespace FileDiff
 						}
 					}
 					selection = new Selection(selection.TopLine, 0, selection.BottomLine, Lines[selection.BottomLine].Text.Length);
-
+					Edited = true;
 				}
 				else if (selection != null && selection.TopLine == selection.BottomLine)
 				{
@@ -798,7 +798,7 @@ namespace FileDiff
 		private void RemoveLine(int index)
 		{
 			Lines.RemoveAt(index);
-			if(Lines.Count == 0)
+			if (Lines.Count == 0)
 			{
 				InsertNewLine(0, "");
 			}
