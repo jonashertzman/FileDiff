@@ -226,8 +226,9 @@ namespace FileDiff
 						}
 						else
 						{
-							SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter - 1) + Lines[cursorLine].Text.Substring(cursorCharacter));
-							cursorCharacter--;
+							int chars = char.IsLowSurrogate(Lines[cursorLine].Text[cursorCharacter - 1]) ? 2 : 1;
+							SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter - chars) + Lines[cursorLine].Text.Substring(cursorCharacter));
+							cursorCharacter -= chars;
 						}
 					}
 				}
@@ -299,7 +300,8 @@ namespace FileDiff
 					}
 					else
 					{
-						SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + 1));
+						int chars = char.IsHighSurrogate(Lines[cursorLine].Text[cursorCharacter]) ? 2 : 1;
+						SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + chars));
 					}
 				}
 				EnsureCursorVisibility();
@@ -500,7 +502,13 @@ namespace FileDiff
 						if (controlPressed)
 						{
 							while (cursorCharacter - step > 0 && char.IsLetterOrDigit(Lines[cursorLine].Text[cursorCharacter - step]))
+							{
 								step++;
+							}
+						}
+						if (char.IsLowSurrogate(Lines[cursorLine].Text[cursorCharacter - step]))
+						{
+							step++;
 						}
 						SetCursorPosition(cursorLine, cursorCharacter - step, shiftPressed);
 					}
@@ -529,7 +537,13 @@ namespace FileDiff
 						if (controlPressed)
 						{
 							while (cursorCharacter + step < Lines[cursorLine].Text.Length && char.IsLetterOrDigit(Lines[cursorLine].Text[cursorCharacter + step]))
+							{
 								step++;
+							}
+						}
+						if (char.IsHighSurrogate(Lines[cursorLine].Text[cursorCharacter + step - 1]))
+						{
+							step++;
 						}
 						SetCursorPosition(cursorLine, cursorCharacter + step, shiftPressed);
 					}
@@ -843,6 +857,10 @@ namespace FileDiff
 
 		private void SetCursorPosition(int line, int character, bool select)
 		{
+			if (Lines[line].Text.Length > character && char.IsLowSurrogate(Lines[line].Text[character]))
+			{
+				character--;
+			}
 			if (select)
 			{
 				if (selection == null)
