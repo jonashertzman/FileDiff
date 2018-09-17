@@ -149,7 +149,7 @@ namespace FileDiff
 					}
 				}
 
-				if (bytes[i] >= 0xEE && bytes[i] <= 0xFF)
+				if (bytes[i] >= 0xEE && bytes[i] <= 0xEF)
 				{
 					if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
 					{
