@@ -159,7 +159,12 @@ namespace FileDiff
 						{
 							drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
 						}
+
+						// If the choosen font is missing some glyphs, we could revert to slow as fuck rendering...
+						// drawingContext.DrawText(new FormattedText(textSegment.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(0, 0));
+
 						drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
+
 						nextPosition += runWidth;
 
 						drawingContext.Pop();

@@ -107,40 +107,42 @@ namespace FileDiff
 
 		private static ushort ReplaceGlyph(int codePoint, GlyphTypeface glyphTypeface, double fontSize, double dpiScale, out double width)
 		{
-			if (AppSettings.ShowWhiteSpaceCharacters)
-			{
-				if (codePoint == '\t')
-				{
-					codePoint = '›';
-				}
-				else if (codePoint == ' ')
-				{
-					codePoint = '·';
-				}
-			}
-
 			glyphTypeface.CharacterToGlyphMap.TryGetValue('W', out ushort wIndex);
 			double characterWidth = Math.Ceiling(glyphTypeface.AdvanceWidths[wIndex] * fontSize / dpiScale) * dpiScale;
 
-
-			glyphTypeface.CharacterToGlyphMap.TryGetValue(codePoint, out ushort glyphIndex);
+			int displayCodePoint = codePoint;
+			ushort glyphIndex;
 
 			if (codePoint == '\t')
 			{
+				displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? '›' : ' ';
+
+				glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
 				width = AppSettings.TabSize * characterWidth;
-				glyphTypeface.CharacterToGlyphMap.TryGetValue(' ', out glyphIndex);
+				return glyphIndex;
+			}
+			else if (codePoint == ' ')
+			{
+				displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? '·' : ' ';
+
+				glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
+				width = Math.Ceiling(glyphTypeface.AdvanceWidths[glyphIndex] * fontSize / dpiScale) * dpiScale;
+				return glyphIndex;
 			}
 			else if (codePoint == '\u200B')
 			{
+				displayCodePoint = ' ';
+
+				glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
 				width = 0;
-				glyphTypeface.CharacterToGlyphMap.TryGetValue(' ', out glyphIndex);
+				return glyphIndex;
 			}
 			else
 			{
+				glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
 				width = Math.Ceiling(glyphTypeface.AdvanceWidths[glyphIndex] * fontSize / dpiScale) * dpiScale;
+				return glyphIndex;
 			}
-
-			return glyphIndex;
 		}
 
 		private static string FindFont(int codePoint)
