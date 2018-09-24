@@ -361,7 +361,7 @@
 			</Border>
 
 			<!--Left Folder-->
-			<Border Grid.Row="1" Grid.Column="0" Visibility="{Binding FolderView}" BorderThickness="0,1,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+			<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
 				<Grid Name="LeftFolderGrid" MouseWheel="FolderDiff_MouseWheel">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="auto" />
@@ -397,7 +397,7 @@
 			</Border>
 
 			<!--Left File-->
-			<Border Grid.Row="3" BorderThickness="0,1,1,1" Visibility="{Binding FileView}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+			<Border Grid.Row="3" BorderThickness="0,1,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
 				<Grid Name="LeftFileGrid" MouseWheel="FileDiff_MouseWheel">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
@@ -440,7 +440,7 @@
 			</Border>
 
 			<!--Right Folder-->
-			<Border Grid.Row="1" Grid.Column="2" Visibility="{Binding FolderView}" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
+			<Border Grid.Row="1" Grid.Column="2" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
 				<Grid Name="RightFolderGrid" MouseWheel="FolderDiff_MouseWheel">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="auto" />
@@ -491,7 +491,7 @@
 			</Border>
 
 			<!--Right File-->
-			<Border Grid.Row="3" Grid.Column="2" Visibility="{Binding FileView}" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
+			<Border Grid.Row="3" Grid.Column="2" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
 				<Grid Name="RightFileGrid" MouseWheel="FileDiff_MouseWheel">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="*" />
