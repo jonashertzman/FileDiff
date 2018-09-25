@@ -30,7 +30,7 @@ namespace FileDiff
 
 		#region Methods
 
-		internal static GlyphRun CreateGlyphRun(string text, FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch, double fontSize, double dpiScale, out double runWidth)
+		internal static GlyphRun CreateGlyphRun(string text, Typeface typeface, double fontSize, double dpiScale, out double runWidth)
 		{
 			if (text.Length == 0)
 			{
@@ -38,15 +38,14 @@ namespace FileDiff
 				return null;
 			}
 
-			Typeface t = new Typeface(fontFamily, fontStyle, fontWeight, fontStretch);
 
 			GlyphTypeface glyphTypeface;
 
-			if (!glyphTypefaces.ContainsKey(t))
+			if (!glyphTypefaces.ContainsKey(typeface))
 			{
-				if (t.TryGetGlyphTypeface(out glyphTypeface))
+				if (typeface.TryGetGlyphTypeface(out glyphTypeface))
 				{
-					glyphTypefaces.Add(t, glyphTypeface);
+					glyphTypefaces.Add(typeface, glyphTypeface);
 				}
 				else
 				{
@@ -55,7 +54,7 @@ namespace FileDiff
 			}
 			else
 			{
-				glyphTypeface = glyphTypefaces[t];
+				glyphTypeface = glyphTypefaces[typeface];
 			}
 
 			ushort[] glyphIndexes = new ushort[text.Length];
@@ -90,7 +89,7 @@ namespace FileDiff
 				glyphTypeface: glyphTypeface,
 				bidiLevel: 0,
 				isSideways: false,
-				renderingEmSize: Math.Ceiling((fontSize) / dpiScale) * dpiScale,
+				renderingEmSize: Math.Ceiling(fontSize / dpiScale) * dpiScale,
 				glyphIndices: glyphIndexes,
 				baselineOrigin: new Point(0, Math.Ceiling((fontSize * glyphTypeface.Baseline) / dpiScale) * dpiScale),
 				advanceWidths: advanceWidths,

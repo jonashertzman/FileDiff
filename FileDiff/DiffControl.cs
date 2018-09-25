@@ -45,12 +45,12 @@ namespace FileDiff
 
 		private readonly SolidColorBrush slectionBrush;
 
-		private GlyphTypeface cachedTypeface;
-
 		private double dpiScale = 0;
 
 		private int cursorLine = 0;
 		private int cursorCharacter = 0;
+
+		Typeface typeface;
 
 		#endregion
 
@@ -68,6 +68,8 @@ namespace FileDiff
 			Color selectionColor = SystemColors.HighlightColor;
 			selectionColor.A = 40;
 			slectionBrush = new SolidColorBrush(selectionColor);
+
+			typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 		}
 
 		#endregion
@@ -84,17 +86,12 @@ namespace FileDiff
 			if (Lines.Count == 0)
 				return;
 
+			typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
 
-			Typeface t = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
-			if (t.TryGetGlyphTypeface(out GlyphTypeface temp))
-			{
-				cachedTypeface = temp;
-			}
-
-			GlyphRun g = TextUtils.CreateGlyphRun("W", this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out characterWidth);
+			GlyphRun g = TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
 
 			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
 
@@ -136,7 +133,7 @@ namespace FileDiff
 
 				if (line.LineIndex != null)
 				{
-					GlyphRun rowNumberRun = line.GetRenderedLineIndexText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, out double rowNumberWidth);
+					GlyphRun rowNumberRun = line.GetRenderedLineIndexText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
 
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
 					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
@@ -154,7 +151,7 @@ namespace FileDiff
 					{
 						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
-						GlyphRun segmentRun = textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
+						GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
 						if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
 						{
 							drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
@@ -919,7 +916,7 @@ namespace FileDiff
 
 			foreach (TextSegment textSegment in Lines[lineIndex].TextSegments)
 			{
-				if (textSegment.GetRenderedText(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth) != null)
+				if (textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth) != null)
 				{
 					foreach (double x in textSegment.RenderedText.AdvanceWidths)
 					{
@@ -948,7 +945,7 @@ namespace FileDiff
 			if (line >= Lines.Count)
 			{
 				line = Lines.Count - 1;
-				character = Math.Max(Lines[line].Text.Length - 1, 0);
+				character = Math.Max(Lines[line].Text.Length, 0);
 				return;
 			}
 

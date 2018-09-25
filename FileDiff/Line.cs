@@ -152,24 +152,18 @@ namespace FileDiff
 		private double renderedTextWidth;
 
 		private int? renderedLineIndex;
-		private FontFamily renderedFontFamily;
-		private FontStyle renderedFontStyle;
-		private FontWeight renderedFontWeight;
-		private FontStretch renderedFontStretch;
+		private Typeface renderedTypeface;
 		private double renderedFontSize;
 		private double renderedDpiScale;
 
-		public GlyphRun GetRenderedLineIndexText(FontFamily fontFamily, FontStyle fontStyle, FontWeight fontWeight, FontStretch fontStretch, double fontSize, double dpiScale, out double runWidth)
+		public GlyphRun GetRenderedLineIndexText(Typeface typeface, double fontSize, double dpiScale, out double runWidth)
 		{
-			if (renderedLineIndex != LineIndex || !fontFamily.Equals(renderedFontFamily) || !fontStyle.Equals(renderedFontStyle) || !fontWeight.Equals(renderedFontWeight) || !fontStretch.Equals(renderedFontStretch) || fontSize != renderedFontSize || dpiScale != renderedDpiScale)
+			if (renderedLineIndex != LineIndex || !typeface.Equals(renderedTypeface) || fontSize != renderedFontSize || dpiScale != renderedDpiScale)
 			{
-				RenderedText = TextUtils.CreateGlyphRun(LineIndex == -1 ? "+" : LineIndex.ToString(), fontFamily, fontStyle, fontWeight, fontStretch, fontSize, dpiScale, out renderedTextWidth);
+				RenderedText = TextUtils.CreateGlyphRun(LineIndex == -1 ? "+" : LineIndex.ToString(), typeface, fontSize, dpiScale, out renderedTextWidth);
 
 				renderedLineIndex = LineIndex;
-				renderedFontFamily = fontFamily;
-				renderedFontStyle = fontStyle;
-				renderedFontWeight = fontWeight;
-				renderedFontStretch = fontStretch;
+				renderedTypeface = typeface;
 				renderedFontSize = fontSize;
 				renderedDpiScale = dpiScale;
 			}
