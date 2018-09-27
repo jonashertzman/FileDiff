@@ -13,11 +13,16 @@ namespace FileDiff
 
 	public class TreeControl : Control
 	{
+
+		#region Members
+
 		private const double handleWidth = 4;
 		private double itemHeight;
 		private double dpiScale = 0;
 
 		private List<FileItem> visibleItems = new List<FileItem>();
+
+		#endregion
 
 		#region Constructor
 

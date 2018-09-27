@@ -11,10 +11,14 @@ namespace FileDiff
 	public static class AppSettings
 	{
 
+		#region Members
+
 		private const string SETTINGS_DIRECTORY = "FileDiff";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
 
 		private static SettingsData Settings = new SettingsData();
+
+		#endregion
 
 		#region Properies
 

@@ -13,6 +13,8 @@ namespace FileDiff
 	public partial class OptionsWindow : Window
 	{
 
+		#region Constructor
+
 		public OptionsWindow()
 		{
 			InitializeComponent();
@@ -22,6 +24,10 @@ namespace FileDiff
 				ComboBoxFont.Items.Add(family.Source);
 			}
 		}
+
+		#endregion
+
+		#region Events
 
 		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
 		{
@@ -74,6 +80,8 @@ namespace FileDiff
 		{
 			DialogResult = true;
 		}
+
+		#endregion
 
 	}
 }

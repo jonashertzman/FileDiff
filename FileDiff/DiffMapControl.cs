@@ -7,7 +7,6 @@ using System.Windows.Media;
 
 namespace FileDiff
 {
-
 	public class DiffMapControl : Control
 	{
 

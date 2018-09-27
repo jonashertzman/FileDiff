@@ -8,6 +8,7 @@ namespace FileDiff
 	/// </summary>
 	public partial class AboutWindow : Window
 	{
+
 		public AboutWindow()
 		{
 			InitializeComponent();
