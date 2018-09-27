@@ -41,7 +41,7 @@
 							</Grid.RowDefinitions>
 
 							<Label Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
-							<TextBox x:Name="TextBoxFont" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
+							<ComboBox x:Name="ComboBoxFont" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
 							<TextBox x:Name="TextBoxFontSize" Grid.Column="4" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
 							<Button x:Name="ButtonBrowseFont" Grid.Column="5" Content="..." Style="{StaticResource CommonButton}" MinWidth="25" Click="ButtonBrowseFont_Click" />
 							<Button x:Name="ButtonResetFont" Grid.Column="6" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />

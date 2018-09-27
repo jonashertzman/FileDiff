@@ -19,6 +19,11 @@
 		<Setter Property="Margin" Value="5" />
 	</Style>
 
+	<Style x:Key="CommonComboBox" TargetType="ComboBox">
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="Margin" Value="5" />
+	</Style>
+
 	<Style x:Key="CommonButton" TargetType="Button">
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Margin" Value="5" />

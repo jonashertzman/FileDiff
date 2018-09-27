@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace FileDiff
 {
@@ -15,6 +16,11 @@ namespace FileDiff
 		public OptionsWindow()
 		{
 			InitializeComponent();
+
+			foreach (FontFamily family in Fonts.SystemFontFamilies.OrderBy(x => x.Source))
+			{
+				ComboBoxFont.Items.Add(family.Source);
+			}
 		}
 
 		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
@@ -24,7 +30,7 @@ namespace FileDiff
 
 			if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				TextBoxFont.Text = fd.Font.Name;
+				ComboBoxFont.Text = fd.Font.Name;
 				TextBoxFontSize.Text = ((int)(fd.Font.Size * 96.0 / 72.0)).ToString(CultureInfo.InvariantCulture);
 			}
 		}
@@ -60,7 +66,7 @@ namespace FileDiff
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
 		{
-			TextBoxFont.Text = DefaultSettings.Font;
+			ComboBoxFont.Text = DefaultSettings.Font;
 			TextBoxFontSize.Text = DefaultSettings.FontSize.ToString();
 		}
 
