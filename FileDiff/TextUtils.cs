@@ -146,9 +146,7 @@ namespace FileDiff
 
 		private static string FindFont(int codePoint)
 		{
-			ICollection<FontFamily> fontFamilies = Fonts.GetFontFamilies(@"C:\Windows\Fonts\");
-
-			foreach (FontFamily family in fontFamilies)
+			foreach (FontFamily family in Fonts.SystemFontFamilies)
 			{
 				var typefaces = family.GetTypefaces();
 				foreach (Typeface typeface in typefaces)

@@ -61,6 +61,7 @@ namespace FileDiff
 					if (bytes[i] == 0)
 					{
 						encoding = Encoding.Unicode;
+						break;
 					}
 				}
 			}
