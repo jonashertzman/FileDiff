@@ -21,7 +21,7 @@ namespace FileDiff
 		internal static Color IgnoredBackground { get; } = Color.FromRgb(220, 220, 220);
 
 		internal static string Font { get; } = "Courier New";
-		internal static int FontSize { get; } = 12;
+		internal static int FontSize { get; } = 11;
 		internal static int TabSize { get; } = 2;
 
 	}
