@@ -61,11 +61,11 @@ namespace FileDiff
 
 		#region Properties
 
-		public Encoding Type { get; set; }
+		public Encoding Type { get; private set; }
 
-		public bool Bom { get; set; }
+		public bool Bom { get; private set; }
 
-		public NewlineMode Newline { get; set; }
+		public NewlineMode Newline { get; private set; }
 
 		public Encoding GetEncoding
 		{
