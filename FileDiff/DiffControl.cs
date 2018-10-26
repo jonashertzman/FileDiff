@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,9 +64,7 @@ namespace FileDiff
 		{
 			this.ClipToBounds = true;
 
-			Color selectionColor = SystemColors.HighlightColor;
-			selectionColor.A = 40;
-			slectionBrush = new SolidColorBrush(selectionColor);
+			slectionBrush = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0));
 
 			typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 		}
@@ -92,8 +89,7 @@ namespace FileDiff
 			dpiScale = 1 / m.M11;
 
 			GlyphRun g = TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
-
-			characterHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale;
+			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
 			textMargin = RoundToWholePixels(3);
 			lineNumberMargin = (characterWidth * Lines.Count.ToString().Length) + (2 * textMargin);
@@ -975,21 +971,6 @@ namespace FileDiff
 		private double RoundToWholePixels(double x)
 		{
 			return Math.Round(x / dpiScale) * dpiScale;
-		}
-
-		private Size MeasureString(string text)
-		{
-			FormattedText formattedText = new FormattedText(
-				text,
-				CultureInfo.CurrentCulture,
-				FlowDirection.LeftToRight,
-				new Typeface(this.FontFamily.ToString()),
-				this.FontSize,
-				Brushes.Black,
-				new NumberSubstitution(),
-				TextFormattingMode.Display);
-
-			return new Size(formattedText.Width, formattedText.Height);
 		}
 
 		internal int Search(string text, bool matchCase)

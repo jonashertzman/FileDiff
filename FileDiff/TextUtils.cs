@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -85,13 +87,22 @@ namespace FileDiff
 				totalWidth += width;
 			}
 
+			GetTextBounds(glyphTypeface, fontSize, out double topDistance, out double bottomDistance);
+
+			if (glyphTypeface.Baseline * fontSize > topDistance)
+			{
+				topDistance = glyphTypeface.Baseline * fontSize * glyphTypeface.Height;
+			}
+
+			topDistance = Math.Ceiling(topDistance / dpiScale) * dpiScale;
+
 			GlyphRun run = new GlyphRun(
 				glyphTypeface: glyphTypeface,
 				bidiLevel: 0,
 				isSideways: false,
 				renderingEmSize: Math.Ceiling(fontSize / dpiScale) * dpiScale,
 				glyphIndices: glyphIndexes,
-				baselineOrigin: new Point(0, Math.Ceiling((fontSize * glyphTypeface.Baseline) / dpiScale) * dpiScale),
+				baselineOrigin: new Point(0, topDistance),
 				advanceWidths: advanceWidths,
 				glyphOffsets: null,
 				characters: null,
@@ -142,6 +153,75 @@ namespace FileDiff
 				width = Math.Ceiling(glyphTypeface.AdvanceWidths[glyphIndex] * fontSize / dpiScale) * dpiScale;
 				return glyphIndex;
 			}
+		}
+
+		public static double FontHeight(Typeface typeface, double fontSize, double dpiScale)
+		{
+			if (!typeface.TryGetGlyphTypeface(out GlyphTypeface glyphTypeface))
+			{
+				glyphTypeface = defaultGlyphTypeface;
+			}
+			if (!GetTextBounds(glyphTypeface, fontSize, out double topDistance, out double bottomDistance))
+			{
+				return MeasureText("", typeface, fontSize).Height;
+			}
+
+			Debug.Print($"-----------------------------------------");
+			Debug.Print($"{glyphTypeface.FamilyNames[new CultureInfo("en-us")]}");
+			Debug.Print($"baseline: {glyphTypeface.Baseline}");
+			Debug.Print($"height: {glyphTypeface.Height}");
+			Debug.Print($"topDistance: { topDistance}");
+			Debug.Print($"bottomDistance: {bottomDistance}");
+			Debug.Print($"total distance: {bottomDistance + topDistance}");
+			Debug.Print($"baseline * size: {glyphTypeface.Baseline * fontSize}");
+
+			if (glyphTypeface.Baseline * fontSize > topDistance)
+			{
+				topDistance = glyphTypeface.Baseline * fontSize * glyphTypeface.Height;
+			}
+
+			return (Math.Ceiling(topDistance / dpiScale) * dpiScale) + (Math.Ceiling(bottomDistance / dpiScale) * dpiScale);
+		}
+
+		private static bool GetTextBounds(GlyphTypeface glyphTypeface, double fontSize, out double topDistance, out double bottomDistance)
+		{
+			string testCharacters = "ÅÄÖÃÂ_[]{}|ygf";
+
+			topDistance = double.MaxValue;
+			bottomDistance = double.MinValue;
+
+			for (int n = 0; n < testCharacters.Length; n++)
+			{
+				if (glyphTypeface.CharacterToGlyphMap.TryGetValue(testCharacters[n], out ushort glyphIndex))
+				{
+					Geometry outline = glyphTypeface.GetGlyphOutline(glyphIndex, fontSize, 0);
+					topDistance = Math.Min(topDistance, outline.Bounds.Top);
+					bottomDistance = Math.Max(bottomDistance, outline.Bounds.Bottom);
+				}
+			}
+
+			if (bottomDistance == double.MinValue)
+			{
+				return false;
+			}
+
+			topDistance = Math.Abs(topDistance);
+			return true;
+		}
+
+		private static Size MeasureText(string text, Typeface typeface, double fontSize)
+		{
+			FormattedText formattedText = new FormattedText(
+				text,
+				CultureInfo.CurrentCulture,
+				FlowDirection.LeftToRight,
+				typeface,
+				fontSize,
+				Brushes.Black,
+				new NumberSubstitution(),
+				TextFormattingMode.Display);
+
+			return new Size(formattedText.Width, formattedText.Height);
 		}
 
 		private static string FindFont(int codePoint)
