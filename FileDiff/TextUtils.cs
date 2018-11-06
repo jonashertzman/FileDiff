@@ -13,8 +13,13 @@ namespace FileDiff
 
 		#region Members
 
-		static Dictionary<Typeface, GlyphTypeface> glyphTypefaces = new Dictionary<Typeface, GlyphTypeface>();
+		static readonly Typeface defaultTypface = new Typeface("Courier New");
 		static readonly GlyphTypeface defaultGlyphTypeface;
+
+		static FontData fontCache;
+
+		static Typeface cachedTypeface;
+		static double cachedFontSize;
 
 		#endregion
 
@@ -22,15 +27,31 @@ namespace FileDiff
 
 		static TextUtils()
 		{
-			Typeface defaultTypface = new Typeface("Courier New");
-
 			defaultTypface.TryGetGlyphTypeface(out defaultGlyphTypeface);
-			glyphTypefaces.Add(defaultTypface, defaultGlyphTypeface);
 		}
 
 		#endregion
 
 		#region Methods
+
+		static FontData GetFontData(Typeface typeface, double fontSize)
+		{
+			if (!typeface.Equals(cachedTypeface) || fontSize != cachedFontSize)
+			{
+				if (!typeface.TryGetGlyphTypeface(out GlyphTypeface glyphTypeface))
+				{
+					defaultTypface.TryGetGlyphTypeface(out glyphTypeface);
+				}
+				GetTextBounds(glyphTypeface, fontSize, out double topDistance, out double bottomDistance);
+
+				fontCache = new FontData(glyphTypeface, topDistance, bottomDistance);
+
+				cachedTypeface = typeface;
+				cachedFontSize = fontSize;
+			}
+
+			return fontCache;
+		}
 
 		internal static GlyphRun CreateGlyphRun(string text, Typeface typeface, double fontSize, double dpiScale, out double runWidth)
 		{
@@ -40,24 +61,7 @@ namespace FileDiff
 				return null;
 			}
 
-
-			GlyphTypeface glyphTypeface;
-
-			if (!glyphTypefaces.ContainsKey(typeface))
-			{
-				if (typeface.TryGetGlyphTypeface(out glyphTypeface))
-				{
-					glyphTypefaces.Add(typeface, glyphTypeface);
-				}
-				else
-				{
-					glyphTypeface = defaultGlyphTypeface;
-				}
-			}
-			else
-			{
-				glyphTypeface = glyphTypefaces[typeface];
-			}
+			FontData fontData = GetFontData(typeface, fontSize);
 
 			ushort[] glyphIndexes = new ushort[text.Length];
 			double[] advanceWidths = new double[text.Length];
@@ -79,7 +83,7 @@ namespace FileDiff
 					codePoint = text[n];
 				}
 
-				ushort glyphIndex = ReplaceGlyph(codePoint, glyphTypeface, fontSize, dpiScale, out double width);
+				ushort glyphIndex = ReplaceGlyph(codePoint, fontData.GlyphTypeface, fontSize, dpiScale, out double width);
 
 				glyphIndexes[n] = glyphIndex;
 				advanceWidths[n] = width;
@@ -87,22 +91,23 @@ namespace FileDiff
 				totalWidth += width;
 			}
 
-			GetTextBounds(glyphTypeface, fontSize, out double topDistance, out double bottomDistance);
+			double maxTopDistance = fontData.TopDistance;
 
-			if (glyphTypeface.Baseline * fontSize > topDistance)
+			if (fontData.GlyphTypeface.Baseline * fontSize > maxTopDistance)
 			{
-				topDistance = glyphTypeface.Baseline * fontSize * glyphTypeface.Height;
+				maxTopDistance = fontData.GlyphTypeface.Baseline * fontSize * fontData.GlyphTypeface.Height;
 			}
 
-			topDistance = Math.Ceiling(topDistance / dpiScale) * dpiScale;
+			maxTopDistance = Math.Ceiling(maxTopDistance / dpiScale) * dpiScale;
 
 			GlyphRun run = new GlyphRun(
-				glyphTypeface: glyphTypeface,
+				glyphTypeface: fontData.GlyphTypeface,
 				bidiLevel: 0,
 				isSideways: false,
 				renderingEmSize: Math.Ceiling(fontSize / dpiScale) * dpiScale,
+				pixelsPerDip: (float)dpiScale,
 				glyphIndices: glyphIndexes,
-				baselineOrigin: new Point(0, topDistance),
+				baselineOrigin: new Point(0, maxTopDistance),
 				advanceWidths: advanceWidths,
 				glyphOffsets: null,
 				characters: null,
@@ -157,30 +162,21 @@ namespace FileDiff
 
 		public static double FontHeight(Typeface typeface, double fontSize, double dpiScale)
 		{
-			if (!typeface.TryGetGlyphTypeface(out GlyphTypeface glyphTypeface))
+			FontData fontData = GetFontData(typeface, fontSize);
+
+			if (fontData.TopDistance == double.MaxValue)
 			{
-				glyphTypeface = defaultGlyphTypeface;
-			}
-			if (!GetTextBounds(glyphTypeface, fontSize, out double topDistance, out double bottomDistance))
-			{
-				return MeasureText("", typeface, fontSize).Height;
+				return MeasureText("A", typeface, fontSize, dpiScale).Height;
 			}
 
-			Debug.Print($"-----------------------------------------");
-			Debug.Print($"{glyphTypeface.FamilyNames[new CultureInfo("en-us")]}");
-			Debug.Print($"baseline: {glyphTypeface.Baseline}");
-			Debug.Print($"height: {glyphTypeface.Height}");
-			Debug.Print($"topDistance: { topDistance}");
-			Debug.Print($"bottomDistance: {bottomDistance}");
-			Debug.Print($"total distance: {bottomDistance + topDistance}");
-			Debug.Print($"baseline * size: {glyphTypeface.Baseline * fontSize}");
+			double topDistance = fontData.TopDistance;
 
-			if (glyphTypeface.Baseline * fontSize > topDistance)
+			if (fontData.GlyphTypeface.Baseline * fontSize > fontData.TopDistance)
 			{
-				topDistance = glyphTypeface.Baseline * fontSize * glyphTypeface.Height;
+				topDistance = fontData.GlyphTypeface.Baseline * fontSize * fontData.GlyphTypeface.Height;
 			}
 
-			return (Math.Ceiling(topDistance / dpiScale) * dpiScale) + (Math.Ceiling(bottomDistance / dpiScale) * dpiScale);
+			return (Math.Ceiling(topDistance / dpiScale) * dpiScale) + (Math.Ceiling(fontData.BottomDistance / dpiScale) * dpiScale);
 		}
 
 		private static bool GetTextBounds(GlyphTypeface glyphTypeface, double fontSize, out double topDistance, out double bottomDistance)
@@ -209,7 +205,7 @@ namespace FileDiff
 			return true;
 		}
 
-		private static Size MeasureText(string text, Typeface typeface, double fontSize)
+		public static Size MeasureText(string text, Typeface typeface, double fontSize, double dpiScale)
 		{
 			FormattedText formattedText = new FormattedText(
 				text,
@@ -219,7 +215,8 @@ namespace FileDiff
 				fontSize,
 				Brushes.Black,
 				new NumberSubstitution(),
-				TextFormattingMode.Display);
+				TextFormattingMode.Display,
+				dpiScale);
 
 			return new Size(formattedText.Width, formattedText.Height);
 		}

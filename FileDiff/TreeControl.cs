@@ -113,14 +113,14 @@ namespace FileDiff
 				}
 
 				// Draw line text
-				drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(line.Level * itemHeight, itemMargin));
+				drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(line.Level * itemHeight, itemMargin));
 				drawingContext.Pop();
 
 				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth + handleWidth + AppSettings.SizeColumnWidth, itemHeight)));
-				drawingContext.DrawText(new FormattedText(line.Size, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + handleWidth, itemMargin));
+				drawingContext.DrawText(new FormattedText(line.Size, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(AppSettings.NameColumnWidth + handleWidth, itemMargin));
 				drawingContext.Pop();
 
-				drawingContext.DrawText(new FormattedText(line.Date, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2), itemMargin));
+				drawingContext.DrawText(new FormattedText(line.Date, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2), itemMargin));
 
 				drawingContext.Pop(); // Horizontal offset
 				drawingContext.Pop(); // Line offset 
@@ -302,7 +302,8 @@ namespace FileDiff
 				this.FontSize,
 				Brushes.Black,
 				new NumberSubstitution(),
-				TextFormattingMode.Display);
+				TextFormattingMode.Display,
+				dpiScale);
 
 			return new Size(formattedText.Width, formattedText.Height);
 		}
