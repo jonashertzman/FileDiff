@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
@@ -14,7 +12,6 @@ namespace FileDiff
 		#region Members
 
 		static readonly Typeface defaultTypface = new Typeface("Courier New");
-		static readonly GlyphTypeface defaultGlyphTypeface;
 
 		static FontData fontCache;
 
@@ -27,7 +24,6 @@ namespace FileDiff
 
 		static TextUtils()
 		{
-			defaultTypface.TryGetGlyphTypeface(out defaultGlyphTypeface);
 		}
 
 		#endregion
@@ -205,7 +201,7 @@ namespace FileDiff
 			return true;
 		}
 
-		public static Size MeasureText(string text, Typeface typeface, double fontSize, double dpiScale)
+		private static Size MeasureText(string text, Typeface typeface, double fontSize, double dpiScale)
 		{
 			FormattedText formattedText = new FormattedText(
 				text,
