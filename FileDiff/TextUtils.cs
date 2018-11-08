@@ -38,9 +38,9 @@ namespace FileDiff
 				{
 					defaultTypface.TryGetGlyphTypeface(out glyphTypeface);
 				}
-				GetTextBounds(glyphTypeface, fontSize, out double topDistance, out double bottomDistance);
+				bool charactersFound = GetTextBounds(glyphTypeface, fontSize, out double topDistance, out double bottomDistance);
 
-				fontCache = new FontData(glyphTypeface, topDistance, bottomDistance);
+				fontCache = new FontData(glyphTypeface, topDistance, bottomDistance, charactersFound);
 
 				cachedTypeface = typeface;
 				cachedFontSize = fontSize;
@@ -89,7 +89,7 @@ namespace FileDiff
 
 			double maxTopDistance = fontData.TopDistance;
 
-			if (fontData.GlyphTypeface.Baseline * fontSize > maxTopDistance)
+			if (fontData.GlyphTypeface.Baseline * fontSize > maxTopDistance || !fontData.HeightsCalculated)
 			{
 				maxTopDistance = fontData.GlyphTypeface.Baseline * fontSize * fontData.GlyphTypeface.Height;
 			}
@@ -160,7 +160,7 @@ namespace FileDiff
 		{
 			FontData fontData = GetFontData(typeface, fontSize);
 
-			if (fontData.TopDistance == double.MaxValue)
+			if (!fontData.HeightsCalculated)
 			{
 				return MeasureText("A", typeface, fontSize, dpiScale).Height;
 			}
@@ -177,7 +177,7 @@ namespace FileDiff
 
 		private static bool GetTextBounds(GlyphTypeface glyphTypeface, double fontSize, out double topDistance, out double bottomDistance)
 		{
-			string testCharacters = "ÅÄÖÃÂ_[]{}|ygf";
+			string testCharacters = "aA. ÅÄÖÃÂ_[]{}()|ygf";
 
 			topDistance = double.MaxValue;
 			bottomDistance = double.MinValue;
