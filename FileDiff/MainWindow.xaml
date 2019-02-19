@@ -503,7 +503,7 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding RightFile, Mode=TwoWay}" VisibleLines="{Binding VisibleLines, Mode=OneWayToSource}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding RightFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxRightVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+					<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding RightFile, Mode=TwoWay}" VisibleLines="{Binding VisibleLines, Mode=OneWayToSource}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding RightFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxRightVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 					<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightFile}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" />
 					<ScrollBar Grid.Column="2" Name="VerticalFileScrollbar" SmallChange="1" LargeChange="{Binding VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding Path=MaxVerialcalScroll }" />
 					<ScrollBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="RightHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
@@ -522,8 +522,6 @@
 					<TextBlock Text="{Binding RightFileDescription}" Margin="5,2" />
 				</Border>
 			</Grid>
-
-
 
 			<!--Search panel-->
 			<Border Name="SearchPanel" Grid.Row="4" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
