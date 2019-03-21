@@ -826,8 +826,8 @@ namespace FileDiff
 
 		private void CenterOnLine(int i)
 		{
-			int visibleLines = (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight);
-			VerticalFileScrollbar.Value = i - (visibleLines / 2);
+			int visibleLines = LeftDiff.VisibleLines <= 0 ? (int)(LeftDiff.ActualHeight / OneCharacter.ActualHeight) : LeftDiff.VisibleLines;
+			VerticalFileScrollbar.Value = i - (visibleLines / 2) + 1;
 		}
 
 		private void LoadSettings()
