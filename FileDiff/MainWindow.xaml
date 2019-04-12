@@ -7,6 +7,9 @@
 			<MenuItem Header="Copy Path to Clipboard" Command="local:Commands.CopyPathToClipboard" />
 		</ContextMenu>
 
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+		<local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+
 	</Window.Resources>
 
 	<Window.CommandBindings>
@@ -48,6 +51,11 @@
 				<Menu Grid.Row="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
 					<MenuItem Header="File">
 						<MenuItem Header="Exit" Command="local:Commands.Exit" />
+					</MenuItem>
+					<MenuItem Header="Edit">
+						<MenuItem Header="Find" Command="local:Commands.Find" />
+						<MenuItem Header="Find Next" Command="local:Commands.FindNext" />
+						<MenuItem Header="Find Previous" Command="local:Commands.FindPrevious" />
 					</MenuItem>
 					<MenuItem Header="Tools">
 						<MenuItem Header="Options" Command="local:Commands.Options" />
@@ -410,7 +418,7 @@
 			</Border>
 
 			<!--Left Status Bar-->
-			<Grid Grid.Row="5" Grid.Column="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+			<Grid x:Name="LeftStatusBar" Grid.Row="5" Grid.Column="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="auto" />
@@ -512,7 +520,7 @@
 			</Border>
 
 			<!--Right Status Bar-->
-			<Grid Grid.Row="5" Grid.Column="2" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+			<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="auto" />
@@ -525,13 +533,29 @@
 
 			<!--Search panel-->
 			<Border Name="SearchPanel" Grid.Row="4" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-				<StackPanel Orientation="Horizontal">
-					<Button Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
-					<TextBox Name="SearchBox" Margin="5,1" Padding="2" Width="300" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
-					<Button Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
-					<Button Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
-					<CheckBox Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
-				</StackPanel>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<StackPanel Width="{Binding ElementName=LeftStatusBar, Path=ActualWidth}" Visibility="{Binding FindPanelRight, Converter={StaticResource BooleanToVisibilityConverter}}" />
+					<Grid Grid.Column="1" Width="{Binding ElementName=LeftStatusBar, Path=ActualWidth}">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" MaxWidth="300" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Button Grid.Column="0" Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
+						<TextBox Grid.Column="1" Name="SearchBox" Margin="5,1" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+						<Button Grid.Column="2" Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
+						<Button Grid.Column="3" Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
+						<CheckBox Grid.Column="4" Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
+					</Grid>
+					<StackPanel Grid.Column="2" Width="{Binding ElementName=RightStatusBar, Path=ActualWidth}" Visibility="{Binding FindPanelRight, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+				</Grid>
 			</Border>
 
 			<!--Used to measure the size of one character in the chosen font-->

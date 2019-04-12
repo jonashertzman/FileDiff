@@ -1061,12 +1061,14 @@ namespace FileDiff
 		private void RightDiff_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeDiff = RightDiff;
+			ViewModel.FindPanelRight = true;
 			activeSelection = RightDiff.Lines.Count > 0 ? rightSelection : "";
 		}
 
 		private void LeftDiff_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeDiff = LeftDiff;
+			ViewModel.FindPanelRight = false;
 			activeSelection = LeftDiff.Lines.Count > 0 ? leftSelection : "";
 		}
 

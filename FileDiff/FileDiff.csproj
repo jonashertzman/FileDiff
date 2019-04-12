@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="Converters.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="DiffControl.cs" />
     <Compile Include="DiffMapControl.cs" />

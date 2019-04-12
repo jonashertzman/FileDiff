@@ -62,6 +62,12 @@ namespace FileDiff
 			set { leftFileEdited = value; OnPropertyChanged(nameof(LeftFileEdited)); OnPropertyChanged(nameof(LeftFileDirty)); }
 		}
 
+		bool findPanelRight = false;
+		public bool FindPanelRight
+		{
+			get { return findPanelRight; }
+			set { findPanelRight = value; OnPropertyChanged(nameof(FindPanelRight)); }
+		}
 
 
 		ObservableCollection<Line> rightFile = new ObservableCollection<Line>();
