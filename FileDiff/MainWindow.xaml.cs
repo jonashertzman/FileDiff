@@ -104,6 +104,10 @@ namespace FileDiff
 
 			try
 			{
+				bool linesTooLong = false;
+
+				string linesTooLongplaceholder = "[Line is too long to show in preview]";
+
 				if (File.Exists(leftPath))
 				{
 					leftSelection = leftPath;
@@ -113,7 +117,15 @@ namespace FileDiff
 					int i = 0;
 					foreach (string s in File.ReadAllLines(leftPath, ViewModel.LeftFileEncoding.Type))
 					{
-						leftLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
+						if (s.Length > 65535)
+						{
+							leftLines.Add(new Line() { Type = TextState.Deleted, Text = linesTooLongplaceholder, LineIndex = i++ });
+							linesTooLong = true;
+						}
+						else
+						{
+							leftLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
+						}
 					}
 				}
 
@@ -126,8 +138,21 @@ namespace FileDiff
 					int i = 0;
 					foreach (string s in File.ReadAllLines(rightPath, ViewModel.RightFileEncoding.Type))
 					{
-						rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
+						if (s.Length > 65535)
+						{
+							rightLines.Add(new Line() { Type = TextState.New, Text = linesTooLongplaceholder, LineIndex = i++ });
+							linesTooLong = true;
+						}
+						else
+						{
+							rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
+						}
 					}
+				}
+
+				if (linesTooLong)
+				{
+					MessageBox.Show("Selected files contain lines too long to show in the preview.\n\nPreview is not complete.", "File Diff", MessageBoxButton.OK, MessageBoxImage.Warning);
 				}
 
 				if (leftLines.Count > 0 && rightLines.Count > 0)
