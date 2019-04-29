@@ -131,7 +131,7 @@ namespace FileDiff
 		{
 			int lineIndex = (int)(e.GetPosition(this).Y / itemHeight) + VerticalOffset;
 
-			if (lineIndex < visibleItems.Count)
+			if (lineIndex < visibleItems.Count && Lines.Count > 0)
 			{
 				// Item selected		
 				if (e.GetPosition(this).X > (visibleItems[lineIndex].Level * itemHeight) - HorizontalOffset || !visibleItems[lineIndex].IsFolder)
@@ -161,7 +161,7 @@ namespace FileDiff
 		{
 			int lineIndex = (int)(e.GetPosition(this).Y / itemHeight) + VerticalOffset;
 
-			if (e.ChangedButton == MouseButton.Left && lineIndex < visibleItems.Count)
+			if (e.ChangedButton == MouseButton.Left && lineIndex < visibleItems.Count && Lines.Count > 0)
 			{
 				if (visibleItems[lineIndex].Type != TextState.Filler && visibleItems[lineIndex].CorrespondingItem.Type != TextState.Filler)
 				{
