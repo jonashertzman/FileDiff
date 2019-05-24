@@ -71,7 +71,7 @@ namespace FileDiff
 			blinkTimer.Tick += BlinkTimer_Tick;
 			blinkTimer.Start();
 
-			slectionBrush = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0));
+			slectionBrush = new SolidColorBrush(Color.FromArgb(50, 0, 150, 210));
 
 			typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 		}
@@ -115,6 +115,8 @@ namespace FileDiff
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
+			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
+
 			for (int i = 0; i < VisibleLines; i++)
 			{
 				int lineIndex = i + VerticalOffset;
@@ -124,88 +126,104 @@ namespace FileDiff
 
 				Line line = Lines[lineIndex];
 
+				// Line Y offset
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
-
-				// Draw line background
-				if (line.Type != TextState.FullMatch)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
-				}
+					// Draw line number
+					SolidColorBrush lineNumberColor = new SolidColorBrush();
 
-				// Draw line number
-				SolidColorBrush lineNumberColor = new SolidColorBrush();
-
-				if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
-				{
-					lineNumberColor = AppSettings.FullMatchBackground;
-					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-				}
-				else
-				{
-					lineNumberColor = SystemColors.ControlDarkBrush;
-				}
-
-				if (line.LineIndex != null)
-				{
-					GlyphRun rowNumberRun = line.GetRenderedLineIndexText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
-
-					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
-					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
-					drawingContext.Pop();
-				}
-
-				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
-				drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
-
-				// Draw line
-				if (line.Text != "")
-				{
-					double nextPosition = 0;
-					foreach (TextSegment textSegment in line.TextSegments)
+					if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
 					{
-						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
+						lineNumberColor = AppSettings.FullMatchBackground;
+						drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+					}
+					else
+					{
+						lineNumberColor = SystemColors.ControlDarkBrush;
+					}
 
-						GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
-						if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
-						{
-							drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
-						}
+					// Draw line background
+					if (line.Type != TextState.FullMatch)
+					{
+						drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(lineNumberMargin, 0, Math.Max(this.ActualWidth - lineNumberMargin, 0), characterHeight));
+					}
 
-						// If the choosen font is missing some glyphs, we could revert to slow as fuck rendering...
-						// drawingContext.DrawText(new FormattedText(textSegment.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(0, 0));
+					if (line.LineIndex != null)
+					{
+						GlyphRun rowNumberRun = line.GetRenderedLineIndexText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
 
-						drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
-
-						nextPosition += runWidth;
-
+						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
+						drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
 						drawingContext.Pop();
 					}
-					maxTextwidth = Math.Max(maxTextwidth, nextPosition);
-				}
 
-				// Draw selection
-				if (Selection != null && lineIndex >= Selection.TopLine && lineIndex <= Selection.BottomLine)
-				{
-					Rect selectionRect = new Rect(0, 0, this.ActualWidth + HorizontalOffset, characterHeight);
-					if (Selection.TopLine == lineIndex)
+					// Text clipping rect
+					drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
 					{
-						selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, Selection.TopCharacter));
+						// Line X offset
+						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
+						{
+							// Draw line
+							if (line.Text != "")
+							{
+								double nextPosition = 0;
+								foreach (TextSegment textSegment in line.TextSegments)
+								{
+									drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
+
+									GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
+									if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
+									{
+										drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
+									}
+
+									// If the choosen font is missing some glyphs, we could revert to slow as fuck rendering...
+									// drawingContext.DrawText(new FormattedText(textSegment.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(0, 0));
+
+									drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
+
+									nextPosition += runWidth;
+
+									drawingContext.Pop();
+								}
+								maxTextwidth = Math.Max(maxTextwidth, nextPosition);
+							}
+
+							// Draw cursor
+							if (EditMode && this.IsFocused && cursorLine == lineIndex && cursorBlink)
+							{
+								drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
+							}
+						}
+						drawingContext.Pop(); // Line X offset
 					}
-					if (Selection.BottomLine == lineIndex)
+					drawingContext.Pop(); // Clipping rect
+
+					// Text area clipping rect
+					drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin, 0, Math.Max(ActualWidth - lineNumberMargin, 0), ActualHeight)));
 					{
-						selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, Selection.BottomCharacter) - selectionRect.X);
+						// Line X offset 2
+						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
+						{
+							// Draw selection
+							if (Selection != null && lineIndex >= Selection.TopLine && lineIndex <= Selection.BottomLine)
+							{
+								Rect selectionRect = new Rect(0 - textMargin + HorizontalOffset, 0, this.ActualWidth + HorizontalOffset, characterHeight);
+								if (Selection.TopLine == lineIndex && selection.TopCharacter > 0)
+								{
+									selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, Selection.TopCharacter));
+								}
+								if (Selection.BottomLine == lineIndex)
+								{
+									selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, Selection.BottomCharacter) - selectionRect.X);
+								}
+								drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
+							}
+						}
+						drawingContext.Pop(); // Line X offset 2
 					}
-					drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
+					drawingContext.Pop(); // Text area clipping rect
 				}
-
-				// Draw cursor
-				if (EditMode && this.IsFocused && cursorLine == lineIndex && cursorBlink)
-				{
-					drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
-				}
-
-				drawingContext.Pop(); // Line X offset
-				drawingContext.Pop(); // Clipping rect
 				drawingContext.Pop(); // Line Y offset
 			}
 
