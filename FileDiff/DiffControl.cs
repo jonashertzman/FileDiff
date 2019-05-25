@@ -130,16 +130,12 @@ namespace FileDiff
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 				{
 					// Draw line number
-					SolidColorBrush lineNumberColor = new SolidColorBrush();
+					SolidColorBrush lineNumberColor = SystemColors.ControlDarkBrush;
 
 					if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
 					{
-						lineNumberColor = AppSettings.FullMatchBackground;
+						lineNumberColor = Brushes.White;
 						drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-					}
-					else
-					{
-						lineNumberColor = SystemColors.ControlDarkBrush;
 					}
 
 					// Draw line background
