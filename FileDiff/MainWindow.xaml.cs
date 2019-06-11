@@ -28,6 +28,8 @@ namespace FileDiff
 		string rightSelection = "";
 		string leftSelection = "";
 
+		bool experimentalMatching;
+
 		#endregion
 
 		#region Constructor
@@ -80,6 +82,8 @@ namespace FileDiff
 
 		private void CompareFiles()
 		{
+			experimentalMatching = Keyboard.IsKeyDown(Key.LeftShift);
+
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
 
@@ -174,7 +178,7 @@ namespace FileDiff
 			Mouse.OverrideCursor = null;
 
 			stopwatch.Stop();
-			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms";
+			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms {(experimentalMatching ? "(Experimental Matching)" : "")}";
 		}
 
 		private void CompareDirectories()
@@ -537,74 +541,155 @@ namespace FileDiff
 
 		private void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
 		{
-			int matchingCharacters = 0;
-			int bestMatchingCharacters = 0;
-			int bestLeft = 0;
-			int bestRight = 0;
-
-			bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
-
-			for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
+			if (experimentalMatching)
 			{
-				if (leftRange[leftIndex].IsWhitespaceLine)
-				{
-					continue;
-				}
+				int matchingCharacters = 0;
+				float bestMatchFraction = 0;
+				float matchFraction = 0;
+				int bestLeft = 0;
+				int bestRight = 0;
 
-				if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchingCharacters)
+				bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
+
+				for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
 				{
-					for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
+					if (bestMatchFraction == 1)
 					{
-						if (rightRange[rightIndex].IsWhitespaceLine)
-						{
-							continue;
-						}
+						break;
+					}
 
-						if (rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
+					if (leftRange[leftIndex].IsWhitespaceLine)
+					{
+						continue;
+					}
+
+					if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchFraction)
+					{
+						for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
 						{
-						matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
-							if (matchingCharacters > bestMatchingCharacters)
-						{
-								bestMatchingCharacters = matchingCharacters;
-							bestLeft = leftIndex;
-							bestRight = rightIndex;
+							if (rightRange[rightIndex].IsWhitespaceLine)
+							{
+								continue;
+							}
+
+							matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
+							matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
+							if (matchFraction > bestMatchFraction)
+							{
+								bestMatchFraction = matchFraction;
+								bestLeft = leftIndex;
+								bestRight = rightIndex;
+								if (bestMatchFraction == 1)
+								{
+									break;
+								}
 							}
 						}
 					}
 				}
+
+				if (bestMatchFraction > AppSettings.LineSimilarityThreshold || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
+				{
+					leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
+					rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
+
+					leftRange[bestLeft].Type = TextState.PartialMatch;
+					rightRange[bestRight].Type = TextState.PartialMatch;
+
+					if (leftRange[bestLeft].GetHashCode() == rightRange[bestRight].GetHashCode())
+					{
+						leftRange[bestLeft].Type = TextState.FullMatch;
+						rightRange[bestRight].Type = TextState.FullMatch;
+					}
+					else
+					{
+						leftRange[bestLeft].TextSegments.Clear();
+						rightRange[bestRight].TextSegments.Clear();
+						HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
+					}
+
+					if (bestLeft > 0 && bestRight > 0)
+					{
+						MatchPartialLines(leftRange.GetRange(0, bestLeft), rightRange.GetRange(0, bestRight));
+					}
+
+					if (leftRange.Count > bestLeft + 1 && rightRange.Count > bestRight + 1)
+					{
+						MatchPartialLines(leftRange.GetRange(bestLeft + 1, leftRange.Count - (bestLeft + 1)), rightRange.GetRange(bestRight + 1, rightRange.Count - (bestRight + 1)));
+					}
+				}
 			}
-
-			float leftMatching = (float)bestMatchingCharacters / leftRange[bestLeft].TrimmedText.Length;
-			float rightMatching = (float)bestMatchingCharacters / rightRange[bestRight].TrimmedText.Length;
-
-			if (leftMatching > AppSettings.LineSimilarityThreshold || rightMatching > AppSettings.LineSimilarityThreshold || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
+			else
 			{
-				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
-				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
+				int matchingCharacters = 0;
+				int bestMatchingCharacters = 0;
+				int bestLeft = 0;
+				int bestRight = 0;
 
-				leftRange[bestLeft].Type = TextState.PartialMatch;
-				rightRange[bestRight].Type = TextState.PartialMatch;
+				bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
 
-				if (leftRange[bestLeft].GetHashCode() == rightRange[bestRight].GetHashCode())
+				for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
 				{
-					leftRange[bestLeft].Type = TextState.FullMatch;
-					rightRange[bestRight].Type = TextState.FullMatch;
+					if (leftRange[leftIndex].IsWhitespaceLine)
+					{
+						continue;
+					}
+
+					if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchingCharacters)
+					{
+						for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
+						{
+							if (rightRange[rightIndex].IsWhitespaceLine)
+							{
+								continue;
+							}
+
+							if (rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
+							{
+								matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
+								if (matchingCharacters > bestMatchingCharacters)
+								{
+									bestMatchingCharacters = matchingCharacters;
+									bestLeft = leftIndex;
+									bestRight = rightIndex;
+								}
+							}
+						}
+					}
 				}
-				else
-				{
-					leftRange[bestLeft].TextSegments.Clear();
-					rightRange[bestRight].TextSegments.Clear();
-					HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
-				}
 
-				if (bestLeft > 0 && bestRight > 0)
-				{
-					MatchPartialLines(leftRange.GetRange(0, bestLeft), rightRange.GetRange(0, bestRight));
-				}
+				float leftMatching = (float)bestMatchingCharacters / leftRange[bestLeft].TrimmedText.Length;
+				float rightMatching = (float)bestMatchingCharacters / rightRange[bestRight].TrimmedText.Length;
 
-				if (leftRange.Count > bestLeft + 1 && rightRange.Count > bestRight + 1)
+				if (leftMatching > AppSettings.LineSimilarityThreshold || rightMatching > AppSettings.LineSimilarityThreshold || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
 				{
-					MatchPartialLines(leftRange.GetRange(bestLeft + 1, leftRange.Count - (bestLeft + 1)), rightRange.GetRange(bestRight + 1, rightRange.Count - (bestRight + 1)));
+					leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
+					rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
+
+					leftRange[bestLeft].Type = TextState.PartialMatch;
+					rightRange[bestRight].Type = TextState.PartialMatch;
+
+					if (leftRange[bestLeft].GetHashCode() == rightRange[bestRight].GetHashCode())
+					{
+						leftRange[bestLeft].Type = TextState.FullMatch;
+						rightRange[bestRight].Type = TextState.FullMatch;
+					}
+					else
+					{
+						leftRange[bestLeft].TextSegments.Clear();
+						rightRange[bestRight].TextSegments.Clear();
+						HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
+					}
+
+					if (bestLeft > 0 && bestRight > 0)
+					{
+						MatchPartialLines(leftRange.GetRange(0, bestLeft), rightRange.GetRange(0, bestRight));
+					}
+
+					if (leftRange.Count > bestLeft + 1 && rightRange.Count > bestRight + 1)
+					{
+						MatchPartialLines(leftRange.GetRange(bestLeft + 1, leftRange.Count - (bestLeft + 1)), rightRange.GetRange(bestRight + 1, rightRange.Count - (bestRight + 1)));
+					}
 				}
 			}
 		}
