@@ -36,6 +36,8 @@ namespace FileDiff
 		public Color IgnoredForeground { get; set; } = DefaultSettings.IgnoredForeground;
 		public Color IgnoredBackground { get; set; } = DefaultSettings.IgnoredBackground;
 
+		public Color SelectionBackground { get; set; } = DefaultSettings.SelectionBackground;
+
 		public string Font { get; set; } = DefaultSettings.Font;
 		public int FontSize { get; set; } = DefaultSettings.FontSize;
 		public int TabSize { get; set; } = DefaultSettings.TabSize;

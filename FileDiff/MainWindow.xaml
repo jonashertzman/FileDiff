@@ -342,7 +342,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="{Binding FolderRowHeight, Mode=TwoWay}" Name="FolderRow" />
-				<RowDefinition Height="{Binding SplitterRowHeight}" Name="SplitterRow" />
+				<RowDefinition Height="Auto" Name="SplitterRow" />
 				<RowDefinition Height="{Binding FileRowHeight}" Name="FileRow" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
@@ -431,7 +431,7 @@
 			</Grid>
 
 			<!--Splitter-->
-			<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="4" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" HorizontalAlignment="Stretch" />
+			<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Visibility="{Binding FolderVissible, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Column="0" Grid.ColumnSpan="3" Height="4" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" HorizontalAlignment="Stretch" />
 			<GridSplitter x:Name="SplitterLeftRight" Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" Grid.RowSpan="6" />
 
 			<!--Right Path-->

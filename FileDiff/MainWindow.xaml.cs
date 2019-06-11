@@ -562,12 +562,12 @@ namespace FileDiff
 
 						if (rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
 						{
-							matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
+						matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
 							if (matchingCharacters > bestMatchingCharacters)
-							{
+						{
 								bestMatchingCharacters = matchingCharacters;
-								bestLeft = leftIndex;
-								bestRight = rightIndex;
+							bestLeft = leftIndex;
+							bestRight = rightIndex;
 							}
 						}
 					}
@@ -930,7 +930,6 @@ namespace FileDiff
 
 		private void Window_ContentRendered(object sender, EventArgs e)
 		{
-
 			if (Environment.GetCommandLineArgs().Length > 2)
 			{
 				ViewModel.LeftPath = Environment.GetCommandLineArgs()[1];
@@ -1168,6 +1167,7 @@ namespace FileDiff
 			var oldNewForeground = ViewModel.NewForeground;
 			var oldPartialMatchBackground = ViewModel.PartialMatchBackground;
 			var oldPartialMatchForeground = ViewModel.PartialMatchForeground;
+			var oldSelectionBackground = ViewModel.SelectionBackground;
 			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
 			var oldIgnoredFolders = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFolders);
 
@@ -1194,6 +1194,7 @@ namespace FileDiff
 				ViewModel.NewForeground = oldNewForeground;
 				ViewModel.PartialMatchBackground = oldPartialMatchBackground;
 				ViewModel.PartialMatchForeground = oldPartialMatchForeground;
+				ViewModel.SelectionBackground = oldSelectionBackground;
 				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
 				ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);
 			}

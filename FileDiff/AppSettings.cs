@@ -183,6 +183,13 @@ namespace FileDiff
 			set { ignoredBackground = value; Settings.IgnoredBackground = value.Color; }
 		}
 
+		private static SolidColorBrush selectionBackground;
+		public static SolidColorBrush SelectionBackground
+		{
+			get { return selectionBackground; }
+			set { selectionBackground = value; Settings.SelectionBackground = value.Color; }
+		}
+
 		public static double NameColumnWidth { get; internal set; } = 300;
 
 		public static double SizeColumnWidth { get; internal set; } = 70;
@@ -276,6 +283,8 @@ namespace FileDiff
 
 			IgnoredForeground = new SolidColorBrush(Settings.IgnoredForeground);
 			IgnoredBackground = new SolidColorBrush(Settings.IgnoredBackground);
+
+			SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
 		}
 
 		#endregion

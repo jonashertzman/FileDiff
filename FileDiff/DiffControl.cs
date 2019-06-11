@@ -43,8 +43,6 @@ namespace FileDiff
 			}
 		}
 
-		private readonly SolidColorBrush slectionBrush;
-
 		private double dpiScale = 0;
 
 		private int cursorLine = 0;
@@ -70,8 +68,6 @@ namespace FileDiff
 			blinkTimer.Interval = new TimeSpan(5000000);
 			blinkTimer.Tick += BlinkTimer_Tick;
 			blinkTimer.Start();
-
-			slectionBrush = new SolidColorBrush(Color.FromArgb(50, 0, 150, 210));
 
 			typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 		}
@@ -213,7 +209,7 @@ namespace FileDiff
 								{
 									selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, Selection.BottomCharacter) - selectionRect.X);
 								}
-								drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
+								drawingContext.DrawRectangle(AppSettings.SelectionBackground, null, selectionRect);
 							}
 						}
 						drawingContext.Pop(); // Line X offset 2

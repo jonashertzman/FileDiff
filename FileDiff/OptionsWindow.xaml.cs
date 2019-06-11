@@ -13,6 +13,12 @@ namespace FileDiff
 	public partial class OptionsWindow : Window
 	{
 
+		#region Members
+
+		Rectangle selectecRectangle;
+
+		#endregion
+
 		#region Constructor
 
 		public OptionsWindow()
@@ -43,13 +49,17 @@ namespace FileDiff
 
 		private void Rectangle_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
-			Rectangle rectangle = e.Source as Rectangle;
+			selectecRectangle = e.Source as Rectangle;
 
-			ColorDialog colorDialog = new ColorDialog();
-			if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				rectangle.Fill = new SolidColorBrush(Color.FromRgb(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B));
-			}
+			Color currentColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? 50 : 255), ((SolidColorBrush)selectecRectangle.Fill).Color.R, ((SolidColorBrush)selectecRectangle.Fill).Color.G, ((SolidColorBrush)selectecRectangle.Fill).Color.B);
+
+			SliderR.Value = currentColor.R;
+			SliderG.Value = currentColor.G;
+			SliderB.Value = currentColor.B;
+
+			ColorHex.Text = currentColor.ToString();
+
+			ColorChooser.IsOpen = true;
 		}
 
 		private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
@@ -68,6 +78,8 @@ namespace FileDiff
 
 			IgnoredForeground.Fill = new SolidColorBrush(DefaultSettings.IgnoredForeground);
 			IgnoredBackground.Fill = new SolidColorBrush(DefaultSettings.IgnoredBackground);
+
+			SelectionBackground.Fill = new SolidColorBrush(DefaultSettings.SelectionBackground);
 		}
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
@@ -79,6 +91,13 @@ namespace FileDiff
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)
 		{
 			DialogResult = true;
+		}
+
+		private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			Color newColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? 50 : 255), (byte)SliderR.Value, (byte)SliderG.Value, (byte)SliderB.Value);
+			ColorHex.Text = newColor.ToString();
+			selectecRectangle.Fill = new SolidColorBrush(newColor);
 		}
 
 		#endregion

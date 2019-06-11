@@ -399,6 +399,13 @@ namespace FileDiff
 			set { AppSettings.IgnoredBackground = value; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
 		}
 
+		public SolidColorBrush SelectionBackground
+		{
+			get { return AppSettings.SelectionBackground; }
+			set { AppSettings.SelectionBackground = value; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
+		}
+
+
 		public FontFamily Font
 		{
 			get { return AppSettings.Font; }
