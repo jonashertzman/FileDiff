@@ -90,22 +90,27 @@
 											<RowDefinition />
 											<RowDefinition />
 											<RowDefinition />
+											<RowDefinition />
 										</Grid.RowDefinitions>
 
-										<TextBox Name="ColorHex" Grid.ColumnSpan="2" IsReadOnly="True" Style="{StaticResource CommonTextBox}" />
+										<TextBox Name="ColorHex" Text="#FFAA2288" Grid.ColumnSpan="2" IsReadOnly="True" Style="{StaticResource CommonTextBox}" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey} }" />
 
-										<Label Grid.Row="1" Content="R" VerticalAlignment="Center" />
+										<Label Grid.Row="1" Content="R" />
 										<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
 
-										<Label Grid.Row="2" Content="G" VerticalAlignment="Center" />
+										<Label Grid.Row="2" Content="G" />
 										<Slider Name="SliderG" Grid.Row="2" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
 
-										<Label Grid.Row="3" Content="B" VerticalAlignment="Center" />
+										<Label Grid.Row="3" Content="B" />
 										<Slider Name="SliderB" Grid.Row="3" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+
+										<Label Name="LabelA" Grid.Row="4" Content="A" />
+										<Slider Name="SliderA" Grid.Row="4" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+
 									</Grid>
 								</Border>
 							</Popup>
-							
+
 						</Grid>
 					</Border>
 				</TabItem>
