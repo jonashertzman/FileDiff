@@ -51,6 +51,9 @@ namespace FileDiff
 				TrimmedText = value.Trim();
 				hash = value.GetHashCode();
 
+				characters = null;
+				trimmedCharacters = null;
+
 				string textNoWhitespace = Regex.Replace(value, @"\s+", "");
 				hashNoWhitespace = textNoWhitespace.GetHashCode();
 				IsWhitespaceLine = textNoWhitespace == "";
@@ -66,31 +69,39 @@ namespace FileDiff
 
 		public bool IsWhitespaceLine { get; set; }
 
+		List<char> characters;
 		public List<char> Characters
 		{
 			get
 			{
-				List<char> list = new List<char>();
-
-				foreach (char c in text.ToCharArray())
+				if (characters == null)
 				{
-					list.Add(c);
+					characters = new List<char>();
+
+					foreach (char c in text.ToCharArray())
+					{
+						characters.Add(c);
+					}
 				}
-				return list;
+				return characters;
 			}
 		}
 
+		List<char> trimmedCharacters;
 		public List<char> TrimmedCharacters
 		{
 			get
 			{
-				List<char> list = new List<char>();
-
-				foreach (char c in TrimmedText.ToCharArray())
+				if (trimmedCharacters == null)
 				{
-					list.Add(c);
+					trimmedCharacters = new List<char>();
+
+					foreach (char c in TrimmedText.ToCharArray())
+					{
+						trimmedCharacters.Add(c);
+					}
 				}
-				return list;
+				return trimmedCharacters;
 			}
 		}
 
@@ -148,7 +159,7 @@ namespace FileDiff
 
 		public int? MatchingLineIndex { get; set; }
 
-		public GlyphRun RenderedText { get; private set; }
+		private GlyphRun RenderedText;
 		private double renderedTextWidth;
 
 		private int? renderedLineIndex;
