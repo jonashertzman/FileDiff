@@ -832,26 +832,19 @@ namespace FileDiff
 
 		private void FindLongestMatch<T>(List<T> leftRange, List<T> rightRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength)
 		{
-			int matchIndex = -1;
-
 			longestMatchIndex = 0;
 			longestMatchingIndex = 0;
 			longestMatchLength = 0;
 
+			int matchLength;
+
 			for (int i = 0; i < leftRange.Count - longestMatchLength; i++)
 			{
-				int matchLength = 0;
-				int matchingIndex = 0;
-
 				for (int j = 0; j < rightRange.Count - longestMatchLength; j++)
 				{
+					matchLength = 0;
 					while (leftRange[i + matchLength].GetHashCode() == rightRange[j + matchLength].GetHashCode())
 					{
-						if (matchIndex == -1)
-						{
-							matchIndex = i;
-							matchingIndex = j;
-						}
 						matchLength++;
 
 						if (i + matchLength >= leftRange.Count || j + matchLength >= rightRange.Count)
@@ -859,17 +852,15 @@ namespace FileDiff
 							break;
 						}
 					}
-					if (matchIndex != -1)
+
+					if (matchLength > 0)
 					{
-						j += matchLength - 1;
 						if (matchLength > longestMatchLength)
 						{
-							longestMatchIndex = matchIndex;
-							longestMatchingIndex = matchingIndex;
+							longestMatchIndex = i;
+							longestMatchingIndex = j;
 							longestMatchLength = matchLength;
 						}
-						matchIndex = -1;
-						matchLength = 0;
 					}
 				}
 			}
