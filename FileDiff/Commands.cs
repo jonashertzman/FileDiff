@@ -80,6 +80,20 @@ namespace FileDiff
 			}
 		);
 
+		public static readonly RoutedUICommand NextFile = new RoutedUICommand("Next File", "NextFile", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.PageDown, ModifierKeys.Control)
+			}
+		);
+
+		public static readonly RoutedUICommand PreviousFile = new RoutedUICommand("Previous File", "PreviousFile", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.PageUp, ModifierKeys.Control)
+			}
+		);
+
 		public static readonly RoutedUICommand BrowseLeft = new RoutedUICommand("Browse Left", "BrowseLeft", typeof(Commands),
 			new InputGestureCollection()
 			{
