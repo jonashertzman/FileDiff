@@ -138,9 +138,7 @@ namespace FileDiff
 				{
 					if (visibleItems[lineIndex] != SelectedFile && visibleItems[lineIndex].Type != TextState.Filler)
 					{
-						SelectedFile = visibleItems[lineIndex];
-						SelectionChanged?.Invoke(SelectedFile);
-						UpdateTrigger++;
+						Select(visibleItems[lineIndex]);
 					}
 				}
 
@@ -279,6 +277,23 @@ namespace FileDiff
 		#endregion
 
 		#region Methods
+
+		public void Select(FileItem item)
+		{
+			ExpandParents(item);
+			SelectedFile = item;
+			SelectionChanged?.Invoke(SelectedFile);
+			UpdateTrigger++;
+		}
+
+		private void ExpandParents(FileItem item)
+		{
+			if (item.Parent != null)
+			{
+				ExpandParents(item.Parent);
+				item.Parent.IsExpanded = true;
+			}
+		}
 
 		private void GetVisibleItems(ObservableCollection<FileItem> parent, List<FileItem> visibleItems)
 		{

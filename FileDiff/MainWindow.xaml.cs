@@ -295,6 +295,14 @@ namespace FileDiff
 					else
 					{
 						SearchDirectory(leftItem.Name == "" ? null : Path.Combine(FixRootPath(leftPath), leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(FixRootPath(rightPath), rightItem.Name), rightItem.Children, level + 1);
+						foreach (FileItem child in leftItem.Children)
+						{
+							child.Parent = leftItem;
+						}
+						foreach (FileItem child in rightItem.Children)
+						{
+							child.Parent = rightItem;
+						}
 
 						if (leftItem.Type == TextState.FullMatch && leftItem.ChildDiffExists)
 						{
@@ -1000,6 +1008,18 @@ namespace FileDiff
 			RightFolderHorizontalScrollbar.LargeChange = RightFolder.ActualWidth;
 		}
 
+		private void GetFolderDiffItems(ObservableCollection<FileItem> parent, List<FileItem> items)
+		{
+			foreach (FileItem fileItem in parent)
+			{
+				if (!fileItem.IsFolder && fileItem.Type == TextState.PartialMatch || fileItem == LeftFolder.SelectedFile)
+				{
+					items.Add(fileItem);
+				}
+				GetFolderDiffItems(fileItem.Children, items);
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -1421,6 +1441,58 @@ namespace FileDiff
 		private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && NoManualEdit;
+		}
+
+		private void CommandNextFile_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			List<FileItem> diffItems = new List<FileItem>();
+
+			GetFolderDiffItems(ViewModel.LeftFolder, diffItems);
+
+			if (diffItems.Count > 0)
+			{
+				int currentIndex = diffItems.IndexOf(LeftFolder.SelectedFile);
+
+				if (currentIndex == -1)
+				{
+					LeftFolder.Select(diffItems[0]);
+				}
+				else if (currentIndex < diffItems.Count - 1)
+				{
+					LeftFolder.Select(diffItems[currentIndex + 1]);
+				}
+			}
+		}
+
+		private void CommandNextFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = ViewModel.FolderVissible;
+		}
+
+		private void CommandPreviousFile_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			List<FileItem> diffItems = new List<FileItem>();
+
+			GetFolderDiffItems(ViewModel.LeftFolder, diffItems);
+
+			if (diffItems.Count > 0)
+			{
+				int currentIndex = diffItems.IndexOf(LeftFolder.SelectedFile);
+
+				if (currentIndex == -1)
+				{
+					LeftFolder.Select(diffItems[diffItems.Count - 1]);
+				}
+				else if (currentIndex > 0)
+				{
+					LeftFolder.Select(diffItems[currentIndex - 1]);
+				}
+			}
+		}
+
+		private void CommandPreviousFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = ViewModel.FolderVissible;
 		}
 
 		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)
