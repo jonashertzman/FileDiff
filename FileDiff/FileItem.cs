@@ -53,6 +53,8 @@ namespace FileDiff
 
 		#region Properties
 
+		public FileItem Parent { get; set; }
+
 		public ObservableCollection<FileItem> Children { get; set; } = new ObservableCollection<FileItem>();
 
 		public FileItem CorrespondingItem { get; set; }
@@ -88,7 +90,6 @@ namespace FileDiff
 		public int Level { get; set; }
 
 		public bool IsFolder { get; set; }
-
 
 		public TextState Type { get; set; }
 

@@ -436,7 +436,7 @@ namespace FileDiff
 					EnsureCursorVisibility();
 				}
 			}
-			else if (e.Key == Key.PageUp)
+			else if (e.Key == Key.PageUp && !controlPressed)
 			{
 				if (EditMode)
 				{
@@ -448,7 +448,7 @@ namespace FileDiff
 					VerticalOffset = Math.Max(0, VerticalOffset -= VisibleLines - 1);
 				}
 			}
-			else if (e.Key == Key.PageDown)
+			else if (e.Key == Key.PageDown && !controlPressed)
 			{
 				if (EditMode)
 				{
