@@ -24,8 +24,6 @@
 		<CommandBinding Command="local:Commands.CurrentDiff" Executed="CommandCurrentDiff_Executed" CanExecute="CommandCurrentDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.LastDiff" Executed="CommandLastDiff_Executed" CanExecute="CommandLastDiff_CanExecute" />
-		<CommandBinding Command="local:Commands.NextFile" Executed="CommandNextFile_Executed" CanExecute="CommandNextFile_CanExecute" />
-		<CommandBinding Command="local:Commands.PreviousFile" Executed="CommandPreviousFile_Executed" CanExecute="CommandPreviousFile_CanExecute" />
 		<CommandBinding Command="local:Commands.CopyLeftDiff" Executed="CommandCopyLeftDiff_Executed" CanExecute="CommandCopyLeftDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.CopyRightDiff" Executed="CommandCopyRightDiff_Executed" CanExecute="CommandCopyRightDiff_CanExecute" />
 		<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />

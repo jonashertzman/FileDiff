@@ -1423,26 +1423,6 @@ namespace FileDiff
 			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && NoManualEdit;
 		}
 
-		private void CommandNextFile_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-
-		}
-
-		private void CommandNextFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = ViewModel.FolderVissible;
-		}
-
-		private void CommandPreviousFile_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-
-		}
-
-		private void CommandPreviousFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = ViewModel.FolderVissible;
-		}
-
 		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			SearchPanel.Visibility = Visibility.Visible;
