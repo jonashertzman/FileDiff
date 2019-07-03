@@ -281,9 +281,24 @@ namespace FileDiff
 		public void Select(FileItem item)
 		{
 			ExpandParents(item);
+			MoveItemIntoView(item);
 			SelectedFile = item;
 			SelectionChanged?.Invoke(SelectedFile);
 			UpdateTrigger++;
+		}
+
+		private void MoveItemIntoView(FileItem item)
+		{
+			GetVisibleItems(Lines, visibleItems);
+			int itemIndex = visibleItems.IndexOf(item);
+			if (itemIndex < VerticalOffset)
+			{
+				VerticalOffset = itemIndex;
+			}
+			else if (itemIndex > VerticalOffset + VisibleLines - 2)
+			{
+				VerticalOffset = itemIndex - (VisibleLines - 2);
+			}
 		}
 
 		private void ExpandParents(FileItem item)
