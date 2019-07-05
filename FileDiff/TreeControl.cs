@@ -278,6 +278,12 @@ namespace FileDiff
 
 		#region Methods
 
+		internal void Init()
+		{
+			VerticalOffset = 0;
+			HorizontalOffset = 0;
+		}
+
 		public void Select(FileItem item)
 		{
 			ExpandParents(item);
@@ -289,6 +295,7 @@ namespace FileDiff
 
 		private void MoveItemIntoView(FileItem item)
 		{
+			visibleItems = new List<FileItem>();
 			GetVisibleItems(Lines, visibleItems);
 			int itemIndex = visibleItems.IndexOf(item);
 			if (itemIndex < VerticalOffset)

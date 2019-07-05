@@ -193,6 +193,9 @@ namespace FileDiff
 
 			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems, 1);
 
+			LeftFolder.Init();
+			RightFolder.Init();
+
 			ViewModel.LeftFolder = leftItems;
 			ViewModel.RightFolder = rightItems;
 
@@ -467,7 +470,6 @@ namespace FileDiff
 			ViewModel.LeftFileEdited = false;
 			ViewModel.RightFileDirty = false;
 			ViewModel.RightFileEdited = false;
-
 
 			LeftDiff.Init();
 			RightDiff.Init();
