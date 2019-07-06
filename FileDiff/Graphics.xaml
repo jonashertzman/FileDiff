@@ -125,22 +125,22 @@
 						<GeometryGroup>
 							<PathGeometry>
 								<PathGeometry.Figures>
-									<PathFigure StartPoint="1,2" IsClosed="True">
+									<PathFigure StartPoint="2,2" IsClosed="True">
 										<PathFigure.Segments>
-											<LineSegment Point="5,2" />
-											<LineSegment Point="5,0" />
-											<LineSegment Point="9,3" />
-											<LineSegment Point="5,6" />
-											<LineSegment Point="5,4" />
-											<LineSegment Point="3,4" />
-											<LineSegment Point="3,8" />
-											<LineSegment Point="9,8" />
-											<LineSegment Point="9,14" />
-											<LineSegment Point="15,14" />
+											<LineSegment Point="7,2" />
+											<LineSegment Point="7,0" />
+											<LineSegment Point="11,3.5" />
+											<LineSegment Point="7,7" />
+											<LineSegment Point="7,5" />
+											<LineSegment Point="5,5" />
+											<LineSegment Point="5,8" />
+											<LineSegment Point="10,8" />
+											<LineSegment Point="10,13" />
+											<LineSegment Point="15,13" />
 											<LineSegment Point="15,16" />
 											<LineSegment Point="7,16" />
-											<LineSegment Point="7,10" />
-											<LineSegment Point="1,10" />
+											<LineSegment Point="7,11" />
+											<LineSegment Point="2,11" />
 										</PathFigure.Segments>
 									</PathFigure>
 								</PathGeometry.Figures>
@@ -166,20 +166,20 @@
 						<GeometryGroup>
 							<PathGeometry>
 								<PathGeometry.Figures>
-									<PathFigure StartPoint="1,0" IsClosed="True">
+									<PathFigure StartPoint="1,1" IsClosed="True">
 										<PathFigure.Segments>
-											<LineSegment Point="3,0" />
-											<LineSegment Point="3,6" />
+											<LineSegment Point="4,1" />
+											<LineSegment Point="4,6" />
 											<LineSegment Point="9,6" />
-											<LineSegment Point="9,12" />
-											<LineSegment Point="11,12" />
-											<LineSegment Point="11,10" />
-											<LineSegment Point="15,13" />
+											<LineSegment Point="9,11" />
+											<LineSegment Point="11,11" />
+											<LineSegment Point="11,9" />
+											<LineSegment Point="15,12.5" />
 											<LineSegment Point="11,16" />
 											<LineSegment Point="11,14" />
-											<LineSegment Point="7,14" />
-											<LineSegment Point="7,8" />
-											<LineSegment Point="1,8" />
+											<LineSegment Point="6,14" />
+											<LineSegment Point="6,9" />
+											<LineSegment Point="1,9" />
 										</PathFigure.Segments>
 									</PathFigure>
 								</PathGeometry.Figures>
