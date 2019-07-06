@@ -90,15 +90,15 @@
 						<GeometryGroup>
 							<PathGeometry>
 								<PathGeometry.Figures>
-									<PathFigure StartPoint="1,6" IsClosed="True">
+									<PathFigure StartPoint="1.5,6" IsClosed="True">
 										<PathFigure.Segments>
-											<LineSegment Point="5,2" />
-											<LineSegment Point="9,6" />
-											<LineSegment Point="6,6" />
-											<LineSegment Point="6,11" />
-											<LineSegment Point="11,11" />
-											<LineSegment Point="11,13" />
-											<LineSegment Point="4,13" />
+											<LineSegment Point="5.5,1.5" />
+											<LineSegment Point="9.5,6" />
+											<LineSegment Point="7,6" />
+											<LineSegment Point="7,12" />
+											<LineSegment Point="13,12" />
+											<LineSegment Point="13,15" />
+											<LineSegment Point="4,15" />
 											<LineSegment Point="4,6" />
 										</PathFigure.Segments>
 									</PathFigure>

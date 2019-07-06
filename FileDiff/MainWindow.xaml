@@ -185,11 +185,11 @@
 					</Button.ToolTip>
 				</Button>
 
+				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
-
-				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
 				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousFile">
 					<StackPanel Orientation="Horizontal">
@@ -219,11 +219,12 @@
 					</Button.ToolTip>
 				</Button>
 
+				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
 
-				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstDiff">
 					<StackPanel Orientation="Horizontal">
 						<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
@@ -294,11 +295,11 @@
 					</Button.ToolTip>
 				</Button>
 
+				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
-
-				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
 				<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.CopyLeftDiff" IsEnabled="{Binding FileVissible}">
 					<StackPanel Orientation="Horizontal">
