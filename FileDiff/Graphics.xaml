@@ -717,4 +717,106 @@
 		</Viewbox>
 	</DataTemplate>
 
+	<DataTemplate x:Key="DriveIcon">
+		<Viewbox>
+			<Canvas Width="16" Height="16">
+				<Path StrokeThickness="0">
+					<Path.Fill>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FFECECEC" Offset="0" />
+							<GradientStop Color="#FF9B9B9B" Offset="1" />
+						</LinearGradientBrush>
+					</Path.Fill>
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="1,14" IsClosed="True">
+									<PathFigure.Segments>
+										<LineSegment Point="1,9" />
+										<LineSegment Point="3,6" />
+										<LineSegment Point="13,6" />
+										<LineSegment Point="15,9" />
+										<LineSegment Point="15,14" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+				<Path StrokeThickness="0">
+					<Path.Fill>
+						<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.4,0">
+							<GradientStop Color="#FF686868" Offset="0" />
+							<GradientStop Color="#FF474747" Offset="1" />
+						</LinearGradientBrush>
+					</Path.Fill>
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="2,13" IsClosed="True">
+									<PathFigure.Segments>
+										<LineSegment Point="2,10" />
+										<LineSegment Point="14,10" />
+										<LineSegment Point="14,13" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+				<Ellipse Width="2" Height="2" Fill="Lime" Canvas.Left="10.5" Canvas.Top="10.5" />
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
+	<DataTemplate x:Key="FolderIcon">
+		<Viewbox>
+			<Canvas Width="16" Height="16">
+				<Path StrokeThickness="0">
+					<Path.Fill>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FFFFDD7C" Offset="0" />
+							<GradientStop Color="#FFFFC834" Offset="1" />
+						</LinearGradientBrush>
+					</Path.Fill>
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="0,4" IsClosed="True">
+									<PathFigure.Segments>
+										<LineSegment Point="16,4" />
+										<LineSegment Point="16,14" />
+										<LineSegment Point="0,14" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+				<Path StrokeThickness="0">
+					<Path.Fill>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FFE09F00" Offset="0" />
+							<GradientStop Color="#FFD79400" Offset="1" />
+						</LinearGradientBrush>
+					</Path.Fill>
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="0,3" IsClosed="True">
+									<PathFigure.Segments>
+										<LineSegment Point="6,3" />
+										<LineSegment Point="8,4" />
+										<LineSegment Point="6,6" />
+										<LineSegment Point="0,6" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
 </ResourceDictionary>

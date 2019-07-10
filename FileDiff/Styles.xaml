@@ -65,7 +65,7 @@
 		</Style.Triggers>
 	</Style>
 
-	<Style TargetType="DataGrid" x:Key="EditableDataGrid">
+	<Style x:Key="EditableDataGrid" TargetType="DataGrid">
 		<Setter Property="AutoGenerateColumns" Value="False" />
 		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
 		<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -76,7 +76,7 @@
 		<Setter Property="SelectionMode" Value="Single" />
 	</Style>
 
-	<Style TargetType="{x:Type DataGridCell}" x:Key="EditableDataGridCell">
+	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}">
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
 				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />

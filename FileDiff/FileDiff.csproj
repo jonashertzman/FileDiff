@@ -68,6 +68,9 @@
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="BrowseFolderWindow.xaml.cs">
+      <DependentUpon>BrowseFolderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Commands.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="DefaultSettings.cs" />
@@ -90,6 +93,10 @@
     <Compile Include="TreeControl.cs" />
     <Compile Include="Unicode.cs" />
     <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BrowseFolderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
