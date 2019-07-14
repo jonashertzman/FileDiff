@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -35,7 +37,10 @@ namespace FileDiff
 						item.Items.Add(CreateTreeItem(subDir));
 					}
 				}
-				catch { }
+				catch (Exception exception)
+				{
+					Debug.Print(exception.Message);
+				}
 			}
 		}
 
