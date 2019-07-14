@@ -29,12 +29,15 @@ namespace FileDiff
 
 				DirectoryInfo expandedDir = item.Tag is DriveInfo ? (item.Tag as DriveInfo).RootDirectory : (item.Tag as DirectoryInfo);
 
-
 				try
 				{
 					foreach (DirectoryInfo subDir in expandedDir.GetDirectories())
 					{
 						item.Items.Add(CreateTreeItem(subDir));
+					}
+					foreach (FileInfo file in expandedDir.GetFiles())
+					{
+						item.Items.Add(CreateTreeItem(file));
 					}
 				}
 				catch (Exception exception)
@@ -44,12 +47,15 @@ namespace FileDiff
 			}
 		}
 
-		private TreeViewItem CreateTreeItem(object o)
+		private TreeViewItem CreateTreeItem(object source)
 		{
 			TreeViewItem item = new TreeViewItem();
-			item.Header = o.ToString();
-			item.Tag = o;
-			item.Items.Add("Loading...");
+			item.Header = source.ToString();
+			item.Tag = source;
+			if (source is DriveInfo || source is DirectoryInfo)
+			{
+				item.Items.Add("Loading...");
+			}
 			return item;
 		}
 

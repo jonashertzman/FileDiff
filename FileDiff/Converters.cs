@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -31,13 +32,17 @@ namespace FileDiff
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if ((value as string).Contains(@"\"))
+			if (value is DriveInfo)
 			{
 				return Application.Current.FindResource("DriveIcon");
 			}
-			else
+			else if (value is DirectoryInfo)
 			{
 				return Application.Current.FindResource("FolderIcon");
+			}
+			else
+			{
+				return Application.Current.FindResource("FileIcon");
 			}
 		}
 
