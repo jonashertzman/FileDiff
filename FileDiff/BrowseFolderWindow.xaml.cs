@@ -9,6 +9,8 @@ namespace FileDiff
 	public partial class BrowseFolderWindow : Window
 	{
 
+		#region Constructor
+
 		public BrowseFolderWindow()
 		{
 			InitializeComponent();
@@ -18,6 +20,32 @@ namespace FileDiff
 				FolderTree.Items.Add(CreateTreeItem(driveInfo));
 			}
 		}
+
+		#endregion
+
+		#region Properties
+
+		public string SelectedPath { get; set; }
+
+		#endregion
+
+		#region Methods
+
+		private TreeViewItem CreateTreeItem(object source)
+		{
+			TreeViewItem item = new TreeViewItem();
+			item.Header = source.ToString();
+			item.Tag = source;
+			if (source is DriveInfo || source is DirectoryInfo)
+			{
+				item.Items.Add("Loading...");
+			}
+			return item;
+		}
+
+		#endregion
+
+		#region Events
 
 		public void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
 		{
@@ -47,17 +75,53 @@ namespace FileDiff
 			}
 		}
 
-		private TreeViewItem CreateTreeItem(object source)
+		private string GetItemPath(TreeViewItem item)
 		{
-			TreeViewItem item = new TreeViewItem();
-			item.Header = source.ToString();
-			item.Tag = source;
-			if (source is DriveInfo || source is DirectoryInfo)
+			switch (item.Tag)
 			{
-				item.Items.Add("Loading...");
+				case DriveInfo driveInfo:
+					return driveInfo.ToString();
+
+				case DirectoryInfo directoryInfo:
+					return directoryInfo.FullName;
+
+				case FileInfo fileInfo:
+					return fileInfo.FullName;
 			}
-			return item;
+			return null;
 		}
+
+		private void FolderTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			SelectedPath = GetItemPath(e.NewValue as TreeViewItem);
+		}
+
+		private void ButtonOk_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = true;
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			ItemCollection parent = FolderTree.Items;
+
+			foreach (string s in SelectedPath.Split('\\'))
+			{
+				foreach (TreeViewItem item in parent)
+				{
+					if (item.Header.Equals(s + (parent == FolderTree.Items ? "\\" : "")))
+					{
+						item.IsSelected = true;
+						item.IsExpanded = true;
+						item.BringIntoView();
+						parent = item.Items;
+						break;
+					}
+				}
+			}
+		}
+
+		#endregion
 
 	}
 }

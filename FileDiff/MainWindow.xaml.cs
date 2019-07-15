@@ -1379,22 +1379,19 @@ namespace FileDiff
 
 		private void CommandBrowseLeft_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this };
+			BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, SelectedPath = ViewModel.LeftPath };
 			browseFolderWindow.ShowDialog();
 
 			if (browseFolderWindow.DialogResult == true)
 			{
-
+				ViewModel.LeftPath = browseFolderWindow.SelectedPath;
 			}
-
 
 			//System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
 			//if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			//{
 			//	ViewModel.LeftPath = ofd.FileName;
 			//}
-
-
 		}
 
 		private void CommandBrowseRight_Executed(object sender, ExecutedRoutedEventArgs e)
