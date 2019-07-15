@@ -61,7 +61,10 @@ namespace FileDiff
 				{
 					foreach (DirectoryInfo subDir in expandedDir.GetDirectories())
 					{
-						item.Items.Add(CreateTreeItem(subDir));
+						if (Utils.DirectoryAllowed(subDir.FullName))
+						{
+							item.Items.Add(CreateTreeItem(subDir));
+						}
 					}
 					foreach (FileInfo file in expandedDir.GetFiles())
 					{
@@ -101,19 +104,20 @@ namespace FileDiff
 			DialogResult = true;
 		}
 
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+		private void Window_ContentRendered(object sender, EventArgs e)
 		{
 			ItemCollection parent = FolderTree.Items;
+			string[] substrings = SelectedPath.Split("\\".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
-			foreach (string s in SelectedPath.Split('\\'))
+			for (int i = 0; i < substrings.Length; i++)
 			{
 				foreach (TreeViewItem item in parent)
 				{
-					if (item.Header.Equals(s + (parent == FolderTree.Items ? "\\" : "")))
+					if (item.Header.Equals(substrings[i] + (parent == FolderTree.Items ? "\\" : "")))
 					{
 						item.IsSelected = true;
-						item.IsExpanded = true;
 						item.BringIntoView();
+						item.IsExpanded = i < substrings.Length - 1;
 						parent = item.Items;
 						break;
 					}

@@ -214,7 +214,7 @@ namespace FileDiff
 				return;
 			}
 
-			if (Directory.Exists(leftPath) && !DirectoryAllowed(leftPath) || Directory.Exists(rightPath) && !DirectoryAllowed(rightPath))
+			if (Directory.Exists(leftPath) && !Utils.DirectoryAllowed(leftPath) || Directory.Exists(rightPath) && !Utils.DirectoryAllowed(rightPath))
 			{
 				return;
 			}
@@ -445,19 +445,6 @@ namespace FileDiff
 				return false;
 			}
 
-			return true;
-		}
-
-		private bool DirectoryAllowed(string path)
-		{
-			try
-			{
-				Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly);
-			}
-			catch
-			{
-				return false;
-			}
 			return true;
 		}
 
@@ -1386,20 +1373,16 @@ namespace FileDiff
 			{
 				ViewModel.LeftPath = browseFolderWindow.SelectedPath;
 			}
-
-			//System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
-			//if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			//{
-			//	ViewModel.LeftPath = ofd.FileName;
-			//}
 		}
 
 		private void CommandBrowseRight_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
-			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, SelectedPath = ViewModel.RightPath };
+			browseFolderWindow.ShowDialog();
+
+			if (browseFolderWindow.DialogResult == true)
 			{
-				ViewModel.RightPath = ofd.FileName;
+				ViewModel.RightPath = browseFolderWindow.SelectedPath;
 			}
 		}
 
