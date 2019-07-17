@@ -106,20 +106,23 @@ namespace FileDiff
 
 		private void Window_ContentRendered(object sender, EventArgs e)
 		{
-			ItemCollection parent = FolderTree.Items;
-			string[] substrings = SelectedPath.Split("\\".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-
-			for (int i = 0; i < substrings.Length; i++)
+			if (SelectedPath != null)
 			{
-				foreach (TreeViewItem item in parent)
+				ItemCollection parent = FolderTree.Items;
+				string[] substrings = SelectedPath.Split("\\".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+				for (int i = 0; i < substrings.Length; i++)
 				{
-					if (item.Header.Equals(substrings[i] + (parent == FolderTree.Items ? "\\" : "")))
+					foreach (TreeViewItem item in parent)
 					{
-						item.IsSelected = true;
-						item.BringIntoView();
-						item.IsExpanded = i < substrings.Length - 1;
-						parent = item.Items;
-						break;
+						if (item.Header.Equals(substrings[i] + (parent == FolderTree.Items ? "\\" : "")))
+						{
+							item.IsSelected = true;
+							item.BringIntoView();
+							item.IsExpanded = i < substrings.Length - 1;
+							parent = item.Items;
+							break;
+						}
 					}
 				}
 			}
