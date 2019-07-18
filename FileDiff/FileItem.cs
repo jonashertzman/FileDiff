@@ -193,7 +193,7 @@ namespace FileDiff
 					}
 					catch (Exception e)
 					{
-						MessageBox.Show(e.Message);
+						MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					}
 				}
 

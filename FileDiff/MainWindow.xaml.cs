@@ -143,7 +143,7 @@ namespace FileDiff
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message);
+				MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 			FillViewModel(leftLines, rightLines);
@@ -1285,19 +1285,26 @@ namespace FileDiff
 
 			if (File.Exists(leftPath) && ViewModel.LeftFileDirty)
 			{
-				using (StreamWriter sw = new StreamWriter(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
+				try
 				{
-					sw.NewLine = ViewModel.LeftFileEncoding.GetNewLineString;
-					foreach (Line l in ViewModel.LeftFile)
+					using (StreamWriter sw = new StreamWriter(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
 					{
-						if (l.Type != TextState.Filler)
+						sw.NewLine = ViewModel.LeftFileEncoding.GetNewLineString;
+						foreach (Line l in ViewModel.LeftFile)
 						{
-							sw.WriteLine(l.Text);
+							if (l.Type != TextState.Filler)
+							{
+								sw.WriteLine(l.Text);
+							}
 						}
 					}
+					ViewModel.LeftFileDirty = false;
+					ViewModel.LeftFileEdited = false;
 				}
-				ViewModel.LeftFileDirty = false;
-				ViewModel.LeftFileEdited = false;
+				catch (Exception exception)
+				{
+					MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
@@ -1312,19 +1319,26 @@ namespace FileDiff
 
 			if (File.Exists(rightPath) && ViewModel.RightFileDirty)
 			{
-				using (StreamWriter sw = new StreamWriter(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
+				try
 				{
-					sw.NewLine = ViewModel.RightFileEncoding.GetNewLineString;
-					foreach (Line l in ViewModel.RightFile)
+					using (StreamWriter sw = new StreamWriter(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
 					{
-						if (l.Type != TextState.Filler)
+						sw.NewLine = ViewModel.RightFileEncoding.GetNewLineString;
+						foreach (Line l in ViewModel.RightFile)
 						{
-							sw.WriteLine(l.Text);
+							if (l.Type != TextState.Filler)
+							{
+								sw.WriteLine(l.Text);
+							}
 						}
 					}
+					ViewModel.RightFileDirty = false;
+					ViewModel.RightFileEdited = false;
 				}
-				ViewModel.RightFileDirty = false;
-				ViewModel.RightFileEdited = false;
+				catch (Exception exception)
+				{
+					MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
 			}
 		}
 
