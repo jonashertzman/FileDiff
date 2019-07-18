@@ -21,6 +21,13 @@ namespace FileDiff
 			}
 		);
 
+		public static readonly RoutedUICommand ExperimentalCompare = new RoutedUICommand("Compare", "Compare", typeof(Commands),
+			new InputGestureCollection()
+			{
+					new KeyGesture(Key.F5, ModifierKeys.Shift)
+			}
+		);
+
 		public static readonly RoutedUICommand SaveLeftFile = new RoutedUICommand("Save Left File", "SaveLeftFile", typeof(Commands));
 
 		public static readonly RoutedUICommand SaveRightFile = new RoutedUICommand("Save Right File", "SaveRightFile", typeof(Commands));
