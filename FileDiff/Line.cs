@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -59,7 +60,7 @@ namespace FileDiff
 				IsWhitespaceLine = textNoWhitespace == "";
 
 				TextSegments.Clear();
-				TextSegments.Add(new TextSegment(value, Type));
+				AddTextSegment(value, Type);
 			}
 		}
 
@@ -115,7 +116,7 @@ namespace FileDiff
 			{
 				type = value;
 				TextSegments.Clear();
-				TextSegments.Add(new TextSegment(Text, value));
+				AddTextSegment(Text, value);
 			}
 		}
 
@@ -181,6 +182,27 @@ namespace FileDiff
 
 			runWidth = renderedTextWidth;
 			return RenderedText;
+		}
+
+		#endregion
+
+		#region Methods
+
+		public void AddTextSegment(string text, TextState state)
+		{
+			int segmentLength;
+
+			do
+			{
+				segmentLength = Math.Min(1000, text.Length);
+				if (segmentLength > 0 && char.IsHighSurrogate(text[segmentLength - 1]))
+				{
+					segmentLength--;
+				}
+
+				TextSegments.Add(new TextSegment(text.Substring(0, segmentLength), state));
+				text = text.Remove(0, segmentLength);
+			} while (text.Length > 0);
 		}
 
 		#endregion

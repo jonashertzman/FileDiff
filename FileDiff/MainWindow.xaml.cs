@@ -110,10 +110,6 @@ namespace FileDiff
 
 			try
 			{
-				bool linesTooLong = false;
-
-				string linesTooLongplaceholder = "[Line is too long to show in preview]";
-
 				if (File.Exists(leftPath))
 				{
 					leftSelection = leftPath;
@@ -123,15 +119,7 @@ namespace FileDiff
 					int i = 0;
 					foreach (string s in File.ReadAllLines(leftPath, ViewModel.LeftFileEncoding.Type))
 					{
-						if (s.Length > 65535)
-						{
-							leftLines.Add(new Line() { Type = TextState.Deleted, Text = linesTooLongplaceholder, LineIndex = i++ });
-							linesTooLong = true;
-						}
-						else
-						{
-							leftLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
-						}
+						leftLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
 					}
 				}
 
@@ -144,21 +132,8 @@ namespace FileDiff
 					int i = 0;
 					foreach (string s in File.ReadAllLines(rightPath, ViewModel.RightFileEncoding.Type))
 					{
-						if (s.Length > 65535)
-						{
-							rightLines.Add(new Line() { Type = TextState.New, Text = linesTooLongplaceholder, LineIndex = i++ });
-							linesTooLong = true;
-						}
-						else
-						{
-							rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
-						}
+						rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
 					}
-				}
-
-				if (linesTooLong)
-				{
-					MessageBox.Show("Selected files contain lines too long to show in the preview.\n\nPreview is not complete.", "File Diff", MessageBoxButton.OK, MessageBoxImage.Warning);
 				}
 
 				if (leftLines.Count > 0 && rightLines.Count > 0)
@@ -711,8 +686,8 @@ namespace FileDiff
 
 			if (matchTooShort)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange), TextState.Deleted));
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange), TextState.New));
+				leftLine.AddTextSegment(CharactersToString(leftRange), TextState.Deleted);
+				rightLine.AddTextSegment(CharactersToString(rightRange), TextState.New);
 				return;
 			}
 
@@ -722,15 +697,15 @@ namespace FileDiff
 			}
 			else if (matchIndex > 0)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), TextState.Deleted));
+				leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), TextState.Deleted);
 			}
 			else if (matchingIndex > 0)
 			{
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), TextState.New));
+				rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), TextState.New);
 			}
 
-			leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), TextState.PartialMatch));
-			rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), TextState.PartialMatch));
+			leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), TextState.PartialMatch);
+			rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), TextState.PartialMatch);
 
 			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
 			{
@@ -738,11 +713,11 @@ namespace FileDiff
 			}
 			else if (leftRange.Count > matchIndex + matchLength)
 			{
-				leftLine.TextSegments.Add(new TextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), TextState.Deleted));
+				leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), TextState.Deleted);
 			}
 			else if (rightRange.Count > matchingIndex + matchLength)
 			{
-				rightLine.TextSegments.Add(new TextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), TextState.New));
+				rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), TextState.New);
 			}
 		}
 
