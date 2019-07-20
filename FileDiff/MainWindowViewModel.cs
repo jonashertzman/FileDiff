@@ -39,7 +39,7 @@ namespace FileDiff
 		public FileEncoding LeftFileEncoding
 		{
 			get { return leftFileEncoding; }
-			set { leftFileEncoding = value; OnPropertyChanged(nameof(LeftFileEncoding)); OnPropertyChanged(nameof(LeftFileDescription)); OnPropertyChanged(nameof(LeftEncodingBackground)); OnPropertyChanged(nameof(RightEncodingBackground)); }
+			set { leftFileEncoding = value; OnPropertyChanged(nameof(LeftFileEncoding)); OnPropertyChanged(nameof(LeftFileDescription)); OnPropertyChanged(nameof(EncodingBackground)); }
 		}
 
 		bool leftFileDirty = false;
@@ -80,7 +80,7 @@ namespace FileDiff
 		public FileEncoding RightFileEncoding
 		{
 			get { return rightFileEncoding; }
-			set { rightFileEncoding = value; OnPropertyChanged(nameof(RightFileEncoding)); OnPropertyChanged(nameof(RightFileDescription)); OnPropertyChanged(nameof(LeftEncodingBackground)); OnPropertyChanged(nameof(RightEncodingBackground)); }
+			set { rightFileEncoding = value; OnPropertyChanged(nameof(RightFileEncoding)); OnPropertyChanged(nameof(RightFileDescription)); OnPropertyChanged(nameof(EncodingBackground)); }
 		}
 
 		bool rightFileDirty = false;
@@ -103,25 +103,13 @@ namespace FileDiff
 		}
 
 
-		public SolidColorBrush LeftEncodingBackground
+		public SolidColorBrush EncodingBackground
 		{
 			get
 			{
 				if (LeftFileDescription != RightFileDescription)
 				{
-					return AppSettings.DeletedBackground;
-				}
-				return SystemColors.ControlBrush;
-			}
-		}
-
-		public SolidColorBrush RightEncodingBackground
-		{
-			get
-			{
-				if (LeftFileDescription != RightFileDescription)
-				{
-					return AppSettings.NewBackground;
+					return AppSettings.PartialMatchBackground;
 				}
 				return SystemColors.ControlBrush;
 			}
