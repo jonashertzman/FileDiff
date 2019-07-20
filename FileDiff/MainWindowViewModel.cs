@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -40,7 +39,7 @@ namespace FileDiff
 		public FileEncoding LeftFileEncoding
 		{
 			get { return leftFileEncoding; }
-			set { leftFileEncoding = value; OnPropertyChanged(nameof(LeftFileEncoding)); OnPropertyChanged(nameof(LeftFileDescription)); }
+			set { leftFileEncoding = value; OnPropertyChanged(nameof(LeftFileEncoding)); OnPropertyChanged(nameof(LeftFileDescription)); OnPropertyChanged(nameof(LeftEncodingBackground)); OnPropertyChanged(nameof(RightEncodingBackground)); }
 		}
 
 		bool leftFileDirty = false;
@@ -81,7 +80,7 @@ namespace FileDiff
 		public FileEncoding RightFileEncoding
 		{
 			get { return rightFileEncoding; }
-			set { rightFileEncoding = value; OnPropertyChanged(nameof(RightFileEncoding)); OnPropertyChanged(nameof(RightFileDescription)); }
+			set { rightFileEncoding = value; OnPropertyChanged(nameof(RightFileEncoding)); OnPropertyChanged(nameof(RightFileDescription)); OnPropertyChanged(nameof(LeftEncodingBackground)); OnPropertyChanged(nameof(RightEncodingBackground)); }
 		}
 
 		bool rightFileDirty = false;
@@ -104,6 +103,29 @@ namespace FileDiff
 		}
 
 
+		public SolidColorBrush LeftEncodingBackground
+		{
+			get
+			{
+				if (LeftFileDescription != RightFileDescription)
+				{
+					return AppSettings.DeletedBackground;
+				}
+				return SystemColors.ControlBrush;
+			}
+		}
+
+		public SolidColorBrush RightEncodingBackground
+		{
+			get
+			{
+				if (LeftFileDescription != RightFileDescription)
+				{
+					return AppSettings.NewBackground;
+				}
+				return SystemColors.ControlBrush;
+			}
+		}
 
 		bool editMode = false;
 		public bool EditMode

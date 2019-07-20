@@ -474,7 +474,7 @@
 				</Grid.ColumnDefinitions>
 				<TextBlock Grid.Column="0" x:Name="Statusbar" Text="Status" Margin="2" />
 				<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-					<TextBlock Text="{Binding LeftFileDescription}" Margin="5,2" />
+					<TextBlock Text="{Binding LeftFileDescription}" Background="{Binding LeftEncodingBackground}" Margin="5,2" />
 				</Border>
 
 			</Grid>
@@ -576,7 +576,7 @@
 					<ColumnDefinition Width="29" />
 				</Grid.ColumnDefinitions>
 				<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-					<TextBlock Text="{Binding RightFileDescription}" Margin="5,2" />
+					<TextBlock Text="{Binding RightFileDescription}" Background="{Binding RightEncodingBackground}" Margin="5,2" />
 				</Border>
 			</Grid>
 
