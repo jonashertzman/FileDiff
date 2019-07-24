@@ -43,30 +43,34 @@ namespace FileDiff
 
 			double scrollableHeight = ActualHeight - (2 * RoundToWholePixels(SystemParameters.VerticalScrollBarButtonHeight));
 			double lineHeight = scrollableHeight / Lines.Count;
-
-			SolidColorBrush lineColor = new SolidColorBrush();
-
 			double lastHeight = -1;
+
+			SolidColorBrush partialMatchBrush = BlendColors(AppSettings.PartialMatchBackground, AppSettings.PartialMatchForeground, .7);
+			SolidColorBrush deletedBrush = BlendColors(AppSettings.DeletedBackground, AppSettings.DeletedForeground, .7);
+			SolidColorBrush newhBrush = BlendColors(AppSettings.NewBackground, AppSettings.NewForeground, .7);
+
+			SolidColorBrush lineBrush;
 
 			for (int i = 0; i < Lines.Count; i++)
 			{
 				Line line = Lines[i];
 
-				if (line.Type == TextState.FullMatch)
+				switch (line.Type)
 				{
-					continue;
-				}
-				else if (line.Type == TextState.PartialMatch)
-				{
-					lineColor = BlendColors(AppSettings.PartialMatchBackground, AppSettings.PartialMatchForeground, .7);
-				}
-				else if (line.Type == TextState.Deleted || line.Type == TextState.Filler)
-				{
-					lineColor = BlendColors(AppSettings.DeletedBackground, AppSettings.DeletedForeground, .7);
-				}
-				else if (line.Type == TextState.New)
-				{
-					lineColor = BlendColors(AppSettings.NewBackground, AppSettings.NewForeground, .7);
+					case TextState.PartialMatch:
+						lineBrush = partialMatchBrush;
+						break;
+
+					case TextState.New:
+						lineBrush = newhBrush;
+						break;
+
+					case TextState.Filler:
+						lineBrush = deletedBrush;
+						break;
+
+					default:
+						continue;
 				}
 
 				int count = 1;
@@ -80,7 +84,7 @@ namespace FileDiff
 
 				if (rect.Bottom > lastHeight)
 				{
-					drawingContext.DrawRectangle(lineColor, null, rect);
+					drawingContext.DrawRectangle(lineBrush, null, rect);
 
 					lastHeight = rect.Bottom;
 				}
