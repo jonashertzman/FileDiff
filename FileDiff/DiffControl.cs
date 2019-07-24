@@ -105,7 +105,7 @@ namespace FileDiff
 			GlyphRun g = TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
-			textMargin = RoundToWholePixels(3);
+			textMargin = RoundToWholePixels(4);
 			lineNumberMargin = (characterWidth * Lines.Count.ToString().Length) + (2 * textMargin);
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
@@ -172,9 +172,6 @@ namespace FileDiff
 											drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
 										}
 
-										// If the choosen font is missing some glyphs, we could revert to slow as fuck rendering...
-										// drawingContext.DrawText(new FormattedText(textSegment.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(0, 0));
-
 										drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
 									}
 									nextPosition += runWidth;
@@ -192,7 +189,7 @@ namespace FileDiff
 						}
 						drawingContext.Pop(); // Line X offset
 					}
-					drawingContext.Pop(); // Clipping rect
+					drawingContext.Pop(); // Text clipping rect
 
 					// Text area clipping rect
 					drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin, 0, Math.Max(ActualWidth - lineNumberMargin, 0), ActualHeight)));
