@@ -6,25 +6,33 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<!--<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
-			<Button Style="{StaticResource ToolbarButton}">
-				<StackPanel Orientation="Horizontal">
-					<ContentPresenter ContentTemplate="{StaticResource DriveIcon}" Style="{StaticResource CommonButtonIcon}" />
-				</StackPanel>
-			</Button>
-			<Button Style="{StaticResource ToolbarButton}">
-				<StackPanel Orientation="Horizontal">
-					<ContentPresenter ContentTemplate="{StaticResource FolderIcon}" Style="{StaticResource CommonButtonIcon}" />
-				</StackPanel>
-			</Button>
-			<Button Style="{StaticResource ToolbarButton}">
-				<StackPanel Orientation="Horizontal">
-					<ContentPresenter ContentTemplate="{StaticResource FileIcon}" Style="{StaticResource CommonButtonIcon}" />
-				</StackPanel>
-			</Button>
-		</StackPanel>-->
+		<StackPanel Grid.Row="0">
+			<StackPanel.Background>
+				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+					<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
+					<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
+				</LinearGradientBrush>
+			</StackPanel.Background>
+			<StackPanel Orientation="Horizontal" Margin="5">
+				<Button x:Name="ButtonDesktop" Style="{StaticResource ToolbarButton}" Click="ButtonDesktop_Click">
+					<StackPanel Orientation="Horizontal">
+						<ContentPresenter ContentTemplate="{StaticResource DesktopIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</StackPanel>
+				</Button>
+				<Button x:Name="ButtonDocuments" Style="{StaticResource ToolbarButton}" Click="ButtonDocuments_Click">
+					<StackPanel Orientation="Horizontal">
+						<ContentPresenter ContentTemplate="{StaticResource DocumentsIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</StackPanel>
+				</Button>
+				<!--<Button x:Name="ButtonDownloads" Style="{StaticResource ToolbarButton}" Click="ButtonDownloads_Click">
+					<StackPanel Orientation="Horizontal">
+						<ContentPresenter ContentTemplate="{StaticResource DownloadsIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</StackPanel>
+				</Button>-->
+			</StackPanel>
+		</StackPanel>
 
-		<TreeView x:Name="FolderTree" Grid.Row="1" Grid.ColumnSpan="4" Margin="10" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" TreeViewItem.Expanded="TreeViewItem_Expanded" SelectedItemChanged="FolderTree_SelectedItemChanged">
+		<TreeView x:Name="FolderTree" Grid.Row="1" Grid.ColumnSpan="4" Margin="10,0,10,10" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" TreeViewItem.Expanded="TreeViewItem_Expanded" SelectedItemChanged="FolderTree_SelectedItemChanged">
 			<TreeView.Resources>
 				<Style TargetType="{x:Type TreeViewItem}">
 					<!-- Style for the selected item -->

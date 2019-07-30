@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FileDiff
 {
@@ -34,13 +35,69 @@ namespace FileDiff
 		private TreeViewItem CreateTreeItem(object source)
 		{
 			TreeViewItem item = new TreeViewItem();
-			item.Header = source.ToString();
 			item.Tag = source;
-			if (source is DriveInfo || source is DirectoryInfo)
+			switch (source)
 			{
-				item.Items.Add("Loading...");
+				case DriveInfo drive:
+					item.Header = drive.Name.TrimEnd('\\');
+					item.Items.Add("Loading...");
+					break;
+
+				case DirectoryInfo direcory:
+					item.Header = direcory.Name;
+					item.Items.Add("Loading...");
+					break;
+
+				case FileInfo file:
+					item.Header = file.Name;
+					break;
 			}
+
 			return item;
+		}
+
+		private void ExpandAndSelect(string path)
+		{
+			Mouse.OverrideCursor = Cursors.Wait;
+
+			ItemCollection parent = FolderTree.Items;
+			string[] substrings = path.Split("\\".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+			for (int i = 0; i < substrings.Length; i++)
+			{
+				foreach (TreeViewItem item in parent)
+				{
+					if (item.Header.Equals(substrings[i]))
+					{
+						item.IsSelected = true;
+						item.BringIntoView();
+						if (i < substrings.Length - 1)
+						{
+							item.IsExpanded = true;
+						}
+						parent = item.Items;
+						break;
+					}
+				}
+			}
+
+			Mouse.OverrideCursor = Cursors.Arrow;
+		}
+
+		private string GetItemPath(TreeViewItem item)
+		{
+			switch (item.Tag)
+			{
+				case DriveInfo driveInfo:
+					return driveInfo.ToString();
+
+				case DirectoryInfo directoryInfo:
+					return directoryInfo.FullName;
+
+				case FileInfo fileInfo:
+					return fileInfo.FullName;
+			}
+			return null;
 		}
 
 		#endregion
@@ -78,22 +135,6 @@ namespace FileDiff
 			}
 		}
 
-		private string GetItemPath(TreeViewItem item)
-		{
-			switch (item.Tag)
-			{
-				case DriveInfo driveInfo:
-					return driveInfo.ToString();
-
-				case DirectoryInfo directoryInfo:
-					return directoryInfo.FullName;
-
-				case FileInfo fileInfo:
-					return fileInfo.FullName;
-			}
-			return null;
-		}
-
 		private void FolderTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
 			SelectedPath = GetItemPath(e.NewValue as TreeViewItem);
@@ -108,24 +149,23 @@ namespace FileDiff
 		{
 			if (SelectedPath != null)
 			{
-				ItemCollection parent = FolderTree.Items;
-				string[] substrings = SelectedPath.Split("\\".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-
-				for (int i = 0; i < substrings.Length; i++)
-				{
-					foreach (TreeViewItem item in parent)
-					{
-						if (item.Header.Equals(substrings[i] + (parent == FolderTree.Items ? "\\" : "")))
-						{
-							item.IsSelected = true;
-							item.BringIntoView();
-							item.IsExpanded = i < substrings.Length - 1;
-							parent = item.Items;
-							break;
-						}
-					}
-				}
+				ExpandAndSelect(SelectedPath);
 			}
+		}
+
+		private void ButtonDesktop_Click(object sender, RoutedEventArgs e)
+		{
+			ExpandAndSelect(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
+		}
+
+		private void ButtonDocuments_Click(object sender, RoutedEventArgs e)
+		{
+			ExpandAndSelect(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+		}
+
+		private void ButtonDownloads_Click(object sender, RoutedEventArgs e)
+		{
+			ExpandAndSelect(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
 		}
 
 		#endregion
