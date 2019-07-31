@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Media;
 
 namespace FileDiff
@@ -68,7 +67,7 @@ namespace FileDiff
 
 		public ObservableCollection<TextSegment> TextSegments { get; set; } = new ObservableCollection<TextSegment>();
 
-		public bool IsWhitespaceLine { get; set; }
+		public bool IsWhitespaceLine { get; private set; }
 
 		List<char> characters;
 		public List<char> Characters
