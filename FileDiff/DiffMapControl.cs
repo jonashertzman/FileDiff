@@ -36,7 +36,11 @@ namespace FileDiff
 		{
 			Debug.Print("DiffMap OnRender");
 
+			// Fill background
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+
+			if (Lines.Count == 0)
+				return;
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
@@ -118,7 +122,7 @@ namespace FileDiff
 
 		#region Methods
 
-		private static SolidColorBrush BlendColors(SolidColorBrush color1, SolidColorBrush color2, double blendFactor)
+		private SolidColorBrush BlendColors(SolidColorBrush color1, SolidColorBrush color2, double blendFactor)
 		{
 			byte r = (byte)((color1.Color.R * blendFactor) + color2.Color.R * (1 - blendFactor));
 			byte g = (byte)((color1.Color.G * blendFactor) + color2.Color.G * (1 - blendFactor));
