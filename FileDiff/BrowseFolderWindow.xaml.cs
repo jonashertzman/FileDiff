@@ -20,6 +20,8 @@ namespace FileDiff
 			{
 				FolderTree.Items.Add(CreateTreeItem(driveInfo));
 			}
+
+			FolderTree.Focus();
 		}
 
 		#endregion
@@ -58,8 +60,6 @@ namespace FileDiff
 
 		private void ExpandAndSelect(string path)
 		{
-			Mouse.OverrideCursor = Cursors.Wait;
-
 			ItemCollection parent = FolderTree.Items;
 			string[] substrings = path.Split("\\".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
@@ -67,10 +67,12 @@ namespace FileDiff
 			{
 				foreach (TreeViewItem item in parent)
 				{
-					if (item.Header.Equals(substrings[i]))
+					if (((string)item.Header).Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
 					{
 						item.IsSelected = true;
 						item.BringIntoView();
+						item.Focus();
+
 						if (i < substrings.Length - 1)
 						{
 							item.IsExpanded = true;
@@ -80,8 +82,6 @@ namespace FileDiff
 					}
 				}
 			}
-
-			Mouse.OverrideCursor = Cursors.Arrow;
 		}
 
 		private string GetItemPath(TreeViewItem item)
@@ -106,6 +106,8 @@ namespace FileDiff
 
 		public void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
 		{
+			Mouse.OverrideCursor = Cursors.Wait;
+
 			TreeViewItem item = e.Source as TreeViewItem;
 
 			if ((item.Items.Count == 1) && (item.Items[0] is string))
@@ -133,6 +135,8 @@ namespace FileDiff
 					Debug.Print(exception.Message);
 				}
 			}
+
+			Mouse.OverrideCursor = null;
 		}
 
 		private void FolderTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
