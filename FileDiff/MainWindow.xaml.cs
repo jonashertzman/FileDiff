@@ -271,8 +271,14 @@ namespace FileDiff
 
 					if (DirectoryIsIgnored(leftItem.Name) || DirectoryIsIgnored(rightItem.Name))
 					{
-						leftItem.Type = TextState.Ignored;
-						rightItem.Type = TextState.Ignored;
+						if (DirectoryIsIgnored(leftItem.Name))
+						{
+							leftItem.Type = TextState.Ignored;
+						}
+						if (DirectoryIsIgnored(rightItem.Name))
+						{
+							rightItem.Type = TextState.Ignored;
+						}
 					}
 					else
 					{
