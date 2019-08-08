@@ -107,7 +107,7 @@ namespace FileDiff
 		{
 			get
 			{
-				if (LeftFileDescription != RightFileDescription)
+				if (LeftFileDescription != null && RightFileDescription != null && LeftFileDescription != RightFileDescription)
 				{
 					return AppSettings.PartialMatchBackground;
 				}
@@ -445,7 +445,7 @@ namespace FileDiff
 
 		#region Methods
 
-		private void Clear()
+		public void Clear()
 		{
 			LeftFile = new ObservableCollection<Line>();
 			LeftFileEncoding = null;

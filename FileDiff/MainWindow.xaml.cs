@@ -108,6 +108,9 @@ namespace FileDiff
 			List<Line> leftLines = new List<Line>();
 			List<Line> rightLines = new List<Line>();
 
+			ViewModel.LeftFileEncoding = null;
+			ViewModel.RightFileEncoding = null;
+
 			try
 			{
 				if (File.Exists(leftPath))
@@ -149,19 +152,20 @@ namespace FileDiff
 			FillViewModel(leftLines, rightLines);
 
 			LeftDiff.Focus();
-
 			InitNavigationState();
-
 			Mouse.OverrideCursor = null;
 
 			stopwatch.Stop();
-			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms {(experimentalMatching ? "(Experimental Matching)" : "")}";
+
+			Statusbar.Text = $"Compare time {TimeSpanToShortString(stopwatch.Elapsed)} {(experimentalMatching ? "(Experimental Matching)" : "")}";
 		}
 
 		private void CompareDirectories()
 		{
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
+
+			ViewModel.Clear();
 
 			Mouse.OverrideCursor = Cursors.Wait;
 
@@ -181,9 +185,10 @@ namespace FileDiff
 
 			LeftFolder.Focus();
 			Mouse.OverrideCursor = null;
+
 			stopwatch.Stop();
 
-			Statusbar.Text = $"Compare time {stopwatch.ElapsedMilliseconds}ms";
+			Statusbar.Text = $"Compare time {TimeSpanToShortString(stopwatch.Elapsed)}";
 		}
 
 		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
@@ -322,6 +327,23 @@ namespace FileDiff
 				leftItems.Add(leftItem);
 				rightItems.Add(rightItem);
 			}
+		}
+
+		private string TimeSpanToShortString(TimeSpan timeSpan)
+		{
+			if (timeSpan.Hours > 0)
+			{
+				return timeSpan.Hours + "h " + timeSpan.Minutes + "m";
+			}
+			if (timeSpan.Minutes > 0)
+			{
+				return timeSpan.Minutes + "m " + timeSpan.Seconds + "s";
+			}
+			if (timeSpan.Seconds > 0)
+			{
+				return timeSpan.Seconds + "." + timeSpan.Milliseconds.ToString().PadLeft(3, '0') + "s";
+			}
+			return timeSpan.Milliseconds.ToString() + "ms";
 		}
 
 		private string FixRootPath(string path)
