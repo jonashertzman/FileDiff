@@ -11,7 +11,7 @@ namespace FileDiff
 
 		#region Members
 
-		private static bool compareCaneled = false;
+		public static bool CompareCancelled { get; private set; } = false;
 
 		#endregion
 
@@ -19,12 +19,12 @@ namespace FileDiff
 
 		public static void Cancel()
 		{
-			compareCaneled = true;
+			CompareCancelled = true;
 		}
 
 		public static Tuple<List<Line>, List<Line>> CompareFiles(Progress<int> progress, List<Line> leftLines, List<Line> rightLines)
 		{
-			compareCaneled = false;
+			CompareCancelled = false;
 
 			MatchLines(leftLines, rightLines);
 
@@ -33,7 +33,7 @@ namespace FileDiff
 
 		private static void MatchLines(List<Line> leftRange, List<Line> rightRange)
 		{
-			if (compareCaneled)
+			if (CompareCancelled)
 				return;
 
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
@@ -67,9 +67,6 @@ namespace FileDiff
 
 		private static void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
 		{
-			if (compareCaneled)
-				return;
-
 			if (false /*experimentalMatching*/)
 			{
 				int matchingCharacters = 0;
@@ -159,6 +156,9 @@ namespace FileDiff
 
 				for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
 				{
+					if (CompareCancelled)
+						return;
+
 					if (leftRange[leftIndex].IsWhitespaceLine)
 					{
 						continue;
@@ -225,7 +225,7 @@ namespace FileDiff
 
 		private static void HighlightCharacterMatches(Line leftLine, Line rightLine, List<char> leftRange, List<char> rightRange)
 		{
-			if (compareCaneled)
+			if (CompareCancelled)
 				return;
 
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
@@ -279,6 +279,9 @@ namespace FileDiff
 
 		private static int CountMatchingCharacters(List<char> leftRange, List<char> rightRange, bool lastLine)
 		{
+			if (CompareCancelled)
+				return 0;
+
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
 			if (lastLine)

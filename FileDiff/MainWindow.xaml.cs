@@ -166,12 +166,18 @@ namespace FileDiff
 
 			//FillViewModel(obj.Result.Item1, obj.Result.Item2);
 
-			ViewModel.LeftFile = new ObservableCollection<Line>(task.Result.Item1);
-			ViewModel.RightFile = new ObservableCollection<Line>(task.Result.Item2);
-
+			if (!BackgroundCompare.CompareCancelled)
+			{
+				ViewModel.LeftFile = new ObservableCollection<Line>(task.Result.Item1);
+				ViewModel.RightFile = new ObservableCollection<Line>(task.Result.Item2);
+				Statusbar.Text = $"Compare time {TimeSpanToShortString(stopwatch.Elapsed)} {(experimentalMatching ? "(Experimental Matching)" : "")}";
+			}
+			else
+			{
+				Statusbar.Text = $"Compare cancelled";
+			}
 
 			stopwatch.Stop();
-			Statusbar.Text = $"Compare time {TimeSpanToShortString(stopwatch.Elapsed)} {(experimentalMatching ? "(Experimental Matching)" : "")}";
 
 
 			LeftDiff.Focus();
