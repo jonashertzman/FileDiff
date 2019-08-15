@@ -21,6 +21,13 @@ namespace FileDiff
 			}
 		);
 
+		public static readonly RoutedUICommand CancelCompare = new RoutedUICommand("Cancel Compare", "CancelCompare", typeof(Commands),
+			new InputGestureCollection()
+			{
+				new KeyGesture(Key.Escape)
+			}
+		);
+
 		public static readonly RoutedUICommand ExperimentalCompare = new RoutedUICommand("Compare", "Compare", typeof(Commands),
 			new InputGestureCollection()
 			{

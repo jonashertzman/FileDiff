@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -31,6 +33,9 @@ namespace FileDiff
 		string leftSelection = "";
 
 		bool experimentalMatching;
+		bool compareCaneled = false;
+
+		Stopwatch stopwatch = new Stopwatch();
 
 		#endregion
 
@@ -86,10 +91,7 @@ namespace FileDiff
 		{
 			experimentalMatching = Keyboard.IsKeyDown(Key.LeftShift);
 
-			Stopwatch stopwatch = new Stopwatch();
-			stopwatch.Start();
-
-			Mouse.OverrideCursor = Cursors.Wait;
+			stopwatch.Restart();
 
 			string leftPath = "";
 			string rightPath = "";
@@ -138,26 +140,51 @@ namespace FileDiff
 						rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
 					}
 				}
-
-				if (leftLines.Count > 0 && rightLines.Count > 0)
-				{
-					MatchLines(leftLines, rightLines);
-				}
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
-			FillViewModel(leftLines, rightLines);
+			if (leftLines.Count > 0 && rightLines.Count > 0)
+			{
+				Mouse.OverrideCursor = Cursors.Wait;
+
+				Debug.Print("------ start thread");
+
+				ViewModel.GuiFrozen = true;
+				var progress = new Progress<int>(CompareStatusUpdate);
+				Task.Run(() => BackgroundCompare.CompareFiles(progress, leftLines, rightLines)).ContinueWith(CompareFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+			}
+		}
+
+		private void CompareFilesFinnished(Task<Tuple<List<Line>, List<Line>>> task)
+		{
+			Debug.Print("------ after thread");
+
+			ViewModel.GuiFrozen = false;
+
+			//FillViewModel(obj.Result.Item1, obj.Result.Item2);
+
+			ViewModel.LeftFile = new ObservableCollection<Line>(task.Result.Item1);
+			ViewModel.RightFile = new ObservableCollection<Line>(task.Result.Item2);
+
+
+			stopwatch.Stop();
+			Statusbar.Text = $"Compare time {TimeSpanToShortString(stopwatch.Elapsed)} {(experimentalMatching ? "(Experimental Matching)" : "")}";
+
 
 			LeftDiff.Focus();
 			InitNavigationState();
+
 			Mouse.OverrideCursor = null;
+			Debug.Print("------ end update thread");
 
-			stopwatch.Stop();
+		}
 
-			Statusbar.Text = $"Compare time {TimeSpanToShortString(stopwatch.Elapsed)} {(experimentalMatching ? "(Experimental Matching)" : "")}";
+		private void CompareStatusUpdate(int obj)
+		{
+			throw new NotImplementedException();
 		}
 
 		private void CompareDirectories()
@@ -505,368 +532,6 @@ namespace FileDiff
 			{
 				ViewModel.CurrentDiff = -1;
 				ViewModel.CurrentDiffLength = -1;
-			}
-		}
-
-		private void FillViewModel(List<Line> leftSide, List<Line> rightSide)
-		{
-			int rightIndex = 0;
-
-			ViewModel.LeftFile = new ObservableCollection<Line>();
-			ViewModel.RightFile = new ObservableCollection<Line>();
-
-			for (int leftIndex = 0; leftIndex < leftSide.Count; leftIndex++)
-			{
-				if (leftSide[leftIndex].MatchingLineIndex == null)
-				{
-					ViewModel.LeftFile.Add(leftSide[leftIndex]);
-					ViewModel.RightFile.Add(new Line() { Type = TextState.Filler });
-				}
-				else
-				{
-					while (rightIndex < leftSide[leftIndex].MatchingLineIndex)
-					{
-						ViewModel.LeftFile.Add(new Line() { Type = TextState.Filler });
-						ViewModel.RightFile.Add(rightSide[rightIndex]);
-						rightIndex++;
-					}
-					ViewModel.LeftFile.Add(leftSide[leftIndex]);
-					ViewModel.RightFile.Add(rightSide[rightIndex]);
-					rightIndex++;
-				}
-			}
-			while (rightIndex < rightSide.Count)
-			{
-				ViewModel.LeftFile.Add(new Line() { Type = TextState.Filler });
-				ViewModel.RightFile.Add(rightSide[rightIndex]);
-				rightIndex++;
-			}
-		}
-
-		private void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
-		{
-			if (experimentalMatching)
-			{
-				int matchingCharacters = 0;
-				float bestMatchFraction = 0;
-				float matchFraction = 0;
-				int bestLeft = 0;
-				int bestRight = 0;
-
-				bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
-
-				for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
-				{
-					if (bestMatchFraction == 1)
-					{
-						break;
-					}
-
-					if (leftRange[leftIndex].IsWhitespaceLine)
-					{
-						continue;
-					}
-
-					if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchFraction)
-					{
-						for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
-						{
-							if (rightRange[rightIndex].IsWhitespaceLine)
-							{
-								continue;
-							}
-
-							matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
-							matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
-							if (matchFraction > bestMatchFraction)
-							{
-								bestMatchFraction = matchFraction;
-								bestLeft = leftIndex;
-								bestRight = rightIndex;
-								if (bestMatchFraction == 1)
-								{
-									break;
-								}
-							}
-						}
-					}
-				}
-
-				if (bestMatchFraction > AppSettings.LineSimilarityThreshold || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
-				{
-					leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
-					rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
-
-					leftRange[bestLeft].Type = TextState.PartialMatch;
-					rightRange[bestRight].Type = TextState.PartialMatch;
-
-					if (leftRange[bestLeft].GetHashCode() == rightRange[bestRight].GetHashCode())
-					{
-						leftRange[bestLeft].Type = TextState.FullMatch;
-						rightRange[bestRight].Type = TextState.FullMatch;
-					}
-					else
-					{
-						leftRange[bestLeft].TextSegments.Clear();
-						rightRange[bestRight].TextSegments.Clear();
-						HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
-					}
-
-					if (bestLeft > 0 && bestRight > 0)
-					{
-						MatchPartialLines(leftRange.GetRange(0, bestLeft), rightRange.GetRange(0, bestRight));
-					}
-
-					if (leftRange.Count > bestLeft + 1 && rightRange.Count > bestRight + 1)
-					{
-						MatchPartialLines(leftRange.GetRange(bestLeft + 1, leftRange.Count - (bestLeft + 1)), rightRange.GetRange(bestRight + 1, rightRange.Count - (bestRight + 1)));
-					}
-				}
-			}
-			else
-			{
-				int matchingCharacters = 0;
-				int bestMatchingCharacters = 0;
-				int bestLeft = 0;
-				int bestRight = 0;
-
-				bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
-
-				for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
-				{
-					if (leftRange[leftIndex].IsWhitespaceLine)
-					{
-						continue;
-					}
-
-					if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchingCharacters)
-					{
-						for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
-						{
-							if (rightRange[rightIndex].IsWhitespaceLine)
-							{
-								continue;
-							}
-
-							if (rightRange[rightIndex].TrimmedCharacters.Count > bestMatchingCharacters)
-							{
-								matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
-								if (matchingCharacters > bestMatchingCharacters)
-								{
-									bestMatchingCharacters = matchingCharacters;
-									bestLeft = leftIndex;
-									bestRight = rightIndex;
-								}
-							}
-						}
-					}
-				}
-
-				float leftMatching = (float)bestMatchingCharacters / leftRange[bestLeft].TrimmedText.Length;
-				float rightMatching = (float)bestMatchingCharacters / rightRange[bestRight].TrimmedText.Length;
-
-				if (leftMatching > AppSettings.LineSimilarityThreshold || rightMatching > AppSettings.LineSimilarityThreshold || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
-				{
-					leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
-					rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
-
-					leftRange[bestLeft].Type = TextState.PartialMatch;
-					rightRange[bestRight].Type = TextState.PartialMatch;
-
-					if (leftRange[bestLeft].GetHashCode() == rightRange[bestRight].GetHashCode())
-					{
-						leftRange[bestLeft].Type = TextState.FullMatch;
-						rightRange[bestRight].Type = TextState.FullMatch;
-					}
-					else
-					{
-						leftRange[bestLeft].TextSegments.Clear();
-						rightRange[bestRight].TextSegments.Clear();
-						HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
-					}
-
-					if (bestLeft > 0 && bestRight > 0)
-					{
-						MatchPartialLines(leftRange.GetRange(0, bestLeft), rightRange.GetRange(0, bestRight));
-					}
-
-					if (leftRange.Count > bestLeft + 1 && rightRange.Count > bestRight + 1)
-					{
-						MatchPartialLines(leftRange.GetRange(bestLeft + 1, leftRange.Count - (bestLeft + 1)), rightRange.GetRange(bestRight + 1, rightRange.Count - (bestRight + 1)));
-					}
-				}
-			}
-		}
-
-		private void HighlightCharacterMatches(Line leftLine, Line rightLine, List<char> leftRange, List<char> rightRange)
-		{
-			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
-
-			bool matchTooShort = matchLength == 0;
-
-			if (leftLine.TrimmedText.Length > AppSettings.CharacterMatchThreshold || rightLine.TrimmedText.Length > AppSettings.CharacterMatchThreshold)
-			{
-				if (matchLength < AppSettings.CharacterMatchThreshold)
-				{
-					matchTooShort = true;
-				}
-			}
-
-			if (matchTooShort)
-			{
-				leftLine.AddTextSegment(CharactersToString(leftRange), TextState.Deleted);
-				rightLine.AddTextSegment(CharactersToString(rightRange), TextState.New);
-				return;
-			}
-
-			if (matchIndex > 0 && matchingIndex > 0)
-			{
-				HighlightCharacterMatches(leftLine, rightLine, leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
-			}
-			else if (matchIndex > 0)
-			{
-				leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), TextState.Deleted);
-			}
-			else if (matchingIndex > 0)
-			{
-				rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), TextState.New);
-			}
-
-			leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), TextState.PartialMatch);
-			rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), TextState.PartialMatch);
-
-			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
-			{
-				HighlightCharacterMatches(leftLine, rightLine, leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
-			}
-			else if (leftRange.Count > matchIndex + matchLength)
-			{
-				leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), TextState.Deleted);
-			}
-			else if (rightRange.Count > matchingIndex + matchLength)
-			{
-				rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), TextState.New);
-			}
-		}
-
-		private string CharactersToString(List<char> characters)
-		{
-			var sb = new StringBuilder();
-			foreach (var c in characters)
-			{
-				sb.Append(c);
-			}
-			return sb.ToString();
-		}
-
-		private int CountMatchingCharacters(List<char> leftRange, List<char> rightRange, bool lastLine)
-		{
-			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
-
-			if (lastLine)
-			{
-				if (matchLength == 0)
-				{
-					return 0;
-				}
-			}
-			else
-			{
-				if (matchLength < AppSettings.CharacterMatchThreshold)
-				{
-					return 0;
-				}
-			}
-
-			if (matchIndex > 0 && matchingIndex > 0)
-			{
-				matchLength += CountMatchingCharacters(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex), lastLine);
-			}
-
-			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
-			{
-				matchLength += CountMatchingCharacters(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)), lastLine);
-			}
-
-			return matchLength;
-		}
-
-		private void MatchLines(List<Line> leftRange, List<Line> rightRange)
-		{
-			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
-
-			// Single line matches and ranges containing only whitespace are in most cases false positives.
-			if (matchLength < 2 || WhitespaceRange(leftRange.GetRange(matchIndex, matchLength)))
-			{
-				MatchPartialLines(leftRange, rightRange);
-				return;
-			}
-
-			for (int i = 0; i < matchLength; i++)
-			{
-				leftRange[matchIndex + i].MatchingLineIndex = rightRange[matchingIndex + i].LineIndex;
-				leftRange[matchIndex + i].Type = TextState.FullMatch;
-
-				rightRange[matchingIndex + i].MatchingLineIndex = leftRange[matchIndex + i].LineIndex;
-				rightRange[matchingIndex + i].Type = TextState.FullMatch;
-			}
-
-			if (matchIndex > 0 && matchingIndex > 0)
-			{
-				MatchLines(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
-			}
-
-			if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
-			{
-				MatchLines(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
-			}
-		}
-
-		private bool WhitespaceRange(List<Line> range)
-		{
-			foreach (Line l in range)
-			{
-				if (!l.IsWhitespaceLine)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
-		private void FindLongestMatch<T>(List<T> leftRange, List<T> rightRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength)
-		{
-			longestMatchIndex = 0;
-			longestMatchingIndex = 0;
-			longestMatchLength = 0;
-
-			int matchLength;
-
-			for (int i = 0; i < leftRange.Count - longestMatchLength; i++)
-			{
-				for (int j = 0; j < rightRange.Count - longestMatchLength; j++)
-				{
-					matchLength = 0;
-					while (leftRange[i + matchLength].GetHashCode() == rightRange[j + matchLength].GetHashCode())
-					{
-						matchLength++;
-
-						if (i + matchLength >= leftRange.Count || j + matchLength >= rightRange.Count)
-						{
-							break;
-						}
-					}
-
-					if (matchLength > 0)
-					{
-						if (matchLength > longestMatchLength)
-						{
-							longestMatchIndex = i;
-							longestMatchingIndex = j;
-							longestMatchLength = matchLength;
-						}
-					}
-				}
 			}
 		}
 
@@ -1307,6 +972,11 @@ namespace FileDiff
 			Compare();
 		}
 
+		private void CommandCancelCompare_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			BackgroundCompare.Cancel();
+		}
+
 		private void CommandSaveLeftFile_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			string leftPath = ViewModel.Mode == CompareMode.File ? ViewModel.LeftPath : LeftFolder.SelectedFile.Path;
@@ -1563,7 +1233,7 @@ namespace FileDiff
 
 		private void CommandOpenContainingFolder_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			string args = $"/Select, {activeSelection}";
+			string args = $"/Select, {Path.GetFullPath(activeSelection)}";
 			ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
 			Process.Start(pfi);
 		}

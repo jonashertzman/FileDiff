@@ -9,514 +9,429 @@
 
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 		<local:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+		<local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
 	</Window.Resources>
 
 	<Window.CommandBindings>
-		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
-		<CommandBinding Command="local:Commands.ExperimentalCompare" Executed="CommandCompare_Executed" />
-		<CommandBinding Command="local:Commands.SaveLeftFile" Executed="CommandSaveLeftFile_Executed" CanExecute="CommandSaveLeftFile_CanExecute" />
-		<CommandBinding Command="local:Commands.SaveRightFile" Executed="CommandSaveRightFile_Executed" CanExecute="CommandSaveRightFile_CanExecute" />
-		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
-		<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
-		<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
-		<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
-		<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
-		<CommandBinding Command="local:Commands.CurrentDiff" Executed="CommandCurrentDiff_Executed" CanExecute="CommandCurrentDiff_CanExecute" />
-		<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
-		<CommandBinding Command="local:Commands.LastDiff" Executed="CommandLastDiff_Executed" CanExecute="CommandLastDiff_CanExecute" />
-		<CommandBinding Command="local:Commands.NextFile" Executed="CommandNextFile_Executed" CanExecute="CommandNextFile_CanExecute" />
-		<CommandBinding Command="local:Commands.PreviousFile" Executed="CommandPreviousFile_Executed" CanExecute="CommandPreviousFile_CanExecute" />
-		<CommandBinding Command="local:Commands.CopyLeftDiff" Executed="CommandCopyLeftDiff_Executed" CanExecute="CommandCopyLeftDiff_CanExecute" />
-		<CommandBinding Command="local:Commands.CopyRightDiff" Executed="CommandCopyRightDiff_Executed" CanExecute="CommandCopyRightDiff_CanExecute" />
-		<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
-		<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
-		<CommandBinding Command="local:Commands.BrowseLeft" Executed="CommandBrowseLeft_Executed" />
-		<CommandBinding Command="local:Commands.BrowseRight" Executed="CommandBrowseRight_Executed" />
-		<CommandBinding Command="local:Commands.Options" Executed="CommnadOptions_Executed" />
-		<CommandBinding Command="local:Commands.Find" Executed="CommandFind_Executed" />
-		<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
-		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute_1" />
-		<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
-		<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
-		<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />
 	</Window.CommandBindings>
 
-	<DockPanel>
+	<Grid>
+		<DockPanel IsEnabled="{Binding Path=GuiFrozen, Converter={StaticResource InverseBooleanConverter}}">
+			<DockPanel.CommandBindings>
+				<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
+				<CommandBinding Command="local:Commands.ExperimentalCompare" Executed="CommandCompare_Executed" />
+				<CommandBinding Command="local:Commands.SaveLeftFile" Executed="CommandSaveLeftFile_Executed" CanExecute="CommandSaveLeftFile_CanExecute" />
+				<CommandBinding Command="local:Commands.SaveRightFile" Executed="CommandSaveRightFile_Executed" CanExecute="CommandSaveRightFile_CanExecute" />
+				<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
+				<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
+				<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
+				<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.NextDiff" Executed="CommandNextDiff_Executed" CanExecute="CommandNextDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.CurrentDiff" Executed="CommandCurrentDiff_Executed" CanExecute="CommandCurrentDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.FirstDiff" Executed="CommandFirstDiff_Executed" CanExecute="CommandFirstDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.LastDiff" Executed="CommandLastDiff_Executed" CanExecute="CommandLastDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.NextFile" Executed="CommandNextFile_Executed" CanExecute="CommandNextFile_CanExecute" />
+				<CommandBinding Command="local:Commands.PreviousFile" Executed="CommandPreviousFile_Executed" CanExecute="CommandPreviousFile_CanExecute" />
+				<CommandBinding Command="local:Commands.CopyLeftDiff" Executed="CommandCopyLeftDiff_Executed" CanExecute="CommandCopyLeftDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.CopyRightDiff" Executed="CommandCopyRightDiff_Executed" CanExecute="CommandCopyRightDiff_CanExecute" />
+				<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
+				<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
+				<CommandBinding Command="local:Commands.BrowseLeft" Executed="CommandBrowseLeft_Executed" />
+				<CommandBinding Command="local:Commands.BrowseRight" Executed="CommandBrowseRight_Executed" />
+				<CommandBinding Command="local:Commands.Options" Executed="CommnadOptions_Executed" />
+				<CommandBinding Command="local:Commands.Find" Executed="CommandFind_Executed" />
+				<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
+				<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute_1" />
+				<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
+				<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
+				<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />
+			</DockPanel.CommandBindings>
 
-		<!--Menu-->
-		<Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" BorderBrush="{StaticResource  {x:Static SystemColors.ScrollBarBrushKey} }">
-			<Grid x:Name="GridMenu">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<Menu Grid.Row="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
-					<MenuItem Header="File">
-						<MenuItem Header="Exit" Command="local:Commands.Exit" />
-					</MenuItem>
-					<MenuItem Header="Edit">
-						<MenuItem Header="Find" Command="local:Commands.Find" />
-						<MenuItem Header="Find Next" Command="local:Commands.FindNext" />
-						<MenuItem Header="Find Previous" Command="local:Commands.FindPrevious" />
-					</MenuItem>
-					<MenuItem Header="Tools">
-						<MenuItem Header="Options" Command="local:Commands.Options" />
-					</MenuItem>
-					<MenuItem Header="Help">
-						<MenuItem Header="About" Command="local:Commands.About" />
-					</MenuItem>
-				</Menu>
-			</Grid>
-		</Border>
-
-		<!--Main Toolbar-->
-		<WrapPanel DockPanel.Dock="Top" x:Name="ToolbarMain" Orientation="Horizontal">
-			<WrapPanel.Background>
-				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-					<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
-					<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
-				</LinearGradientBrush>
-			</WrapPanel.Background>
-
-			<StackPanel Orientation="Horizontal">
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Compare">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveLeftFile">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveRightFile">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource SaveIcon2}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}" IsChecked="{Binding EditMode}">
-					<ToggleButton.Resources>
-						<DataTemplate x:Key="Unpressed">
-							<StackPanel Orientation="Horizontal">
-								<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
-								<StackPanel.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="Enable Editing" />
-										</StackPanel>
-									</ToolTip>
-								</StackPanel.ToolTip>
-							</StackPanel>
-						</DataTemplate>
-						<DataTemplate x:Key="Pressed">
-							<StackPanel Orientation="Horizontal">
-								<ContentPresenter ContentTemplate="{StaticResource EditIcon2}" Style="{StaticResource CommonButtonIcon}" />
-								<StackPanel.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="Unlocked" />
-										</StackPanel>
-									</ToolTip>
-								</StackPanel.ToolTip>
-							</StackPanel>
-						</DataTemplate>
-					</ToggleButton.Resources>
-					<ToggleButton.Style>
-						<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
-							<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
-							<Style.Triggers>
-								<Trigger Property="IsChecked" Value="True">
-									<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
-								</Trigger>
-							</Style.Triggers>
-						</Style>
-					</ToggleButton.Style>
-				</ToggleButton>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Swap">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Up">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource UpIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-
-			</StackPanel>
-
-			<StackPanel Orientation="Horizontal">
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousFile">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource PreviousFileIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Ctrl+Page Up" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextFile">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource NextFileIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Ctrl+Page Down" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-
-			</StackPanel>
-
-			<StackPanel Orientation="Horizontal">
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstDiff">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Ctrl+Up" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousDiff">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Up" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CurrentDiff">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource CurrentDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Ctrl+Space" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextDiff">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Down" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.LastDiff">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Ctrl+Down" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-
-			</StackPanel>
-
-			<StackPanel Orientation="Horizontal">
-
-				<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.CopyLeftDiff" IsEnabled="{Binding FileVissible}">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource CopyLeftSide}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Ctrl+Right" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.CopyRightDiff" IsEnabled="{Binding FileVissible}">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource CopyRightSide}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<Button.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Path=Command.Text}" />
-								<TextBlock Text="Ctrl+Left" Style="{StaticResource ShortcutTooltip}" />
-							</StackPanel>
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
-
-				<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<ToggleButton.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Show Line Changes" />
-							</StackPanel>
-						</ToolTip>
-					</ToggleButton.ToolTip>
-				</ToggleButton>
-
-				<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonIgnoreWhiteSpace_Click">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<ToggleButton.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Ignore White Space" />
-							</StackPanel>
-						</ToolTip>
-					</ToggleButton.ToolTip>
-				</ToggleButton>
-
-				<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<ToggleButton.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Show Special Characters" VerticalAlignment="Center" />
-							</StackPanel>
-						</ToolTip>
-					</ToggleButton.ToolTip>
-				</ToggleButton>
-
-				<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
-					<ToggleButton.ToolTip>
-						<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="Master Detail View" VerticalAlignment="Center" />
-							</StackPanel>
-						</ToolTip>
-					</ToggleButton.ToolTip>
-				</ToggleButton>
-
-			</StackPanel>
-
-		</WrapPanel>
-
-		<!--Main Content-->
-		<Grid Name="GridMainContent">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="{Binding FolderRowHeight, Mode=TwoWay}" Name="FolderRow" />
-				<RowDefinition Height="Auto" Name="SplitterRow" />
-				<RowDefinition Height="{Binding FileRowHeight}" Name="FileRow" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
-
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-
-			<!--Left Path-->
-			<Border Grid.Column="0" BorderThickness="0,1,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
-				<Grid>
+			<!--Menu-->
+			<Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" BorderBrush="{StaticResource  {x:Static SystemColors.ScrollBarBrushKey} }">
+				<Grid x:Name="GridMenu">
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
-
-					<TextBox Name="TextBoxLeftPath" Grid.Column="0" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" Padding="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" />
-					<Button x:Name="ButtonLeftBrowse" Grid.Column="1" Content="..." Width="20" BorderThickness="0" Command="local:Commands.BrowseLeft" />
+					<Menu Grid.Row="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
+						<MenuItem Header="File">
+							<MenuItem Header="Exit" Command="local:Commands.Exit" />
+						</MenuItem>
+						<MenuItem Header="Edit">
+							<MenuItem Header="Find" Command="local:Commands.Find" />
+							<MenuItem Header="Find Next" Command="local:Commands.FindNext" />
+							<MenuItem Header="Find Previous" Command="local:Commands.FindPrevious" />
+						</MenuItem>
+						<MenuItem Header="Tools">
+							<MenuItem Header="Options" Command="local:Commands.Options" />
+						</MenuItem>
+						<MenuItem Header="Help">
+							<MenuItem Header="About" Command="local:Commands.About" />
+						</MenuItem>
+					</Menu>
 				</Grid>
 			</Border>
 
-			<!--Left Folder-->
-			<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
-				<Grid Name="LeftFolderGrid" MouseWheel="FolderDiff_MouseWheel">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="auto" />
-						<RowDefinition Height="*" />
-						<RowDefinition Height="auto" />
-					</Grid.RowDefinitions>
+			<!--Main Toolbar-->
+			<WrapPanel DockPanel.Dock="Top" x:Name="ToolbarMain" Orientation="Horizontal">
+				<WrapPanel.Background>
+					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+						<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
+						<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
+					</LinearGradientBrush>
+				</WrapPanel.Background>
 
-					<ScrollViewer Name="LeftColumnScroll" ScrollChanged="LeftColumnScroll_ScrollChanged" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
-						<Grid Name="LeftColumns" HorizontalAlignment="Left">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="{Binding NameColumnWidth}" />
-								<ColumnDefinition Width="4" />
-								<ColumnDefinition Width="{Binding SizeColumnWidth}" />
-								<ColumnDefinition Width="4" />
-								<ColumnDefinition Width="{Binding DateColumnWidth}" />
-								<ColumnDefinition Width="4" />
-							</Grid.ColumnDefinitions>
+				<StackPanel Orientation="Horizontal">
 
-							<TextBlock Grid.Column="0" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="LeftColumns_Resized" />
-							<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-							<TextBlock Grid.Column=" 2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="LeftColumns_Resized" />
-							<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-							<TextBlock Grid.Column="4" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="LeftColumns_Resized" />
-							<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-						</Grid>
-					</ScrollViewer>
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Compare">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
 
-					<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-						<local:TreeControl x:Name="LeftFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="LeftFolder_SelectionChanged" GotFocus="LeftFolder_GotFocus" Lines="{Binding LeftFolder}" HorizontalOffset="{Binding Value, ElementName=LeftFolderHorizontalScrollbar}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
-					</Border>
-					<ScrollBar Grid.Row="2" Name="LeftFolderHorizontalScrollbar" ValueChanged="LeftFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
-				</Grid>
-			</Border>
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveLeftFile">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
 
-			<!--Left File-->
-			<Border Grid.Row="3" BorderThickness="0,1,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
-				<Grid Name="LeftFileGrid" MouseWheel="FileDiff_MouseWheel">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*" />
-						<RowDefinition Height="auto" />
-					</Grid.RowDefinitions>
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveRightFile">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource SaveIcon2}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
 
-					<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding LeftFile, Mode=TwoWay}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding LeftFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxLeftVerialcalScroll , Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" FocusVisualStyle="{x:Null}" />
-					<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
-				</Grid>
-			</Border>
+					<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}" IsChecked="{Binding EditMode}">
+						<ToggleButton.Resources>
+							<DataTemplate x:Key="Unpressed">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<StackPanel.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="Enable Editing" />
+											</StackPanel>
+										</ToolTip>
+									</StackPanel.ToolTip>
+								</StackPanel>
+							</DataTemplate>
+							<DataTemplate x:Key="Pressed">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource EditIcon2}" Style="{StaticResource CommonButtonIcon}" />
+									<StackPanel.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="Unlocked" />
+											</StackPanel>
+										</ToolTip>
+									</StackPanel.ToolTip>
+								</StackPanel>
+							</DataTemplate>
+						</ToggleButton.Resources>
+						<ToggleButton.Style>
+							<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
+								<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
+								<Style.Triggers>
+									<Trigger Property="IsChecked" Value="True">
+										<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
+									</Trigger>
+								</Style.Triggers>
+							</Style>
+						</ToggleButton.Style>
+					</ToggleButton>
 
-			<!--Left Status Bar-->
-			<Grid x:Name="LeftStatusBar" Grid.Row="5" Grid.Column="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Swap">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Up">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource UpIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal">
+
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousFile">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource PreviousFileIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Ctrl+Page Up" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextFile">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource NextFileIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Ctrl+Page Down" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal">
+
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstDiff">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Ctrl+Up" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousDiff">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Up" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CurrentDiff">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource CurrentDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Ctrl+Space" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextDiff">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Down" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.LastDiff">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Ctrl+Down" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal">
+
+					<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.CopyLeftDiff" IsEnabled="{Binding FileVissible}">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource CopyLeftSide}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Ctrl+Right" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<Button Style="{ StaticResource ToolbarButton}" Command="local:Commands.CopyRightDiff" IsEnabled="{Binding FileVissible}">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource CopyRightSide}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<Button.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+									<TextBlock Text="Ctrl+Left" Style="{StaticResource ShortcutTooltip}" />
+								</StackPanel>
+							</ToolTip>
+						</Button.ToolTip>
+					</Button>
+
+					<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<ToggleButton.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Show Line Changes" />
+								</StackPanel>
+							</ToolTip>
+						</ToggleButton.ToolTip>
+					</ToggleButton>
+
+					<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonIgnoreWhiteSpace_Click">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<ToggleButton.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Ignore White Space" />
+								</StackPanel>
+							</ToolTip>
+						</ToggleButton.ToolTip>
+					</ToggleButton>
+
+					<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<ToggleButton.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Show Special Characters" VerticalAlignment="Center" />
+								</StackPanel>
+							</ToolTip>
+						</ToggleButton.ToolTip>
+					</ToggleButton>
+
+					<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<ToggleButton.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Master Detail View" VerticalAlignment="Center" />
+								</StackPanel>
+							</ToolTip>
+						</ToggleButton.ToolTip>
+					</ToggleButton>
+
+				</StackPanel>
+
+			</WrapPanel>
+
+			<!--Main Content-->
+			<Grid Name="GridMainContent">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="{Binding FolderRowHeight, Mode=TwoWay}" Name="FolderRow" />
+					<RowDefinition Height="Auto" Name="SplitterRow" />
+					<RowDefinition Height="{Binding FileRowHeight}" Name="FileRow" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<TextBlock Grid.Column="0" x:Name="Statusbar" Text="Status" Margin="2" />
-				<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-					<TextBlock Text="{Binding LeftFileDescription}" Background="{Binding EncodingBackground}" Margin="5,2,0,2" Padding="2,0" />
+
+				<!--Left Path-->
+				<Border Grid.Column="0" BorderThickness="0,1,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<TextBox Name="TextBoxLeftPath" Grid.Column="0" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" Padding="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" />
+						<Button x:Name="ButtonLeftBrowse" Grid.Column="1" Content="..." Width="20" BorderThickness="0" Command="local:Commands.BrowseLeft" />
+					</Grid>
 				</Border>
 
-			</Grid>
-
-			<!--Splitter-->
-			<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Visibility="{Binding FolderVissible, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Column="0" Grid.ColumnSpan="3" Height="4" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" HorizontalAlignment="Stretch" />
-			<GridSplitter x:Name="SplitterLeftRight" Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" Grid.RowSpan="6" />
-
-			<!--Right Path-->
-			<Border Grid.Column="2" Grid.ColumnSpan="2" BorderThickness="1,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-
-					<TextBox Name="TextBoxRightPath" Text="{Binding RightPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" Padding="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" />
-					<Button x:Name="ButtonRightBrowse" Grid.Column="1" Content="..." Width=" 20" BorderThickness="0" Command="local:Commands.BrowseRight" />
-				</Grid>
-			</Border>
-
-			<!--Right Folder-->
-			<Border Grid.Row="1" Grid.Column="2" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
-				<Grid Name="RightFolderGrid" MouseWheel="FolderDiff_MouseWheel">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="auto" />
-						<RowDefinition Height="*" />
-					</Grid.RowDefinitions>
-
-					<Grid Grid.Row="1">
+				<!--Left Folder-->
+				<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+					<Grid Name="LeftFolderGrid" MouseWheel="FolderDiff_MouseWheel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="auto" />
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="auto" />
-						</Grid.ColumnDefinitions>
 
-						<ScrollViewer Name="RightColumnScroll" ScrollChanged="RightColumnScroll_ScrollChanged" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
-							<Grid Name="RightColumns" HorizontalAlignment="Left">
+						<ScrollViewer Name="LeftColumnScroll" ScrollChanged="LeftColumnScroll_ScrollChanged" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+							<Grid Name="LeftColumns" HorizontalAlignment="Left">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="{Binding NameColumnWidth}" />
 									<ColumnDefinition Width="4" />
@@ -526,85 +441,191 @@
 									<ColumnDefinition Width="4" />
 								</Grid.ColumnDefinitions>
 
-								<TextBlock Grid.Column="0" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="RightColumns_Resized" />
+								<TextBlock Grid.Column="0" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="LeftColumns_Resized" />
 								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-								<TextBlock Grid.Column=" 2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="RightColumns_Resized" />
+								<TextBlock Grid.Column=" 2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="LeftColumns_Resized" />
 								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
-								<TextBlock Grid.Column="4" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="RightColumns_Resized" />
+								<TextBlock Grid.Column="4" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="LeftColumns_Resized" />
 								<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
 							</Grid>
 						</ScrollViewer>
 
-						<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-							<local:TreeControl x:Name="RightFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="RightFolder_SelectionChanged" GotFocus="RightFolder_GotFocus" Lines="{Binding RightFolder}" HorizontalOffset="{Binding Value, ElementName=RightFolderHorizontalScrollbar}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
+						<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
+							<local:TreeControl x:Name="LeftFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="LeftFolder_SelectionChanged" GotFocus="LeftFolder_GotFocus" Lines="{Binding LeftFolder}" HorizontalOffset="{Binding Value, ElementName=LeftFolderHorizontalScrollbar}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 						</Border>
-						<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-							<ScrollBar Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll , Mode=TwoWay}" />
-						</Border>
-						<ScrollBar Grid.Row="2" Name="RightFolderHorizontalScrollbar" ValueChanged="RightFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
-						<StackPanel Grid.Row="3" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
+						<ScrollBar Grid.Row="2" Name="LeftFolderHorizontalScrollbar" ValueChanged="LeftFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
 					</Grid>
-				</Grid>
-			</Border>
-
-			<!--Right File-->
-			<Border Grid.Row="3" Grid.Column="2" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
-				<Grid Name="RightFileGrid" MouseWheel="FileDiff_MouseWheel">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*" />
-						<RowDefinition Height="auto" />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition />
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-
-					<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding RightFile, Mode=TwoWay}" VisibleLines="{Binding VisibleLines, Mode=OneWayToSource}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding RightFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxRightVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" FocusVisualStyle="{x:Null}" />
-					<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightFile}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
-					<ScrollBar Grid.Column="2" Name="VerticalFileScrollbar" SmallChange="1" LargeChange="{Binding VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding Path=MaxVerialcalScroll }" />
-					<ScrollBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="RightHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
-					<StackPanel Grid.Row="1" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
-				</Grid>
-			</Border>
-
-			<!--Right Status Bar-->
-			<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="auto" />
-					<ColumnDefinition Width="31" />
-				</Grid.ColumnDefinitions>
-				<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-					<TextBlock Text="{Binding RightFileDescription}" Background="{Binding EncodingBackground}" Margin="5,2,0,2" Padding="2,0" />
 				</Border>
-			</Grid>
 
-			<!--Search panel-->
-			<Border Name="SearchPanel" Grid.Row="4" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
-				<DockPanel>
-					<Grid DockPanel.Dock="Left" Width="{Binding ElementName=LeftStatusBar, Path=ActualWidth}" Visibility="{Binding FindPanelRight, Converter={StaticResource BooleanToVisibilityConverter}}" />
-					<Grid DockPanel.Dock="Left">
+				<!--Left File-->
+				<Border Grid.Row="3" BorderThickness="0,1,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+					<Grid Name="LeftFileGrid" MouseWheel="FileDiff_MouseWheel">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="auto" />
+						</Grid.RowDefinitions>
+
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding LeftFile, Mode=TwoWay}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding LeftFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxLeftVerialcalScroll , Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" FocusVisualStyle="{x:Null}" />
+						<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
+					</Grid>
+				</Border>
+
+				<!--Left Status Bar-->
+				<Grid x:Name="LeftStatusBar" Grid.Row="5" Grid.Column="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="auto" />
+					</Grid.ColumnDefinitions>
+					<TextBlock Grid.Column="0" x:Name="Statusbar" Text="Status" Margin="2" />
+					<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
+						<TextBlock Text="{Binding LeftFileDescription}" Background="{Binding EncodingBackground}" Margin="5,2,0,2" Padding="2,0" />
+					</Border>
+
+				</Grid>
+
+				<!--Splitter-->
+				<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Visibility="{Binding FolderVissible, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Column="0" Grid.ColumnSpan="3" Height="4" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" HorizontalAlignment="Stretch" />
+				<GridSplitter x:Name="SplitterLeftRight" Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" Grid.RowSpan="6" />
+
+				<!--Right Path-->
+				<Border Grid.Column="2" Grid.ColumnSpan="2" BorderThickness="1,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
+					<Grid>
 						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" MaxWidth="300" />
-							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<TextBox Name="TextBoxRightPath" Text="{Binding RightPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" Padding="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" />
+						<Button x:Name="ButtonRightBrowse" Grid.Column="1" Content="..." Width=" 20" BorderThickness="0" Command="local:Commands.BrowseRight" />
+					</Grid>
+				</Border>
+
+				<!--Right Folder-->
+				<Border Grid.Row="1" Grid.Column="2" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
+					<Grid Name="RightFolderGrid" MouseWheel="FolderDiff_MouseWheel">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<Grid Grid.Row="1">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="auto" />
+							</Grid.ColumnDefinitions>
+
+							<ScrollViewer Name="RightColumnScroll" ScrollChanged="RightColumnScroll_ScrollChanged" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+								<Grid Name="RightColumns" HorizontalAlignment="Left">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="{Binding NameColumnWidth}" />
+										<ColumnDefinition Width="4" />
+										<ColumnDefinition Width="{Binding SizeColumnWidth}" />
+										<ColumnDefinition Width="4" />
+										<ColumnDefinition Width="{Binding DateColumnWidth}" />
+										<ColumnDefinition Width="4" />
+									</Grid.ColumnDefinitions>
+
+									<TextBlock Grid.Column="0" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="RightColumns_Resized" />
+									<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+									<TextBlock Grid.Column=" 2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="RightColumns_Resized" />
+									<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+									<TextBlock Grid.Column="4" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" Padding="2" SizeChanged="RightColumns_Resized" />
+									<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0, 0, 1, 0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+								</Grid>
+							</ScrollViewer>
+
+							<Border Grid.Row="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
+								<local:TreeControl x:Name="RightFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="RightFolder_SelectionChanged" GotFocus="RightFolder_GotFocus" Lines="{Binding RightFolder}" HorizontalOffset="{Binding Value, ElementName=RightFolderHorizontalScrollbar}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
+							</Border>
+							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
+								<ScrollBar Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll , Mode=TwoWay}" />
+							</Border>
+							<ScrollBar Grid.Row="2" Name="RightFolderHorizontalScrollbar" ValueChanged="RightFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
+							<StackPanel Grid.Row="3" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
+						</Grid>
+					</Grid>
+				</Border>
+
+				<!--Right File-->
+				<Border Grid.Row="3" Grid.Column="2" BorderThickness="1,1,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
+					<Grid Name="RightFileGrid" MouseWheel="FileDiff_MouseWheel">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="auto" />
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-						<Button Grid.Column="0" Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
-						<TextBox Grid.Column="1" Name="SearchBox" Margin="5,1" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
-						<Button Grid.Column="2" Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
-						<Button Grid.Column="3" Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
-						<CheckBox Grid.Column="4" Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
-					</Grid>
-				</DockPanel>
-			</Border>
 
-			<!--Used to measure the size of one character in the chosen font-->
-			<TextBlock x:Name="OneCharacter" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding RightFile, Mode=TwoWay}" VisibleLines="{Binding VisibleLines, Mode=OneWayToSource}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding RightFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxRightVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" FocusVisualStyle="{x:Null}" />
+						<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightFile}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
+						<ScrollBar Grid.Column="2" Name="VerticalFileScrollbar" SmallChange="1" LargeChange="{Binding VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding Path=MaxVerialcalScroll }" />
+						<ScrollBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="RightHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
+						<StackPanel Grid.Row="1" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
+					</Grid>
+				</Border>
+
+				<!--Right Status Bar-->
+				<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="auto" />
+						<ColumnDefinition Width="31" />
+					</Grid.ColumnDefinitions>
+					<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
+						<TextBlock Text="{Binding RightFileDescription}" Background="{Binding EncodingBackground}" Margin="5,2,0,2" Padding="2,0" />
+					</Border>
+				</Grid>
+
+				<!--Search panel-->
+				<Border Name="SearchPanel" Grid.Row="4" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+					<DockPanel>
+						<Grid DockPanel.Dock="Left" Width="{Binding ElementName=LeftStatusBar, Path=ActualWidth}" Visibility="{Binding FindPanelRight, Converter={StaticResource BooleanToVisibilityConverter}}" />
+						<Grid DockPanel.Dock="Left">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" MaxWidth="300" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Button Grid.Column="0" Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
+							<TextBox Grid.Column="1" Name="SearchBox" Margin="5,1" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+							<Button Grid.Column="2" Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
+							<Button Grid.Column="3" Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
+							<CheckBox Grid.Column="4" Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
+						</Grid>
+					</DockPanel>
+				</Border>
+
+				<!--Used to measure the size of one character in the chosen font-->
+				<TextBlock x:Name="OneCharacter" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+			</Grid>
+
+		</DockPanel>
+
+		<!--Compare Progress-->
+		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}">
+			<Grid.CommandBindings>
+				<CommandBinding Command="local:Commands.CancelCompare" Executed="CommandCancelCompare_Executed" />
+			</Grid.CommandBindings>
+			<Border BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+				<StackPanel Margin="5">
+					<Label Content="Comparing..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
+					<StackPanel Orientation="Horizontal">
+						<ProgressBar x:Name="ProgressBarCompare" Value="40" Width="300" Margin="5" />
+						<Button x:Name="ButtonCancelCompare" Content="Cancel" Command="local:Commands.CancelCompare" Style="{StaticResource CommonButton}" HorizontalAlignment="Right" />
+					</StackPanel>
+				</StackPanel>
+			</Border>
 		</Grid>
 
-	</DockPanel>
-
+	</Grid>
 </Window>
