@@ -33,7 +33,6 @@ namespace FileDiff
 		string leftSelection = "";
 
 		bool experimentalMatching;
-		bool compareCaneled = false;
 
 		Stopwatch stopwatch = new Stopwatch();
 
@@ -148,13 +147,15 @@ namespace FileDiff
 
 			if (leftLines.Count > 0 && rightLines.Count > 0)
 			{
-				Mouse.OverrideCursor = Cursors.Wait;
-
 				Debug.Print("------ start thread");
 
 				ViewModel.GuiFrozen = true;
-				var progress = new Progress<int>(CompareStatusUpdate);
-				Task.Run(() => BackgroundCompare.CompareFiles(progress, leftLines, rightLines)).ContinueWith(CompareFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+
+				ProgressBarCompare.Value = 0;
+				ProgressBarCompare.Maximum = leftLines.Count + rightLines.Count;
+
+				BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
+				Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
 			}
 		}
 
@@ -174,6 +175,8 @@ namespace FileDiff
 			}
 			else
 			{
+				ViewModel.LeftFile = new ObservableCollection<Line>();
+				ViewModel.RightFile = new ObservableCollection<Line>();
 				Statusbar.Text = $"Compare cancelled";
 			}
 
@@ -183,14 +186,13 @@ namespace FileDiff
 			LeftDiff.Focus();
 			InitNavigationState();
 
-			Mouse.OverrideCursor = null;
 			Debug.Print("------ end update thread");
 
 		}
 
-		private void CompareStatusUpdate(int obj)
+		private void CompareStatusUpdate(int progress)
 		{
-			throw new NotImplementedException();
+			ProgressBarCompare.Value = progress;
 		}
 
 		private void CompareDirectories()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FileDiff
@@ -13,6 +14,9 @@ namespace FileDiff
 
 		public static bool CompareCancelled { get; private set; } = false;
 
+		private static int progress;
+		public static IProgress<int> progressHandler;
+
 		#endregion
 
 		#region Methods
@@ -22,9 +26,10 @@ namespace FileDiff
 			CompareCancelled = true;
 		}
 
-		public static Tuple<List<Line>, List<Line>> CompareFiles(Progress<int> progress, List<Line> leftLines, List<Line> rightLines)
+		public static Tuple<List<Line>, List<Line>> CompareFiles(List<Line> leftLines, List<Line> rightLines)
 		{
 			CompareCancelled = false;
+			progress = 0;
 
 			MatchLines(leftLines, rightLines);
 
@@ -44,6 +49,11 @@ namespace FileDiff
 				MatchPartialLines(leftRange, rightRange);
 				return;
 			}
+
+			//Thread.Sleep(500);
+			progress += matchLength * 2;
+
+			progressHandler.Report(progress);
 
 			for (int i = 0; i < matchLength; i++)
 			{
