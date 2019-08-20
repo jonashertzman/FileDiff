@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,9 +30,6 @@ namespace FileDiff
 		string rightSelection = "";
 		string leftSelection = "";
 
-		bool experimentalMatching;
-
-		Stopwatch stopwatch = new Stopwatch();
 
 		#endregion
 
@@ -88,12 +83,14 @@ namespace FileDiff
 
 		private void CompareFiles()
 		{
-			experimentalMatching = Keyboard.IsKeyDown(Key.LeftShift);
+			Debug.Print("------ CompareFiles");
 
-			stopwatch.Restart();
+			BackgroundCompare.experimentalMatching = Keyboard.IsKeyDown(Key.LeftShift);
 
 			string leftPath = "";
 			string rightPath = "";
+
+			ProgressPanel.Visibility = Visibility.Hidden;
 
 			if (ViewModel.Mode == CompareMode.File)
 			{
@@ -143,11 +140,11 @@ namespace FileDiff
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
 			}
 
 			if (leftLines.Count > 0 && rightLines.Count > 0)
 			{
-				Debug.Print("------ start thread");
 
 				ViewModel.GuiFrozen = true;
 
@@ -157,21 +154,30 @@ namespace FileDiff
 				BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
 				Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
 			}
+			else
+			{
+				if (leftLines.Count > 0)
+				{
+					ViewModel.LeftFile = new ObservableCollection<Line>(leftLines);
+				}
+				if (rightLines.Count > 0)
+				{
+					ViewModel.RightFile = new ObservableCollection<Line>(rightLines);
+				}
+			}
 		}
 
-		private void CompareFilesFinnished(Task<Tuple<List<Line>, List<Line>>> task)
+		private void CompareFilesFinnished(Task<Tuple<List<Line>, List<Line>, TimeSpan>> task)
 		{
-			Debug.Print("------ after thread");
+			Debug.Print("------ CompareFilesFinnished");
 
 			ViewModel.GuiFrozen = false;
-
-			//FillViewModel(obj.Result.Item1, obj.Result.Item2);
 
 			if (!BackgroundCompare.CompareCancelled)
 			{
 				ViewModel.LeftFile = new ObservableCollection<Line>(task.Result.Item1);
 				ViewModel.RightFile = new ObservableCollection<Line>(task.Result.Item2);
-				Statusbar.Text = $"Compare time {TimeSpanToShortString(stopwatch.Elapsed)} {(experimentalMatching ? "(Experimental Matching)" : "")}";
+				Statusbar.Text = $"Compare time {TimeSpanToShortString(task.Result.Item3)} {(BackgroundCompare.experimentalMatching ? "(Experimental Matching)" : "")}";
 			}
 			else
 			{
@@ -180,18 +186,13 @@ namespace FileDiff
 				Statusbar.Text = $"Compare cancelled";
 			}
 
-			stopwatch.Stop();
-
-
 			LeftDiff.Focus();
 			InitNavigationState();
-
-			Debug.Print("------ end update thread");
-
 		}
 
 		private void CompareStatusUpdate(int progress)
 		{
+			ProgressPanel.Visibility = Visibility.Visible;
 			ProgressBarCompare.Value = progress;
 		}
 
@@ -1231,8 +1232,8 @@ namespace FileDiff
 		{
 			try
 			{
-				ViewModel.LeftPath = Path.GetDirectoryName(ViewModel.LeftPath);
-				ViewModel.RightPath = Path.GetDirectoryName(ViewModel.RightPath);
+				ViewModel.LeftPath = Path.GetDirectoryName(Path.GetFullPath(ViewModel.LeftPath));
+				ViewModel.RightPath = Path.GetDirectoryName(Path.GetFullPath(ViewModel.RightPath));
 
 				Compare();
 			}

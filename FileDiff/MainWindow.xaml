@@ -614,7 +614,7 @@
 
 		<!--Compare Progress-->
 		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
-			<Border BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
+			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
 				<StackPanel Margin="5">
 					<Label Content="Comparing..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
 					<StackPanel Orientation="Horizontal">

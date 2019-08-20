@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,9 +14,12 @@ namespace FileDiff
 		#region Members
 
 		public static bool CompareCancelled { get; private set; } = false;
+		public static bool experimentalMatching;
 
 		private static int progress;
 		public static IProgress<int> progressHandler;
+
+		private static DateTime startTime;
 
 		#endregion
 
@@ -26,14 +30,18 @@ namespace FileDiff
 			CompareCancelled = true;
 		}
 
-		public static Tuple<List<Line>, List<Line>> CompareFiles(List<Line> leftLines, List<Line> rightLines)
+		public static Tuple<List<Line>, List<Line>, TimeSpan> CompareFiles(List<Line> leftLines, List<Line> rightLines)
 		{
 			CompareCancelled = false;
 			progress = 0;
 
+			startTime = DateTime.UtcNow;
+
 			MatchLines(leftLines, rightLines);
 
-			return AddFillerLines(leftLines, rightLines);
+			AddFillerLines(ref leftLines, ref rightLines);
+
+			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
 		}
 
 		private static void MatchLines(List<Line> leftRange, List<Line> rightRange)
@@ -77,7 +85,7 @@ namespace FileDiff
 
 		private static void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
 		{
-			if (false /*experimentalMatching*/)
+			if (experimentalMatching)
 			{
 				int matchingCharacters = 0;
 				float bestMatchFraction = 0;
@@ -322,7 +330,7 @@ namespace FileDiff
 			return matchLength;
 		}
 
-		private static Tuple<List<Line>, List<Line>> AddFillerLines(List<Line> leftFile, List<Line> rightFile)
+		private static void AddFillerLines(ref List<Line> leftFile, ref List<Line> rightFile)
 		{
 			int rightIndex = 0;
 
@@ -356,7 +364,8 @@ namespace FileDiff
 				rightIndex++;
 			}
 
-			return new Tuple<List<Line>, List<Line>>(newLeft, newRight);
+			leftFile = newLeft;
+			rightFile = newRight;
 		}
 
 		private static bool WhitespaceRange(List<Line> range)
