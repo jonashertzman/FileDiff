@@ -16,7 +16,7 @@ namespace FileDiff
 
 		#region Members
 
-		MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
+		MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
 
 		private List<FileItem> folderDiffItems = new List<FileItem>();
 
@@ -29,7 +29,6 @@ namespace FileDiff
 
 		string rightSelection = "";
 		string leftSelection = "";
-
 
 		#endregion
 
@@ -145,7 +144,6 @@ namespace FileDiff
 
 			if (leftLines.Count > 0 && rightLines.Count > 0)
 			{
-
 				ViewModel.GuiFrozen = true;
 
 				ProgressBarCompare.Value = 0;

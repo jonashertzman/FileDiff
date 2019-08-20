@@ -415,7 +415,7 @@ namespace FileDiff
 		private static string CharactersToString(List<char> characters)
 		{
 			var sb = new StringBuilder();
-			foreach (var c in characters)
+			foreach (char c in characters)
 			{
 				sb.Append(c);
 			}
