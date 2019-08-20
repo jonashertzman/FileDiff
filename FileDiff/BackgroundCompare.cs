@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FileDiff
 {
@@ -59,9 +55,7 @@ namespace FileDiff
 			}
 
 			//Thread.Sleep(500);
-			progress += matchLength * 2;
-
-			progressHandler.Report(progress);
+			IncreaseProgress(matchLength * 2);
 
 			for (int i = 0; i < matchLength; i++)
 			{
@@ -246,6 +240,8 @@ namespace FileDiff
 			if (CompareCancelled)
 				return;
 
+			IncreaseProgress(2);
+
 			FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
 			bool matchTooShort = matchLength == 0;
@@ -424,6 +420,12 @@ namespace FileDiff
 				sb.Append(c);
 			}
 			return sb.ToString();
+		}
+
+		private static void IncreaseProgress(int amount)
+		{
+			progress += amount;
+			progressHandler.Report(progress);
 		}
 
 		#endregion
