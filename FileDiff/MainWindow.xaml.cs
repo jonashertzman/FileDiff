@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace FileDiff
 {
@@ -30,6 +31,8 @@ namespace FileDiff
 		string rightSelection = "";
 		string leftSelection = "";
 
+		DispatcherTimer progressTimer = new DispatcherTimer();
+
 		#endregion
 
 		#region Constructor
@@ -37,6 +40,9 @@ namespace FileDiff
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			progressTimer.Interval = new TimeSpan(0, 0, 0, 1);
+			progressTimer.Tick += ProgressTimer_Tick;
 
 			DataContext = ViewModel;
 
@@ -83,8 +89,6 @@ namespace FileDiff
 		private void CompareFiles()
 		{
 			Debug.Print("------ CompareFiles");
-
-			BackgroundCompare.experimentalMatching = Keyboard.IsKeyDown(Key.LeftShift);
 
 			string leftPath = "";
 			string rightPath = "";
@@ -151,6 +155,8 @@ namespace FileDiff
 
 				BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
 				Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+
+				progressTimer.Start();
 			}
 			else
 			{
@@ -169,13 +175,14 @@ namespace FileDiff
 		{
 			Debug.Print("------ CompareFilesFinnished");
 
+			progressTimer.Stop();
 			ViewModel.GuiFrozen = false;
 
 			if (!BackgroundCompare.CompareCancelled)
 			{
 				ViewModel.LeftFile = new ObservableCollection<Line>(task.Result.Item1);
 				ViewModel.RightFile = new ObservableCollection<Line>(task.Result.Item2);
-				Statusbar.Text = $"Compare time {TimeSpanToShortString(task.Result.Item3)} {(BackgroundCompare.experimentalMatching ? "(Experimental Matching)" : "")}";
+				Statusbar.Text = $"Compare time {TimeSpanToShortString(task.Result.Item3)}";
 			}
 			else
 			{
@@ -190,7 +197,6 @@ namespace FileDiff
 
 		private void CompareStatusUpdate(int progress)
 		{
-			ProgressPanel.Visibility = Visibility.Visible;
 			ProgressBarCompare.Value = progress;
 		}
 
@@ -365,19 +371,23 @@ namespace FileDiff
 
 		private string TimeSpanToShortString(TimeSpan timeSpan)
 		{
+			if (timeSpan.Days > 0)
+			{
+				return $"{timeSpan.Days}d {timeSpan.Hours}h";
+			}
 			if (timeSpan.Hours > 0)
 			{
-				return timeSpan.Hours + "h " + timeSpan.Minutes + "m";
+				return $"{timeSpan.Hours}h {timeSpan.Minutes}m";
 			}
 			if (timeSpan.Minutes > 0)
 			{
-				return timeSpan.Minutes + "m " + timeSpan.Seconds + "s";
+				return $"{timeSpan.Minutes}m {timeSpan.Seconds}s";
 			}
 			if (timeSpan.Seconds > 0)
 			{
-				return timeSpan.Seconds + "." + timeSpan.Milliseconds.ToString().PadLeft(3, '0') + "s";
+				return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
 			}
-			return timeSpan.Milliseconds.ToString() + "ms";
+			return $"{timeSpan.Milliseconds}ms";
 		}
 
 		private string FixRootPath(string path)
@@ -713,6 +723,12 @@ namespace FileDiff
 		private void Window_Closed(object sender, EventArgs e)
 		{
 			SaveSettings();
+		}
+
+		private void ProgressTimer_Tick(object sender, EventArgs e)
+		{
+			ProgressPanel.Visibility = Visibility.Visible;
+			progressTimer.Stop();
 		}
 
 		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)
