@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
 
 namespace FileDiff
@@ -12,6 +14,7 @@ namespace FileDiff
 		private static int progress;
 		public static IProgress<int> progressHandler;
 		private static DateTime startTime;
+		private static string currentRoot;
 
 		#endregion
 
@@ -40,6 +43,22 @@ namespace FileDiff
 			AddFillerLines(ref leftLines, ref rightLines);
 
 			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
+		}
+
+		public static Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan> CompareDirectories(string leftPath, string rightPath)
+		{
+			CompareCancelled = false;
+			progress = 0;
+			currentRoot = leftPath + "\\";
+
+			startTime = DateTime.UtcNow;
+
+			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
+			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
+
+			SearchDirectory(leftPath, leftItems, rightPath, rightItems, 1);
+
+			return new Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan>(leftItems, rightItems, DateTime.UtcNow.Subtract(startTime));
 		}
 
 		private static void MatchLines(List<Line> leftRange, List<Line> rightRange)
@@ -214,6 +233,161 @@ namespace FileDiff
 			}
 		}
 
+		private static void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
+		{
+			if (CompareCancelled)
+			{
+				return;
+			}
+
+			if (level == 2)
+			{
+				if (leftPath != null)
+				{
+					progressHandler.Report(Char.ToUpper(leftPath[currentRoot.Length]) - 'A');
+				}
+				else
+				{
+					progressHandler.Report(Char.ToUpper(rightPath[currentRoot.Length]) - 'A');
+				}
+			}
+
+			if (leftPath?.Length > 259 || rightPath?.Length > 259)
+			{
+				return;
+			}
+
+			if (Directory.Exists(leftPath) && !Utils.DirectoryAllowed(leftPath) || Directory.Exists(rightPath) && !Utils.DirectoryAllowed(rightPath))
+			{
+				return;
+			}
+
+			// Sorted dictionary holding matched pairs of files and folders in the current directory.
+			// Folders are prefixed with "*" to not get conflict between a file named "X" to the left, and a folder named "X" to the right.
+			SortedDictionary<string, FileItemPair> allItems = new SortedDictionary<string, FileItemPair>();
+
+			// Find directories
+			if (leftPath != null)
+			{
+				foreach (string directoryPath in Directory.GetDirectories(FixRootPath(leftPath)))
+				{
+					string directoryName = directoryPath.Substring(leftPath.Length + 1);
+					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true, TextState.Deleted, directoryPath, level), new FileItem("", true, TextState.Filler, "", level)));
+				}
+			}
+
+			if (rightPath != null)
+			{
+				foreach (string directoryPath in Directory.GetDirectories(FixRootPath(rightPath)))
+				{
+					string directoryName = directoryPath.Substring(rightPath.Length + 1);
+					string key = "*" + directoryName;
+					if (!allItems.ContainsKey(key))
+					{
+						allItems.Add(key, new FileItemPair(new FileItem("", true, TextState.Filler, "", level), new FileItem(directoryName, true, TextState.New, directoryPath, level)));
+					}
+					else
+					{
+						allItems[key].RightItem = new FileItem(directoryName, true, TextState.FullMatch, directoryPath, level);
+						allItems[key].LeftItem.Type = TextState.FullMatch;
+					}
+				}
+			}
+
+			// Find files
+			if (leftPath != null)
+			{
+				foreach (string filePath in Directory.GetFiles(FixRootPath(leftPath)))
+				{
+					string fileName = filePath.Substring(leftPath.Length + 1);
+					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false, TextState.Deleted, filePath, level), new FileItem("", false, TextState.Filler, "", level)));
+				}
+			}
+
+			if (rightPath != null)
+			{
+				foreach (string filePath in Directory.GetFiles(FixRootPath(rightPath)))
+				{
+					string fileName = filePath.Substring(rightPath.Length + 1);
+					if (!allItems.ContainsKey(fileName))
+					{
+						allItems.Add(fileName, new FileItemPair(new FileItem("", false, TextState.Filler, "", level), new FileItem(fileName, false, TextState.New, filePath, level)));
+					}
+					else
+					{
+						allItems[fileName].RightItem = new FileItem(fileName, false, TextState.FullMatch, filePath, level);
+						allItems[fileName].LeftItem.Type = TextState.FullMatch;
+					}
+				}
+			}
+
+			foreach (KeyValuePair<string, FileItemPair> pair in allItems)
+			{
+				FileItem leftItem = pair.Value.LeftItem;
+				FileItem rightItem = pair.Value.RightItem;
+
+				leftItem.CorrespondingItem = rightItem;
+				rightItem.CorrespondingItem = leftItem;
+
+				if (leftItem.IsFolder)
+				{
+					//leftItem.IsExpanded = true;
+
+					if (DirectoryIsIgnored(leftItem.Name) || DirectoryIsIgnored(rightItem.Name))
+					{
+						if (DirectoryIsIgnored(leftItem.Name))
+						{
+							leftItem.Type = TextState.Ignored;
+						}
+						if (DirectoryIsIgnored(rightItem.Name))
+						{
+							rightItem.Type = TextState.Ignored;
+						}
+					}
+					else
+					{
+						SearchDirectory(leftItem.Name == "" ? null : Path.Combine(FixRootPath(leftPath), leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(FixRootPath(rightPath), rightItem.Name), rightItem.Children, level + 1);
+						foreach (FileItem child in leftItem.Children)
+						{
+							child.Parent = leftItem;
+						}
+						foreach (FileItem child in rightItem.Children)
+						{
+							child.Parent = rightItem;
+						}
+
+						if (leftItem.Type == TextState.FullMatch && leftItem.ChildDiffExists)
+						{
+							leftItem.Type = TextState.PartialMatch;
+							rightItem.Type = TextState.PartialMatch;
+						}
+					}
+				}
+				else
+				{
+					if (FileIsIgnored(leftItem.Name) || FileIsIgnored(rightItem.Name))
+					{
+						leftItem.Type = TextState.Ignored;
+						rightItem.Type = TextState.Ignored;
+					}
+					else
+					{
+						if (leftItem.Type == TextState.FullMatch)
+						{
+							if (leftItem.Size != rightItem.Size || (leftItem.Date != rightItem.Date && leftItem.Checksum != rightItem.Checksum))
+							{
+								leftItem.Type = TextState.PartialMatch;
+								rightItem.Type = TextState.PartialMatch;
+							}
+						}
+					}
+				}
+
+				leftItems.Add(leftItem);
+				rightItems.Add(rightItem);
+			}
+		}
+
 		private static int CountMatchingCharacters(List<char> leftRange, List<char> rightRange, bool lastLine)
 		{
 			if (CompareCancelled)
@@ -353,6 +527,115 @@ namespace FileDiff
 		{
 			progress += amount;
 			progressHandler.Report(progress);
+		}
+
+		private static string FixRootPath(string path)
+		{
+			// Directory.GetDirectories, Directory.GetFiles and Path.Combine does not work on root paths without trailing backslashes.
+			if (path.EndsWith(":"))
+			{
+				return path += "\\";
+			}
+			return path;
+		}
+
+		private static bool DirectoryIsIgnored(string directory)
+		{
+			foreach (TextAttribute a in AppSettings.IgnoredFolders)
+			{
+				if (WildcardCompare(directory, a.Text, true))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private static bool FileIsIgnored(string directory)
+		{
+			foreach (TextAttribute a in AppSettings.IgnoredFiles)
+			{
+				if (WildcardCompare(directory, a.Text, true))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private static bool WildcardCompare(string compare, string wildString, bool ignoreCase)
+		{
+			if (ignoreCase)
+			{
+				wildString = wildString.ToUpper();
+				compare = compare.ToUpper();
+			}
+
+			int wildStringLength = wildString.Length;
+			int CompareLength = compare.Length;
+
+			int wildMatched = wildStringLength;
+			int compareBase = CompareLength;
+
+			int wildPosition = 0;
+			int comparePosition = 0;
+
+			// Match until first wildcard '*'
+			while (comparePosition < CompareLength && (wildPosition >= wildStringLength || wildString[wildPosition] != '*'))
+			{
+				if (wildPosition >= wildStringLength || (wildString[wildPosition] != compare[comparePosition] && wildString[wildPosition] != '?'))
+				{
+					return false;
+				}
+
+				wildPosition++;
+				comparePosition++;
+			}
+
+			// Process wildcard
+			while (comparePosition < CompareLength)
+			{
+				if (wildPosition < wildStringLength)
+				{
+					if (wildString[wildPosition] == '*')
+					{
+						wildPosition++;
+
+						if (wildPosition == wildStringLength)
+						{
+							return true;
+						}
+
+						wildMatched = wildPosition;
+						compareBase = comparePosition + 1;
+
+						continue;
+					}
+
+					if (wildString[wildPosition] == compare[comparePosition] || wildString[wildPosition] == '?')
+					{
+						wildPosition++;
+						comparePosition++;
+
+						continue;
+					}
+				}
+
+				wildPosition = wildMatched;
+				comparePosition = compareBase++;
+			}
+
+			while (wildPosition < wildStringLength && wildString[wildPosition] == '*')
+			{
+				wildPosition++;
+			}
+
+			if (wildPosition < wildStringLength)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		#endregion

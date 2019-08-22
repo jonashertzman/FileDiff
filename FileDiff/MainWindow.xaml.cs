@@ -19,7 +19,7 @@ namespace FileDiff
 
 		MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
 
-		private List<FileItem> folderDiffItems = new List<FileItem>();
+		List<FileItem> folderDiffItems = new List<FileItem>();
 
 		int firstDiff = -1;
 		int lastDiff = -1;
@@ -202,171 +202,55 @@ namespace FileDiff
 
 		private void CompareDirectories()
 		{
+			Debug.Print("------ CompareDirectories");
+
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
 
 			ViewModel.Clear();
 
-			Mouse.OverrideCursor = Cursors.Wait;
+			ViewModel.GuiFrozen = true;
 
-			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
-			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
+			ProgressBarCompare.Value = 0;
+			ProgressBarCompare.Maximum = 'Z' - 'A';
 
-			SearchDirectory(ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), leftItems, ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), rightItems, 1);
+			string leftPath = ViewModel.LeftPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+			string rightPath = ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
-			LeftFolder.Init();
-			RightFolder.Init();
+			BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
+			Task.Run(() => BackgroundCompare.CompareDirectories(leftPath, rightPath)).ContinueWith(CompareDirectoriesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
 
-			ViewModel.LeftFolder = leftItems;
-			ViewModel.RightFolder = rightItems;
-
-			folderDiffItems = new List<FileItem>();
-			GetFolderDiffItems(ViewModel.LeftFolder, folderDiffItems);
-
-			LeftFolder.Focus();
-			Mouse.OverrideCursor = null;
-
-			stopwatch.Stop();
-
-			Statusbar.Text = $"Compare time {TimeSpanToShortString(stopwatch.Elapsed)}";
+			progressTimer.Start();
 		}
 
-		private void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
+		private void CompareDirectoriesFinnished(Task<Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan>> task)
 		{
-			if (leftPath?.Length > 259 || rightPath?.Length > 259)
+			Debug.Print("------ CompareDirectoriesFinnished");
+
+			progressTimer.Stop();
+			ViewModel.GuiFrozen = false;
+
+			if (!BackgroundCompare.CompareCancelled)
 			{
-				return;
+				LeftFolder.Init();
+				RightFolder.Init();
+
+				ViewModel.LeftFolder = task.Result.Item1;
+				ViewModel.RightFolder = task.Result.Item2;
+				Statusbar.Text = $"Compare time {TimeSpanToShortString(task.Result.Item3)}";
+
+				folderDiffItems = new List<FileItem>();
+				GetFolderDiffItems(ViewModel.LeftFolder, folderDiffItems);
+
+			}
+			else
+			{
+				ViewModel.LeftFile = new ObservableCollection<Line>();
+				ViewModel.RightFile = new ObservableCollection<Line>();
+				Statusbar.Text = $"Compare cancelled";
 			}
 
-			if (Directory.Exists(leftPath) && !Utils.DirectoryAllowed(leftPath) || Directory.Exists(rightPath) && !Utils.DirectoryAllowed(rightPath))
-			{
-				return;
-			}
-
-			// Sorted dictionary holding matched pairs of files and folders in the current directory.
-			// Folders are prefixed with "*" to not get conflict between a file named "X" to the left, and a folder named "X" to the right.
-			SortedDictionary<string, FileItemPair> allItems = new SortedDictionary<string, FileItemPair>();
-
-			// Find directories
-			if (leftPath != null)
-			{
-				foreach (string directoryPath in Directory.GetDirectories(FixRootPath(leftPath)))
-				{
-					string directoryName = directoryPath.Substring(leftPath.Length + 1);
-					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true, TextState.Deleted, directoryPath, level), new FileItem("", true, TextState.Filler, "", level)));
-				}
-			}
-
-			if (rightPath != null)
-			{
-				foreach (string directoryPath in Directory.GetDirectories(FixRootPath(rightPath)))
-				{
-					string directoryName = directoryPath.Substring(rightPath.Length + 1);
-					string key = "*" + directoryName;
-					if (!allItems.ContainsKey(key))
-					{
-						allItems.Add(key, new FileItemPair(new FileItem("", true, TextState.Filler, "", level), new FileItem(directoryName, true, TextState.New, directoryPath, level)));
-					}
-					else
-					{
-						allItems[key].RightItem = new FileItem(directoryName, true, TextState.FullMatch, directoryPath, level);
-						allItems[key].LeftItem.Type = TextState.FullMatch;
-					}
-				}
-			}
-
-			// Find files
-			if (leftPath != null)
-			{
-				foreach (string filePath in Directory.GetFiles(FixRootPath(leftPath)))
-				{
-					string fileName = filePath.Substring(leftPath.Length + 1);
-					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false, TextState.Deleted, filePath, level), new FileItem("", false, TextState.Filler, "", level)));
-				}
-			}
-
-			if (rightPath != null)
-			{
-				foreach (string filePath in Directory.GetFiles(FixRootPath(rightPath)))
-				{
-					string fileName = filePath.Substring(rightPath.Length + 1);
-					if (!allItems.ContainsKey(fileName))
-					{
-						allItems.Add(fileName, new FileItemPair(new FileItem("", false, TextState.Filler, "", level), new FileItem(fileName, false, TextState.New, filePath, level)));
-					}
-					else
-					{
-						allItems[fileName].RightItem = new FileItem(fileName, false, TextState.FullMatch, filePath, level);
-						allItems[fileName].LeftItem.Type = TextState.FullMatch;
-					}
-				}
-			}
-
-			foreach (KeyValuePair<string, FileItemPair> pair in allItems)
-			{
-				FileItem leftItem = pair.Value.LeftItem;
-				FileItem rightItem = pair.Value.RightItem;
-
-				leftItem.CorrespondingItem = rightItem;
-				rightItem.CorrespondingItem = leftItem;
-
-				if (leftItem.IsFolder)
-				{
-					//leftItem.IsExpanded = true;
-
-					if (DirectoryIsIgnored(leftItem.Name) || DirectoryIsIgnored(rightItem.Name))
-					{
-						if (DirectoryIsIgnored(leftItem.Name))
-						{
-							leftItem.Type = TextState.Ignored;
-						}
-						if (DirectoryIsIgnored(rightItem.Name))
-						{
-							rightItem.Type = TextState.Ignored;
-						}
-					}
-					else
-					{
-						SearchDirectory(leftItem.Name == "" ? null : Path.Combine(FixRootPath(leftPath), leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(FixRootPath(rightPath), rightItem.Name), rightItem.Children, level + 1);
-						foreach (FileItem child in leftItem.Children)
-						{
-							child.Parent = leftItem;
-						}
-						foreach (FileItem child in rightItem.Children)
-						{
-							child.Parent = rightItem;
-						}
-
-						if (leftItem.Type == TextState.FullMatch && leftItem.ChildDiffExists)
-						{
-							leftItem.Type = TextState.PartialMatch;
-							rightItem.Type = TextState.PartialMatch;
-						}
-					}
-				}
-				else
-				{
-					if (FileIsIgnored(leftItem.Name) || FileIsIgnored(rightItem.Name))
-					{
-						leftItem.Type = TextState.Ignored;
-						rightItem.Type = TextState.Ignored;
-					}
-					else
-					{
-						if (leftItem.Type == TextState.FullMatch)
-						{
-							if (leftItem.Size != rightItem.Size || (leftItem.Date != rightItem.Date && leftItem.Checksum != rightItem.Checksum))
-							{
-								leftItem.Type = TextState.PartialMatch;
-								rightItem.Type = TextState.PartialMatch;
-							}
-						}
-					}
-				}
-
-				leftItems.Add(leftItem);
-				rightItems.Add(rightItem);
-			}
+			LeftFolder.Focus();
 		}
 
 		private string TimeSpanToShortString(TimeSpan timeSpan)
@@ -388,115 +272,6 @@ namespace FileDiff
 				return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
 			}
 			return $"{timeSpan.Milliseconds}ms";
-		}
-
-		private string FixRootPath(string path)
-		{
-			// Directory.GetDirectories, Directory.GetFiles and Path.Combine does not work on root paths without trailing backslashes.
-			if (path.EndsWith(":"))
-			{
-				return path += "\\";
-			}
-			return path;
-		}
-
-		private bool DirectoryIsIgnored(string directory)
-		{
-			foreach (TextAttribute a in ViewModel.IgnoredFolders)
-			{
-				if (WildcardCompare(directory, a.Text, true))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private bool FileIsIgnored(string directory)
-		{
-			foreach (TextAttribute a in ViewModel.IgnoredFiles)
-			{
-				if (WildcardCompare(directory, a.Text, true))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private bool WildcardCompare(string compare, string wildString, bool ignoreCase)
-		{
-			if (ignoreCase)
-			{
-				wildString = wildString.ToUpper();
-				compare = compare.ToUpper();
-			}
-
-			int wildStringLength = wildString.Length;
-			int CompareLength = compare.Length;
-
-			int wildMatched = wildStringLength;
-			int compareBase = CompareLength;
-
-			int wildPosition = 0;
-			int comparePosition = 0;
-
-			// Match until first wildcard '*'
-			while (comparePosition < CompareLength && (wildPosition >= wildStringLength || wildString[wildPosition] != '*'))
-			{
-				if (wildPosition >= wildStringLength || (wildString[wildPosition] != compare[comparePosition] && wildString[wildPosition] != '?'))
-				{
-					return false;
-				}
-
-				wildPosition++;
-				comparePosition++;
-			}
-
-			// Process wildcard
-			while (comparePosition < CompareLength)
-			{
-				if (wildPosition < wildStringLength)
-				{
-					if (wildString[wildPosition] == '*')
-					{
-						wildPosition++;
-
-						if (wildPosition == wildStringLength)
-						{
-							return true;
-						}
-
-						wildMatched = wildPosition;
-						compareBase = comparePosition + 1;
-
-						continue;
-					}
-
-					if (wildString[wildPosition] == compare[comparePosition] || wildString[wildPosition] == '?')
-					{
-						wildPosition++;
-						comparePosition++;
-
-						continue;
-					}
-				}
-
-				wildPosition = wildMatched;
-				comparePosition = compareBase++;
-			}
-
-			while (wildPosition < wildStringLength && wildString[wildPosition] == '*')
-			{
-				wildPosition++;
-			}
-
-			if (wildPosition < wildStringLength)
-			{
-				return false;
-			}
-
-			return true;
 		}
 
 		private void InitNavigationState()
