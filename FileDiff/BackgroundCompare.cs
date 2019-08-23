@@ -56,7 +56,7 @@ namespace FileDiff
 			ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
 			ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
 
-			SearchDirectory(leftPath, leftItems, rightPath, rightItems, 1);
+			MatchDirectories(leftPath, leftItems, rightPath, rightItems, 1);
 
 			return new Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan>(leftItems, rightItems, DateTime.UtcNow.Subtract(startTime));
 		}
@@ -233,7 +233,7 @@ namespace FileDiff
 			}
 		}
 
-		private static void SearchDirectory(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
+		private static void MatchDirectories(string leftPath, ObservableCollection<FileItem> leftItems, string rightPath, ObservableCollection<FileItem> rightItems, int level)
 		{
 			if (CompareCancelled)
 			{
@@ -242,14 +242,7 @@ namespace FileDiff
 
 			if (level == 2)
 			{
-				if (leftPath != null)
-				{
-					progressHandler.Report(Char.ToUpper(leftPath[currentRoot.Length]) - 'A');
-				}
-				else
-				{
-					progressHandler.Report(Char.ToUpper(rightPath[currentRoot.Length]) - 'A');
-				}
+				progressHandler.Report(Char.ToUpper((leftPath ?? rightPath)[currentRoot.Length]) - 'A');
 			}
 
 			if (leftPath?.Length > 259 || rightPath?.Length > 259)
@@ -266,57 +259,28 @@ namespace FileDiff
 			// Folders are prefixed with "*" to not get conflict between a file named "X" to the left, and a folder named "X" to the right.
 			SortedDictionary<string, FileItemPair> allItems = new SortedDictionary<string, FileItemPair>();
 
-			// Find directories
 			if (leftPath != null)
 			{
-				foreach (string directoryPath in Directory.GetDirectories(FixRootPath(leftPath)))
+				foreach (FileItem f in SearchDirectory(leftPath, level))
 				{
-					string directoryName = directoryPath.Substring(leftPath.Length + 1);
-					allItems.Add("*" + directoryName, new FileItemPair(new FileItem(directoryName, true, TextState.Deleted, directoryPath, level), new FileItem("", true, TextState.Filler, "", level)));
+					f.Type = TextState.Deleted;
+					allItems.Add(f.Key, new FileItemPair(f, new FileItem("", true, TextState.Filler, "", level)));
 				}
 			}
 
 			if (rightPath != null)
 			{
-				foreach (string directoryPath in Directory.GetDirectories(FixRootPath(rightPath)))
+				foreach (FileItem f in SearchDirectory(rightPath, level))
 				{
-					string directoryName = directoryPath.Substring(rightPath.Length + 1);
-					string key = "*" + directoryName;
-					if (!allItems.ContainsKey(key))
+					if (!allItems.ContainsKey(f.Key))
 					{
-						allItems.Add(key, new FileItemPair(new FileItem("", true, TextState.Filler, "", level), new FileItem(directoryName, true, TextState.New, directoryPath, level)));
+						f.Type = TextState.New;
+						allItems.Add(f.Key, new FileItemPair(new FileItem("", true, TextState.Filler, "", level), f));
 					}
 					else
 					{
-						allItems[key].RightItem = new FileItem(directoryName, true, TextState.FullMatch, directoryPath, level);
-						allItems[key].LeftItem.Type = TextState.FullMatch;
-					}
-				}
-			}
-
-			// Find files
-			if (leftPath != null)
-			{
-				foreach (string filePath in Directory.GetFiles(FixRootPath(leftPath)))
-				{
-					string fileName = filePath.Substring(leftPath.Length + 1);
-					allItems.Add(fileName, new FileItemPair(new FileItem(fileName, false, TextState.Deleted, filePath, level), new FileItem("", false, TextState.Filler, "", level)));
-				}
-			}
-
-			if (rightPath != null)
-			{
-				foreach (string filePath in Directory.GetFiles(FixRootPath(rightPath)))
-				{
-					string fileName = filePath.Substring(rightPath.Length + 1);
-					if (!allItems.ContainsKey(fileName))
-					{
-						allItems.Add(fileName, new FileItemPair(new FileItem("", false, TextState.Filler, "", level), new FileItem(fileName, false, TextState.New, filePath, level)));
-					}
-					else
-					{
-						allItems[fileName].RightItem = new FileItem(fileName, false, TextState.FullMatch, filePath, level);
-						allItems[fileName].LeftItem.Type = TextState.FullMatch;
+						allItems[f.Key].RightItem = f;
+						allItems[f.Key].LeftItem.Type = TextState.FullMatch;
 					}
 				}
 			}
@@ -346,7 +310,7 @@ namespace FileDiff
 					}
 					else
 					{
-						SearchDirectory(leftItem.Name == "" ? null : Path.Combine(FixRootPath(leftPath), leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(FixRootPath(rightPath), rightItem.Name), rightItem.Children, level + 1);
+						MatchDirectories(leftItem.Name == "" ? null : Path.Combine(FixRootPath(leftPath), leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(FixRootPath(rightPath), rightItem.Name), rightItem.Children, level + 1);
 						foreach (FileItem child in leftItem.Children)
 						{
 							child.Parent = leftItem;
@@ -386,6 +350,35 @@ namespace FileDiff
 				leftItems.Add(leftItem);
 				rightItems.Add(rightItem);
 			}
+		}
+
+		private static List<FileItem> SearchDirectory(string path, int level)
+		{
+			List<FileItem> items = new List<FileItem>();
+
+			IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+			IntPtr findHandle = WinApi.FindFirstFile(Path.Combine(path, "*"), out WIN32_FIND_DATA findData);
+
+			string newPath;
+
+			if (findHandle != INVALID_HANDLE_VALUE)
+			{
+				do
+				{
+					newPath = Path.Combine(path, findData.cFileName);
+
+					// Directory
+					if (findData.cFileName != "." && findData.cFileName != "..")
+					{
+						items.Add(new FileItem(newPath, level, findData));
+					}
+				}
+				while (WinApi.FindNextFile(findHandle, out findData));
+			}
+
+			WinApi.FindClose(findHandle);
+
+			return items;
 		}
 
 		private static int CountMatchingCharacters(List<char> leftRange, List<char> rightRange, bool lastLine)

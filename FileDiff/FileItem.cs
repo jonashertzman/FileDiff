@@ -14,10 +14,6 @@ namespace FileDiff
 
 		#region Constructor
 
-		public FileItem()
-		{
-		}
-
 		public FileItem(string name, bool isFolder, TextState type, string path, int level)
 		{
 			Name = name;
@@ -25,19 +21,22 @@ namespace FileDiff
 			Type = type;
 			Path = path;
 			Level = level;
+		}
 
-			if (type != TextState.Filler)
+		public FileItem(string path, int level, WIN32_FIND_DATA findData)
+		{
+			Name = findData.cFileName;
+			Path = path;
+			Level = level;
+
+			IsFolder = (findData.dwFileAttributes & FileAttributes.Directory) != 0;
+
+			if (!IsFolder)
 			{
-				if (path.Length < 260)
-				{
-					FileInfo fi = new FileInfo(path);
-					fileDate = fi.LastWriteTime;
-					if (!isFolder)
-					{
-						fileSize = fi.Length;
-					}
-				}
+				fileSize = (long)Combine(findData.nFileSizeHigh, findData.nFileSizeLow);
 			}
+
+			fileDate = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime));
 		}
 
 		#endregion
@@ -62,6 +61,17 @@ namespace FileDiff
 		public string Path { get; set; }
 
 		public string Name { get; set; }
+
+		public string Key
+		{
+			get
+			{
+				if (IsFolder)
+					return "*" + Name;
+
+				return Name;
+			}
+		}
 
 		private long fileSize = -1;
 		public string Size
@@ -199,6 +209,15 @@ namespace FileDiff
 
 				return s.ToString();
 			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		private ulong Combine(uint highValue, uint lowValue)
+		{
+			return (ulong)highValue << 32 | lowValue;
 		}
 
 		#endregion

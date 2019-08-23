@@ -106,8 +106,8 @@ namespace FileDiff
 				rightPath = RightFolder.SelectedFile.Path;
 			}
 
-			List<Line> leftLines = new List<Line>();
-			List<Line> rightLines = new List<Line>();
+			List<Line> leftLines = null;
+			List<Line> rightLines = null;
 
 			ViewModel.LeftFileEncoding = null;
 			ViewModel.RightFileEncoding = null;
@@ -116,6 +116,7 @@ namespace FileDiff
 			{
 				if (File.Exists(leftPath))
 				{
+					leftLines = new List<Line>();
 					leftSelection = leftPath;
 					ViewModel.LeftFileEncoding = Unicode.GetEncoding(leftPath);
 					ViewModel.LeftFileDirty = false;
@@ -129,6 +130,7 @@ namespace FileDiff
 
 				if (File.Exists(rightPath))
 				{
+					rightLines = new List<Line>();
 					rightSelection = rightPath;
 					ViewModel.RightFileEncoding = Unicode.GetEncoding(rightPath);
 					ViewModel.RightFileDirty = false;
@@ -146,7 +148,7 @@ namespace FileDiff
 				return;
 			}
 
-			if (leftLines.Count > 0 && rightLines.Count > 0)
+			if (leftLines?.Count > 0 && rightLines?.Count > 0)
 			{
 				ViewModel.GuiFrozen = true;
 
@@ -160,14 +162,9 @@ namespace FileDiff
 			}
 			else
 			{
-				if (leftLines.Count > 0)
-				{
-					ViewModel.LeftFile = new ObservableCollection<Line>(leftLines);
-				}
-				if (rightLines.Count > 0)
-				{
-					ViewModel.RightFile = new ObservableCollection<Line>(rightLines);
-				}
+				ViewModel.LeftFile = leftLines == null ? new ObservableCollection<Line>() : new ObservableCollection<Line>(leftLines);
+				ViewModel.RightFile = rightLines == null ? new ObservableCollection<Line>() : new ObservableCollection<Line>(rightLines);
+				InitNavigationState();
 			}
 		}
 
@@ -278,19 +275,24 @@ namespace FileDiff
 		{
 			ViewModel.CurrentDiff = -1;
 			ViewModel.CurrentDiffLength = 1;
+			firstDiff = -1;
+			lastDiff = -1;
 			ViewModel.EditMode = false;
 			ViewModel.LeftFileDirty = false;
 			ViewModel.LeftFileEdited = false;
 			ViewModel.RightFileDirty = false;
 			ViewModel.RightFileEdited = false;
 
+			if (ViewModel.LeftFile?.Count > 0 && ViewModel.RightFile?.Count > 0)
+			{
+				UpdateNavigationButtons();
+			}
+
 			LeftDiff.Init();
 			RightDiff.Init();
 
 			VerticalFileScrollbar.Value = 0;
 			LeftHorizontalScrollbar.Value = 0;
-
-			UpdateNavigationButtons();
 
 			if (firstDiff != -1)
 			{
