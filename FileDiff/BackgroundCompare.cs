@@ -331,8 +331,14 @@ namespace FileDiff
 				{
 					if (FileIsIgnored(leftItem.Name) || FileIsIgnored(rightItem.Name))
 					{
-						leftItem.Type = TextState.Ignored;
-						rightItem.Type = TextState.Ignored;
+						if (FileIsIgnored(leftItem.Name))
+						{
+							leftItem.Type = TextState.Ignored;
+						}
+						if (FileIsIgnored(rightItem.Name))
+						{
+							rightItem.Type = TextState.Ignored;
+						}
 					}
 					else
 					{

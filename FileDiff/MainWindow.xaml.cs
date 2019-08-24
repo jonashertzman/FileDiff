@@ -71,6 +71,8 @@ namespace FileDiff
 			rightSelection = "";
 			leftSelection = "";
 			activeSelection = "";
+			ViewModel.LeftPath = ViewModel.LeftPath.Trim();
+			ViewModel.RightPath = ViewModel.RightPath.Trim();
 
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
