@@ -264,7 +264,7 @@ namespace FileDiff
 				foreach (FileItem f in SearchDirectory(leftPath, level))
 				{
 					f.Type = TextState.Deleted;
-					allItems.Add(f.Key, new FileItemPair(f, new FileItem("", true, TextState.Filler, "", level)));
+					allItems.Add(f.Key, new FileItemPair(f, new FileItem() { IsFolder = f.IsFolder, Type = TextState.Filler, Level = level }));
 				}
 			}
 
@@ -275,7 +275,7 @@ namespace FileDiff
 					if (!allItems.ContainsKey(f.Key))
 					{
 						f.Type = TextState.New;
-						allItems.Add(f.Key, new FileItemPair(new FileItem("", true, TextState.Filler, "", level), f));
+						allItems.Add(f.Key, new FileItemPair(new FileItem() { IsFolder = f.IsFolder, Type = TextState.Filler, Level = level }, f));
 					}
 					else
 					{
@@ -365,11 +365,9 @@ namespace FileDiff
 			{
 				do
 				{
-					newPath = Path.Combine(path, findData.cFileName);
-
-					// Directory
 					if (findData.cFileName != "." && findData.cFileName != "..")
 					{
+						newPath = Path.Combine(path, findData.cFileName);
 						items.Add(new FileItem(newPath, level, findData));
 					}
 				}

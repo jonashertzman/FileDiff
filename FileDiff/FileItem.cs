@@ -14,13 +14,9 @@ namespace FileDiff
 
 		#region Constructor
 
-		public FileItem(string name, bool isFolder, TextState type, string path, int level)
+		public FileItem()
 		{
-			Name = name;
-			IsFolder = isFolder;
-			Type = type;
-			Path = path;
-			Level = level;
+
 		}
 
 		public FileItem(string path, int level, WIN32_FIND_DATA findData)
@@ -58,9 +54,9 @@ namespace FileDiff
 
 		public FileItem CorrespondingItem { get; set; }
 
-		public string Path { get; set; }
+		public string Path { get; set; } = "";
 
-		public string Name { get; set; }
+		public string Name { get; set; } = "";
 
 		public string Key
 		{
