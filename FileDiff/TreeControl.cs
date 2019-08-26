@@ -95,7 +95,10 @@ namespace FileDiff
 
 				drawingContext.PushTransform(new TranslateTransform(-HorizontalOffset, 0));
 
-				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth, itemHeight)));
+				double columnLeft = 0;
+
+				// Draw name column
+				drawingContext.PushClip(new RectangleGeometry(new Rect(columnLeft, 0, AppSettings.NameColumnWidth, itemHeight)));
 
 				// Draw folder expander
 				if (line.IsFolder)
@@ -111,16 +114,26 @@ namespace FileDiff
 						}
 					}
 				}
-
-				// Draw line text
 				drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(line.Level * itemHeight, itemMargin));
 				drawingContext.Pop();
 
-				drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, AppSettings.NameColumnWidth + handleWidth + AppSettings.SizeColumnWidth, itemHeight)));
-				drawingContext.DrawText(new FormattedText(line.Size, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(AppSettings.NameColumnWidth + handleWidth, itemMargin));
-				drawingContext.Pop();
+				columnLeft += AppSettings.NameColumnWidth + handleWidth;
 
-				drawingContext.DrawText(new FormattedText(line.Date, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2), itemMargin));
+				// Draw size column
+				if (!line.IsFolder)
+				{
+					drawingContext.PushClip(new RectangleGeometry(new Rect(columnLeft, 0, AppSettings.SizeColumnWidth, itemHeight)));
+					string sizeText = line.Size.ToString("N0");
+					drawingContext.DrawText(new FormattedText(sizeText, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(columnLeft + AppSettings.SizeColumnWidth - MeasureString(sizeText).Width, itemMargin));
+					drawingContext.Pop();
+				}
+
+				columnLeft += AppSettings.SizeColumnWidth + handleWidth;
+
+				// Draw date column
+				drawingContext.PushClip(new RectangleGeometry(new Rect(columnLeft, 0, AppSettings.DateColumnWidth, itemHeight)));
+				drawingContext.DrawText(new FormattedText(line.Date.ToString("g"), CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(columnLeft + handleWidth, itemMargin));
+				drawingContext.Pop();
 
 				drawingContext.Pop(); // Horizontal offset
 				drawingContext.Pop(); // Line offset 
@@ -163,17 +176,19 @@ namespace FileDiff
 			{
 				if (visibleItems[lineIndex].Type != TextState.Filler && visibleItems[lineIndex].CorrespondingItem.Type != TextState.Filler)
 				{
-					Process p = new Process();
-					p.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
-					if (this.Name == "LeftFolder")
+					using (Process p = new Process())
 					{
-						p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].Path}\" \"{visibleItems[lineIndex].CorrespondingItem.Path}\"";
+						p.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
+						if (this.Name == "LeftFolder")
+						{
+							p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].Path}\" \"{visibleItems[lineIndex].CorrespondingItem.Path}\"";
+						}
+						else
+						{
+							p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].CorrespondingItem.Path}\" \"{visibleItems[lineIndex].Path}\"";
+						}
+						p.Start();
 					}
-					else
-					{
-						p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].CorrespondingItem.Path}\" \"{visibleItems[lineIndex].Path}\"";
-					}
-					p.Start();
 				}
 			}
 			base.OnMouseDoubleClick(e);

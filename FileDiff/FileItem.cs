@@ -29,10 +29,10 @@ namespace FileDiff
 
 			if (!IsFolder)
 			{
-				fileSize = (long)Combine(findData.nFileSizeHigh, findData.nFileSizeLow);
+				Size = (long)Combine(findData.nFileSizeHigh, findData.nFileSizeLow);
 			}
 
-			fileDate = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime));
+			Date = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime));
 		}
 
 		#endregion
@@ -69,29 +69,9 @@ namespace FileDiff
 			}
 		}
 
-		private long fileSize = -1;
-		public string Size
-		{
-			get
-			{
-				if (fileSize != -1)
-					return fileSize.ToString();
+		public DateTime Date { get; set; }
 
-				return "";
-			}
-		}
-
-		DateTime fileDate = DateTime.MinValue;
-		public string Date
-		{
-			get
-			{
-				if (fileDate != DateTime.MinValue)
-					return fileDate.ToString();
-
-				return "";
-			}
-		}
+		public long Size { get; set; }
 
 		public int Level { get; set; }
 
