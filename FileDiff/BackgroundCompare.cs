@@ -297,6 +297,7 @@ namespace FileDiff
 				{
 					//leftItem.IsExpanded = true;
 
+					// TODO: Refactor this
 					if (DirectoryIsIgnored(leftItem.Name) || DirectoryIsIgnored(rightItem.Name))
 					{
 						if (DirectoryIsIgnored(leftItem.Name))
@@ -329,6 +330,7 @@ namespace FileDiff
 				}
 				else
 				{
+					// TODO: Refactor this
 					if (FileIsIgnored(leftItem.Name) || FileIsIgnored(rightItem.Name))
 					{
 						if (FileIsIgnored(leftItem.Name))

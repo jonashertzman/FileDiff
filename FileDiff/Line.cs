@@ -113,9 +113,12 @@ namespace FileDiff
 			get { return type; }
 			set
 			{
-				type = value;
-				TextSegments.Clear();
-				AddTextSegment(Text, value);
+				if (type != value)
+				{
+					type = value;
+					TextSegments.Clear();
+					AddTextSegment(Text, value);
+				}
 			}
 		}
 
@@ -189,19 +192,20 @@ namespace FileDiff
 
 		public void AddTextSegment(string text, TextState state)
 		{
+			int start = 0;
 			int segmentLength;
 
 			do
 			{
-				segmentLength = Math.Min(1000, text.Length);
-				if (segmentLength > 0 && char.IsHighSurrogate(text[segmentLength - 1]))
+				segmentLength = Math.Min(1000, text.Length - start);
+				if (segmentLength > 0 && char.IsHighSurrogate(text[start + segmentLength - 1]))
 				{
 					segmentLength--;
 				}
 
-				TextSegments.Add(new TextSegment(text.Substring(0, segmentLength), state));
-				text = text.Remove(0, segmentLength);
-			} while (text.Length > 0);
+				TextSegments.Add(new TextSegment(text.Substring(start, segmentLength), state));
+				start += segmentLength;
+			} while (text.Length > start);
 		}
 
 		#endregion
