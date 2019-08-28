@@ -100,9 +100,9 @@ namespace FileDiff
 
 		private static void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
 		{
-			int matchingCharacters = 0;
+			int matchingCharacters;
 			float bestMatchFraction = 0;
-			float matchFraction = 0;
+			float matchFraction;
 			int bestLeft = 0;
 			int bestRight = 0;
 
@@ -120,32 +120,31 @@ namespace FileDiff
 					continue;
 				}
 
-				if (leftRange[leftIndex].TrimmedCharacters.Count > bestMatchFraction)
+				for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
 				{
-					for (int rightIndex = 0; rightIndex < rightRange.Count; rightIndex++)
+					if (rightRange[rightIndex].IsWhitespaceLine)
 					{
-						if (rightRange[rightIndex].IsWhitespaceLine)
-						{
-							continue;
-						}
+						continue;
+					}
 
-						matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
-						matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
-						if (matchFraction > bestMatchFraction)
+					matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
+
+					// matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
+					matchFraction = Math.Max((float)matchingCharacters / leftRange[leftIndex].TrimmedCharacters.Count, (float)matchingCharacters / rightRange[rightIndex].TrimmedCharacters.Count);
+					if (matchFraction > bestMatchFraction)
+					{
+						bestMatchFraction = matchFraction;
+						bestLeft = leftIndex;
+						bestRight = rightIndex;
+						if (bestMatchFraction == 1)
 						{
-							bestMatchFraction = matchFraction;
-							bestLeft = leftIndex;
-							bestRight = rightIndex;
-							if (bestMatchFraction == 1)
-							{
-								break;
-							}
+							break;
 						}
 					}
 				}
 			}
 
-			if (bestMatchFraction > AppSettings.LineSimilarityThreshold || leftRange[bestLeft].IsWhitespaceLine || rightRange[bestRight].IsWhitespaceLine || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
+			if (bestMatchFraction > AppSettings.LineSimilarityThreshold || leftRange[bestLeft].TrimmedText == rightRange[bestRight].TrimmedText)
 			{
 				leftRange[bestLeft].MatchingLineIndex = rightRange[bestRight].LineIndex;
 				rightRange[bestRight].MatchingLineIndex = leftRange[bestLeft].LineIndex;
