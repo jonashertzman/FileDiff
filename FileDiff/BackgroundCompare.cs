@@ -129,8 +129,7 @@ namespace FileDiff
 
 					matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
 
-					// matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
-					matchFraction = Math.Max((float)matchingCharacters / leftRange[leftIndex].TrimmedCharacters.Count, (float)matchingCharacters / rightRange[rightIndex].TrimmedCharacters.Count);
+					matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
 					if (matchFraction > bestMatchFraction)
 					{
 						bestMatchFraction = matchFraction;
