@@ -131,7 +131,7 @@ namespace FileDiff
 					if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
 					{
 						lineNumberColor = Brushes.White;
-						drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+						drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin - RoundToWholePixels(1), characterHeight));
 					}
 
 					// Draw line background
@@ -367,7 +367,7 @@ namespace FileDiff
 					EnsureCursorVisibility();
 				}
 			}
-			else if (e.Key == Key.Escape)
+			else if (e.Key == Key.Escape && Selection != null)
 			{
 				Selection = null;
 			}
