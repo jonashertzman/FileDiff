@@ -131,7 +131,7 @@ namespace FileDiff
 					if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
 					{
 						lineNumberColor = Brushes.White;
-						drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin - RoundToWholePixels(1), characterHeight));
+						drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(RoundToWholePixels(1), 0, lineNumberMargin - RoundToWholePixels(2), characterHeight));
 					}
 
 					// Draw line background

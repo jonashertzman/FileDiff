@@ -84,7 +84,7 @@ namespace FileDiff
 					count++;
 				}
 
-				Rect rect = new Rect(RoundToWholePixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth, Math.Ceiling(Math.Max((lineHeight * count), 1) / dpiScale) * dpiScale);
+				Rect rect = new Rect(RoundToWholePixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth - RoundToWholePixels(2), Math.Ceiling(Math.Max((lineHeight * count), 1) / dpiScale) * dpiScale);
 
 				if (rect.Bottom > lastHeight)
 				{
