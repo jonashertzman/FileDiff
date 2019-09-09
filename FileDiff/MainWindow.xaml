@@ -597,11 +597,11 @@
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
-							<Button Grid.Column="0" Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
-							<TextBox Grid.Column="1" Name="SearchBox" Margin="5,1" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
-							<Button Grid.Column="2" Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
-							<Button Grid.Column="3" Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
-							<CheckBox Grid.Column="4" Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
+							<Button Grid.Column="0" Content="Close" Margin="5,2" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
+							<TextBox Grid.Column="1" Name="SearchBox" Margin="5,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+							<Button Grid.Column="2" Content="Next" Margin="5,2" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
+							<Button Grid.Column="3" Content="Previous" Margin="5,2" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
+							<CheckBox Grid.Column="4" Name="MatchCase" Content="Match Case" Margin="5,2" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
 						</Grid>
 					</DockPanel>
 				</Border>
