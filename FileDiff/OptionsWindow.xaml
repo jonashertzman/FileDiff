@@ -78,8 +78,11 @@
 							<Label Grid.Row="8" Content="Selection" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="SelectionBackground" Grid.Row="8" Grid.Column="2" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False">
-								<Border Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
+								<Border Margin="10" Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+									<Border.Effect>
+										<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
+									</Border.Effect>
 									<Grid Width="150">
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="auto" />

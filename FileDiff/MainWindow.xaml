@@ -616,7 +616,7 @@
 		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
 			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
 				<Border.Effect>
-					<DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity=".3" />
+					<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
 				</Border.Effect>
 				<StackPanel Margin="5">
 					<Label Content="Comparing..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
