@@ -279,7 +279,7 @@ namespace FileDiff
 			}
 		}
 
-		string leftPath;
+		string leftPath = "";
 		public string LeftPath
 		{
 			get { return leftPath; }
@@ -291,7 +291,7 @@ namespace FileDiff
 			}
 		}
 
-		string rightPath;
+		string rightPath = "";
 		public string RightPath
 		{
 			get { return rightPath; }
