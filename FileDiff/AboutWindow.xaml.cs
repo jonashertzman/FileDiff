@@ -12,7 +12,6 @@ namespace FileDiff
 		public AboutWindow()
 		{
 			InitializeComponent();
-			Owner = App.Current.MainWindow;
 		}
 
 		private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

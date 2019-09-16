@@ -14,7 +14,8 @@ namespace FileDiff
 		private static int progress;
 		public static IProgress<int> progressHandler;
 		private static DateTime startTime;
-		private static string currentRoot;
+		private static string leftRoot;
+		private static string rightRoot;
 
 		#endregion
 
@@ -49,7 +50,8 @@ namespace FileDiff
 		{
 			CompareCancelled = false;
 			progress = 0;
-			currentRoot = leftPath + "\\";
+			leftRoot = leftPath + "\\";
+			rightRoot = rightPath + "\\";
 
 			startTime = DateTime.UtcNow;
 
@@ -240,7 +242,14 @@ namespace FileDiff
 
 			if (level == 2)
 			{
-				progressHandler.Report(Char.ToUpper((leftPath ?? rightPath)[currentRoot.Length]) - 'A');
+				if (leftPath != null)
+				{
+					progressHandler.Report(Char.ToUpper(leftPath[leftRoot.Length]) - 'A');
+				}
+				else if (rightPath != null)
+				{
+					progressHandler.Report(Char.ToUpper(rightPath[rightRoot.Length]) - 'A');
+				}
 			}
 
 			if (leftPath?.Length > 259 || rightPath?.Length > 259)
