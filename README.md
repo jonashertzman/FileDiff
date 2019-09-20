@@ -9,6 +9,7 @@ Source code available at <https://github.com/jonashertzman/FileDiff>
 
 ### Features
 - File compare
+- Inline diffs
 - Multi level directory compare
 - Combined master detail compare
 - Editable diffs
