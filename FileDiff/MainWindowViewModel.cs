@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -28,6 +30,30 @@ namespace FileDiff
 		#endregion
 
 		#region Properties
+
+		public string Title
+		{
+			get { return "File Diff"; }
+		}
+
+		public string Version
+		{
+			get { return "1.2"; }
+		}
+
+		public string BuildNumber
+		{
+			get
+			{
+				DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
+				return $"{buildDate.ToString("yy")}{buildDate.DayOfYear}";
+			}
+		}
+
+		public string FullApplicationName
+		{
+			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
+		}
 
 		bool guiFrozen = false;
 		public bool GuiFrozen

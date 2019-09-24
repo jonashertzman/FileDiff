@@ -6,7 +6,7 @@
 		</Grid.ColumnDefinitions>
 
 		<StackPanel Grid.Column="0" Margin="5">
-			<Label Grid.Row="0" Content="File Diff 1.2.0" Style="{StaticResource  CommonTextLabel}" />
+			<Label Content="{Binding FullApplicationName, FallbackValue = 'File Diff X.X  (Build 19123)' }" Style="{StaticResource CommonTextLabel}" />
 			<Label Grid.Row="1" Content="Author: Jonas Hertzman" Style="{StaticResource  CommonTextLabel}" />
 			<Label Grid.Row="2" Content="License: GNU General Public License v3" Style="{StaticResource  CommonTextLabel}" />
 			<Label Grid.Row="3" Style="{StaticResource  CommonTextLabel}">

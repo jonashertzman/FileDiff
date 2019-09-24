@@ -203,6 +203,8 @@ namespace FileDiff
 		{
 			Debug.Print("------ CompareDirectories");
 
+			ProgressPanel.Visibility = Visibility.Hidden;
+
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.Start();
 
@@ -761,7 +763,7 @@ namespace FileDiff
 
 		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			AboutWindow aboutWindow = new AboutWindow() { Owner = this };
+			AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
 			aboutWindow.ShowDialog();
 		}
 

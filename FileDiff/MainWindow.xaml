@@ -1,4 +1,4 @@
-﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="File Diff" Height="500" Width="900" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
+﻿<Window x:Class="FileDiff.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileDiff" mc:Ignorable="d" Title="{Binding Title, FallbackValue='File Diff'}" Height="500" Width="900" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Closed="Window_Closed" ContentRendered="Window_ContentRendered" Initialized="Window_Initialized">
 
 	<Window.Resources>
 
@@ -613,11 +613,14 @@
 		</DockPanel>
 
 		<!--Compare Progress-->
-		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}}" Cursor="Wait">
-			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
+		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue='Hidden'}" Cursor="Wait">
+			<!-- Workaround to not fuckup the cleartype rendering -->
+			<Border Visibility="{Binding Visibility, ElementName=ProgressPanel}" Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Border.Effect>
 					<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
 				</Border.Effect>
+			</Border>
+			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
 				<StackPanel Margin="5">
 					<Label Content="Comparing..." HorizontalAlignment="Center" Style="{StaticResource CommonTextLabel}" />
 					<StackPanel Orientation="Horizontal">

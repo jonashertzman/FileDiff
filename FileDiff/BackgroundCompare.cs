@@ -294,6 +294,11 @@ namespace FileDiff
 
 			foreach (KeyValuePair<string, FileItemPair> pair in allItems)
 			{
+				if (CompareCancelled)
+				{
+					return;
+				}
+
 				FileItem leftItem = pair.Value.LeftItem;
 				FileItem rightItem = pair.Value.RightItem;
 

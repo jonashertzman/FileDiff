@@ -28,7 +28,7 @@
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Margin" Value="5" />
 		<Setter Property="MinWidth" Value="80" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ControlDarkBrushKey} }" />
 	</Style>
 
 	<Style x:Key="CommonCheckBox" TargetType="CheckBox">
