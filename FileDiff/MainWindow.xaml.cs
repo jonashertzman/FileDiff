@@ -31,7 +31,7 @@ namespace FileDiff
 		string rightSelection = "";
 		string leftSelection = "";
 
-		DispatcherTimer progressTimer = new DispatcherTimer();
+		readonly DispatcherTimer progressTimer = new DispatcherTimer();
 
 		#endregion
 

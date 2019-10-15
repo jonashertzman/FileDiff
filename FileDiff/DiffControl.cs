@@ -50,7 +50,7 @@ namespace FileDiff
 
 		private Typeface typeface;
 
-		private DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
+		private readonly DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
 
 		#endregion
 
@@ -102,7 +102,7 @@ namespace FileDiff
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
 
-			GlyphRun g = TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
+			TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
 			textMargin = RoundToWholePixels(4);
@@ -601,6 +601,36 @@ namespace FileDiff
 			}
 
 			base.OnMouseDown(e);
+		}
+
+		protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+		{
+			this.Focus();
+
+			if (e.ChangedButton == MouseButton.Left)
+			{
+				mouseDownPosition = null;
+				PointToCharacter(e.GetPosition(this), out downLine, out downCharacter);
+
+				int left = 0;
+				int right = 1;
+				while (downCharacter - left > 0 && char.IsLetterOrDigit(Lines[downLine].Text[downCharacter - left - 1]))
+				{
+					left++;
+				}
+
+				while (downCharacter + right < Lines[downLine].Text.Length && char.IsLetterOrDigit(Lines[downLine].Text[downCharacter + right]))
+				{
+					right++;
+				}
+
+				SetCursorPosition(downLine, downCharacter - left, false);
+				SetCursorPosition(downLine, downCharacter + right, true);
+
+				InvalidateVisual();
+			}
+
+			base.OnMouseDoubleClick(e);
 		}
 
 		protected override void OnMouseUp(MouseButtonEventArgs e)

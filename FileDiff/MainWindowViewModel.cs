@@ -15,7 +15,7 @@ namespace FileDiff
 
 		#region Members
 
-		DispatcherTimer timer = new DispatcherTimer();
+		readonly DispatcherTimer timer = new DispatcherTimer();
 
 		#endregion
 
