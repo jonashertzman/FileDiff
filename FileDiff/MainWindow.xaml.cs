@@ -241,7 +241,7 @@ namespace FileDiff
 				Statusbar.Text = $"Compare time {TimeSpanToShortString(task.Result.Item3)}";
 
 				folderDiffItems = new List<FileItem>();
-				GetFolderDiffItems(ViewModel.LeftFolder, folderDiffItems);
+				GetFolderDiffItems(ViewModel.RightFolder, folderDiffItems);
 
 			}
 			else
@@ -935,44 +935,44 @@ namespace FileDiff
 		{
 			if (folderDiffItems.Count > 0)
 			{
-				int currentIndex = folderDiffItems.IndexOf(LeftFolder.SelectedFile);
+				int currentIndex = folderDiffItems.IndexOf(RightFolder.SelectedFile);
 
 				if (currentIndex == -1)
 				{
-					LeftFolder.Select(folderDiffItems[0]);
+					RightFolder.Select(folderDiffItems[0]);
 				}
 				else if (currentIndex < folderDiffItems.Count - 1)
 				{
-					LeftFolder.Select(folderDiffItems[currentIndex + 1]);
+					RightFolder.Select(folderDiffItems[currentIndex + 1]);
 				}
 			}
 		}
 
 		private void CommandNextFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FolderVissible && folderDiffItems.IndexOf(LeftFolder.SelectedFile) < folderDiffItems.Count - 1; ;
+			e.CanExecute = ViewModel.FolderVissible && folderDiffItems.IndexOf(RightFolder.SelectedFile) < folderDiffItems.Count - 1; ;
 		}
 
 		private void CommandPreviousFile_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			if (folderDiffItems.Count > 0)
 			{
-				int currentIndex = folderDiffItems.IndexOf(LeftFolder.SelectedFile);
+				int currentIndex = folderDiffItems.IndexOf(RightFolder.SelectedFile);
 
 				if (currentIndex == -1)
 				{
-					LeftFolder.Select(folderDiffItems[folderDiffItems.Count - 1]);
+					RightFolder.Select(folderDiffItems[folderDiffItems.Count - 1]);
 				}
 				else if (currentIndex > 0)
 				{
-					LeftFolder.Select(folderDiffItems[currentIndex - 1]);
+					RightFolder.Select(folderDiffItems[currentIndex - 1]);
 				}
 			}
 		}
 
 		private void CommandPreviousFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FolderVissible && folderDiffItems.IndexOf(LeftFolder.SelectedFile) > 0;
+			e.CanExecute = ViewModel.FolderVissible && folderDiffItems.IndexOf(RightFolder.SelectedFile) > 0;
 		}
 
 		private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)

@@ -466,7 +466,7 @@
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
 
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding LeftFile, Mode=TwoWay}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding LeftFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxLeftVerialcalScroll , Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" FocusVisualStyle="{x:Null}" />
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding LeftFile, Mode=TwoWay}" CurrentDiff="{Binding CurrentDiff}" CurrentDiffLength="{Binding CurrentDiffLength}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding LeftFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxLeftVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" FocusVisualStyle="{x:Null}" />
 						<ScrollBar Grid.Row="1" x:Name="LeftHorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Border>
@@ -544,7 +544,7 @@
 								<local:TreeControl x:Name="RightFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="RightFolder_SelectionChanged" GotFocus="RightFolder_GotFocus" Lines="{Binding RightFolder}" HorizontalOffset="{Binding Value, ElementName=RightFolderHorizontalScrollbar, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 							</Border>
 							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
-								<ScrollBar Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll , Mode=TwoWay}" />
+								<ScrollBar Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll, Mode=TwoWay}" />
 							</Border>
 							<ScrollBar Grid.Row="2" Name="RightFolderHorizontalScrollbar" ValueChanged="RightFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
 							<StackPanel Grid.Row="3" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
