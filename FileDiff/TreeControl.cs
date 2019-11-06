@@ -63,8 +63,7 @@ namespace FileDiff
 
 			textMargin = RoundToWholePixels(4);
 
-			visibleItems = new List<FileItem>();
-			GetVisibleItems(Lines, visibleItems);
+			UpdateVisibleItems();
 
 			VisibleLines = (int)(ActualHeight / itemHeight + 1);
 			MaxVerialcalScroll = visibleItems.Count - VisibleLines + 1;
@@ -177,8 +176,7 @@ namespace FileDiff
 				{
 					visibleItems[lineIndex].IsExpanded = !visibleItems[lineIndex].IsExpanded;
 
-					visibleItems = new List<FileItem>();
-					GetVisibleItems(Lines, visibleItems);
+					UpdateVisibleItems();
 					UpdateTrigger++;
 				}
 			}
@@ -319,16 +317,34 @@ namespace FileDiff
 		public void Select(FileItem item)
 		{
 			ExpandParents(item);
+			UpdateVisibleItems();
+			MaxVerialcalScroll = visibleItems.Count - VisibleLines + 1;
 			MoveItemIntoView(item);
 			SelectedFile = item;
 			SelectionChanged?.Invoke(SelectedFile);
 			UpdateTrigger++;
 		}
 
+		private void UpdateVisibleItems()
+		{
+			void FindVisibleItems(ObservableCollection<FileItem> parent, List<FileItem> items)
+			{
+				foreach (FileItem fileItem in parent)
+				{
+					items.Add(fileItem);
+					if (fileItem.IsFolder && fileItem.IsExpanded)
+					{
+						FindVisibleItems(fileItem.Children, items);
+					}
+				}
+			}
+
+			visibleItems = new List<FileItem>();
+			FindVisibleItems(Lines, visibleItems);
+		}
+
 		private void MoveItemIntoView(FileItem item)
 		{
-			visibleItems = new List<FileItem>();
-			GetVisibleItems(Lines, visibleItems);
 			int itemIndex = visibleItems.IndexOf(item);
 			if (itemIndex < VerticalOffset)
 			{
@@ -346,18 +362,6 @@ namespace FileDiff
 			{
 				ExpandParents(item.Parent);
 				item.Parent.IsExpanded = true;
-			}
-		}
-
-		private void GetVisibleItems(ObservableCollection<FileItem> parent, List<FileItem> visibleItems)
-		{
-			foreach (FileItem fileItem in parent)
-			{
-				visibleItems.Add(fileItem);
-				if (fileItem.IsFolder && fileItem.IsExpanded)
-				{
-					GetVisibleItems(fileItem.Children, visibleItems);
-				}
 			}
 		}
 

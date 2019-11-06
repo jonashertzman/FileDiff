@@ -688,6 +688,8 @@ namespace FileDiff
 			leftSelection = selectedItem.Path;
 			rightSelection = selectedItem.CorrespondingItem.Path;
 
+			activeSelection = leftSelection;
+
 			RightFolder.SelectedFile = selectedItem.CorrespondingItem;
 
 			CompareFiles();
@@ -697,6 +699,8 @@ namespace FileDiff
 		{
 			rightSelection = selectedItem.Path;
 			leftSelection = selectedItem.CorrespondingItem.Path;
+
+			activeSelection = rightSelection;
 
 			LeftFolder.SelectedFile = selectedItem.CorrespondingItem;
 
