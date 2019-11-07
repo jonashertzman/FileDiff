@@ -26,7 +26,6 @@ namespace FileDiff
 		bool renderComplete = false;
 
 		DiffControl activeDiff;
-		string activeSelection;
 
 		string rightSelection = "";
 		string leftSelection = "";
@@ -70,7 +69,6 @@ namespace FileDiff
 		{
 			rightSelection = "";
 			leftSelection = "";
-			activeSelection = "";
 			ViewModel.LeftPath = ViewModel.LeftPath.Trim();
 			ViewModel.RightPath = ViewModel.RightPath.Trim();
 
@@ -479,6 +477,16 @@ namespace FileDiff
 			}
 		}
 
+		private string GetFocusedPath(object control)
+		{
+			if (control == LeftDiff) return leftSelection;
+			else if (control == RightDiff) return rightSelection;
+			else if (control == LeftFolder) return LeftFolder.SelectedFile.Path;
+			else if (control == RightFolder) return RightFolder.SelectedFile.Path;
+
+			return "";
+		}
+
 		#endregion
 
 		#region Events
@@ -647,24 +655,12 @@ namespace FileDiff
 		{
 			activeDiff = RightDiff;
 			ViewModel.FindPanelRight = true;
-			activeSelection = RightDiff.Lines.Count > 0 ? rightSelection : "";
 		}
 
 		private void LeftDiff_GotFocus(object sender, RoutedEventArgs e)
 		{
 			activeDiff = LeftDiff;
 			ViewModel.FindPanelRight = false;
-			activeSelection = LeftDiff.Lines.Count > 0 ? leftSelection : "";
-		}
-
-		private void LeftFolder_GotFocus(object sender, RoutedEventArgs e)
-		{
-			activeSelection = leftSelection;
-		}
-
-		private void RightFolder_GotFocus(object sender, RoutedEventArgs e)
-		{
-			activeSelection = rightSelection;
 		}
 
 		private void LeftColumns_Resized(object sender, SizeChangedEventArgs e)
@@ -685,10 +681,7 @@ namespace FileDiff
 
 		private void LeftFolder_SelectionChanged(FileItem selectedItem)
 		{
-			leftSelection = selectedItem.Path;
 			rightSelection = selectedItem.CorrespondingItem.Path;
-
-			activeSelection = leftSelection;
 
 			RightFolder.SelectedFile = selectedItem.CorrespondingItem;
 
@@ -697,10 +690,7 @@ namespace FileDiff
 
 		private void RightFolder_SelectionChanged(FileItem selectedItem)
 		{
-			rightSelection = selectedItem.Path;
 			leftSelection = selectedItem.CorrespondingItem.Path;
-
-			activeSelection = rightSelection;
 
 			LeftFolder.SelectedFile = selectedItem.CorrespondingItem;
 
@@ -1041,24 +1031,24 @@ namespace FileDiff
 
 		private void CommandOpenContainingFolder_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			string args = $"/Select, {Path.GetFullPath(activeSelection)}";
+			string args = $"/Select, {Path.GetFullPath(GetFocusedPath(e.OriginalSource))}";
 			ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
 			Process.Start(pfi);
 		}
 
 		private void CommandOpenContainingFolder_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = activeSelection != "";
+			e.CanExecute = GetFocusedPath(e.OriginalSource) != "";
 		}
 
 		private void CommandCopyPathToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			Clipboard.SetText(Path.GetFullPath(activeSelection));
+			Clipboard.SetText(Path.GetFullPath(GetFocusedPath(e.OriginalSource)));
 		}
 
 		private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = activeSelection != "";
+			e.CanExecute = GetFocusedPath(e.OriginalSource) != "";
 		}
 
 		private void CommandCopyLeftDiff_Executed(object sender, ExecutedRoutedEventArgs e)
