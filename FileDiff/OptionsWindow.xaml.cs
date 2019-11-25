@@ -30,6 +30,31 @@ namespace FileDiff
 
 		#endregion
 
+		#region Methods
+
+		private void CleanIgnores()
+		{
+			MainWindowViewModel viewModel = DataContext as MainWindowViewModel;
+
+			for (int i = viewModel.IgnoredFolders.Count - 1; i >= 0; i--)
+			{
+				if (string.IsNullOrWhiteSpace(viewModel.IgnoredFolders[i].Text))
+				{
+					viewModel.IgnoredFolders.RemoveAt(i);
+				}
+			}
+
+			for (int i = viewModel.IgnoredFiles.Count - 1; i >= 0; i--)
+			{
+				if (string.IsNullOrWhiteSpace(viewModel.IgnoredFiles[i].Text))
+				{
+					viewModel.IgnoredFiles.RemoveAt(i);
+				}
+			}
+		}
+
+		#endregion
+
 		#region Events
 
 		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
@@ -91,6 +116,7 @@ namespace FileDiff
 
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)
 		{
+			CleanIgnores();
 			DialogResult = true;
 		}
 
