@@ -433,9 +433,9 @@ namespace FileDiff
 
 		private void UpdateColumnWidths(Grid columnGrid)
 		{
-			ViewModel.NameColumnWidth = columnGrid.ColumnDefinitions[0].Width.Value;
-			ViewModel.SizeColumnWidth = columnGrid.ColumnDefinitions[2].Width.Value;
-			ViewModel.DateColumnWidth = columnGrid.ColumnDefinitions[4].Width.Value;
+			ViewModel.NameColumnWidth = Math.Max(columnGrid.ColumnDefinitions[0].Width.Value, 20);
+			ViewModel.SizeColumnWidth = Math.Max(columnGrid.ColumnDefinitions[2].Width.Value, 20);
+			ViewModel.DateColumnWidth = Math.Max(columnGrid.ColumnDefinitions[4].Width.Value, 20);
 
 
 			// HACK: Workaround until I figure out how to data bind the column definition widths two way.
