@@ -121,7 +121,7 @@ namespace FileDiff
 										drawingContext.DrawLine(expanderPen, new Point(expanderRect.Left, expanderMargin * 2), new Point(expanderRect.Right, expanderMargin * 2));
 										if (!line.IsExpanded)
 										{
-											drawingContext.DrawLine(expanderPen, new Point(expanderMargin * 2, expanderMargin), new Point(expanderMargin * 2, expanderMargin * 3));
+											drawingContext.DrawLine(expanderPen, new Point(expanderRect.Left + expanderMargin, expanderMargin), new Point(expanderRect.Left + expanderMargin, expanderMargin * 3));
 										}
 									}
 								}
