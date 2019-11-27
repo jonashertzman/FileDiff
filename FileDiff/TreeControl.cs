@@ -48,24 +48,25 @@ namespace FileDiff
 			if (Lines.Count == 0)
 				return;
 
-			double itemMargin = RoundToWholePixels(1);
-			double textMargin = RoundToWholePixels(3);
-			double expanderMargin = 5.5;
-			double handleWidth = 4;
-
-			double gridLine1 = AppSettings.NameColumnWidth + handleWidth;
-			double gridLine2 = AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2);
-			double gridLine3 = AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + AppSettings.DateColumnWidth + (handleWidth * 3);
-
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
 
+			double itemMargin = 1 * dpiScale;
+
+			itemHeight = Math.Ceiling(MeasureString("W").Height / dpiScale) * dpiScale + (2 * itemMargin);
+
+			double textMargin = RoundToWholePixels(3);
+			double expanderMargin = Math.Floor(itemHeight * .25);
+			double handleWidth = RoundToWholePixels(4);
+
+			double gridLine1 = RoundToWholePixels(AppSettings.NameColumnWidth + handleWidth - itemMargin);
+			double gridLine2 = RoundToWholePixels(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2) - itemMargin);
+			double gridLine3 = RoundToWholePixels(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + AppSettings.DateColumnWidth + (handleWidth * 3) - itemMargin);
+
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
-			itemHeight = Math.Ceiling((MeasureString("W").Height + (2 * itemMargin)) / dpiScale) * dpiScale;
-
 			Pen selectionPen = new Pen(new SolidColorBrush(SystemColors.HighlightColor), itemMargin);
-			Pen expanderPen = new Pen(new SolidColorBrush(Colors.DarkSlateGray), RoundToWholePixels(1));
+			Pen expanderPen = new Pen(new SolidColorBrush(AppSettings.FullMatchForeground.Color), 1 * dpiScale);
 			Pen gridPen = new Pen(new SolidColorBrush(Color.FromArgb(20, 0, 0, 0)), RoundToWholePixels(1));
 
 			UpdateVisibleItems();
@@ -73,6 +74,10 @@ namespace FileDiff
 			VisibleLines = (int)(ActualHeight / itemHeight + 1);
 			MaxVerialcalScroll = visibleItems.Count - VisibleLines + 1;
 			VerticalOffset = Math.Min(VerticalOffset, MaxVerialcalScroll);
+
+			GuidelineSet guidelineSet = new GuidelineSet();
+			guidelineSet.GuidelinesX.Add(0.5 * dpiScale);
+			guidelineSet.GuidelinesY.Add(0.5 * dpiScale);
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -102,24 +107,29 @@ namespace FileDiff
 						// Name column
 						drawingContext.PushClip(new RectangleGeometry(new Rect(textMargin, 0, AppSettings.NameColumnWidth - textMargin * 2, itemHeight)));
 						{
+
 							// Draw folder expander
 							if (line.IsFolder)
 							{
-								Rect expanderRect = new Rect(expanderMargin + ((line.Level - 1) * itemHeight), expanderMargin, itemHeight - expanderMargin * 2, itemHeight - expanderMargin * 2);
-
-								drawingContext.DrawRectangle(Brushes.Transparent, expanderPen, expanderRect);
-								if (line.Type != TextState.Ignored)
+								drawingContext.PushGuidelineSet(guidelineSet);
 								{
-									drawingContext.DrawLine(expanderPen, new Point(expanderRect.Left, itemHeight / 2), new Point(expanderRect.Right, itemHeight / 2));
-									if (!line.IsExpanded)
+									Rect expanderRect = new Rect(expanderMargin + ((line.Level - 1) * itemHeight), expanderMargin, expanderMargin * 2, expanderMargin * 2);
+
+									drawingContext.DrawRectangle(Brushes.Transparent, expanderPen, expanderRect);
+									if (line.Type != TextState.Ignored)
 									{
-										drawingContext.DrawLine(expanderPen, new Point(expanderRect.Left + expanderRect.Width / 2, expanderMargin), new Point(expanderRect.Left + expanderRect.Width / 2, itemHeight - expanderMargin));
+										drawingContext.DrawLine(expanderPen, new Point(expanderRect.Left, expanderMargin * 2), new Point(expanderRect.Right, expanderMargin * 2));
+										if (!line.IsExpanded)
+										{
+											drawingContext.DrawLine(expanderPen, new Point(expanderMargin * 2, expanderMargin), new Point(expanderMargin * 2, expanderMargin * 3));
+										}
 									}
 								}
+								drawingContext.Pop();
 							}
 							drawingContext.DrawText(new FormattedText(line.Name, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(line.Level * itemHeight, itemMargin));
 						}
-						drawingContext.Pop(); // Name column
+						drawingContext.Pop();
 
 						// Size column
 						if (!line.IsFolder)
@@ -129,7 +139,7 @@ namespace FileDiff
 								string sizeText = line.Size.ToString("N0");
 								drawingContext.DrawText(new FormattedText(sizeText, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(gridLine1 + AppSettings.SizeColumnWidth - textMargin - MeasureString(sizeText).Width - 1, itemMargin));
 							}
-							drawingContext.Pop(); // Size column
+							drawingContext.Pop();
 						}
 
 						// Date column
@@ -137,7 +147,7 @@ namespace FileDiff
 						{
 							drawingContext.DrawText(new FormattedText(line.Date.ToString("g"), CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display, dpiScale), new Point(gridLine2 + textMargin, itemMargin));
 						}
-						drawingContext.Pop(); // Date column
+						drawingContext.Pop();
 
 					}
 					drawingContext.Pop(); // Horizontal offset
@@ -145,24 +155,27 @@ namespace FileDiff
 					// Draw selection
 					if (line == SelectedFile)
 					{
-						drawingContext.DrawLine(selectionPen, new Point(0, .5), new Point(this.ActualWidth, .5));
-						drawingContext.DrawRectangle(AppSettings.SelectionBackground, null, new Rect(-.5, .5, this.ActualWidth + 1, itemHeight - 1));
-						drawingContext.DrawLine(selectionPen, new Point(0, itemHeight - .5), new Point(this.ActualWidth, itemHeight - .5));
+						drawingContext.DrawRectangle(AppSettings.SelectionBackground, null, new Rect(0, 0, this.ActualWidth, itemHeight));
+						drawingContext.PushGuidelineSet(guidelineSet);
+						{
+							drawingContext.DrawLine(selectionPen, new Point(-1, 0), new Point(this.ActualWidth, 0));
+							drawingContext.DrawLine(selectionPen, new Point(-1, itemHeight - 1 * dpiScale), new Point(this.ActualWidth, itemHeight - 1 * dpiScale));
+						}
+						drawingContext.Pop();
 					}
 				}
 				drawingContext.Pop(); // Line Y offset 
 			}
 
-			//// Draw grid lines
+			// Draw grid lines
 			//drawingContext.PushTransform(new TranslateTransform(-HorizontalOffset, 0));
 			//{
-			//	drawingContext.PushTransform(new TranslateTransform(-.5, 0));
+			//	drawingContext.PushGuidelineSet(guidelineSet);
 			//	{
-			//		drawingContext.DrawLine(gridPen, new Point(gridLine1, 0), new Point(gridLine1, this.ActualHeight));
-			//		drawingContext.DrawLine(gridPen, new Point(gridLine2, 0), new Point(gridLine2, this.ActualHeight));
-			//		drawingContext.DrawLine(gridPen, new Point(gridLine3, 0), new Point(gridLine3, this.ActualHeight));
+			//		drawingContext.DrawLine(gridPen, new Point(gridLine1, -1), new Point(gridLine1, this.ActualHeight));
+			//		drawingContext.DrawLine(gridPen, new Point(gridLine2, -1), new Point(gridLine2, this.ActualHeight));
+			//		drawingContext.DrawLine(gridPen, new Point(gridLine3, -1), new Point(gridLine3, this.ActualHeight));
 			//	}
-			//	drawingContext.Pop();
 			//}
 			//drawingContext.Pop();
 		}
