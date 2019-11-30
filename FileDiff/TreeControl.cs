@@ -66,8 +66,13 @@ namespace FileDiff
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
 			Pen selectionPen = new Pen(new SolidColorBrush(SystemColors.HighlightColor), itemMargin);
+			GuidelineSet selectionGuide = CreateGuidelineSet(selectionPen);
+
 			Pen expanderPen = new Pen(new SolidColorBrush(AppSettings.FullMatchForeground.Color), 1 * dpiScale);
+			GuidelineSet expanderGuide = CreateGuidelineSet(expanderPen);
+
 			Pen gridPen = new Pen(new SolidColorBrush(Color.FromArgb(20, 0, 0, 0)), RoundToWholePixels(1));
+			GuidelineSet gridGuide = CreateGuidelineSet(gridPen);
 
 			UpdateVisibleItems();
 
@@ -75,9 +80,6 @@ namespace FileDiff
 			MaxVerialcalScroll = visibleItems.Count - VisibleLines + 1;
 			VerticalOffset = Math.Min(VerticalOffset, MaxVerialcalScroll);
 
-			GuidelineSet guidelineSet = new GuidelineSet();
-			guidelineSet.GuidelinesX.Add(0.5 * dpiScale);
-			guidelineSet.GuidelinesY.Add(0.5 * dpiScale);
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -111,7 +113,7 @@ namespace FileDiff
 							// Draw folder expander
 							if (line.IsFolder)
 							{
-								drawingContext.PushGuidelineSet(guidelineSet);
+								drawingContext.PushGuidelineSet(expanderGuide);
 								{
 									Rect expanderRect = new Rect(expanderMargin + ((line.Level - 1) * itemHeight), expanderMargin, expanderMargin * 2, expanderMargin * 2);
 
@@ -156,7 +158,7 @@ namespace FileDiff
 					if (line == SelectedFile)
 					{
 						drawingContext.DrawRectangle(AppSettings.SelectionBackground, null, new Rect(0, 0, this.ActualWidth, itemHeight));
-						drawingContext.PushGuidelineSet(guidelineSet);
+						drawingContext.PushGuidelineSet(selectionGuide);
 						{
 							drawingContext.DrawLine(selectionPen, new Point(-1, 0), new Point(this.ActualWidth, 0));
 							drawingContext.DrawLine(selectionPen, new Point(-1, itemHeight - 1 * dpiScale), new Point(this.ActualWidth, itemHeight - 1 * dpiScale));
@@ -167,10 +169,10 @@ namespace FileDiff
 				drawingContext.Pop(); // Line Y offset 
 			}
 
-			// Draw grid lines
+			//// Draw grid lines
 			//drawingContext.PushTransform(new TranslateTransform(-HorizontalOffset, 0));
 			//{
-			//	drawingContext.PushGuidelineSet(guidelineSet);
+			//	drawingContext.PushGuidelineSet(gridGuide);
 			//	{
 			//		drawingContext.DrawLine(gridPen, new Point(gridLine1, -1), new Point(gridLine1, this.ActualHeight));
 			//		drawingContext.DrawLine(gridPen, new Point(gridLine2, -1), new Point(gridLine2, this.ActualHeight));
@@ -347,6 +349,14 @@ namespace FileDiff
 			SelectedFile = item;
 			SelectionChanged?.Invoke(SelectedFile);
 			UpdateTrigger++;
+		}
+
+		private static GuidelineSet CreateGuidelineSet(Pen pen)
+		{
+			GuidelineSet guidelineSet = new GuidelineSet();
+			guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
+			guidelineSet.GuidelinesY.Add(pen.Thickness / 2);
+			return guidelineSet;
 		}
 
 		private void UpdateVisibleItems()
