@@ -105,8 +105,13 @@ namespace FileDiff
 			TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
+			Brush activeDiffBrush = new SolidColorBrush(Color.FromRgb(220, 220, 220));
+
+			Pen borderPen = new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1));
+			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
+
 			textMargin = RoundToWholePixels(4);
-			lineNumberMargin = (characterWidth * Lines.Count.ToString().Length) + (2 * textMargin);
+			lineNumberMargin = RoundToWholePixels(characterWidth * Lines.Count.ToString().Length) + (2 * textMargin) + borderPen.Thickness;
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
@@ -130,8 +135,8 @@ namespace FileDiff
 
 					if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
 					{
-						lineNumberColor = Brushes.White;
-						drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(RoundToWholePixels(1), 0, lineNumberMargin - RoundToWholePixels(2), characterHeight));
+						lineNumberColor = SystemColors.ControlDarkDarkBrush;
+						drawingContext.DrawRectangle(activeDiffBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 					}
 
 					// Draw line background
@@ -144,7 +149,7 @@ namespace FileDiff
 					{
 						GlyphRun rowNumberRun = line.GetRenderedLineIndexText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
 
-						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
+						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin - borderPen.Thickness, 0));
 						drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
 						drawingContext.Pop();
 					}
@@ -220,8 +225,10 @@ namespace FileDiff
 			}
 
 			// Draw line number border
-			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
-			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
+			drawingContext.PushGuidelineSet(borderGuide);
+			{
+				drawingContext.DrawLine(borderPen, new Point(lineNumberMargin, -1), new Point(lineNumberMargin, this.ActualHeight));
+			}
 			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
@@ -829,6 +836,14 @@ namespace FileDiff
 				InsertNewLine(0, "");
 				Edited = false;
 			}
+		}
+
+		private GuidelineSet CreateGuidelineSet(Pen pen)
+		{
+			GuidelineSet guidelineSet = new GuidelineSet();
+			guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
+			guidelineSet.GuidelinesY.Add(pen.Thickness / 2);
+			return guidelineSet;
 		}
 
 		private void DeleteSelection()
