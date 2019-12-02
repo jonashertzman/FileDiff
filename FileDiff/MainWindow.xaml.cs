@@ -254,23 +254,15 @@ namespace FileDiff
 
 		private string TimeSpanToShortString(TimeSpan timeSpan)
 		{
-			if (timeSpan.Days > 0)
+			if (timeSpan.TotalHours >= 1)
 			{
-				return $"{timeSpan.Days}d {timeSpan.Hours}h";
-			}
-			if (timeSpan.Hours > 0)
-			{
-				return $"{timeSpan.Hours}h {timeSpan.Minutes}m";
+				return $"{(int)timeSpan.TotalHours}h {timeSpan.Minutes}m";
 			}
 			if (timeSpan.Minutes > 0)
 			{
 				return $"{timeSpan.Minutes}m {timeSpan.Seconds}s";
 			}
-			if (timeSpan.Seconds > 0)
-			{
-				return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
-			}
-			return $"{timeSpan.Milliseconds}ms";
+			return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
 		}
 
 		private void InitNavigationState()
