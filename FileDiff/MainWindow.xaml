@@ -163,6 +163,13 @@
 								</Style.Triggers>
 							</Style>
 						</ToggleButton.Style>
+						<ToggleButton.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+								</StackPanel>
+							</ToolTip>
+						</ToggleButton.ToolTip>
 					</ToggleButton>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Swap">
