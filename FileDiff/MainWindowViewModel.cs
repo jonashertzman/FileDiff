@@ -46,7 +46,7 @@ namespace FileDiff
 			get
 			{
 				DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
-				return $"{buildDate.ToString("yy")}{buildDate.DayOfYear}";
+				return $"{buildDate.ToString("yy")}{buildDate.DayOfYear.ToString("D3")}";
 			}
 		}
 
