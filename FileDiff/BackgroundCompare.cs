@@ -374,6 +374,7 @@ namespace FileDiff
 
 		private static List<FileItem> SearchDirectory(string path, int level)
 		{
+			path = FixRootPath(path);
 			List<FileItem> items = new List<FileItem>();
 
 			IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);

@@ -383,70 +383,70 @@ namespace FileDiff
 			set { AppSettings.DateColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(DateColumnWidth)); }
 		}
 
-		public SolidColorBrush FullMatchForeground
+		public Brush FullMatchForeground
 		{
 			get { return AppSettings.FullMatchForeground; }
-			set { AppSettings.FullMatchForeground = value; OnPropertyChangedRepaint(nameof(FullMatchForeground)); }
+			set { AppSettings.FullMatchForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FullMatchForeground)); }
 		}
 
-		public SolidColorBrush FullMatchBackground
+		public Brush FullMatchBackground
 		{
 			get { return AppSettings.FullMatchBackground; }
-			set { AppSettings.FullMatchBackground = value; OnPropertyChangedRepaint(nameof(FullMatchBackground)); }
+			set { AppSettings.FullMatchBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FullMatchBackground)); }
 		}
 
-		public SolidColorBrush PartialMatchForeground
+		public Brush PartialMatchForeground
 		{
 			get { return AppSettings.PartialMatchForeground; }
-			set { AppSettings.PartialMatchForeground = value; OnPropertyChangedRepaint(nameof(PartialMatchForeground)); }
+			set { AppSettings.PartialMatchForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(PartialMatchForeground)); }
 		}
 
-		public SolidColorBrush PartialMatchBackground
+		public Brush PartialMatchBackground
 		{
 			get { return AppSettings.PartialMatchBackground; }
-			set { AppSettings.PartialMatchBackground = value; OnPropertyChangedRepaint(nameof(PartialMatchBackground)); }
+			set { AppSettings.PartialMatchBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(PartialMatchBackground)); }
 		}
 
-		public SolidColorBrush DeletedForeground
+		public Brush DeletedForeground
 		{
 			get { return AppSettings.DeletedForeground; }
-			set { AppSettings.DeletedForeground = value; OnPropertyChangedRepaint(nameof(DeletedForeground)); }
+			set { AppSettings.DeletedForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DeletedForeground)); }
 		}
 
-		public SolidColorBrush DeletedBackground
+		public Brush DeletedBackground
 		{
 			get { return AppSettings.DeletedBackground; }
-			set { AppSettings.DeletedBackground = value; OnPropertyChangedRepaint(nameof(DeletedBackground)); }
+			set { AppSettings.DeletedBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DeletedBackground)); }
 		}
 
-		public SolidColorBrush NewForeground
+		public Brush NewForeground
 		{
 			get { return AppSettings.NewForeground; }
-			set { AppSettings.NewForeground = value; OnPropertyChangedRepaint(nameof(NewForeground)); }
+			set { AppSettings.NewForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(NewForeground)); }
 		}
 
-		public SolidColorBrush NewBackground
+		public Brush NewBackground
 		{
 			get { return AppSettings.NewBackground; }
-			set { AppSettings.NewBackground = value; OnPropertyChangedRepaint(nameof(NewBackground)); }
+			set { AppSettings.NewBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(NewBackground)); }
 		}
 
-		public SolidColorBrush IgnoredForeground
+		public Brush IgnoredForeground
 		{
 			get { return AppSettings.IgnoredForeground; }
-			set { AppSettings.IgnoredForeground = value; OnPropertyChangedRepaint(nameof(IgnoredForeground)); }
+			set { AppSettings.IgnoredForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(IgnoredForeground)); }
 		}
 
-		public SolidColorBrush IgnoredBackground
+		public Brush IgnoredBackground
 		{
 			get { return AppSettings.IgnoredBackground; }
-			set { AppSettings.IgnoredBackground = value; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
+			set { AppSettings.IgnoredBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
 		}
 
-		public SolidColorBrush SelectionBackground
+		public Brush SelectionBackground
 		{
 			get { return AppSettings.SelectionBackground; }
-			set { AppSettings.SelectionBackground = value; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
+			set { AppSettings.SelectionBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
 		}
 
 
