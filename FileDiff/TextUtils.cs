@@ -66,6 +66,9 @@ namespace FileDiff
 			int codePoint;
 			for (int n = 0; n < text.Length; n++)
 			{
+				// C# uses UTF16 encoded strings which for some characters requires 2 surrogate pair chars to encode 
+				// one character, if so we add a zero width space glyph after the real glyph to keep the number of 
+				// glyphs in the glyph run the same as the number of chars in the string.
 				if (char.IsHighSurrogate(text[n]))
 				{
 					codePoint = char.ConvertToUtf32(text, n);
@@ -140,6 +143,8 @@ namespace FileDiff
 				width = Math.Ceiling(glyphTypeface.AdvanceWidths[glyphIndex] * fontSize / dpiScale) * dpiScale;
 				return glyphIndex;
 			}
+			// Most fixed width fonts don't have a glyph for zero width space, use the space glyph but set width to 0
+			// to not get black squares when painting.
 			else if (codePoint == '\u200B')
 			{
 				displayCodePoint = ' ';
