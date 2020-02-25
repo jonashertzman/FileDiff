@@ -614,7 +614,7 @@
 				</Border>
 
 				<!--Used to measure the size of one character in the chosen font-->
-				<TextBlock x:Name="OneCharacter" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+				<TextBlock x:Name="OneCharacter" Grid.Row="3" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" HorizontalAlignment="Left" VerticalAlignment="Top" />
 			</Grid>
 
 		</DockPanel>
