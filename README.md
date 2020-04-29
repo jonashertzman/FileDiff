@@ -3,6 +3,7 @@ File Diff
 
 A free open source diff tool.
 
+### Download
 Download latest version [here](https://jonashertzman.github.io/FileDiff/download/FileDiff.zip)
 
 ### Features
