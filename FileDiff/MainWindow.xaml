@@ -53,10 +53,10 @@
 			<Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" BorderBrush="{StaticResource  {x:Static SystemColors.ScrollBarBrushKey} }">
 				<Grid x:Name="GridMenu">
 					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
-					<Menu Grid.Row="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
+					<Menu Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2">
 						<MenuItem Header="File">
 							<MenuItem Header="Exit" Command="local:Commands.Exit" />
 						</MenuItem>
@@ -72,6 +72,14 @@
 							<MenuItem Header="About" Command="local:Commands.About" />
 						</MenuItem>
 					</Menu>
+					<StackPanel x:Name="UpdatePanel" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+						<Label Margin="3" Padding="0" VerticalAlignment="Center">
+							<Hyperlink RequestNavigate="Hyperlink_OpenHomepage" NavigateUri="https://github.com/jonashertzman/FileDiff">New Version Available</Hyperlink>
+						</Label>
+						<!--<Button BorderThickness="0" Margin="3" Padding="0" Foreground="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="Transparent" VerticalAlignment="Center" Click="Button_Click">
+							&#x274C;
+						</Button>-->
+					</StackPanel>
 				</Grid>
 			</Border>
 

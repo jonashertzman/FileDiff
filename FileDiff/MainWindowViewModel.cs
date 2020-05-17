@@ -46,14 +46,23 @@ namespace FileDiff
 			get
 			{
 				DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
-				return $"{buildDate.ToString("yy")}{buildDate.DayOfYear.ToString("D3")}";
+				return $"{buildDate:yy}{buildDate.DayOfYear:D3}";
 			}
+		}
+
+		bool newBuildAvailable = false;
+		public bool NewBuildAvailable
+		{
+			get { return newBuildAvailable; }
+			set { newBuildAvailable = value; OnPropertyChanged(nameof(NewBuildAvailable)); }
 		}
 
 		public string FullApplicationName
 		{
 			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
 		}
+
+
 
 		bool guiFrozen = false;
 		public bool GuiFrozen

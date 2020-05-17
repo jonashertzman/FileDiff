@@ -1,26 +1,39 @@
-﻿<Window x:Class="FileDiff.AboutWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Title="About" ResizeMode="NoResize" TextOptions.TextFormattingMode="Display" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight">
+﻿<Window x:Class="FileDiff.AboutWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Title="About" ResizeMode="NoResize" TextOptions.TextFormattingMode="Display" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SizeToContent="WidthAndHeight">
+	<Window.Resources>
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="1*" />
+			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
-
-		<StackPanel Grid.Column="0" Margin="10">
-			<Label Content="{Binding FullApplicationName, FallbackValue = 'File Diff X.X  (Build 19123)' }" Style="{StaticResource CommonTextLabel}" />
-			<Label Grid.Row="1" Content="Author: Jonas Hertzman" Style="{StaticResource  CommonTextLabel}" />
-			<Label Grid.Row="2" Content="License: GNU General Public License v3" Style="{StaticResource  CommonTextLabel}" />
-			<StackPanel Orientation="Horizontal">
-				<Label Grid.Row="3" Style="{StaticResource  CommonTextLabel}">
-					<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff">Source Code</Hyperlink>
-				</Label>
-				<Label Grid.Row="1" Style="{StaticResource  CommonTextLabel}">
-					<Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="">Send Feedback</Hyperlink>
-				</Label>
-			</StackPanel>
-
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<StackPanel Margin="10">
+			<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Margin="5" Width="100" />
 		</StackPanel>
 		<StackPanel Grid.Column="1" Margin="10">
-			<Button Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" />
+			<Label Content="{Binding FullApplicationName, FallbackValue = 'File Diff X.X  (Build 19123)' }" Style="{StaticResource CommonTextLabel}" FontSize="18" FontWeight="Bold" />
+			<Label Content="Author: Jonas Hertzman" Style="{StaticResource  CommonTextLabel}" />
+			<Label Content="License: GNU General Public License v3" Style="{StaticResource  CommonTextLabel}" />
+			<StackPanel Orientation="Horizontal">
+				<Label Style="{StaticResource  CommonTextLabel}">
+					<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="">Source Code</Hyperlink>
+				</Label>
+				<Label Style="{StaticResource  CommonTextLabel}">
+					<Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="">Send Feedback</Hyperlink>
+				</Label>
+				<Label Name="NewVersionLabel" Style="{StaticResource CommonTextLabel}" Visibility="{Binding NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+					<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="">New Version Available</Hyperlink>
+				</Label>
+			</StackPanel>
+		</StackPanel>
+		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+			<StackPanel Margin="10">
+				<Button Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" HorizontalAlignment="Right" />
+			</StackPanel>
 		</StackPanel>
 	</Grid>
 </Window>

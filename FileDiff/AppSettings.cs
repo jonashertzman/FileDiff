@@ -22,6 +22,17 @@ namespace FileDiff
 
 		#region Properies
 
+		public static string Id
+		{
+			get { return Settings.Id; }
+		}
+
+		public static DateTime LastUpdateTime
+		{
+			get { return Settings.LastUpdateTime; }
+			set { Settings.LastUpdateTime = value; }
+		}
+
 		public static bool IgnoreWhiteSpace
 		{
 			get { return Settings.IgnoreWhiteSpace; }

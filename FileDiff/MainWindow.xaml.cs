@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -479,6 +481,48 @@ namespace FileDiff
 			return "";
 		}
 
+		private void CheckForUpdate(bool forced = false)
+		{
+			if (AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
+			{
+				Task.Run(() =>
+				{
+					try
+					{
+						Debug.Print("Checking for new version...");
+
+						WebClient webClient = new WebClient();
+						string result = webClient.DownloadString("https://jonashertzman.github.io/FileDiff/download/version.txt");
+
+						Debug.Print($"Latest version found: {result}");
+
+						return result;
+					}
+					catch (Exception exception)
+					{
+						Debug.Print($"Version check failed: {exception.Message}");
+					}
+
+					return null;
+
+				}).ContinueWith(ProcessUpdate, TaskScheduler.FromCurrentSynchronizationContext());
+
+				AppSettings.LastUpdateTime = DateTime.Now;
+			}
+		}
+
+		private void ProcessUpdate(Task<string> task)
+		{
+			if (task.Result != null)
+			{
+				try
+				{
+					ViewModel.NewBuildAvailable = int.Parse(task.Result) > int.Parse(ViewModel.BuildNumber);
+				}
+				catch (Exception) { }
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -499,6 +543,7 @@ namespace FileDiff
 		private void Window_Initialized(object sender, EventArgs e)
 		{
 			LoadSettings();
+			CheckForUpdate();
 		}
 
 		private void Window_Closed(object sender, EventArgs e)
@@ -676,6 +721,12 @@ namespace FileDiff
 			CompareFiles();
 		}
 
+		private void Hyperlink_OpenHomepage(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+		{
+			Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+			e.Handled = true;
+		}
+
 		#endregion
 
 		#region Commands
@@ -736,6 +787,8 @@ namespace FileDiff
 
 		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			CheckForUpdate(true);
+
 			AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
 			aboutWindow.ShowDialog();
 		}

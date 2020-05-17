@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
 
@@ -6,6 +7,10 @@ namespace FileDiff
 {
 	public class SettingsData
 	{
+
+		public string Id { get; set; } = Guid.NewGuid().ToString();
+
+		public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
 
 		public bool IgnoreWhiteSpace { get; set; } = true;
 

@@ -29,7 +29,7 @@
 					<Path.Data>
 						<GeometryGroup FillRule="Nonzero">
 							<EllipseGeometry Center="65,65" RadiusX="40" RadiusY="40" />
-							<LineGeometry StartPoint="90,90" EndPoint="150,150" />
+							<LineGeometry StartPoint="90,90" EndPoint="145,145" />
 						</GeometryGroup>
 					</Path.Data>
 				</Path>

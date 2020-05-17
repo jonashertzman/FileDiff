@@ -41,7 +41,7 @@ namespace FileDiff
 
 		public override string ToString()
 		{
-			return $"{Name}  {Type.ToString()}";
+			return $"{Name}  {Type}";
 		}
 
 		#endregion

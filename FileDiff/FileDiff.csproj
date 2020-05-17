@@ -167,10 +167,21 @@
   <ItemGroup>
     <None Include="Resources\Icon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UpdateVersion\UpdateVersion.csproj">
+      <Project>{d1f2a60d-f5b8-4abf-a274-6984bf856224}</Project>
+      <Name>UpdateVersion</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release (
  "C:\Program Files\7-Zip\7z" a ..\..\..\docs\download\$(TargetName).zip "$(TargetPath)" ..\..\..\LICENSE
+ UpdateVersion
 )</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

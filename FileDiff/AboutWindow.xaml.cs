@@ -14,7 +14,7 @@ namespace FileDiff
 
 		private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
-			Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+			Process.Start(new ProcessStartInfo("https://github.com/jonashertzman/FileDiff"));
 			e.Handled = true;
 		}
 
