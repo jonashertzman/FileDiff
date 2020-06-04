@@ -35,6 +35,13 @@ namespace FileDiff
 			set { Settings.LastUpdateTime = value; }
 		}
 
+		public static bool CheckForUpdates
+		{
+			get { return Settings.CheckForUpdates; }
+			set { Settings.CheckForUpdates = value; }
+		}
+
+
 		public static bool IgnoreWhiteSpace
 		{
 			get { return Settings.IgnoreWhiteSpace; }

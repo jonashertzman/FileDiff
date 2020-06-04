@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -483,7 +482,7 @@ namespace FileDiff
 
 		private void CheckForUpdate(bool forced = false)
 		{
-			if (AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
+			if (AppSettings.CheckForUpdates && AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
 			{
 				Task.Run(() =>
 				{
@@ -739,6 +738,7 @@ namespace FileDiff
 		private void CommnadOptions_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			// Store existing settings data in case the changes are canceled.
+			var oldCheckForUpdates = ViewModel.CheckForUpdates;
 			var oldFont = ViewModel.Font;
 			var oldFontSize = ViewModel.FontSize;
 			var oldTabSize = ViewModel.TabSize;
@@ -766,6 +766,7 @@ namespace FileDiff
 			else
 			{
 				// Options window was canceled, revert to old settings.
+				ViewModel.CheckForUpdates = oldCheckForUpdates;
 				ViewModel.Font = oldFont;
 				ViewModel.FontSize = oldFontSize;
 				ViewModel.TabSize = oldTabSize;

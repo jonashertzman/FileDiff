@@ -62,6 +62,12 @@ namespace FileDiff
 			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
 		}
 
+		public bool CheckForUpdates
+		{
+			get { return AppSettings.CheckForUpdates; }
+			set { AppSettings.CheckForUpdates = value; OnPropertyChanged(nameof(CheckForUpdates)); }
+		}
+
 
 
 		bool guiFrozen = false;

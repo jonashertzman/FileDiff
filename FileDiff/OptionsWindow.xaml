@@ -9,13 +9,13 @@
 		<Border Grid.ColumnSpan="1" Margin="5">
 			<TabControl Margin="5">
 
-				<!--<TabItem Header="General">
+				<TabItem Header="General">
 					<Border Padding="5">
 						<StackPanel>
-							<CheckBox IsEnabled="False" Content="Add Shell Extensions to Windows Explorer" Padding="2" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
+							<CheckBox Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
 						</StackPanel>
 					</Border>
-				</TabItem>-->
+				</TabItem>
 
 				<TabItem Header="Preview">
 					<Border Padding="5">

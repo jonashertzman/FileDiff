@@ -12,6 +12,8 @@ namespace FileDiff
 
 		public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
 
+		public bool CheckForUpdates { get; set; } = true;
+
 		public bool IgnoreWhiteSpace { get; set; } = true;
 
 		public bool ShowWhiteSpaceCharacters { get; set; } = false;
