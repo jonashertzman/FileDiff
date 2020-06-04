@@ -22,6 +22,8 @@ namespace FileDiff
 		{
 			InitializeComponent();
 
+			Utils.HideMinimizeAndMaximizeButtons(this);
+
 			foreach (FontFamily family in Fonts.SystemFontFamilies.OrderBy(x => x.Source))
 			{
 				ComboBoxFont.Items.Add(family.Source);

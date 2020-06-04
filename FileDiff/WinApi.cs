@@ -48,6 +48,9 @@ namespace FileDiff
 		public const int MAX_ALTERNATE = 14;
 		public const long MAXDWORD = 0xffffffff;
 		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
+		public const int GWL_STYLE = -16;
+		public const int WS_MAXIMIZEBOX = 0x10000;
+		public const int WS_MINIMIZEBOX = 0x20000;
 
 		[DllImport("kernel32", CharSet = CharSet.Auto)]
 		public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
@@ -60,6 +63,12 @@ namespace FileDiff
 
 		[DllImport("kernel32.dll")]
 		public static extern bool FindClose(IntPtr hFindFile);
+
+		[DllImport("user32.dll")]
+		extern public static int GetWindowLong(IntPtr hwnd, int index);
+
+		[DllImport("user32.dll")]
+		extern public static int SetWindowLong(IntPtr hwnd, int index, int value);
 	}
 
 }

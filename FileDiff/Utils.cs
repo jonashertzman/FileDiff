@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Windows;
 
 namespace FileDiff
 {
@@ -16,6 +18,17 @@ namespace FileDiff
 				return false;
 			}
 			return true;
+		}
+
+		public static void HideMinimizeAndMaximizeButtons(Window window)
+		{
+			window.SourceInitialized += (s, e) =>
+			{
+				IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
+				int style = WinApi.GetWindowLong(hwnd, WinApi.GWL_STYLE);
+
+				WinApi.SetWindowLong(hwnd, WinApi.GWL_STYLE, style & ~WinApi.WS_MAXIMIZEBOX & ~WinApi.WS_MINIMIZEBOX);
+			};
 		}
 
 	}
