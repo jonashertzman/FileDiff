@@ -20,7 +20,7 @@
 			<Label Content="License: GNU General Public License v3" Style="{StaticResource  CommonTextLabel}" />
 			<StackPanel Orientation="Horizontal">
 				<Label Style="{StaticResource  CommonTextLabel}">
-					<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="">Source Code</Hyperlink>
+					<Hyperlink RequestNavigate="Hyperlink_SourceCode" NavigateUri="">Source Code</Hyperlink>
 				</Label>
 				<Label Style="{StaticResource  CommonTextLabel}">
 					<Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="">Send Feedback</Hyperlink>

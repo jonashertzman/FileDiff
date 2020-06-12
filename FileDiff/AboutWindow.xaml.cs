@@ -18,6 +18,12 @@ namespace FileDiff
 			e.Handled = true;
 		}
 
+		private void Hyperlink_SourceCode(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+		{
+			Process.Start(new ProcessStartInfo(AppSettings.GITHUBPAGE));
+			e.Handled = true;
+		}
+
 		private void Feedback_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
 			MainWindowViewModel viewModel = DataContext as MainWindowViewModel;

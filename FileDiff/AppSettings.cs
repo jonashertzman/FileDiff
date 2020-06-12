@@ -16,7 +16,8 @@ namespace FileDiff
 		private const string SETTINGS_DIRECTORY = "FileDiff";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
 
-		public const string HOMEPAGE = @"https://github.com/jonashertzman/FileDiff";
+		public const string GITHUBPAGE = @"https://github.com/jonashertzman/FileDiff";
+		public const string HOMEPAGE = @"https://github.com/jonashertzman/FileDiff/blob/master/README.md";
 
 		private static SettingsData Settings = new SettingsData();
 
