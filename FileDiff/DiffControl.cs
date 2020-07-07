@@ -614,7 +614,7 @@ namespace FileDiff
 		{
 			this.Focus();
 
-			if (e.ChangedButton == MouseButton.Left)
+			if (e.ChangedButton == MouseButton.Left && Lines.Count > 0)
 			{
 				mouseDownPosition = null;
 				PointToCharacter(e.GetPosition(this), out downLine, out downCharacter);
