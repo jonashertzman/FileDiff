@@ -51,6 +51,7 @@ namespace FileDiff
 		private Typeface typeface;
 
 		private readonly DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
+		private readonly Stopwatch stopwatch = new Stopwatch();
 
 		#endregion
 
@@ -76,11 +77,11 @@ namespace FileDiff
 
 		#region Properties
 
-		Selection selection = null;
+		Selection _selection = null;
 		private Selection Selection
 		{
-			get { return selection; }
-			set { selection = value; ResetCursorBlink(); }
+			get { return _selection; }
+			set { _selection = value; ResetCursorBlink(); }
 		}
 
 		#endregion
@@ -90,6 +91,10 @@ namespace FileDiff
 		protected override void OnRender(DrawingContext drawingContext)
 		{
 			Debug.Print("DiffControl OnRender");
+
+#if DEBUG
+			MeasureRendeTime();
+#endif
 
 			// Fill background
 			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
@@ -206,7 +211,7 @@ namespace FileDiff
 							if (Selection != null && lineIndex >= Selection.TopLine && lineIndex <= Selection.BottomLine)
 							{
 								Rect selectionRect = new Rect(0 - textMargin + HorizontalOffset, 0, this.ActualWidth + HorizontalOffset, characterHeight);
-								if (Selection.TopLine == lineIndex && selection.TopCharacter > 0)
+								if (Selection.TopLine == lineIndex && Selection.TopCharacter > 0)
 								{
 									selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, Selection.TopCharacter));
 								}
@@ -233,6 +238,10 @@ namespace FileDiff
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
 			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
+
+#if DEBUG
+			ReportRenderTime();
+#endif
 		}
 
 		protected override void OnTextInput(TextCompositionEventArgs e)
@@ -1148,6 +1157,24 @@ namespace FileDiff
 			Selection = null;
 			InvalidateVisual();
 			return -1;
+		}
+
+
+		private void MeasureRendeTime()
+		{
+			stopwatch.Restart();
+		}
+
+		private void ReportRenderTime()
+		{
+			Dispatcher.BeginInvoke(
+				DispatcherPriority.Loaded,
+				new Action(() =>
+				{
+					stopwatch.Stop();
+					Debug.Print($"Took {stopwatch.ElapsedMilliseconds} ms");
+				})
+			);
 		}
 
 		#endregion
