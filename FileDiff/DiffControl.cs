@@ -26,23 +26,6 @@ namespace FileDiff
 		private int downLine;
 		private int downCharacter;
 
-		private Point? _mouseDownPosition = null;
-		private Point? mouseDownPosition
-		{
-			get
-			{
-				return _mouseDownPosition;
-			}
-			set
-			{
-				_mouseDownPosition = value;
-				if (value != null)
-				{
-					PointToCharacter(value.Value, out downLine, out downCharacter);
-				}
-			}
-		}
-
 		private double dpiScale = 0;
 
 		private int cursorLine = 0;
@@ -77,11 +60,28 @@ namespace FileDiff
 
 		#region Properties
 
-		Selection _selection = null;
+		private Selection _selection = null;
 		private Selection Selection
 		{
 			get { return _selection; }
 			set { _selection = value; ResetCursorBlink(); }
+		}
+
+		private Point? _mouseDownPosition = null;
+		private Point? mouseDownPosition
+		{
+			get
+			{
+				return _mouseDownPosition;
+			}
+			set
+			{
+				_mouseDownPosition = value;
+				if (value != null)
+				{
+					PointToCharacter(value.Value, out downLine, out downCharacter);
+				}
+			}
 		}
 
 		#endregion
@@ -111,8 +111,10 @@ namespace FileDiff
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
 			Brush activeDiffBrush = new SolidColorBrush(Color.FromRgb(220, 220, 220));
+			activeDiffBrush.Freeze();
 
 			Pen borderPen = new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1));
+			borderPen.Freeze();
 			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
 			textMargin = RoundToWholePixels(4);
