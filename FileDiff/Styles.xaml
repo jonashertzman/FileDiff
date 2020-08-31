@@ -48,7 +48,10 @@
 
 	<Style x:Key="ToolbarButton" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />
+		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
+		<Setter Property="BorderThickness" Value="0" />
+
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent"></Setter>
@@ -58,7 +61,9 @@
 
 	<Style x:Key="ToolbarToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />
+		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
+		<Setter Property="BorderThickness" Value="0" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent"></Setter>
