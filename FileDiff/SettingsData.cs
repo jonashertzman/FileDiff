@@ -43,6 +43,10 @@ namespace FileDiff
 		public Color IgnoredForeground { get; set; } = DefaultSettings.IgnoredForeground;
 		public Color IgnoredBackground { get; set; } = DefaultSettings.IgnoredBackground;
 
+		public Color MovedToBackground { get; set; } = DefaultSettings.MovedToBackground;
+
+		public Color MovedFromdBackground { get; set; } = DefaultSettings.MovedFromdBackground;
+
 		public Color SelectionBackground { get; set; } = DefaultSettings.SelectionBackground;
 
 		public string Font { get; set; } = DefaultSettings.Font;

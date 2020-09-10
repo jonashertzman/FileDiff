@@ -48,6 +48,10 @@ namespace FileDiff
 						return AppSettings.DeletedBackground;
 					case TextState.New:
 						return AppSettings.NewBackground;
+					case TextState.MovedFrom:
+						return AppSettings.MovedFromdBackground;
+					case TextState.MovedTo:
+						return AppSettings.MovedToBackground;
 					case TextState.PartialMatch:
 						return AppSettings.PartialMatchBackground;
 
@@ -64,8 +68,10 @@ namespace FileDiff
 				switch (Type)
 				{
 					case TextState.Deleted:
+					case TextState.MovedFrom:
 						return AppSettings.DeletedForeground;
 					case TextState.New:
+					case TextState.MovedTo:
 						return AppSettings.NewForeground;
 					case TextState.PartialMatch:
 						return AppSettings.PartialMatchForeground;

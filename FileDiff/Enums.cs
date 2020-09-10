@@ -8,7 +8,9 @@
 		Deleted,
 		New,
 		Filler,
-		Ignored
+		Ignored,
+		MovedFrom,
+		MovedTo
 	}
 
 	public enum CompareMode

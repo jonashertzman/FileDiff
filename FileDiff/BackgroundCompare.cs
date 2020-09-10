@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
+using System.Windows.Documents;
 
 namespace FileDiff
 {
@@ -43,7 +44,91 @@ namespace FileDiff
 
 			AddFillerLines(ref leftLines, ref rightLines);
 
+			FindMovedLines(leftLines, rightLines);
+
 			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
+		}
+
+		private static void FindMovedLines(List<Line> leftLines, List<Line> rightLines)
+		{
+			List<List<Line>> deletedLineRanges = FindStateRanges(leftLines, TextState.Deleted);
+			List<List<Line>> newLineRanges = FindStateRanges(rightLines, TextState.New);
+
+			List<Line> bestRange = null;
+			List<Line> bestMatchingRange = null;
+			int bestMatchIndex = 0;
+			int bestMatchingIndex = 0;
+			int bestMatchLength = 0;
+
+
+			foreach (var deletedRange in deletedLineRanges)
+			{
+				foreach (var newRange in newLineRanges)
+				{
+					FindLongestMatch(deletedRange, newRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength);
+
+					if (longestMatchLength < 2)
+						continue;
+
+					if (longestMatchLength > bestMatchLength)
+					{
+						bestMatchLength = longestMatchLength;
+						bestRange = deletedRange;
+						bestMatchingRange = newRange;
+						bestMatchIndex = longestMatchIndex;
+						bestMatchingIndex = longestMatchingIndex;
+					}
+				}
+			}
+
+			if (bestMatchLength > 1)
+			{
+				for (int i = 0; i < bestMatchLength; i++)
+				{
+					bestRange[bestMatchIndex + i].Type = TextState.MovedFrom;
+					bestRange[bestMatchIndex + i].MatchingLineIndex = bestMatchingRange[bestMatchingIndex + i].LineIndex;
+
+					bestMatchingRange[bestMatchingIndex + i].Type = TextState.MovedTo;
+					bestMatchingRange[bestMatchingIndex + i].MatchingLineIndex = bestRange[bestMatchIndex + i].LineIndex;
+				}
+
+				FindMovedLines(leftLines, rightLines);
+			}
+
+		}
+
+		private static List<List<Line>> FindStateRanges(List<Line> lines, TextState findState)
+		{
+			List<List<Line>> ranges = new List<List<Line>>();
+
+			List<Line> newList = null;
+
+			foreach (Line line in lines)
+			{
+				if (line.Type == findState)
+				{
+					if (newList == null)
+					{
+						newList = new List<Line>();
+					}
+					newList.Add(line);
+				}
+				else
+				{
+					if (newList != null)
+					{
+						ranges.Add(newList);
+						newList = null;
+					}
+				}
+			}
+
+			if (newList != null)
+			{
+				ranges.Add(newList);
+			}
+
+			return ranges;
 		}
 
 		public static Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan> CompareDirectories(string leftPath, string rightPath)

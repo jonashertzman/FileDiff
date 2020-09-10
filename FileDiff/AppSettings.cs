@@ -138,77 +138,156 @@ namespace FileDiff
 		public static SolidColorBrush FullMatchForeground
 		{
 			get { return fullMatchForeground; }
-			set { fullMatchForeground = value; Settings.FullMatchForeground = value.Color; }
+			set
+			{
+				fullMatchForeground = value;
+				fullMatchForeground.Freeze();
+				Settings.FullMatchForeground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush fullMatchBackground;
 		public static SolidColorBrush FullMatchBackground
 		{
 			get { return fullMatchBackground; }
-			set { fullMatchBackground = value; Settings.FullMatchBackground = value.Color; }
+			set
+			{
+				fullMatchBackground = value;
+				fullMatchBackground.Freeze();
+				Settings.FullMatchBackground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush partialMatchForeground;
 		public static SolidColorBrush PartialMatchForeground
 		{
 			get { return partialMatchForeground; }
-			set { partialMatchForeground = value; Settings.PartialMatchForeground = value.Color; }
+			set
+			{
+				partialMatchForeground = value;
+				partialMatchForeground.Freeze();
+				Settings.PartialMatchForeground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush partialMatchBackground;
 		public static SolidColorBrush PartialMatchBackground
 		{
 			get { return partialMatchBackground; }
-			set { partialMatchBackground = value; Settings.PartialMatchBackground = value.Color; }
+			set
+			{
+				partialMatchBackground = value;
+				partialMatchBackground.Freeze();
+				Settings.PartialMatchBackground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush deletedForeground;
 		public static SolidColorBrush DeletedForeground
 		{
 			get { return deletedForeground; }
-			set { deletedForeground = value; Settings.DeletedForeground = value.Color; }
+			set
+			{
+				deletedForeground = value;
+				deletedForeground.Freeze();
+				Settings.DeletedForeground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush deletedBackground;
 		public static SolidColorBrush DeletedBackground
 		{
 			get { return deletedBackground; }
-			set { deletedBackground = value; Settings.DeletedBackground = value.Color; }
+			set
+			{
+				deletedBackground = value;
+				deletedBackground.Freeze();
+				Settings.DeletedBackground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush newForeground;
 		public static SolidColorBrush NewForeground
 		{
 			get { return newForeground; }
-			set { newForeground = value; Settings.NewForeground = value.Color; }
+			set
+			{
+				newForeground = value;
+				newForeground.Freeze();
+				Settings.NewForeground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush newBackground;
 		public static SolidColorBrush NewBackground
 		{
 			get { return newBackground; }
-			set { newBackground = value; Settings.NewBackground = value.Color; }
+			set
+			{
+				newBackground = value;
+				newBackground.Freeze();
+				Settings.NewBackground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush ignoredForeground;
 		public static SolidColorBrush IgnoredForeground
 		{
 			get { return ignoredForeground; }
-			set { ignoredForeground = value; Settings.IgnoredForeground = value.Color; }
+			set
+			{
+				ignoredForeground = value;
+				ignoredForeground.Freeze();
+				Settings.IgnoredForeground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush ignoredBackground;
 		public static SolidColorBrush IgnoredBackground
 		{
 			get { return ignoredBackground; }
-			set { ignoredBackground = value; Settings.IgnoredBackground = value.Color; }
+			set
+			{
+				ignoredBackground = value;
+				ignoredBackground.Freeze();
+				Settings.IgnoredBackground = value.Color;
+			}
+		}
+
+		private static SolidColorBrush movedFromdBackground;
+		public static SolidColorBrush MovedFromdBackground
+		{
+			get { return movedFromdBackground; }
+			set
+			{
+				movedFromdBackground = value;
+				movedFromdBackground.Freeze();
+				Settings.MovedFromdBackground = value.Color;
+			}
+		}
+
+		private static SolidColorBrush movedToBackground;
+		public static SolidColorBrush MovedToBackground
+		{
+			get { return movedToBackground; }
+			set
+			{
+				movedToBackground = value;
+				movedToBackground.Freeze();
+				Settings.MovedToBackground = value.Color;
+			}
 		}
 
 		private static SolidColorBrush selectionBackground;
 		public static SolidColorBrush SelectionBackground
 		{
 			get { return selectionBackground; }
-			set { selectionBackground = value; Settings.SelectionBackground = value.Color; }
+			set
+			{
+				selectionBackground = value;
+				selectionBackground.Freeze();
+				Settings.SelectionBackground = value.Color;
+			}
 		}
 
 		public static double NameColumnWidth { get; internal set; } = 300;
@@ -301,6 +380,10 @@ namespace FileDiff
 
 			NewForeground = new SolidColorBrush(Settings.NewForeground);
 			NewBackground = new SolidColorBrush(Settings.NewBackground);
+
+			MovedFromdBackground = new SolidColorBrush(Settings.MovedFromdBackground);
+
+			MovedToBackground = new SolidColorBrush(Settings.MovedToBackground);
 
 			IgnoredForeground = new SolidColorBrush(Settings.IgnoredForeground);
 			IgnoredBackground = new SolidColorBrush(Settings.IgnoredBackground);

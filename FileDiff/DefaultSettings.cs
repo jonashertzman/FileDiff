@@ -20,6 +20,10 @@ namespace FileDiff
 		internal static Color IgnoredForeground { get; } = Color.FromRgb(90, 90, 90);
 		internal static Color IgnoredBackground { get; } = Color.FromRgb(220, 220, 220);
 
+		internal static Color MovedFromdBackground { get; } = Color.FromRgb(255, 240, 240);
+
+		internal static Color MovedToBackground { get; } = Color.FromRgb(240, 255, 240);
+
 		internal static Color SelectionBackground { get; } = Color.FromArgb(50, 0, 150, 210);
 
 		internal static string Font { get; } = "Courier New";
