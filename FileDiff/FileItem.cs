@@ -97,20 +97,7 @@ namespace FileDiff
 		{
 			get
 			{
-				switch (Type)
-				{
-					case TextState.Deleted:
-						return AppSettings.DeletedBackground;
-					case TextState.New:
-						return AppSettings.NewBackground;
-					case TextState.PartialMatch:
-						return AppSettings.PartialMatchBackground;
-					case TextState.Ignored:
-						return AppSettings.IgnoredBackground;
-
-					default:
-						return AppSettings.FullMatchBackground;
-				}
+				return AppSettings.GetBackground(Type);
 			}
 		}
 
@@ -118,20 +105,7 @@ namespace FileDiff
 		{
 			get
 			{
-				switch (Type)
-				{
-					case TextState.Deleted:
-						return AppSettings.DeletedForeground;
-					case TextState.New:
-						return AppSettings.NewForeground;
-					case TextState.PartialMatch:
-						return AppSettings.PartialMatchForeground;
-					case TextState.Ignored:
-						return AppSettings.IgnoredForeground;
-
-					default:
-						return AppSettings.FullMatchForeground;
-				}
+				return AppSettings.GetForeground(Type);
 			}
 		}
 

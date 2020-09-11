@@ -391,6 +391,48 @@ namespace FileDiff
 			SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
 		}
 
+		internal static SolidColorBrush GetForeground(TextState state)
+		{
+			switch (state)
+			{
+				case TextState.Deleted:
+				case TextState.MovedFrom:
+					return deletedForeground;
+				case TextState.New:
+				case TextState.MovedTo:
+					return newForeground;
+				case TextState.PartialMatch:
+					return partialMatchForeground;
+				case TextState.Ignored:
+					return ignoredForeground;
+
+				default:
+					return fullMatchForeground;
+			}
+		}
+
+		internal static SolidColorBrush GetBackground(TextState state)
+		{
+			switch (state)
+			{
+				case TextState.Deleted:
+					return deletedBackground;
+				case TextState.New:
+					return newBackground;
+				case TextState.MovedFrom:
+					return movedFromdBackground;
+				case TextState.MovedTo:
+					return movedToBackground;
+				case TextState.PartialMatch:
+					return partialMatchBackground;
+				case TextState.Ignored:
+					return ignoredBackground;
+
+				default:
+					return fullMatchBackground;
+			}
+		}
+
 		#endregion
 
 	}
