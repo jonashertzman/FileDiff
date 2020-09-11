@@ -854,6 +854,8 @@ namespace FileDiff
 			GuidelineSet guidelineSet = new GuidelineSet();
 			guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
 			guidelineSet.GuidelinesY.Add(pen.Thickness / 2);
+			guidelineSet.Freeze();
+
 			return guidelineSet;
 		}
 

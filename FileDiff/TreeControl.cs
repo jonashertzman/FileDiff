@@ -66,12 +66,15 @@ namespace FileDiff
 			Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
 			Pen selectionPen = new Pen(new SolidColorBrush(SystemColors.HighlightColor), itemMargin);
+			selectionPen.Freeze();
 			GuidelineSet selectionGuide = CreateGuidelineSet(selectionPen);
 
 			Pen expanderPen = new Pen(new SolidColorBrush(AppSettings.FullMatchForeground.Color), 1 * dpiScale);
+			expanderPen.Freeze();
 			GuidelineSet expanderGuide = CreateGuidelineSet(expanderPen);
 
 			Pen gridPen = new Pen(new SolidColorBrush(Color.FromArgb(20, 0, 0, 0)), RoundToWholePixels(1));
+			gridPen.Freeze();
 			GuidelineSet gridGuide = CreateGuidelineSet(gridPen);
 
 			UpdateVisibleItems();
@@ -356,6 +359,8 @@ namespace FileDiff
 			GuidelineSet guidelineSet = new GuidelineSet();
 			guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
 			guidelineSet.GuidelinesY.Add(pen.Thickness / 2);
+			guidelineSet.Freeze();
+
 			return guidelineSet;
 		}
 
