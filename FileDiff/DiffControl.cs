@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace FileDiff
@@ -35,6 +36,8 @@ namespace FileDiff
 
 		private readonly DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
 		private readonly Stopwatch stopwatch = new Stopwatch();
+
+		private Point mouseHoverPosition;
 
 		#endregion
 
@@ -686,10 +689,10 @@ namespace FileDiff
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
+			Point currentMousePosition = e.GetPosition(this);
+
 			if (Mouse.LeftButton == MouseButtonState.Pressed && MouseDownPosition != null && Lines.Count > 0)
 			{
-				Point currentMousePosition = e.GetPosition(this);
-
 				PointToCharacter(currentMousePosition, out cursorLine, out cursorCharacter);
 				PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
 
@@ -706,6 +709,8 @@ namespace FileDiff
 				InvalidateVisual();
 			}
 
+			mouseHoverPosition = currentMousePosition;
+
 			base.OnMouseMove(e);
 		}
 
@@ -714,6 +719,29 @@ namespace FileDiff
 			InvalidateVisual();
 
 			base.OnLostKeyboardFocus(e);
+		}
+
+		protected override void OnToolTipOpening(ToolTipEventArgs e)
+		{
+			if (Lines.Count > 0)
+			{
+				int lineIndex = (int)(mouseHoverPosition.Y / characterHeight) + VerticalOffset;
+
+				if (lineIndex < Lines.Count)
+				{
+					if (Lines[lineIndex].Type == TextState.MovedFrom)
+					{
+						this.ToolTip = $"Matches new lines at index {Lines[lineIndex].MatchingLineIndex}";
+						return;
+					}
+					else if (Lines[lineIndex].Type == TextState.MovedTo)
+					{
+						this.ToolTip = $"Matches removed lines at index {Lines[lineIndex].MatchingLineIndex}";
+						return;
+					}
+				}
+			}
+			e.Handled = true;
 		}
 
 		#endregion
@@ -1162,7 +1190,6 @@ namespace FileDiff
 			InvalidateVisual();
 			return -1;
 		}
-
 
 		private void MeasureRendeTime()
 		{

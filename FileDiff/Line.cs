@@ -69,7 +69,7 @@ namespace FileDiff
 
 		public bool IsWhitespaceLine { get; private set; }
 
-		List<char> characters;
+		private List<char> characters;
 		public List<char> Characters
 		{
 			get
@@ -87,7 +87,7 @@ namespace FileDiff
 			}
 		}
 
-		List<char> trimmedCharacters;
+		private List<char> trimmedCharacters;
 		public List<char> TrimmedCharacters
 		{
 			get
