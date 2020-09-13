@@ -739,6 +739,7 @@ namespace FileDiff
 		{
 			// Store existing settings data in case the changes are canceled.
 			var oldCheckForUpdates = ViewModel.CheckForUpdates;
+			var oldDetectMovedLines = ViewModel.DetectMovedLines;
 			var oldFont = ViewModel.Font;
 			var oldFontSize = ViewModel.FontSize;
 			var oldTabSize = ViewModel.TabSize;
@@ -767,6 +768,7 @@ namespace FileDiff
 			{
 				// Options window was canceled, revert to old settings.
 				ViewModel.CheckForUpdates = oldCheckForUpdates;
+				ViewModel.DetectMovedLines = oldDetectMovedLines;
 				ViewModel.Font = oldFont;
 				ViewModel.FontSize = oldFontSize;
 				ViewModel.TabSize = oldTabSize;

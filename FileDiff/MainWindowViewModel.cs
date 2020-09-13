@@ -68,6 +68,11 @@ namespace FileDiff
 			set { AppSettings.CheckForUpdates = value; OnPropertyChanged(nameof(CheckForUpdates)); }
 		}
 
+		public bool DetectMovedLines
+		{
+			get { return AppSettings.DetectMovedLines; }
+			set { AppSettings.DetectMovedLines = value; OnPropertyChanged(nameof(DetectMovedLines)); }
+		}
 
 
 		bool guiFrozen = false;

@@ -14,6 +14,8 @@ namespace FileDiff
 
 		public bool CheckForUpdates { get; set; } = true;
 
+		public bool DetectMovedLines { get; set; } = true;
+
 		public bool IgnoreWhiteSpace { get; set; } = true;
 
 		public bool ShowWhiteSpaceCharacters { get; set; } = false;
@@ -27,6 +29,7 @@ namespace FileDiff
 
 		// The percentage of matching characters two lines must have in common to be considered partially matched lines.
 		public float LineSimilarityThreshold { get; set; } = 0.4f;
+
 
 		public Color FullMatchForeground { get; set; } = DefaultSettings.FullMatchForeground;
 		public Color FullMatchBackground { get; set; } = DefaultSettings.FullMatchBackground;
@@ -48,6 +51,7 @@ namespace FileDiff
 		public Color MovedFromdBackground { get; set; } = DefaultSettings.MovedFromdBackground;
 
 		public Color SelectionBackground { get; set; } = DefaultSettings.SelectionBackground;
+
 
 		public string Font { get; set; } = DefaultSettings.Font;
 		public int FontSize { get; set; } = DefaultSettings.FontSize;

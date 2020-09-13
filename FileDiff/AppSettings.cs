@@ -42,6 +42,11 @@ namespace FileDiff
 			set { Settings.CheckForUpdates = value; }
 		}
 
+		public static bool DetectMovedLines
+		{
+			get { return Settings.DetectMovedLines; }
+			set { Settings.DetectMovedLines = value; }
+		}
 
 		public static bool IgnoreWhiteSpace
 		{
@@ -133,6 +138,7 @@ namespace FileDiff
 			get { return Settings.TabSize; }
 			set { Settings.TabSize = value; }
 		}
+
 
 		private static SolidColorBrush fullMatchForeground;
 		public static SolidColorBrush FullMatchForeground
@@ -289,6 +295,7 @@ namespace FileDiff
 				Settings.SelectionBackground = value.Color;
 			}
 		}
+
 
 		public static double NameColumnWidth { get; internal set; } = 300;
 

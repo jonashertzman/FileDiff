@@ -44,7 +44,10 @@ namespace FileDiff
 
 			AddFillerLines(ref leftLines, ref rightLines);
 
-			FindMovedLines(leftLines, rightLines);
+			if (AppSettings.DetectMovedLines)
+			{
+				FindMovedLines(leftLines, rightLines);
+			}
 
 			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
 		}

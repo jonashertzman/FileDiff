@@ -13,6 +13,7 @@
 					<Border Padding="5">
 						<StackPanel>
 							<CheckBox Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
+							<CheckBox Content="Detect Moved Lines" IsChecked="{Binding DetectMovedLines}" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
 						</StackPanel>
 					</Border>
 				</TabItem>
