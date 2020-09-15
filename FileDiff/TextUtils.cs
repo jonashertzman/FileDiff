@@ -230,7 +230,7 @@ namespace FileDiff
 				foreach (Typeface typeface in typefaces)
 				{
 					typeface.TryGetGlyphTypeface(out GlyphTypeface glyph);
-					if (glyph != null && glyph.CharacterToGlyphMap.TryGetValue(codePoint, out ushort glyphIndex))
+					if (glyph != null && glyph.CharacterToGlyphMap.TryGetValue(codePoint, out _))
 					{
 						if (family.FamilyNames.TryGetValue(XmlLanguage.GetLanguage("en-us"), out string familyName))
 						{

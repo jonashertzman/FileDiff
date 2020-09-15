@@ -5,7 +5,7 @@ namespace UpdateVersion
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main()
 		{
 			DateTime buildDate = DateTime.Now;
 			string buildNumber = $"{buildDate:yy}{buildDate.DayOfYear:D3}";

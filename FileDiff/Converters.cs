@@ -38,7 +38,7 @@ namespace FileDiff
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var result = converter.ConvertBack(value, targetType, parameter, culture) as bool?;
-			return result == true ? false : true;
+			return result != true;
 		}
 	}
 

@@ -52,7 +52,7 @@ namespace FileDiff
 				name += " BOM";
 			}
 
-			name += $" ({Newline.ToString()})";
+			name += $" ({Newline})";
 
 			return name;
 		}
