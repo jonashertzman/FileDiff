@@ -222,26 +222,6 @@ namespace FileDiff
 			return new Size(formattedText.Width, formattedText.Height);
 		}
 
-		private static string FindFont(int codePoint)
-		{
-			foreach (FontFamily family in Fonts.SystemFontFamilies)
-			{
-				var typefaces = family.GetTypefaces();
-				foreach (Typeface typeface in typefaces)
-				{
-					typeface.TryGetGlyphTypeface(out GlyphTypeface glyph);
-					if (glyph != null && glyph.CharacterToGlyphMap.TryGetValue(codePoint, out _))
-					{
-						if (family.FamilyNames.TryGetValue(XmlLanguage.GetLanguage("en-us"), out string familyName))
-						{
-							return familyName;
-						}
-					}
-				}
-			}
-			return "";
-		}
-
 		#endregion
 
 	}
