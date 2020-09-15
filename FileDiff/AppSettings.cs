@@ -303,6 +303,9 @@ namespace FileDiff
 
 		public static double DateColumnWidth { get; internal set; } = 120;
 
+		public static bool DrawGridLines { get; internal set; } = false;
+
+
 		public static ObservableCollection<TextAttribute> IgnoredFolders
 		{
 			get { return Settings.IgnoredFolders; }

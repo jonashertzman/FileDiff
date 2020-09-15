@@ -73,10 +73,6 @@ namespace FileDiff
 			expanderPen.Freeze();
 			GuidelineSet expanderGuide = CreateGuidelineSet(expanderPen);
 
-			Pen gridPen = new Pen(new SolidColorBrush(Color.FromArgb(20, 0, 0, 0)), RoundToWholePixels(1));
-			gridPen.Freeze();
-			GuidelineSet gridGuide = CreateGuidelineSet(gridPen);
-
 			UpdateVisibleItems();
 
 			VisibleLines = (int)(ActualHeight / itemHeight + 1);
@@ -172,17 +168,24 @@ namespace FileDiff
 				drawingContext.Pop(); // Line Y offset 
 			}
 
-			//// Draw grid lines
-			//drawingContext.PushTransform(new TranslateTransform(-HorizontalOffset, 0));
-			//{
-			//	drawingContext.PushGuidelineSet(gridGuide);
-			//	{
-			//		drawingContext.DrawLine(gridPen, new Point(gridLine1, -1), new Point(gridLine1, this.ActualHeight));
-			//		drawingContext.DrawLine(gridPen, new Point(gridLine2, -1), new Point(gridLine2, this.ActualHeight));
-			//		drawingContext.DrawLine(gridPen, new Point(gridLine3, -1), new Point(gridLine3, this.ActualHeight));
-			//	}
-			//}
-			//drawingContext.Pop();
+			// Draw grid lines
+			if (AppSettings.DrawGridLines)
+			{
+				Pen gridPen = new Pen(new SolidColorBrush(Color.FromArgb(20, 0, 0, 0)), RoundToWholePixels(1));
+				gridPen.Freeze();
+				GuidelineSet gridGuide = CreateGuidelineSet(gridPen);
+
+				drawingContext.PushTransform(new TranslateTransform(-HorizontalOffset, 0));
+				{
+					drawingContext.PushGuidelineSet(gridGuide);
+					{
+						drawingContext.DrawLine(gridPen, new Point(gridLine1, -1), new Point(gridLine1, this.ActualHeight));
+						drawingContext.DrawLine(gridPen, new Point(gridLine2, -1), new Point(gridLine2, this.ActualHeight));
+						drawingContext.DrawLine(gridPen, new Point(gridLine3, -1), new Point(gridLine3, this.ActualHeight));
+					}
+				}
+				drawingContext.Pop();
+			}
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
