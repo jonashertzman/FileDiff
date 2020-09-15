@@ -884,13 +884,7 @@
 	<DataTemplate x:Key="DocumentsIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Path StrokeThickness="1" Stroke="Black">
-					<Path.Fill>
-						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
-							<GradientStop Color="White" Offset="0" />
-							<GradientStop Color="White" Offset="1" />
-						</LinearGradientBrush>
-					</Path.Fill>
+				<Path StrokeThickness="1" Stroke="Black" Fill="White">
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
