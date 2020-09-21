@@ -106,6 +106,7 @@ namespace FileDiff
 		}
 
 		public int? LineIndex { get; set; }
+		public int? MatchingLineIndex { get; set; }
 
 		private TextState type;
 		public TextState Type
@@ -138,9 +139,10 @@ namespace FileDiff
 			}
 		}
 
-		public int? MatchingLineIndex { get; set; }
+		public int DisplayIndex { get; set; }
+		public int DisplayOffset { get; set; }
 
-		public int MoveIndex { get; set; }
+		//public Line MoveLine { get; set; }
 
 		private GlyphRun RenderedText;
 		private double renderedTextWidth;

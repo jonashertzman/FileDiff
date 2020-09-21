@@ -147,23 +147,15 @@ namespace FileDiff
 						lineNumberColor = SystemColors.ControlDarkDarkBrush;
 						drawingContext.DrawRectangle(activeDiffBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 
-
 						if (line.Type == TextState.MovedTo)
 						{
-							//drawingContext.DrawRectangle(Brushes.Blue, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-							drawingContext.DrawLine(new Pen(Brushes.White, 1), new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
+							drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
 						}
 						else if (line.Type == TextState.MovedFiller)
 						{
-							//drawingContext.DrawRectangle(Brushes.White, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-							//int moveOffset = (int)(line.MatchingLineIndex - line.LineIndex);
-
-							drawingContext.DrawLine(new Pen(Brushes.White, 1), new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
+							drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
 						}
-
-
 					}
-
 
 					// Draw line background
 					if (line.Type != TextState.FullMatch)

@@ -2,7 +2,7 @@
 
 namespace FileDiff
 {
-	public class DiffRange : INotifyPropertyChanged
+	public class DiffRange
 	{
 
 		public override string ToString()
@@ -13,17 +13,6 @@ namespace FileDiff
 		public int Start { get; internal set; }
 
 		public int Length { get; internal set; }
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string name)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-		}
-
-		#endregion
 
 	}
 }

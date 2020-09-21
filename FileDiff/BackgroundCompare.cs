@@ -44,6 +44,12 @@ namespace FileDiff
 
 			AddFillerLines(ref leftLines, ref rightLines);
 
+			for (int i = 0; i < leftLines.Count; i++)
+			{
+				leftLines[i].DisplayIndex = i;
+				rightLines[i].DisplayIndex = i;
+			}
+
 			if (AppSettings.DetectMovedLines)
 			{
 				FindMovedLines(leftLines, rightLines);
@@ -76,7 +82,6 @@ namespace FileDiff
 			int bestMatchingIndex = 0;
 			int bestMatchLength = 0;
 
-
 			foreach (var deletedRange in deletedLineRanges)
 			{
 				foreach (var newRange in newLineRanges)
@@ -103,11 +108,11 @@ namespace FileDiff
 				{
 					bestRange[bestMatchIndex + i].Type = TextState.MovedFrom;
 					bestRange[bestMatchIndex + i].MatchingLineIndex = bestMatchingRange[bestMatchingIndex + i].LineIndex;
-
-					bestRange[bestMatchIndex + i].MoveIndex = bestMatchingIndex + i;
+					bestRange[bestMatchIndex + i].DisplayOffset = bestMatchingRange[bestMatchingIndex + i].DisplayIndex - bestRange[bestMatchIndex + i].DisplayIndex;
 
 					bestMatchingRange[bestMatchingIndex + i].Type = TextState.MovedTo;
 					bestMatchingRange[bestMatchingIndex + i].MatchingLineIndex = bestRange[bestMatchIndex + i].LineIndex;
+					bestMatchingRange[bestMatchingIndex + i].DisplayOffset = bestRange[bestMatchIndex + i].DisplayIndex - bestMatchingRange[bestMatchingIndex + i].DisplayIndex;
 				}
 
 				FindMovedLines(leftLines, rightLines);
