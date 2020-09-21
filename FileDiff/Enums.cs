@@ -10,7 +10,8 @@
 		Filler,
 		Ignored,
 		MovedFrom,
-		MovedTo
+		MovedTo,
+		MovedFiller
 	}
 
 	public enum CompareMode

@@ -140,6 +140,8 @@ namespace FileDiff
 
 		public int? MatchingLineIndex { get; set; }
 
+		public int MoveIndex { get; set; }
+
 		private GlyphRun RenderedText;
 		private double renderedTextWidth;
 

@@ -231,18 +231,11 @@ namespace FileDiff
 			set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
 		}
 
-		int currentDiff = -1;
-		public int CurrentDiff
+		DiffRange currentDiff;
+		public DiffRange CurrentDiff
 		{
 			get { return currentDiff; }
 			set { currentDiff = value; OnPropertyChangedRepaint(nameof(CurrentDiff)); }
-		}
-
-		int currentDiffLength;
-		public int CurrentDiffLength
-		{
-			get { return currentDiffLength; }
-			set { currentDiffLength = value; OnPropertyChangedRepaint(nameof(currentDiffLength)); }
 		}
 
 		CompareMode mode;

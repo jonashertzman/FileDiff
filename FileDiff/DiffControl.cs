@@ -142,11 +142,28 @@ namespace FileDiff
 					// Draw line number
 					SolidColorBrush lineNumberColor = SystemColors.ControlDarkBrush;
 
-					if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
+					if (CurrentDiff != null && lineIndex >= CurrentDiff.Start && lineIndex < CurrentDiff.Start + CurrentDiff.Length && !Edited)
 					{
 						lineNumberColor = SystemColors.ControlDarkDarkBrush;
 						drawingContext.DrawRectangle(activeDiffBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+
+
+						if (line.Type == TextState.MovedTo)
+						{
+							//drawingContext.DrawRectangle(Brushes.Blue, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+							drawingContext.DrawLine(new Pen(Brushes.White, 1), new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
+						}
+						else if (line.Type == TextState.MovedFiller)
+						{
+							//drawingContext.DrawRectangle(Brushes.White, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+							//int moveOffset = (int)(line.MatchingLineIndex - line.LineIndex);
+
+							drawingContext.DrawLine(new Pen(Brushes.White, 1), new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
+						}
+
+
 					}
+
 
 					// Draw line background
 					if (line.Type != TextState.FullMatch)
@@ -792,21 +809,12 @@ namespace FileDiff
 		}
 
 
-		public static readonly DependencyProperty CurrentDiffProperty = DependencyProperty.Register("CurrentDiff", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+		public static readonly DependencyProperty CurrentDiffProperty = DependencyProperty.Register("CurrentDiff", typeof(DiffRange), typeof(DiffControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
-		public int CurrentDiff
+		public DiffRange CurrentDiff
 		{
-			get { return (int)GetValue(CurrentDiffProperty); }
+			get { return (DiffRange)GetValue(CurrentDiffProperty); }
 			set { SetValue(CurrentDiffProperty, value); }
-		}
-
-
-		public static readonly DependencyProperty CurrentDiffLengthProperty = DependencyProperty.Register("CurrentDiffLength", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public int CurrentDiffLength
-		{
-			get { return (int)GetValue(CurrentDiffLengthProperty); }
-			set { SetValue(CurrentDiffLengthProperty, value); }
 		}
 
 
@@ -860,6 +868,7 @@ namespace FileDiff
 
 		internal void Init()
 		{
+			CurrentDiff = null;
 			Selection = null;
 			VerticalOffset = 0;
 			HorizontalOffset = 0;

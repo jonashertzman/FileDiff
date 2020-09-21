@@ -47,6 +47,19 @@ namespace FileDiff
 			if (AppSettings.DetectMovedLines)
 			{
 				FindMovedLines(leftLines, rightLines);
+
+				for (int i = 0; i < leftLines.Count; i++)
+				{
+					if (leftLines[i].Type == TextState.MovedFrom)
+					{
+						rightLines[i].Type = TextState.MovedFiller;
+					}
+
+					if (rightLines[i].Type == TextState.MovedTo)
+					{
+						leftLines[i].Type = TextState.MovedFiller;
+					}
+				}
 			}
 
 			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
@@ -90,6 +103,8 @@ namespace FileDiff
 				{
 					bestRange[bestMatchIndex + i].Type = TextState.MovedFrom;
 					bestRange[bestMatchIndex + i].MatchingLineIndex = bestMatchingRange[bestMatchingIndex + i].LineIndex;
+
+					bestRange[bestMatchIndex + i].MoveIndex = bestMatchingIndex + i;
 
 					bestMatchingRange[bestMatchingIndex + i].Type = TextState.MovedTo;
 					bestMatchingRange[bestMatchingIndex + i].MatchingLineIndex = bestRange[bestMatchIndex + i].LineIndex;
