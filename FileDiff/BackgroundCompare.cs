@@ -56,7 +56,7 @@ namespace FileDiff
 
 				for (int i = 0; i < leftLines.Count; i++)
 				{
-					if (leftLines[i].Type == TextState.MovedFrom)
+					if (leftLines[i].Type == TextState.MovedFrom1)
 					{
 						rightLines[i].Type = TextState.MovedFiller;
 					}
@@ -73,49 +73,59 @@ namespace FileDiff
 
 		private static void FindMovedLines(List<Line> leftLines, List<Line> rightLines)
 		{
-			List<List<Line>> deletedLineRanges = FindStateRanges(leftLines, TextState.Deleted);
-			List<List<Line>> newLineRanges = FindStateRanges(rightLines, TextState.New);
+			bool alternate = false;
 
-			List<Line> bestRange = null;
-			List<Line> bestMatchingRange = null;
-			int bestMatchIndex = 0;
-			int bestMatchingIndex = 0;
-			int bestMatchLength = 0;
-
-			foreach (var deletedRange in deletedLineRanges)
+			while (true)
 			{
-				foreach (var newRange in newLineRanges)
+				// PERFORMANCE: Probably slow to recreate a new list each loop?
+				List<List<Line>> deletedLineRanges = FindStateRanges(leftLines, TextState.Deleted);
+				List<List<Line>> newLineRanges = FindStateRanges(rightLines, TextState.New);
+
+				List<Line> bestRange = null;
+				List<Line> bestMatchingRange = null;
+				int bestMatchIndex = 0;
+				int bestMatchingIndex = 0;
+				int bestMatchLength = 0;
+
+				TextState type = (alternate ^= true) ? TextState.MovedFrom1 : TextState.MovedFrom2;
+
+				foreach (var deletedRange in deletedLineRanges)
 				{
-					FindLongestMatch(deletedRange, newRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength);
-
-					if (longestMatchLength < 2)
-						continue;
-
-					if (longestMatchLength > bestMatchLength)
+					foreach (var newRange in newLineRanges)
 					{
-						bestMatchLength = longestMatchLength;
-						bestRange = deletedRange;
-						bestMatchingRange = newRange;
-						bestMatchIndex = longestMatchIndex;
-						bestMatchingIndex = longestMatchingIndex;
+						FindLongestMatch(deletedRange, newRange, out int longestMatchIndex, out int longestMatchingIndex, out int longestMatchLength);
+
+						if (longestMatchLength < 2)
+							continue;
+
+						if (longestMatchLength > bestMatchLength)
+						{
+							bestMatchLength = longestMatchLength;
+							bestRange = deletedRange;
+							bestMatchingRange = newRange;
+							bestMatchIndex = longestMatchIndex;
+							bestMatchingIndex = longestMatchingIndex;
+						}
 					}
 				}
-			}
 
-			if (bestMatchLength > 1)
-			{
-				for (int i = 0; i < bestMatchLength; i++)
+				if (bestMatchLength > 1)
 				{
-					bestRange[bestMatchIndex + i].Type = TextState.MovedFrom;
-					bestRange[bestMatchIndex + i].MatchingLineIndex = bestMatchingRange[bestMatchingIndex + i].LineIndex;
-					bestRange[bestMatchIndex + i].DisplayOffset = bestMatchingRange[bestMatchingIndex + i].DisplayIndex - bestRange[bestMatchIndex + i].DisplayIndex;
+					for (int i = 0; i < bestMatchLength; i++)
+					{
+						bestRange[bestMatchIndex + i].Type = type;
+						bestRange[bestMatchIndex + i].MatchingLineIndex = bestMatchingRange[bestMatchingIndex + i].LineIndex;
+						bestRange[bestMatchIndex + i].DisplayOffset = bestMatchingRange[bestMatchingIndex + i].DisplayIndex - bestRange[bestMatchIndex + i].DisplayIndex;
 
-					bestMatchingRange[bestMatchingIndex + i].Type = TextState.MovedTo;
-					bestMatchingRange[bestMatchingIndex + i].MatchingLineIndex = bestRange[bestMatchIndex + i].LineIndex;
-					bestMatchingRange[bestMatchingIndex + i].DisplayOffset = bestRange[bestMatchIndex + i].DisplayIndex - bestMatchingRange[bestMatchingIndex + i].DisplayIndex;
+						bestMatchingRange[bestMatchingIndex + i].Type = TextState.MovedTo;
+						bestMatchingRange[bestMatchingIndex + i].MatchingLineIndex = bestRange[bestMatchIndex + i].LineIndex;
+						bestMatchingRange[bestMatchingIndex + i].DisplayOffset = bestRange[bestMatchIndex + i].DisplayIndex - bestMatchingRange[bestMatchingIndex + i].DisplayIndex;
+					}
 				}
-
-				FindMovedLines(leftLines, rightLines);
+				else
+				{
+					break;
+				}
 			}
 
 		}

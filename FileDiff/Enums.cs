@@ -9,7 +9,8 @@
 		New,
 		Filler,
 		Ignored,
-		MovedFrom,
+		MovedFrom1,
+		MovedFrom2,
 		MovedTo,
 		MovedFiller
 	}

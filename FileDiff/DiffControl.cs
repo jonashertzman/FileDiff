@@ -737,14 +737,14 @@ namespace FileDiff
 
 				if (lineIndex < Lines.Count)
 				{
-					if (Lines[lineIndex].Type == TextState.MovedFrom)
+					if (Lines[lineIndex].Type == TextState.MovedFrom1)
 					{
-						this.ToolTip = $"Matches new lines at index {Lines[lineIndex].MatchingLineIndex}";
+						this.ToolTip = $"Matches new lines at row {Lines[lineIndex].MatchingLineIndex}";
 						return;
 					}
 					else if (Lines[lineIndex].Type == TextState.MovedTo)
 					{
-						this.ToolTip = $"Matches removed lines at index {Lines[lineIndex].MatchingLineIndex}";
+						this.ToolTip = $"Matches removed lines at row {Lines[lineIndex].MatchingLineIndex}";
 						return;
 					}
 				}

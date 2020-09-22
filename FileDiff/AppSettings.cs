@@ -406,7 +406,8 @@ namespace FileDiff
 			switch (state)
 			{
 				case TextState.Deleted:
-				case TextState.MovedFrom:
+				case TextState.MovedFrom1:
+				case TextState.MovedFrom2:
 					return deletedForeground;
 				case TextState.New:
 				case TextState.MovedTo:
@@ -429,7 +430,8 @@ namespace FileDiff
 					return deletedBackground;
 				case TextState.New:
 					return newBackground;
-				case TextState.MovedFrom:
+				case TextState.MovedFrom1:
+				case TextState.MovedFrom2:
 					return movedFromdBackground;
 				case TextState.MovedTo:
 					return movedToBackground;
