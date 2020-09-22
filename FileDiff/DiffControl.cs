@@ -135,13 +135,12 @@ namespace FileDiff
 					break;
 
 				Line line = Lines[lineIndex];
+				SolidColorBrush lineNumberColor = SystemColors.ControlDarkBrush;
 
 				// Line Y offset
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 				{
-					// Draw line number
-					SolidColorBrush lineNumberColor = SystemColors.ControlDarkBrush;
-
+					// Draw current diff
 					if (CurrentDiff != null && lineIndex >= CurrentDiff.Start && lineIndex < CurrentDiff.Start + CurrentDiff.Length && !Edited)
 					{
 						lineNumberColor = SystemColors.ControlDarkDarkBrush;
@@ -157,12 +156,7 @@ namespace FileDiff
 						}
 					}
 
-					// Draw line background
-					if (line.Type != TextState.FullMatch)
-					{
-						drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(lineNumberMargin, 0, Math.Max(this.ActualWidth - lineNumberMargin, 0), characterHeight));
-					}
-
+					// Draw line number
 					if (line.LineIndex != null)
 					{
 						GlyphRun rowNumberRun = line.GetRenderedLineIndexText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
@@ -170,6 +164,12 @@ namespace FileDiff
 						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin - borderPen.Thickness, 0));
 						drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
 						drawingContext.Pop();
+					}
+
+					// Draw line background
+					if (line.Type != TextState.FullMatch)
+					{
+						drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(lineNumberMargin, 0, Math.Max(this.ActualWidth - lineNumberMargin, 0), characterHeight));
 					}
 
 					// Text clipping rect
