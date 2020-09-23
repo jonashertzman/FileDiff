@@ -119,6 +119,10 @@ namespace FileDiff
 			borderPen.Freeze();
 			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
+			Pen movePen = new Pen(Brushes.Black, 1);
+			movePen.Freeze();
+			GuidelineSet moveGuide = CreateGuidelineSet(movePen);
+
 			textMargin = RoundToWholePixels(4);
 			lineNumberMargin = RoundToWholePixels(characterWidth * Lines.Count.ToString().Length) + (2 * textMargin) + borderPen.Thickness;
 
@@ -145,31 +149,34 @@ namespace FileDiff
 					{
 						if (lineIndex >= CurrentDiff.Start && lineIndex <= CurrentDiff.End)
 						{
-							Debug.Print($"{lineIndex}   {CurrentDiff}");
-
 							lineNumberColor = SystemColors.ControlDarkDarkBrush;
 							drawingContext.DrawRectangle(activeDiffBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+						}
 
+						drawingContext.PushGuidelineSet(moveGuide);
+						if (lineIndex >= CurrentDiff.Start && lineIndex <= CurrentDiff.End)
+						{
 							if (line.Type == TextState.MovedFromFiller)
 							{
-								drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
+								drawingContext.DrawLine(movePen, new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
 							}
 							else if (line.Type == TextState.MovedTo)
 							{
-								drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
+								drawingContext.DrawLine(movePen, new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
 							}
 						}
 						else if (lineIndex >= CurrentDiff.Start + CurrentDiff.Offset && lineIndex <= CurrentDiff.End + CurrentDiff.Offset)
 						{
 							if (line.Type == TextState.MovedTo)
 							{
-								drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
+								drawingContext.DrawLine(movePen, new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
 							}
 							else if (line.Type == TextState.MovedFromFiller)
 							{
-								drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
+								drawingContext.DrawLine(movePen, new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
 							}
 						}
+						drawingContext.Pop();
 					}
 
 					// Draw line number

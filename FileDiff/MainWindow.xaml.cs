@@ -330,6 +330,10 @@ namespace FileDiff
 				{
 					d.Offset = ViewModel.LeftFile[d.Start].DisplayOffset;
 				}
+				else if (ViewModel.LeftFile[d.Start].Type == TextState.MovedFromFiller || ViewModel.LeftFile[d.Start].Type == TextState.MovedToFiller)
+				{
+					d.Offset = ViewModel.RightFile[d.Start].DisplayOffset;
+				}
 			}
 		}
 
