@@ -323,6 +323,14 @@ namespace FileDiff
 					fileDiffs.Add(diffRange);
 				}
 			}
+
+			foreach (DiffRange d in fileDiffs)
+			{
+				if (ViewModel.LeftFile[d.Start].Type == TextState.MovedFrom1 || ViewModel.LeftFile[d.Start].Type == TextState.MovedFrom2)
+				{
+					d.Offset = ViewModel.LeftFile[d.Start].DisplayOffset;
+				}
+			}
 		}
 
 		private void MoveToFirstDiff()

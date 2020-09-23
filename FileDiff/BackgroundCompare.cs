@@ -56,14 +56,14 @@ namespace FileDiff
 
 				for (int i = 0; i < leftLines.Count; i++)
 				{
-					if (leftLines[i].Type == TextState.MovedFrom1)
+					if (leftLines[i].Type == TextState.MovedFrom1 || leftLines[i].Type == TextState.MovedFrom2)
 					{
-						rightLines[i].Type = TextState.MovedFiller;
+						rightLines[i].Type = TextState.MovedFromFiller;
 					}
 
 					if (rightLines[i].Type == TextState.MovedTo)
 					{
-						leftLines[i].Type = TextState.MovedFiller;
+						leftLines[i].Type = TextState.MovedToFiller;
 					}
 				}
 			}

@@ -141,18 +141,34 @@ namespace FileDiff
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 				{
 					// Draw current diff
-					if (CurrentDiff != null && lineIndex >= CurrentDiff.Start && lineIndex < CurrentDiff.Start + CurrentDiff.Length && !Edited)
+					if (CurrentDiff != null && !Edited)
 					{
-						lineNumberColor = SystemColors.ControlDarkDarkBrush;
-						drawingContext.DrawRectangle(activeDiffBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+						if (lineIndex >= CurrentDiff.Start && lineIndex <= CurrentDiff.End)
+						{
+							Debug.Print($"{lineIndex}   {CurrentDiff}");
 
-						if (line.Type == TextState.MovedTo)
-						{
-							drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
+							lineNumberColor = SystemColors.ControlDarkDarkBrush;
+							drawingContext.DrawRectangle(activeDiffBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+
+							if (line.Type == TextState.MovedFromFiller)
+							{
+								drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
+							}
+							else if (line.Type == TextState.MovedTo)
+							{
+								drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
+							}
 						}
-						else if (line.Type == TextState.MovedFiller)
+						else if (lineIndex >= CurrentDiff.Start + CurrentDiff.Offset && lineIndex <= CurrentDiff.End + CurrentDiff.Offset)
 						{
-							drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
+							if (line.Type == TextState.MovedTo)
+							{
+								drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
+							}
+							else if (line.Type == TextState.MovedFromFiller)
+							{
+								drawingContext.DrawLine(new Pen(Brushes.Black, 1), new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
+							}
 						}
 					}
 

@@ -12,7 +12,8 @@
 		MovedFrom1,
 		MovedFrom2,
 		MovedTo,
-		MovedFiller
+		MovedToFiller,
+		MovedFromFiller
 	}
 
 	public enum CompareMode
