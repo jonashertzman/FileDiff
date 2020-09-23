@@ -119,7 +119,7 @@ namespace FileDiff
 			borderPen.Freeze();
 			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
-			Pen movePen = new Pen(Brushes.Black, 1);
+			Pen movePen = new Pen(Brushes.Gray, .5);
 			movePen.Freeze();
 			GuidelineSet moveGuide = CreateGuidelineSet(movePen);
 
@@ -153,9 +153,11 @@ namespace FileDiff
 							drawingContext.DrawRectangle(activeDiffBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 						}
 
-						drawingContext.PushGuidelineSet(moveGuide);
-						if (lineIndex >= CurrentDiff.Start && lineIndex <= CurrentDiff.End)
+						// Draw moved arrows
+						if (CurrentDiff.Contains(lineIndex))
 						{
+							drawingContext.PushGuidelineSet(moveGuide);
+
 							if (line.Type == TextState.MovedFromFiller)
 							{
 								drawingContext.DrawLine(movePen, new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
@@ -164,19 +166,8 @@ namespace FileDiff
 							{
 								drawingContext.DrawLine(movePen, new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
 							}
+							drawingContext.Pop();
 						}
-						else if (lineIndex >= CurrentDiff.Start + CurrentDiff.Offset && lineIndex <= CurrentDiff.End + CurrentDiff.Offset)
-						{
-							if (line.Type == TextState.MovedTo)
-							{
-								drawingContext.DrawLine(movePen, new Point(lineNumberMargin / 2, characterHeight / 2), new Point(lineNumberMargin, characterHeight / 2));
-							}
-							else if (line.Type == TextState.MovedFromFiller)
-							{
-								drawingContext.DrawLine(movePen, new Point(0, characterHeight / 2), new Point(lineNumberMargin / 2, characterHeight / 2));
-							}
-						}
-						drawingContext.Pop();
 					}
 
 					// Draw line number
@@ -760,7 +751,7 @@ namespace FileDiff
 
 				if (lineIndex < Lines.Count)
 				{
-					if (Lines[lineIndex].Type == TextState.MovedFrom1)
+					if (Lines[lineIndex].Type == TextState.MovedFrom1 || Lines[lineIndex].Type == TextState.MovedFrom2)
 					{
 						this.ToolTip = $"Matches new lines at row {Lines[lineIndex].MatchingLineIndex}";
 						return;
