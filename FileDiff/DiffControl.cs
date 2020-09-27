@@ -129,7 +129,7 @@ namespace FileDiff
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
-			// Draw margin			
+			// Draw line number margin			
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
 
 			// Draw current diff
@@ -172,7 +172,7 @@ namespace FileDiff
 				drawingContext.Pop();
 			}
 
-
+			// Draw lines
 			for (int i = 0; i < VisibleLines; i++)
 			{
 				int lineIndex = i + VerticalOffset;
@@ -186,8 +186,6 @@ namespace FileDiff
 				// Line Y offset
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 				{
-
-
 					// Draw line number
 					if (line.LineIndex != null)
 					{
@@ -274,7 +272,7 @@ namespace FileDiff
 				drawingContext.Pop(); // Line Y offset
 			}
 
-			// Draw line number border
+			// Draw line number margin border
 			drawingContext.PushGuidelineSet(borderGuide);
 			{
 				drawingContext.DrawLine(borderPen, new Point(lineNumberMargin, -1), new Point(lineNumberMargin, this.ActualHeight));
