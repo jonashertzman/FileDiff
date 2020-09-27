@@ -150,22 +150,27 @@ namespace FileDiff
 
 						for (int i = CurrentDiff.Start; i < CurrentDiff.End + 1; i++)
 						{
-							int x = 0;
-							int y = 0;
-
 							// Current
-							drawingContext.DrawEllipse(null, movePen, new Point(x, i * characterHeight), lineNumberMargin / 2, characterHeight / 2);
-							drawingContext.DrawEllipse(null, movePen, new Point(x, (i + 1) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							drawingContext.PushClip(new RectangleGeometry(new Rect(0, i * characterHeight, lineNumberMargin, characterHeight)));
+							{
+								drawingContext.DrawEllipse(null, movePen, new Point(0, i * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								drawingContext.DrawEllipse(null, movePen, new Point(0, (i + 1) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
 
-							drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, i * characterHeight), lineNumberMargin / 2, characterHeight / 2);
-							drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + 1) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, i * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + 1) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							}
+							drawingContext.Pop();
 
 							// Corresponding
-							drawingContext.DrawEllipse(null, movePen, new Point(x, (i + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
-							drawingContext.DrawEllipse(null, movePen, new Point(x, (i + 1 + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							drawingContext.PushClip(new RectangleGeometry(new Rect(0, (i + CurrentDiff.Offset) * characterHeight, lineNumberMargin, characterHeight)));
+							{
+								drawingContext.DrawEllipse(null, movePen, new Point(0, (i + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								drawingContext.DrawEllipse(null, movePen, new Point(0, (i + 1 + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
 
-							drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
-							drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + 1 + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + 1 + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							}
+							drawingContext.Pop();
 						}
 					}
 				}
