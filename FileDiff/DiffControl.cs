@@ -119,7 +119,7 @@ namespace FileDiff
 			borderPen.Freeze();
 			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
-			Pen movePen = new Pen(AppSettings.SnakeColor, 6);
+			Pen movePen = new Pen(AppSettings.SnakeColor, 4);
 			movePen.Freeze();
 			GuidelineSet moveGuide = CreateGuidelineSet(movePen);
 
@@ -129,7 +129,48 @@ namespace FileDiff
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
+			// Draw margin			
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
+
+
+			Debug.Print($"{CurrentDiff}");
+
+			// Draw current diff
+			if (CurrentDiff != null && !Edited)
+			{
+				TextState currentDiffType = Lines[CurrentDiff.Start].Type;
+
+				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * -VerticalOffset));
+				{
+					drawingContext.DrawRectangle(null, borderPen, new Rect(0, CurrentDiff.Start * characterHeight, lineNumberMargin, CurrentDiff.Length * characterHeight));
+
+					if (currentDiffType == TextState.MovedFromFiller || currentDiffType == TextState.MovedTo)
+					{
+						drawingContext.DrawLine(movePen, new Point(lineNumberMargin / 2, (CurrentDiff.Top + 1) * characterHeight), new Point(lineNumberMargin / 2, (CurrentDiff.Bottom) * characterHeight));
+
+						for (int i = CurrentDiff.Start; i < CurrentDiff.End + 1; i++)
+						{
+							int x = 0;
+							int y = 0;
+
+							// Current
+							drawingContext.DrawEllipse(null, movePen, new Point(x, i * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							drawingContext.DrawEllipse(null, movePen, new Point(x, (i + 1) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+
+							drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, i * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + 1) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+
+							// Corresponding
+							drawingContext.DrawEllipse(null, movePen, new Point(x, (i + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							drawingContext.DrawEllipse(null, movePen, new Point(x, (i + 1 + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+
+							drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + 1 + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+						}
+					}
+				}
+				drawingContext.Pop();
+			}
 
 
 			for (int i = 0; i < VisibleLines; i++)
@@ -145,45 +186,7 @@ namespace FileDiff
 				// Line Y offset
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 				{
-					// Draw current diff
-					if (CurrentDiff != null && !Edited)
-					{
-						if (lineIndex >= CurrentDiff.Start && lineIndex <= CurrentDiff.End)
-						{
-							lineNumberColor = SystemColors.ControlDarkDarkBrush;
-							drawingContext.DrawRectangle(AppSettings.DiffColor, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-						}
 
-						// Draw moved lines indicators
-						drawingContext.PushGuidelineSet(moveGuide);
-						{
-							if (CurrentDiff.Includes(lineIndex))
-							{
-								drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, lineNumberMargin, characterHeight)));
-								{
-									if (line.Type == TextState.MovedFromFiller)
-									{
-										drawingContext.DrawEllipse(null, movePen, new Point(0, CurrentDiff.Offset > 0 ? characterHeight : 0), lineNumberMargin / 2, characterHeight / 2);
-									}
-									else if (line.Type == TextState.MovedTo)
-									{
-										drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, CurrentDiff.Offset > 0 ? 0 : characterHeight), lineNumberMargin / 2, characterHeight / 2);
-									}
-								}
-								drawingContext.Pop();
-							}
-
-							// Draw moved lines arrow
-							if (Lines[CurrentDiff.Start].Type == TextState.MovedTo || Lines[CurrentDiff.Start].Type == TextState.MovedFromFiller)
-							{
-								if (CurrentDiff.MovedPast(lineIndex))
-								{
-									drawingContext.DrawLine(movePen, new Point(lineNumberMargin / 2, 0), new Point(lineNumberMargin / 2, characterHeight));
-								}
-							}
-						}
-						drawingContext.Pop();
-					}
 
 					// Draw line number
 					if (line.LineIndex != null)

@@ -9,7 +9,7 @@ namespace FileDiff
 
 		public override string ToString()
 		{
-			return $"{Start} - {End}  -  {Offset}";
+			return $"{Start}-{End}+{Offset})";
 		}
 
 		#endregion
@@ -20,6 +20,8 @@ namespace FileDiff
 
 		public int Length { get; set; } = 1;
 
+		public int Offset { get; set; } = 0;
+
 		public int End
 		{
 			get
@@ -28,28 +30,28 @@ namespace FileDiff
 			}
 		}
 
-		public int Offset { get; set; } = 0;
-
-		#endregion
-
-		#region Methods
-
-		public bool Includes(int lineIndex)
+		public int Top
 		{
-			return (lineIndex >= Start && lineIndex <= End) || (lineIndex >= Start + Offset && lineIndex <= End + Offset);
+			get
+			{
+				if (Offset < 0)
+				{
+					return Start + Offset;
+				}
+				return Start;
+			}
 		}
 
-		public bool MovedPast(int lineIndex)
+		public int Bottom
 		{
-			if (Offset > 0)
+			get
 			{
-				return lineIndex > Start && lineIndex < End + Offset;
+				if (Offset < 0)
+				{
+					return End;
+				}
+				return End + Offset;
 			}
-			else if (Offset < 0)
-			{
-				return lineIndex < End && lineIndex > Start + Offset;
-			}
-			return false;
 		}
 
 		#endregion
