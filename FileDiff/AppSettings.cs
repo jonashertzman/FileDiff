@@ -297,6 +297,11 @@ namespace FileDiff
 		}
 
 
+		public static SolidColorBrush SnakeColor { get; internal set; } = Brushes.LightGray;
+		public static SolidColorBrush DiffColor { get; internal set; } = SystemColors.ScrollBarBrush;
+		public static SolidColorBrush LineNumberColor { get; internal set; } = SystemColors.ControlDarkDarkBrush;
+
+
 		public static double NameColumnWidth { get; internal set; } = 300;
 
 		public static double SizeColumnWidth { get; internal set; } = 70;

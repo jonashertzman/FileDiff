@@ -1,4 +1,4 @@
-﻿<Window x:Class="FileDiff.OptionsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Title="Options" Height="366" Width="635" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+﻿<Window x:Class="FileDiff.OptionsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Title="Options" Height="437" Width="670" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -40,6 +40,8 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
 							<Label Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
@@ -64,20 +66,32 @@
 							<Rectangle x:Name="NewForeground" Grid.Row="4" Grid.Column="1" Fill="{Binding NewForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="NewBackground" Grid.Row="4" Grid.Column="2" Fill="{Binding NewBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="5" Content="Deleted" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="DeletedForeground" Grid.Row="5" Grid.Column="1" Fill="{Binding DeletedForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle x:Name="DeletedBackground" Grid.Row="5" Grid.Column="2" Fill="{Binding DeletedBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="5" Content="Moved To" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="MovedToBackground" Grid.Row="5" Grid.Column="2" Fill="{Binding MovedToBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="6" Content="Changed" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="PartialMatchForeground" Grid.Row="6" Grid.Column="1" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle x:Name="PartialMatchBackground" Grid.Row="6" Grid.Column="2" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="6" Content="Deleted" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="DeletedForeground" Grid.Row="6" Grid.Column="1" Fill="{Binding DeletedForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="DeletedBackground" Grid.Row="6" Grid.Column="2" Fill="{Binding DeletedBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="7" Content="Ignored" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="IgnoredForeground" Grid.Row="7" Grid.Column="1" Fill="{Binding IgnoredForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle x:Name="IgnoredBackground" Grid.Row="7" Grid.Column="2" Fill="{Binding IgnoredBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="7" Content="Moved From" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="MovedFromBackground" Grid.Row="7" Grid.Column="2" Fill="{Binding MovedFromdBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="8" Content="Selection" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="SelectionBackground" Grid.Row="8" Grid.Column="2" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="8" Content="Changed" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="PartialMatchForeground" Grid.Row="8" Grid.Column="1" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="PartialMatchBackground" Grid.Row="8" Grid.Column="2" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="8" Grid.Column="3" Content="line number" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="LineNumber" Grid.Row="8" Grid.Column="4" Fill="{Binding LineNumberColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+							<Label Grid.Row="9" Content="Ignored" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="IgnoredForeground" Grid.Row="9" Grid.Column="1" Fill="{Binding IgnoredForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="IgnoredBackground" Grid.Row="9" Grid.Column="2" Fill="{Binding IgnoredBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="9" Grid.Column="3" Content="current" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="CurrentDiff" Grid.Row="9" Grid.Column="4" Fill="{Binding DiffColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+							<Label Grid.Row="10" Content="Selection" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="SelectionBackground" Grid.Row="10" Grid.Column="2" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="10" Grid.Column="3" Content="snake" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="Snake" Grid.Row="10" Grid.Column="4" Fill="{Binding SnakeColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
 								<Grid RenderOptions.ClearTypeHint="Enabled">
@@ -128,7 +142,7 @@
 					<Border Padding="5">
 						<Grid>
 							<Grid.RowDefinitions>
-								<RowDefinition />
+								<RowDefinition Height="*" />
 								<RowDefinition Height="auto" />
 							</Grid.RowDefinitions>
 							<Grid.ColumnDefinitions>

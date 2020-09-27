@@ -396,6 +396,7 @@ namespace FileDiff
 			set { AppSettings.DateColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(DateColumnWidth)); }
 		}
 
+
 		public Brush FullMatchForeground
 		{
 			get { return AppSettings.FullMatchForeground; }
@@ -456,10 +457,42 @@ namespace FileDiff
 			set { AppSettings.IgnoredBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
 		}
 
+		public Brush MovedFromdBackground
+		{
+			get { return AppSettings.MovedFromdBackground; }
+			set { AppSettings.MovedFromdBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedFromdBackground)); }
+		}
+
+		public Brush MovedToBackground
+		{
+			get { return AppSettings.MovedToBackground; }
+			set { AppSettings.MovedToBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedToBackground)); }
+		}
+
 		public Brush SelectionBackground
 		{
 			get { return AppSettings.SelectionBackground; }
 			set { AppSettings.SelectionBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
+		}
+
+
+
+		public Brush LineNumberColor
+		{
+			get { return AppSettings.LineNumberColor; }
+			set { AppSettings.LineNumberColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(LineNumberColor)); }
+		}
+
+		public Brush SnakeColor
+		{
+			get { return AppSettings.SnakeColor; }
+			set { AppSettings.SnakeColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SnakeColor)); }
+		}
+
+		public Brush DiffColor
+		{
+			get { return AppSettings.DiffColor; }
+			set { AppSettings.DiffColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DiffColor)); }
 		}
 
 

@@ -759,6 +759,8 @@ namespace FileDiff
 			var oldNewForeground = ViewModel.NewForeground;
 			var oldPartialMatchBackground = ViewModel.PartialMatchBackground;
 			var oldPartialMatchForeground = ViewModel.PartialMatchForeground;
+			var oldMovedFromBackground = ViewModel.MovedFromdBackground;
+			var oldMovedToBackground = ViewModel.MovedToBackground;
 			var oldSelectionBackground = ViewModel.SelectionBackground;
 			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
 			var oldIgnoredFolders = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFolders);
@@ -788,6 +790,8 @@ namespace FileDiff
 				ViewModel.NewForeground = oldNewForeground;
 				ViewModel.PartialMatchBackground = oldPartialMatchBackground;
 				ViewModel.PartialMatchForeground = oldPartialMatchForeground;
+				ViewModel.MovedFromdBackground = oldMovedFromBackground;
+				ViewModel.MovedToBackground = oldMovedToBackground;
 				ViewModel.SelectionBackground = oldSelectionBackground;
 				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
 				ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);

@@ -1,4 +1,6 @@
-﻿namespace FileDiff
+﻿using System.Data;
+
+namespace FileDiff
 {
 	public class DiffRange
 	{
@@ -32,9 +34,22 @@
 
 		#region Methods
 
-		public bool Contains(int lineIndex)
+		public bool Includes(int lineIndex)
 		{
 			return (lineIndex >= Start && lineIndex <= End) || (lineIndex >= Start + Offset && lineIndex <= End + Offset);
+		}
+
+		public bool MovedPast(int lineIndex)
+		{
+			if (Offset > 0)
+			{
+				return lineIndex > Start && lineIndex < End + Offset;
+			}
+			else if (Offset < 0)
+			{
+				return lineIndex < End && lineIndex > Start + Offset;
+			}
+			return false;
 		}
 
 		#endregion
