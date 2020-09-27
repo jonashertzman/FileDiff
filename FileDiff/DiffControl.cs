@@ -119,7 +119,7 @@ namespace FileDiff
 			borderPen.Freeze();
 			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
-			Pen movePen = new Pen(AppSettings.SnakeColor, 4);
+			Pen movePen = new Pen(AppSettings.SnakeColor, 5);
 			movePen.Freeze();
 			GuidelineSet moveGuide = CreateGuidelineSet(movePen);
 
@@ -132,9 +132,6 @@ namespace FileDiff
 			// Draw margin			
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
 
-
-			Debug.Print($"{CurrentDiff}");
-
 			// Draw current diff
 			if (CurrentDiff != null && !Edited)
 			{
@@ -142,7 +139,7 @@ namespace FileDiff
 
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * -VerticalOffset));
 				{
-					drawingContext.DrawRectangle(null, borderPen, new Rect(0, CurrentDiff.Start * characterHeight, lineNumberMargin, CurrentDiff.Length * characterHeight));
+					drawingContext.DrawRectangle(AppSettings.DiffColor, null, new Rect(0, CurrentDiff.Start * characterHeight, lineNumberMargin, CurrentDiff.Length * characterHeight));
 
 					if (currentDiffType == TextState.MovedFromFiller || currentDiffType == TextState.MovedTo)
 					{
@@ -153,22 +150,20 @@ namespace FileDiff
 							// Current
 							drawingContext.PushClip(new RectangleGeometry(new Rect(0, i * characterHeight, lineNumberMargin, characterHeight)));
 							{
-								drawingContext.DrawEllipse(null, movePen, new Point(0, i * characterHeight), lineNumberMargin / 2, characterHeight / 2);
-								drawingContext.DrawEllipse(null, movePen, new Point(0, (i + 1) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								double x = currentDiffType == TextState.MovedFromFiller ? 0 : lineNumberMargin;
+								int y = CurrentDiff.Offset < 0 ? 0 : 1;
 
-								drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, i * characterHeight), lineNumberMargin / 2, characterHeight / 2);
-								drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + 1) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								drawingContext.DrawEllipse(null, movePen, new Point(x, (i + y) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
 							}
 							drawingContext.Pop();
 
 							// Corresponding
 							drawingContext.PushClip(new RectangleGeometry(new Rect(0, (i + CurrentDiff.Offset) * characterHeight, lineNumberMargin, characterHeight)));
 							{
-								drawingContext.DrawEllipse(null, movePen, new Point(0, (i + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
-								drawingContext.DrawEllipse(null, movePen, new Point(0, (i + 1 + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								double x = currentDiffType == TextState.MovedFromFiller ? lineNumberMargin : 0;
+								int y = CurrentDiff.Offset < 0 ? 1 : 0;
 
-								drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
-								drawingContext.DrawEllipse(null, movePen, new Point(lineNumberMargin, (i + 1 + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+								drawingContext.DrawEllipse(null, movePen, new Point(x, (i + y + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
 							}
 							drawingContext.Pop();
 						}
