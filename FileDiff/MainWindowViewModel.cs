@@ -38,7 +38,7 @@ namespace FileDiff
 
 		public string Version
 		{
-			get { return "1.2"; }
+			get { return "1.3"; }
 		}
 
 		public string BuildNumber
@@ -396,7 +396,7 @@ namespace FileDiff
 			set { AppSettings.DateColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(DateColumnWidth)); }
 		}
 
-
+		// Text colors
 		public Brush FullMatchForeground
 		{
 			get { return AppSettings.FullMatchForeground; }
@@ -476,7 +476,7 @@ namespace FileDiff
 		}
 
 
-
+		// GUI colors
 		public Brush LineNumberColor
 		{
 			get { return AppSettings.LineNumberColor; }
@@ -489,10 +489,10 @@ namespace FileDiff
 			set { AppSettings.SnakeColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SnakeColor)); }
 		}
 
-		public Brush DiffColor
+		public Brush CurrentDiffColor
 		{
-			get { return AppSettings.DiffColor; }
-			set { AppSettings.DiffColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DiffColor)); }
+			get { return AppSettings.CurrentDiffColor; }
+			set { AppSettings.CurrentDiffColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(CurrentDiffColor)); }
 		}
 
 

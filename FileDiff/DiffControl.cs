@@ -139,7 +139,7 @@ namespace FileDiff
 
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * -VerticalOffset));
 				{
-					drawingContext.DrawRectangle(AppSettings.DiffColor, null, new Rect(0, CurrentDiff.Start * characterHeight, lineNumberMargin, CurrentDiff.Length * characterHeight));
+					drawingContext.DrawRectangle(AppSettings.CurrentDiffColor, null, new Rect(0, CurrentDiff.Start * characterHeight, lineNumberMargin, CurrentDiff.Length * characterHeight));
 
 					if (currentDiffType == TextState.MovedFromFiller || currentDiffType == TextState.MovedTo)
 					{
@@ -774,7 +774,7 @@ namespace FileDiff
 					}
 					else if (Lines[lineIndex].Type == TextState.MovedTo)
 					{
-						this.ToolTip = $"Matches removed lines at row {Lines[lineIndex].MatchingLineIndex}";
+						this.ToolTip = $"Matches deleted lines at row {Lines[lineIndex].MatchingLineIndex}";
 						return;
 					}
 				}

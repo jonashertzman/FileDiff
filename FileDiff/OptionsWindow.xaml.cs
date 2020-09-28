@@ -111,6 +111,11 @@ namespace FileDiff
 			MovedToBackground.Fill = new SolidColorBrush(DefaultSettings.MovedToBackground);
 
 			SelectionBackground.Fill = new SolidColorBrush(DefaultSettings.SelectionBackground);
+
+			LineNumber.Fill = new SolidColorBrush(DefaultSettings.LineNumberColor);
+			CurrentDiff.Fill = new SolidColorBrush(DefaultSettings.CurrentDiffColor);
+			Snake.Fill = new SolidColorBrush(DefaultSettings.SnakeColor);
+
 		}
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)

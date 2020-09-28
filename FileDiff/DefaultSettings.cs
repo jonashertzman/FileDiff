@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 
 namespace FileDiff
 {
@@ -25,6 +26,10 @@ namespace FileDiff
 		internal static Color MovedToBackground { get; } = Color.FromRgb(240, 255, 240);
 
 		internal static Color SelectionBackground { get; } = Color.FromArgb(50, 0, 150, 210);
+
+		internal static Color LineNumberColor { get; } = SystemColors.ControlDarkDarkColor;
+		internal static Color CurrentDiffColor { get; } = SystemColors.ScrollBarColor;
+		internal static Color SnakeColor { get; } = Color.FromRgb(220, 220, 220);
 
 		internal static string Font { get; } = "Courier New";
 		internal static int FontSize { get; } = 11;

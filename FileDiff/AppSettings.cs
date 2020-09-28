@@ -297,9 +297,41 @@ namespace FileDiff
 		}
 
 
-		public static SolidColorBrush SnakeColor { get; internal set; } = Brushes.LightGray;
-		public static SolidColorBrush DiffColor { get; internal set; } = SystemColors.ScrollBarBrush;
-		public static SolidColorBrush LineNumberColor { get; internal set; } = SystemColors.ControlDarkDarkBrush;
+		private static SolidColorBrush lineNumberColor;
+		public static SolidColorBrush LineNumberColor
+		{
+			get { return lineNumberColor; }
+			set
+			{
+				lineNumberColor = value;
+				lineNumberColor.Freeze();
+				Settings.LineNumberColor = value.Color;
+			}
+		}
+
+		private static SolidColorBrush currentDiffColor;
+		public static SolidColorBrush CurrentDiffColor
+		{
+			get { return currentDiffColor; }
+			set
+			{
+				currentDiffColor = value;
+				currentDiffColor.Freeze();
+				Settings.CurrentDiffColor = value.Color;
+			}
+		}
+
+		private static SolidColorBrush snakeColor;
+		public static SolidColorBrush SnakeColor
+		{
+			get { return snakeColor; }
+			set
+			{
+				snakeColor = value;
+				snakeColor.Freeze();
+				Settings.SnakeColor = value.Color;
+			}
+		}
 
 
 		public static double NameColumnWidth { get; internal set; } = 300;
@@ -404,6 +436,10 @@ namespace FileDiff
 			IgnoredBackground = new SolidColorBrush(Settings.IgnoredBackground);
 
 			SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
+
+			LineNumberColor = new SolidColorBrush(Settings.LineNumberColor);
+			CurrentDiffColor = new SolidColorBrush(Settings.CurrentDiffColor);
+			SnakeColor = new SolidColorBrush(Settings.SnakeColor);
 		}
 
 		internal static SolidColorBrush GetForeground(TextState state)

@@ -762,6 +762,11 @@ namespace FileDiff
 			var oldMovedFromBackground = ViewModel.MovedFromdBackground;
 			var oldMovedToBackground = ViewModel.MovedToBackground;
 			var oldSelectionBackground = ViewModel.SelectionBackground;
+
+			var oldLineNumberColor = ViewModel.LineNumberColor;
+			var oldCurrentDiffColor = ViewModel.CurrentDiffColor;
+			var oldSnakeColor = ViewModel.SnakeColor;
+
 			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
 			var oldIgnoredFolders = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFolders);
 
@@ -793,6 +798,11 @@ namespace FileDiff
 				ViewModel.MovedFromdBackground = oldMovedFromBackground;
 				ViewModel.MovedToBackground = oldMovedToBackground;
 				ViewModel.SelectionBackground = oldSelectionBackground;
+
+				ViewModel.LineNumberColor = oldLineNumberColor;
+				ViewModel.CurrentDiffColor = oldCurrentDiffColor;
+				ViewModel.SnakeColor = oldSnakeColor;
+
 				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
 				ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);
 			}

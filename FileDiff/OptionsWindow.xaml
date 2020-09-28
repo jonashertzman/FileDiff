@@ -62,7 +62,7 @@
 							<Rectangle x:Name="FullMatchForeground" Grid.Row="3" Grid.Column="1" Fill="{Binding FullMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="FullMatchBackground" Grid.Row="3" Grid.Column="2" Fill="{Binding FullMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="4" Content="Added" Style="{StaticResource CommonTextLabel}" />
+							<Label Grid.Row="4" Content="New" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="NewForeground" Grid.Row="4" Grid.Column="1" Fill="{Binding NewForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="NewBackground" Grid.Row="4" Grid.Column="2" Fill="{Binding NewBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
@@ -79,18 +79,18 @@
 							<Label Grid.Row="8" Content="Changed" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="PartialMatchForeground" Grid.Row="8" Grid.Column="1" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="PartialMatchBackground" Grid.Row="8" Grid.Column="2" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Label Grid.Row="8" Grid.Column="3" Content="line number" Style="{StaticResource CommonTextLabel}" />
+							<Label Grid.Row="8" Grid.Column="3" Content="Line Number" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="LineNumber" Grid.Row="8" Grid.Column="4" Fill="{Binding LineNumberColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="9" Content="Ignored" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="IgnoredForeground" Grid.Row="9" Grid.Column="1" Fill="{Binding IgnoredForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="IgnoredBackground" Grid.Row="9" Grid.Column="2" Fill="{Binding IgnoredBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Label Grid.Row="9" Grid.Column="3" Content="current" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="CurrentDiff" Grid.Row="9" Grid.Column="4" Fill="{Binding DiffColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="9" Grid.Column="3" Content="Current Diff" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="CurrentDiff" Grid.Row="9" Grid.Column="4" Fill="{Binding CurrentDiffColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="10" Content="Selection" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="SelectionBackground" Grid.Row="10" Grid.Column="2" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Label Grid.Row="10" Grid.Column="3" Content="snake" Style="{StaticResource CommonTextLabel}" />
+							<Label Grid.Row="10" Grid.Column="3" Content="Snake" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="Snake" Grid.Row="10" Grid.Column="4" Fill="{Binding SnakeColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
