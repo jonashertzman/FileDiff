@@ -843,7 +843,7 @@ namespace FileDiff
 						sw.NewLine = ViewModel.LeftFileEncoding.GetNewLineString;
 						foreach (Line l in ViewModel.LeftFile)
 						{
-							if (l.Type != TextState.Filler)
+							if (l.Type != TextState.Filler && l.Type != TextState.MovedFromFiller && l.Type != TextState.MovedToFiller)
 							{
 								sw.WriteLine(l.Text);
 							}
@@ -877,7 +877,7 @@ namespace FileDiff
 						sw.NewLine = ViewModel.RightFileEncoding.GetNewLineString;
 						foreach (Line l in ViewModel.RightFile)
 						{
-							if (l.Type != TextState.Filler)
+							if (l.Type != TextState.Filler && l.Type != TextState.MovedFromFiller && l.Type != TextState.MovedToFiller)
 							{
 								sw.WriteLine(l.Text);
 							}
