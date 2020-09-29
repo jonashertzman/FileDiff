@@ -898,11 +898,6 @@ namespace FileDiff
 			e.CanExecute = ViewModel.RightFileDirty;
 		}
 
-		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-
-		}
-
 		private void CommandEdit_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = NoManualEdit;

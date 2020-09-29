@@ -24,7 +24,7 @@
 				<CommandBinding Command="local:Commands.ExperimentalCompare" Executed="CommandCompare_Executed" />
 				<CommandBinding Command="local:Commands.SaveLeftFile" Executed="CommandSaveLeftFile_Executed" CanExecute="CommandSaveLeftFile_CanExecute" />
 				<CommandBinding Command="local:Commands.SaveRightFile" Executed="CommandSaveRightFile_Executed" CanExecute="CommandSaveRightFile_CanExecute" />
-				<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
+				<CommandBinding Command="local:Commands.Edit" CanExecute="CommandEdit_CanExecute" />
 				<CommandBinding Command="local:Commands.Swap" Executed="CommandSwap_Executed" />
 				<CommandBinding Command="local:Commands.Up" Executed="CommandUp_Executed" />
 				<CommandBinding Command="local:Commands.PreviousDiff" Executed="CommandPreviousDiff_Executed" CanExecute="CommandPreviousDiff_CanExecute" />
