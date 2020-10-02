@@ -1,7 +1,7 @@
 File Diff
 =========
 
-A free open source diff tool.
+A visual file and directory diff tool.
 
 ### Download
 Download latest version **[here](https://jonashertzman.github.io/FileDiff/download/FileDiff.zip)**
