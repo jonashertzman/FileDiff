@@ -74,6 +74,28 @@ namespace FileDiff
 			ViewModel.LeftPath = ViewModel.LeftPath.Trim();
 			ViewModel.RightPath = ViewModel.RightPath.Trim();
 
+			BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
+			if (ViewModel.LeftPath == "")
+			{
+				browseLeft.ShowDialog();
+
+				if (browseLeft.DialogResult == true)
+				{
+					ViewModel.LeftPath = browseLeft.SelectedPath;
+				}
+			}
+
+			if (ViewModel.RightPath == "" && browseLeft.DialogResult != false)
+			{
+				BrowseFolderWindow browseRight = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Right Path" };
+				browseRight.ShowDialog();
+
+				if (browseRight.DialogResult == true)
+				{
+					ViewModel.RightPath = browseRight.SelectedPath;
+				}
+			}
+
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
 				ViewModel.Mode = CompareMode.File;
