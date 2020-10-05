@@ -50,8 +50,12 @@ namespace FileDiff
 			double lastHeight = -1;
 
 			SolidColorBrush partialMatchBrush = BlendColors(AppSettings.PartialMatchBackground, AppSettings.PartialMatchForeground, .7);
+
 			SolidColorBrush deletedBrush = BlendColors(AppSettings.DeletedBackground, AppSettings.DeletedForeground, .7);
+			SolidColorBrush movedFromBrush = BlendColors(AppSettings.MovedFromdBackground, AppSettings.DeletedForeground, .7);
+
 			SolidColorBrush newBrush = BlendColors(AppSettings.NewBackground, AppSettings.NewForeground, .7);
+			SolidColorBrush movedToBrush = BlendColors(AppSettings.MovedToBackground, AppSettings.NewForeground, .7);
 
 			SolidColorBrush lineBrush;
 
@@ -66,13 +70,19 @@ namespace FileDiff
 						break;
 
 					case TextState.New:
-					case TextState.MovedTo:
 						lineBrush = newBrush;
 						break;
 
+					case TextState.MovedTo:
+						lineBrush = movedToBrush;
+						break;
+
 					case TextState.Filler:
-					case TextState.MovedToFiller:
 						lineBrush = deletedBrush;
+						break;
+
+					case TextState.MovedFromFiller:
+						lineBrush = movedFromBrush;
 						break;
 
 					default:
