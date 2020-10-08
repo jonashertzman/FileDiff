@@ -27,8 +27,8 @@ namespace FileDiff
 
 		internal static Color SelectionBackground { get; } = Color.FromArgb(50, 0, 150, 210);
 
-		internal static Color LineNumberColor { get; } = SystemColors.ControlDarkDarkColor;
-		internal static Color CurrentDiffColor { get; } = SystemColors.ScrollBarColor;
+		internal static Color LineNumberColor { get; } = Color.FromRgb(88, 88, 88);
+		internal static Color CurrentDiffColor { get; } = Color.FromRgb(183, 183, 183);
 		internal static Color SnakeColor { get; } = Color.FromRgb(220, 220, 220);
 
 		internal static string Font { get; } = "Courier New";

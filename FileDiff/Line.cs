@@ -123,6 +123,14 @@ namespace FileDiff
 			}
 		}
 
+		public bool IsFiller
+		{
+			get
+			{
+				return type == TextState.Filler || type == TextState.MovedFromFiller || type == TextState.MovedToFiller;
+			}
+		}
+
 		public SolidColorBrush BackgroundBrush
 		{
 			get
@@ -141,8 +149,6 @@ namespace FileDiff
 
 		public int DisplayIndex { get; set; }
 		public int DisplayOffset { get; set; }
-
-		//public Line MoveLine { get; set; }
 
 		private GlyphRun RenderedText;
 		private double renderedTextWidth;
