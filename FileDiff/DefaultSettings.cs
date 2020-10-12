@@ -29,7 +29,7 @@ namespace FileDiff
 
 		internal static Color LineNumberColor { get; } = Color.FromRgb(88, 88, 88);
 		internal static Color CurrentDiffColor { get; } = Color.FromRgb(183, 183, 183);
-		internal static Color SnakeColor { get; } = Color.FromRgb(220, 220, 220);
+		internal static Color SnakeColor { get; } = Color.FromRgb(210, 210, 210);
 
 		internal static string Font { get; } = "Courier New";
 		internal static int FontSize { get; } = 11;

@@ -124,7 +124,7 @@ namespace FileDiff
 			borderPen.Freeze();
 			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
-			Pen movePen = new Pen(AppSettings.SnakeColor, 5);
+			Pen movePen = new Pen(AppSettings.SnakeColor, 6);
 			movePen.Freeze();
 			GuidelineSet moveGuide = CreateGuidelineSet(movePen);
 
