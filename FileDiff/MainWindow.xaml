@@ -73,8 +73,8 @@
 						</MenuItem>
 					</Menu>
 					<StackPanel x:Name="UpdatePanel" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
-						<Label Margin="3" Padding="0" VerticalAlignment="Center">
-							<Hyperlink RequestNavigate="Hyperlink_OpenHomepage" NavigateUri="">New Version Available</Hyperlink>
+						<Label Margin="3,3,6,3" Padding="0" VerticalAlignment="Center">
+							<Hyperlink RequestNavigate="Hyperlink_OpenHomepage" NavigateUri="https://github.com/jonashertzman/FileDiff/blob/master/README.md">New Version Available</Hyperlink>
 						</Label>
 						<!--<Button BorderThickness="0" Margin="3" Padding="0" Foreground="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="Transparent" VerticalAlignment="Center" Click="Button_Click">
 							&#x274C;

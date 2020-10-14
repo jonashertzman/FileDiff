@@ -14,13 +14,7 @@ namespace FileDiff
 
 		private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
-			Process.Start(new ProcessStartInfo(AppSettings.HOMEPAGE));
-			e.Handled = true;
-		}
-
-		private void Hyperlink_SourceCode(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-		{
-			Process.Start(new ProcessStartInfo(AppSettings.GITHUBPAGE));
+			Process.Start(new ProcessStartInfo(e.Uri.ToString()));
 			e.Handled = true;
 		}
 

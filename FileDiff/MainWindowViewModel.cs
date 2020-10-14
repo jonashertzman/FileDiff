@@ -57,9 +57,14 @@ namespace FileDiff
 			set { newBuildAvailable = value; OnPropertyChanged(nameof(NewBuildAvailable)); }
 		}
 
+		public string ApplicationName
+		{
+			get { return $"{Title} {Version}"; }
+		}
+
 		public string FullApplicationName
 		{
-			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
+			get { return $"{Title} {Version} (Build {BuildNumber})"; }
 		}
 
 		public bool CheckForUpdates
