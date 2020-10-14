@@ -16,9 +16,6 @@ namespace FileDiff
 		private const string SETTINGS_DIRECTORY = "FileDiff";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
 
-		public const string GITHUBPAGE = @"https://github.com/jonashertzman/FileDiff";
-		public const string HOMEPAGE = @"https://github.com/jonashertzman/FileDiff/blob/master/README.md";
-
 		private static SettingsData Settings = new SettingsData();
 
 		#endregion
@@ -297,6 +294,43 @@ namespace FileDiff
 		}
 
 
+		private static SolidColorBrush lineNumberColor;
+		public static SolidColorBrush LineNumberColor
+		{
+			get { return lineNumberColor; }
+			set
+			{
+				lineNumberColor = value;
+				lineNumberColor.Freeze();
+				Settings.LineNumberColor = value.Color;
+			}
+		}
+
+		private static SolidColorBrush currentDiffColor;
+		public static SolidColorBrush CurrentDiffColor
+		{
+			get { return currentDiffColor; }
+			set
+			{
+				currentDiffColor = value;
+				currentDiffColor.Freeze();
+				Settings.CurrentDiffColor = value.Color;
+			}
+		}
+
+		private static SolidColorBrush snakeColor;
+		public static SolidColorBrush SnakeColor
+		{
+			get { return snakeColor; }
+			set
+			{
+				snakeColor = value;
+				snakeColor.Freeze();
+				Settings.SnakeColor = value.Color;
+			}
+		}
+
+
 		public static double NameColumnWidth { get; internal set; } = 300;
 
 		public static double SizeColumnWidth { get; internal set; } = 70;
@@ -399,6 +433,10 @@ namespace FileDiff
 			IgnoredBackground = new SolidColorBrush(Settings.IgnoredBackground);
 
 			SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
+
+			LineNumberColor = new SolidColorBrush(Settings.LineNumberColor);
+			CurrentDiffColor = new SolidColorBrush(Settings.CurrentDiffColor);
+			SnakeColor = new SolidColorBrush(Settings.SnakeColor);
 		}
 
 		internal static SolidColorBrush GetForeground(TextState state)
@@ -406,7 +444,8 @@ namespace FileDiff
 			switch (state)
 			{
 				case TextState.Deleted:
-				case TextState.MovedFrom:
+				case TextState.MovedFrom1:
+				case TextState.MovedFrom2:
 					return deletedForeground;
 				case TextState.New:
 				case TextState.MovedTo:
@@ -429,7 +468,8 @@ namespace FileDiff
 					return deletedBackground;
 				case TextState.New:
 					return newBackground;
-				case TextState.MovedFrom:
+				case TextState.MovedFrom1:
+				case TextState.MovedFrom2:
 					return movedFromdBackground;
 				case TextState.MovedTo:
 					return movedToBackground;

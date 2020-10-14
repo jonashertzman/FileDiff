@@ -106,6 +106,7 @@ namespace FileDiff
 		}
 
 		public int? LineIndex { get; set; }
+		public int? MatchingLineIndex { get; set; }
 
 		private TextState type;
 		public TextState Type
@@ -119,6 +120,14 @@ namespace FileDiff
 					TextSegments.Clear();
 					AddTextSegment(Text, value);
 				}
+			}
+		}
+
+		public bool IsFiller
+		{
+			get
+			{
+				return type == TextState.Filler || type == TextState.MovedFromFiller || type == TextState.MovedToFiller;
 			}
 		}
 
@@ -138,7 +147,8 @@ namespace FileDiff
 			}
 		}
 
-		public int? MatchingLineIndex { get; set; }
+		public int DisplayIndex { get; set; }
+		public int DisplayOffset { get; set; }
 
 		private GlyphRun RenderedText;
 		private double renderedTextWidth;

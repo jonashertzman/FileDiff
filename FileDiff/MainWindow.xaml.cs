@@ -22,8 +22,9 @@ namespace FileDiff
 
 		List<FileItem> folderDiffItems = new List<FileItem>();
 
-		int firstDiff = -1;
-		int lastDiff = -1;
+		List<DiffRange> fileDiffs = new List<DiffRange>();
+		int currentDiffIndex = -1;
+
 		bool renderComplete = false;
 
 		DiffControl activeDiff;
@@ -72,6 +73,28 @@ namespace FileDiff
 			leftSelection = "";
 			ViewModel.LeftPath = ViewModel.LeftPath.Trim();
 			ViewModel.RightPath = ViewModel.RightPath.Trim();
+
+			BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
+			if (ViewModel.LeftPath == "")
+			{
+				browseLeft.ShowDialog();
+
+				if (browseLeft.DialogResult == true)
+				{
+					ViewModel.LeftPath = browseLeft.SelectedPath;
+				}
+			}
+
+			if (ViewModel.RightPath == "" && browseLeft.DialogResult != false)
+			{
+				BrowseFolderWindow browseRight = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Right Path" };
+				browseRight.ShowDialog();
+
+				if (browseRight.DialogResult == true)
+				{
+					ViewModel.RightPath = browseRight.SelectedPath;
+				}
+			}
 
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{
@@ -268,20 +291,14 @@ namespace FileDiff
 
 		private void InitNavigationState()
 		{
-			ViewModel.CurrentDiff = -1;
-			ViewModel.CurrentDiffLength = 1;
-			firstDiff = -1;
-			lastDiff = -1;
 			ViewModel.EditMode = false;
 			ViewModel.LeftFileDirty = false;
 			ViewModel.LeftFileEdited = false;
 			ViewModel.RightFileDirty = false;
 			ViewModel.RightFileEdited = false;
+			currentDiffIndex = -1;
 
-			if (ViewModel.LeftFile?.Count > 0 && ViewModel.RightFile?.Count > 0)
-			{
-				UpdateNavigationButtons();
-			}
+			UpdateDiffRanges();
 
 			LeftDiff.Init();
 			RightDiff.Init();
@@ -289,98 +306,109 @@ namespace FileDiff
 			VerticalFileScrollbar.Value = 0;
 			LeftHorizontalScrollbar.Value = 0;
 
-			if (firstDiff != -1)
-			{
-				MoveToDiffLine(firstDiff);
-				ViewModel.CurrentDiff = firstDiff;
-			}
+			MoveToFirstDiff();
 		}
 
-		private void UpdateNavigationButtons()
+		private void UpdateDiffRanges()
 		{
-			firstDiff = -1;
-			lastDiff = -1;
+			fileDiffs = new List<DiffRange>();
+
+			DiffRange diffRange = null;
 
 			for (int i = 0; i < ViewModel.LeftFile.Count; i++)
 			{
-				if (i == 0 || ViewModel.LeftFile[i - 1].Type == TextState.FullMatch)
+				if (ViewModel.LeftFile[i].Type != TextState.FullMatch)
 				{
-					if (firstDiff == -1 && ViewModel.LeftFile[i].Type != TextState.FullMatch)
+					if (diffRange == null)
 					{
-						firstDiff = i;
-
+						diffRange = new DiffRange() { Start = i };
 					}
+				}
+
+				if (diffRange != null && ViewModel.LeftFile[i].Type != ViewModel.LeftFile[diffRange.Start].Type)
+				{
+					diffRange.Length = i - diffRange.Start;
+					fileDiffs.Add(diffRange);
 					if (ViewModel.LeftFile[i].Type != TextState.FullMatch)
 					{
-						lastDiff = i;
+						diffRange = new DiffRange() { Start = i };
 					}
+					else
+					{
+						diffRange = null;
+					}
+				}
+
+				if (i == ViewModel.LeftFile.Count - 1 && diffRange != null)
+				{
+					diffRange.Length = ViewModel.LeftFile.Count - diffRange.Start;
+					fileDiffs.Add(diffRange);
 				}
 			}
 
-			if (lastDiff == -1)
+			foreach (DiffRange d in fileDiffs)
 			{
-				ViewModel.CurrentDiff = -1;
-				ViewModel.CurrentDiffLength = -1;
+				if (ViewModel.LeftFile[d.Start].Type == TextState.MovedFrom1 || ViewModel.LeftFile[d.Start].Type == TextState.MovedFrom2)
+				{
+					d.Offset = ViewModel.LeftFile[d.Start].DisplayOffset;
+				}
+				else if (ViewModel.LeftFile[d.Start].Type == TextState.MovedFromFiller || ViewModel.LeftFile[d.Start].Type == TextState.MovedToFiller)
+				{
+					d.Offset = ViewModel.RightFile[d.Start].DisplayOffset;
+				}
 			}
 		}
 
 		private void MoveToFirstDiff()
 		{
-			ViewModel.CurrentDiff = -1;
-			MoveToNextDiff();
+			if (fileDiffs.Count > 0)
+			{
+				currentDiffIndex = 0;
+				ViewModel.CurrentDiff = fileDiffs[currentDiffIndex];
+				CenterOnLine(ViewModel.CurrentDiff.Start);
+			}
 		}
 
 		private void MoveToLastDiff()
 		{
-			ViewModel.CurrentDiff = ViewModel.LeftFile.Count;
-			MoveToPrevoiusDiff();
+			if (fileDiffs.Count > 0)
+			{
+				currentDiffIndex = fileDiffs.Count - 1;
+				ViewModel.CurrentDiff = fileDiffs[currentDiffIndex];
+				CenterOnLine(ViewModel.CurrentDiff.Start);
+			}
 		}
 
 		private void MoveToPrevoiusDiff()
 		{
-			for (int i = ViewModel.CurrentDiff - 1; i >= 0; i--)
+			if (currentDiffIndex == -1)
 			{
-				if (i == 0 || ViewModel.LeftFile[i - 1].Type == TextState.FullMatch)
+				MoveToLastDiff();
+			}
+			else
+			{
+				if (currentDiffIndex > 0)
 				{
-					if (ViewModel.LeftFile[i].Type != TextState.FullMatch || ViewModel.RightFile[i].Type != TextState.FullMatch)
-					{
-						ViewModel.CurrentDiff = i;
-						MoveToDiffLine(i);
-						return;
-					}
+					ViewModel.CurrentDiff = fileDiffs[--currentDiffIndex];
+					CenterOnLine(ViewModel.CurrentDiff.Start);
 				}
 			}
 		}
 
 		private void MoveToNextDiff()
 		{
-			for (int i = ViewModel.CurrentDiff + 1; i < ViewModel.LeftFile.Count; i++)
+			if (currentDiffIndex == -1)
 			{
-				if (i == 0 || ViewModel.LeftFile[i - 1].Type == TextState.FullMatch)
+				MoveToFirstDiff();
+			}
+			else
+			{
+				if (currentDiffIndex < fileDiffs.Count - 1)
 				{
-					if (ViewModel.LeftFile[i].Type != TextState.FullMatch || ViewModel.RightFile[i].Type != TextState.FullMatch)
-					{
-						ViewModel.CurrentDiff = i;
-						MoveToDiffLine(i);
-						return;
-					}
+					ViewModel.CurrentDiff = fileDiffs[++currentDiffIndex];
+					CenterOnLine(ViewModel.CurrentDiff.Start);
 				}
 			}
-		}
-
-		private void MoveToDiffLine(int i)
-		{
-			int diffLength = 1;
-
-			while (i + diffLength < ViewModel.LeftFile.Count && ViewModel.LeftFile[i + diffLength].Type != TextState.FullMatch)
-			{
-				diffLength++;
-			}
-
-			ViewModel.CurrentDiff = i;
-			ViewModel.CurrentDiffLength = diffLength;
-
-			CenterOnLine(i);
 		}
 
 		private void CenterOnLine(int i)
@@ -722,7 +750,7 @@ namespace FileDiff
 
 		private void Hyperlink_OpenHomepage(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
-			Process.Start(new ProcessStartInfo(AppSettings.HOMEPAGE));
+			Process.Start(new ProcessStartInfo(e.Uri.ToString()));
 			e.Handled = true;
 		}
 
@@ -753,7 +781,14 @@ namespace FileDiff
 			var oldNewForeground = ViewModel.NewForeground;
 			var oldPartialMatchBackground = ViewModel.PartialMatchBackground;
 			var oldPartialMatchForeground = ViewModel.PartialMatchForeground;
+			var oldMovedFromBackground = ViewModel.MovedFromdBackground;
+			var oldMovedToBackground = ViewModel.MovedToBackground;
 			var oldSelectionBackground = ViewModel.SelectionBackground;
+
+			var oldLineNumberColor = ViewModel.LineNumberColor;
+			var oldCurrentDiffColor = ViewModel.CurrentDiffColor;
+			var oldSnakeColor = ViewModel.SnakeColor;
+
 			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
 			var oldIgnoredFolders = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFolders);
 
@@ -782,7 +817,14 @@ namespace FileDiff
 				ViewModel.NewForeground = oldNewForeground;
 				ViewModel.PartialMatchBackground = oldPartialMatchBackground;
 				ViewModel.PartialMatchForeground = oldPartialMatchForeground;
+				ViewModel.MovedFromdBackground = oldMovedFromBackground;
+				ViewModel.MovedToBackground = oldMovedToBackground;
 				ViewModel.SelectionBackground = oldSelectionBackground;
+
+				ViewModel.LineNumberColor = oldLineNumberColor;
+				ViewModel.CurrentDiffColor = oldCurrentDiffColor;
+				ViewModel.SnakeColor = oldSnakeColor;
+
 				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
 				ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);
 			}
@@ -823,7 +865,7 @@ namespace FileDiff
 						sw.NewLine = ViewModel.LeftFileEncoding.GetNewLineString;
 						foreach (Line l in ViewModel.LeftFile)
 						{
-							if (l.Type != TextState.Filler)
+							if (!l.IsFiller)
 							{
 								sw.WriteLine(l.Text);
 							}
@@ -857,7 +899,7 @@ namespace FileDiff
 						sw.NewLine = ViewModel.RightFileEncoding.GetNewLineString;
 						foreach (Line l in ViewModel.RightFile)
 						{
-							if (l.Type != TextState.Filler)
+							if (!l.IsFiller)
 							{
 								sw.WriteLine(l.Text);
 							}
@@ -876,11 +918,6 @@ namespace FileDiff
 		private void CommandSaveRightFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = ViewModel.RightFileDirty;
-		}
-
-		private void CommandEdit_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-
 		}
 
 		private void CommandEdit_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -917,7 +954,7 @@ namespace FileDiff
 
 		private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && NoManualEdit;
+			e.CanExecute = ViewModel.FileVissible && currentDiffIndex > 0 && NoManualEdit;
 		}
 
 		private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -927,17 +964,17 @@ namespace FileDiff
 
 		private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && NoManualEdit;
+			e.CanExecute = ViewModel.FileVissible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
 		}
 
 		private void CommandCurrentDiff_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			MoveToDiffLine(ViewModel.CurrentDiff);
+			CenterOnLine(ViewModel.CurrentDiff.Start);
 		}
 
 		private void CommandCurrentDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && ViewModel.CurrentDiff != -1 && ViewModel.CurrentDiffLength > 0 && NoManualEdit;
+			e.CanExecute = ViewModel.FileVissible && currentDiffIndex != -1 && NoManualEdit;
 		}
 
 		private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -947,7 +984,7 @@ namespace FileDiff
 
 		private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && firstDiff < ViewModel.CurrentDiff && firstDiff != -1 && NoManualEdit;
+			e.CanExecute = ViewModel.FileVissible && currentDiffIndex != 0 && fileDiffs.Count > 0 && NoManualEdit;
 		}
 
 		private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -957,7 +994,7 @@ namespace FileDiff
 
 		private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.FileVissible && lastDiff > ViewModel.CurrentDiff && NoManualEdit;
+			e.CanExecute = ViewModel.FileVissible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
 		}
 
 		private void CommandNextFile_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1088,42 +1125,36 @@ namespace FileDiff
 
 		private void CommandCopyLeftDiff_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			for (int i = ViewModel.CurrentDiff; i < ViewModel.CurrentDiff + ViewModel.CurrentDiffLength; i++)
+			for (int i = ViewModel.CurrentDiff.Start; i < ViewModel.CurrentDiff.Start + ViewModel.CurrentDiff.Length; i++)
 			{
 				ViewModel.RightFile[i].Text = ViewModel.LeftFile[i].Text;
 				ViewModel.RightFile[i].Type = ViewModel.LeftFile[i].Type;
 			}
 
 			ViewModel.RightFileDirty = true;
-			ViewModel.CurrentDiffLength = 0;
 			ViewModel.UpdateTrigger++;
-
-			UpdateNavigationButtons();
 		}
 
 		private void CommandCopyLeftDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.CurrentDiff != -1 && NoManualEdit;
+			e.CanExecute = currentDiffIndex != -1 && NoManualEdit;
 		}
 
 		private void CommandCopyRightDiff_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			for (int i = ViewModel.CurrentDiff; i < ViewModel.CurrentDiff + ViewModel.CurrentDiffLength; i++)
+			for (int i = ViewModel.CurrentDiff.Start; i < ViewModel.CurrentDiff.Start + ViewModel.CurrentDiff.Length; i++)
 			{
 				ViewModel.LeftFile[i].Text = ViewModel.RightFile[i].Text;
 				ViewModel.LeftFile[i].Type = ViewModel.RightFile[i].Type;
 			}
 
 			ViewModel.LeftFileDirty = true;
-			ViewModel.CurrentDiffLength = 0;
 			ViewModel.UpdateTrigger++;
-
-			UpdateNavigationButtons();
 		}
 
 		private void CommandCopyRightDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.CurrentDiff != -1 && NoManualEdit;
+			e.CanExecute = currentDiffIndex != -1 && NoManualEdit;
 		}
 
 		#endregion

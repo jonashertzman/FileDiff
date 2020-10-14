@@ -13,6 +13,12 @@
 		<Setter Property="Margin" Value="5" />
 	</Style>
 
+	<Style x:Key="CondencedTextLabel" TargetType="Label">
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="Padding" Value="2" />
+		<Setter Property="Margin" Value="5,0" />
+	</Style>
+
 	<Style x:Key="CommonTextBox" TargetType="TextBox">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />

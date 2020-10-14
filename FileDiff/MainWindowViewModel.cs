@@ -38,7 +38,7 @@ namespace FileDiff
 
 		public string Version
 		{
-			get { return "1.2"; }
+			get { return "1.3"; }
 		}
 
 		public string BuildNumber
@@ -57,9 +57,14 @@ namespace FileDiff
 			set { newBuildAvailable = value; OnPropertyChanged(nameof(NewBuildAvailable)); }
 		}
 
+		public string ApplicationName
+		{
+			get { return $"{Title} {Version}"; }
+		}
+
 		public string FullApplicationName
 		{
-			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
+			get { return $"{Title} {Version} (Build {BuildNumber})"; }
 		}
 
 		public bool CheckForUpdates
@@ -231,18 +236,11 @@ namespace FileDiff
 			set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
 		}
 
-		int currentDiff = -1;
-		public int CurrentDiff
+		DiffRange currentDiff;
+		public DiffRange CurrentDiff
 		{
 			get { return currentDiff; }
 			set { currentDiff = value; OnPropertyChangedRepaint(nameof(CurrentDiff)); }
-		}
-
-		int currentDiffLength;
-		public int CurrentDiffLength
-		{
-			get { return currentDiffLength; }
-			set { currentDiffLength = value; OnPropertyChangedRepaint(nameof(currentDiffLength)); }
 		}
 
 		CompareMode mode;
@@ -403,6 +401,7 @@ namespace FileDiff
 			set { AppSettings.DateColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(DateColumnWidth)); }
 		}
 
+		// Text colors
 		public Brush FullMatchForeground
 		{
 			get { return AppSettings.FullMatchForeground; }
@@ -463,10 +462,42 @@ namespace FileDiff
 			set { AppSettings.IgnoredBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
 		}
 
+		public Brush MovedFromdBackground
+		{
+			get { return AppSettings.MovedFromdBackground; }
+			set { AppSettings.MovedFromdBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedFromdBackground)); }
+		}
+
+		public Brush MovedToBackground
+		{
+			get { return AppSettings.MovedToBackground; }
+			set { AppSettings.MovedToBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedToBackground)); }
+		}
+
 		public Brush SelectionBackground
 		{
 			get { return AppSettings.SelectionBackground; }
 			set { AppSettings.SelectionBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
+		}
+
+
+		// GUI colors
+		public Brush LineNumberColor
+		{
+			get { return AppSettings.LineNumberColor; }
+			set { AppSettings.LineNumberColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(LineNumberColor)); }
+		}
+
+		public Brush SnakeColor
+		{
+			get { return AppSettings.SnakeColor; }
+			set { AppSettings.SnakeColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SnakeColor)); }
+		}
+
+		public Brush CurrentDiffColor
+		{
+			get { return AppSettings.CurrentDiffColor; }
+			set { AppSettings.CurrentDiffColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(CurrentDiffColor)); }
 		}
 
 

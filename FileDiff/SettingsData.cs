@@ -52,6 +52,10 @@ namespace FileDiff
 
 		public Color SelectionBackground { get; set; } = DefaultSettings.SelectionBackground;
 
+		public Color LineNumberColor { get; set; } = DefaultSettings.LineNumberColor;
+		public Color CurrentDiffColor { get; set; } = DefaultSettings.CurrentDiffColor;
+		public Color SnakeColor { get; set; } = DefaultSettings.SnakeColor;
+
 
 		public string Font { get; set; } = DefaultSettings.Font;
 		public int FontSize { get; set; } = DefaultSettings.FontSize;

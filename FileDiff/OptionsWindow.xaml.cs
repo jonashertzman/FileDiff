@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -106,7 +107,15 @@ namespace FileDiff
 			IgnoredForeground.Fill = new SolidColorBrush(DefaultSettings.IgnoredForeground);
 			IgnoredBackground.Fill = new SolidColorBrush(DefaultSettings.IgnoredBackground);
 
+			MovedFromBackground.Fill = new SolidColorBrush(DefaultSettings.MovedFromdBackground);
+			MovedToBackground.Fill = new SolidColorBrush(DefaultSettings.MovedToBackground);
+
 			SelectionBackground.Fill = new SolidColorBrush(DefaultSettings.SelectionBackground);
+
+			LineNumber.Fill = new SolidColorBrush(DefaultSettings.LineNumberColor);
+			CurrentDiff.Fill = new SolidColorBrush(DefaultSettings.CurrentDiffColor);
+			Snake.Fill = new SolidColorBrush(DefaultSettings.SnakeColor);
+
 		}
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
@@ -124,6 +133,13 @@ namespace FileDiff
 		private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			byte alpha = (byte)(selectecRectangle == SelectionBackground ? (byte)SliderA.Value : 255);
+
+			if (Keyboard.IsKeyDown(Key.LeftCtrl))
+			{
+				SliderR.Value = e.NewValue;
+				SliderG.Value = e.NewValue;
+				SliderB.Value = e.NewValue;
+			}
 
 			Color newColor = Color.FromArgb(alpha, (byte)SliderR.Value, (byte)SliderG.Value, (byte)SliderB.Value);
 			ColorHex.Text = newColor.ToString();

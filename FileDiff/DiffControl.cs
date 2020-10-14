@@ -112,12 +112,25 @@ namespace FileDiff
 			TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
-			Brush activeDiffBrush = new SolidColorBrush(Color.FromRgb(220, 220, 220));
-			activeDiffBrush.Freeze();
+			Color c = Color.FromArgb(100, 0, 0, 0);
+
+			Brush currentDiffBrush = new LinearGradientBrush(c, Colors.Transparent, 0);
+			currentDiffBrush.Freeze();
+
+			Brush currentDiffBrush2 = new LinearGradientBrush(Colors.Transparent, c, 0);
+			currentDiffBrush2.Freeze();
 
 			Pen borderPen = new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1));
 			borderPen.Freeze();
 			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
+
+			Pen movePen = new Pen(AppSettings.SnakeColor, 6);
+			movePen.Freeze();
+			GuidelineSet moveGuide = CreateGuidelineSet(movePen);
+
+			Pen currentDiffPen = new Pen(AppSettings.CurrentDiffColor, RoundToWholePixels(1));
+			currentDiffPen.Freeze();
+			GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
 
 			textMargin = RoundToWholePixels(4);
 			lineNumberMargin = RoundToWholePixels(characterWidth * Lines.Count.ToString().Length) + (2 * textMargin) + borderPen.Thickness;
@@ -125,8 +138,51 @@ namespace FileDiff
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
+			// Draw line number margin			
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
 
+			// Draw current diff
+			if (CurrentDiff != null && !Edited)
+			{
+				TextState currentDiffType = Lines[CurrentDiff.Start].Type;
+
+				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * -VerticalOffset));
+				{
+					drawingContext.DrawRectangle(AppSettings.CurrentDiffColor, null, new Rect(0, CurrentDiff.Start * characterHeight, lineNumberMargin, CurrentDiff.Length * characterHeight));
+
+					// Draw snake
+					if (currentDiffType == TextState.MovedFromFiller || currentDiffType == TextState.MovedTo)
+					{
+						drawingContext.DrawLine(movePen, new Point(lineNumberMargin / 2, (CurrentDiff.Top + 1) * characterHeight), new Point(lineNumberMargin / 2, (CurrentDiff.Bottom) * characterHeight));
+
+						for (int i = CurrentDiff.Start; i < CurrentDiff.End + 1; i++)
+						{
+							// Current
+							drawingContext.PushClip(new RectangleGeometry(new Rect(0, i * characterHeight, lineNumberMargin, characterHeight)));
+							{
+								double x = currentDiffType == TextState.MovedFromFiller ? 0 : lineNumberMargin;
+								int y = CurrentDiff.Offset < 0 ? 0 : 1;
+
+								drawingContext.DrawEllipse(null, movePen, new Point(x, (i + y) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							}
+							drawingContext.Pop();
+
+							// Corresponding
+							drawingContext.PushClip(new RectangleGeometry(new Rect(0, (i + CurrentDiff.Offset) * characterHeight, lineNumberMargin, characterHeight)));
+							{
+								double x = currentDiffType == TextState.MovedFromFiller ? lineNumberMargin : 0;
+								int y = CurrentDiff.Offset < 0 ? 1 : 0;
+
+								drawingContext.DrawEllipse(null, movePen, new Point(x, (i + y + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
+							}
+							drawingContext.Pop();
+						}
+					}
+				}
+				drawingContext.Pop();
+			}
+
+			// Draw lines
 			for (int i = 0; i < VisibleLines; i++)
 			{
 				int lineIndex = i + VerticalOffset;
@@ -135,25 +191,12 @@ namespace FileDiff
 					break;
 
 				Line line = Lines[lineIndex];
+				SolidColorBrush lineNumberColor = AppSettings.LineNumberColor;
 
 				// Line Y offset
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 				{
 					// Draw line number
-					SolidColorBrush lineNumberColor = SystemColors.ControlDarkBrush;
-
-					if (lineIndex >= CurrentDiff && lineIndex < CurrentDiff + CurrentDiffLength && !Edited)
-					{
-						lineNumberColor = SystemColors.ControlDarkDarkBrush;
-						drawingContext.DrawRectangle(activeDiffBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-					}
-
-					// Draw line background
-					if (line.Type != TextState.FullMatch)
-					{
-						drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(lineNumberMargin, 0, Math.Max(this.ActualWidth - lineNumberMargin, 0), characterHeight));
-					}
-
 					if (line.LineIndex != null)
 					{
 						GlyphRun rowNumberRun = line.GetRenderedLineIndexText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
@@ -161,6 +204,12 @@ namespace FileDiff
 						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin - borderPen.Thickness, 0));
 						drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
 						drawingContext.Pop();
+					}
+
+					// Draw line background
+					if (line.Type != TextState.FullMatch)
+					{
+						drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(lineNumberMargin, 0, Math.Max(this.ActualWidth - lineNumberMargin, 0), characterHeight));
 					}
 
 					// Text clipping rect
@@ -233,12 +282,61 @@ namespace FileDiff
 				drawingContext.Pop(); // Line Y offset
 			}
 
-			// Draw line number border
+
+			// Draw line number margin border
 			drawingContext.PushGuidelineSet(borderGuide);
 			{
 				drawingContext.DrawLine(borderPen, new Point(lineNumberMargin, -1), new Point(lineNumberMargin, this.ActualHeight));
 			}
 			drawingContext.Pop();
+
+
+			//// Draw current diff in document?
+			//if (CurrentDiff != null && !Edited)
+			//{
+			//	TextState currentDiffType = Lines[CurrentDiff.Start].Type;
+
+			//	drawingContext.PushTransform(new TranslateTransform(0, characterHeight * -VerticalOffset));
+			//	{
+			//		drawingContext.DrawRectangle(currentDiffBrush, null, new Rect(lineNumberMargin, CurrentDiff.Start * characterHeight, textMargin * 3, CurrentDiff.Length * characterHeight));
+			//		drawingContext.DrawRectangle(currentDiffBrush2, null, new Rect(ActualWidth - textMargin * 3, CurrentDiff.Start * characterHeight, textMargin * 3, CurrentDiff.Length * characterHeight));
+			//	}
+			//	drawingContext.Pop();
+			//}
+
+
+			//// Draw current diff outline only?
+			//if (CurrentDiff != null && !Edited)
+			//{
+			//	TextState currentDiffType = Lines[CurrentDiff.Start].Type;
+
+			//	drawingContext.PushTransform(new TranslateTransform(0, characterHeight * -VerticalOffset));
+			//	{
+			//		drawingContext.PushGuidelineSet(currentDiffGuide);
+			//		{
+			//			if (currentDiffType != TextState.MovedFromFiller)
+			//			{
+			//				drawingContext.DrawLine(currentDiffPen, new Point(0, CurrentDiff.Start * characterHeight), new Point(0, (CurrentDiff.End + 1) * characterHeight));
+			//			}
+			//			if (currentDiffType != TextState.MovedTo)
+			//			{
+			//				drawingContext.DrawLine(currentDiffPen, new Point(lineNumberMargin, CurrentDiff.Start * characterHeight), new Point(lineNumberMargin, (CurrentDiff.End + 1) * characterHeight));
+			//			}
+
+			//			if (CurrentDiff.Offset >= 0)
+			//			{
+			//				drawingContext.DrawLine(currentDiffPen, new Point(0, CurrentDiff.Start * characterHeight), new Point(lineNumberMargin, CurrentDiff.Start * characterHeight));
+			//			}
+			//			if (CurrentDiff.Offset <= 0)
+			//			{
+			//				drawingContext.DrawLine(currentDiffPen, new Point(0, (CurrentDiff.End + 1) * characterHeight), new Point(lineNumberMargin, (CurrentDiff.End + 1) * characterHeight));
+			//			}
+			//		}
+			//		drawingContext.Pop();
+			//	}
+			//	drawingContext.Pop();
+			//}
+
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
 			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
@@ -728,14 +826,14 @@ namespace FileDiff
 
 				if (lineIndex < Lines.Count)
 				{
-					if (Lines[lineIndex].Type == TextState.MovedFrom)
+					if (Lines[lineIndex].Type == TextState.MovedFrom1 || Lines[lineIndex].Type == TextState.MovedFrom2)
 					{
-						this.ToolTip = $"Matches new lines at index {Lines[lineIndex].MatchingLineIndex}";
+						this.ToolTip = $"Matches new lines at row {Lines[lineIndex].MatchingLineIndex}";
 						return;
 					}
 					else if (Lines[lineIndex].Type == TextState.MovedTo)
 					{
-						this.ToolTip = $"Matches removed lines at index {Lines[lineIndex].MatchingLineIndex}";
+						this.ToolTip = $"Matches deleted lines at row {Lines[lineIndex].MatchingLineIndex}";
 						return;
 					}
 				}
@@ -792,21 +890,12 @@ namespace FileDiff
 		}
 
 
-		public static readonly DependencyProperty CurrentDiffProperty = DependencyProperty.Register("CurrentDiff", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
+		public static readonly DependencyProperty CurrentDiffProperty = DependencyProperty.Register("CurrentDiff", typeof(DiffRange), typeof(DiffControl), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
-		public int CurrentDiff
+		public DiffRange CurrentDiff
 		{
-			get { return (int)GetValue(CurrentDiffProperty); }
+			get { return (DiffRange)GetValue(CurrentDiffProperty); }
 			set { SetValue(CurrentDiffProperty, value); }
-		}
-
-
-		public static readonly DependencyProperty CurrentDiffLengthProperty = DependencyProperty.Register("CurrentDiffLength", typeof(int), typeof(DiffControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public int CurrentDiffLength
-		{
-			get { return (int)GetValue(CurrentDiffLengthProperty); }
-			set { SetValue(CurrentDiffLengthProperty, value); }
 		}
 
 
@@ -860,6 +949,7 @@ namespace FileDiff
 
 		internal void Init()
 		{
+			CurrentDiff = null;
 			Selection = null;
 			VerticalOffset = 0;
 			HorizontalOffset = 0;
@@ -947,7 +1037,7 @@ namespace FileDiff
 			int lineIndex = Selection.TopLine;
 			do
 			{
-				if (Lines[lineIndex].Type != TextState.Filler)
+				if (!Lines[lineIndex].IsFiller)
 				{
 					if (sb.Length > 0)
 					{
