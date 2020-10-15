@@ -9,6 +9,7 @@ Download latest version **[here](https://jonashertzman.github.io/FileDiff/downlo
 ### Features
 - File compare
 - Inline diffs
+- Detects moved file sections
 - Multi level directory compare
 - Combined master detail compare
 - Editable diffs
