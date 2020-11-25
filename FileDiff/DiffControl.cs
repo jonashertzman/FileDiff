@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -732,12 +733,12 @@ namespace FileDiff
 
 				int left = 0;
 				int right = 1;
-				while (downCharacter - left > 0 && char.IsLetterOrDigit(Lines[downLine].Text[downCharacter - left - 1]))
+				while (downCharacter - left > 0 && IsWordCharacter(Lines[downLine].Text[downCharacter - left - 1]))
 				{
 					left++;
 				}
 
-				while (downCharacter + right < Lines[downLine].Text.Length && char.IsLetterOrDigit(Lines[downLine].Text[downCharacter + right]))
+				while (downCharacter + right < Lines[downLine].Text.Length && IsWordCharacter(Lines[downLine].Text[downCharacter + right]))
 				{
 					right++;
 				}
@@ -964,6 +965,13 @@ namespace FileDiff
 				InsertNewLine(0, "");
 				Edited = false;
 			}
+		}
+
+		private bool IsWordCharacter(char v)
+		{
+			char[] wordCharacters = new char[] { '_', '-' }; // Maybe expose these as a user setting?
+
+			return char.IsLetterOrDigit(v) || wordCharacters.Contains(v);
 		}
 
 		private GuidelineSet CreateGuidelineSet(Pen pen)
