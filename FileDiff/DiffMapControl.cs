@@ -81,7 +81,7 @@ namespace FileDiff
 						lineBrush = deletedBrush;
 						break;
 
-					case TextState.MovedFromFiller:
+					case TextState.MovedFiller:
 						lineBrush = movedFromBrush;
 						break;
 

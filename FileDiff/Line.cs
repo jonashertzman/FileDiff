@@ -29,7 +29,7 @@ namespace FileDiff
 
 		public override string ToString()
 		{
-			return $"{LineIndex}-{MatchingLineIndex} {Type} {Text} ";
+			return $"{LineIndex}-{MatchingLineIndex}   {DiffId}   {Type} {Text} ";
 		}
 
 		public override int GetHashCode()
@@ -127,7 +127,7 @@ namespace FileDiff
 		{
 			get
 			{
-				return type == TextState.Filler || type == TextState.MovedFromFiller || type == TextState.MovedToFiller;
+				return type == TextState.Filler || type == TextState.MovedFiller;
 			}
 		}
 
@@ -149,6 +149,8 @@ namespace FileDiff
 
 		public int DisplayIndex { get; set; }
 		public int DisplayOffset { get; set; }
+
+		public int DiffId { get; set; } = -1;
 
 		private GlyphRun RenderedText;
 		private double renderedTextWidth;

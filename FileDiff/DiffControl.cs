@@ -152,7 +152,7 @@ namespace FileDiff
 					drawingContext.DrawRectangle(AppSettings.CurrentDiffColor, null, new Rect(0, CurrentDiff.Start * characterHeight, lineNumberMargin, CurrentDiff.Length * characterHeight));
 
 					// Draw snake
-					if (currentDiffType == TextState.MovedFromFiller || currentDiffType == TextState.MovedTo)
+					if (Name == "RightDiff" && (currentDiffType == TextState.MovedFiller || currentDiffType == TextState.MovedTo))
 					{
 						drawingContext.DrawLine(movePen, new Point(lineNumberMargin / 2, (CurrentDiff.Top + 1) * characterHeight), new Point(lineNumberMargin / 2, (CurrentDiff.Bottom) * characterHeight));
 
@@ -161,7 +161,7 @@ namespace FileDiff
 							// Current
 							drawingContext.PushClip(new RectangleGeometry(new Rect(0, i * characterHeight, lineNumberMargin, characterHeight)));
 							{
-								double x = currentDiffType == TextState.MovedFromFiller ? 0 : lineNumberMargin;
+								double x = currentDiffType == TextState.MovedFiller ? 0 : lineNumberMargin;
 								int y = CurrentDiff.Offset < 0 ? 0 : 1;
 
 								drawingContext.DrawEllipse(null, movePen, new Point(x, (i + y) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
@@ -171,7 +171,7 @@ namespace FileDiff
 							// Corresponding
 							drawingContext.PushClip(new RectangleGeometry(new Rect(0, (i + CurrentDiff.Offset) * characterHeight, lineNumberMargin, characterHeight)));
 							{
-								double x = currentDiffType == TextState.MovedFromFiller ? lineNumberMargin : 0;
+								double x = currentDiffType == TextState.MovedFiller ? lineNumberMargin : 0;
 								int y = CurrentDiff.Offset < 0 ? 1 : 0;
 
 								drawingContext.DrawEllipse(null, movePen, new Point(x, (i + y + CurrentDiff.Offset) * characterHeight), lineNumberMargin / 2, characterHeight / 2);
@@ -827,7 +827,7 @@ namespace FileDiff
 
 				if (lineIndex < Lines.Count)
 				{
-					if (Lines[lineIndex].Type == TextState.MovedFrom1 || Lines[lineIndex].Type == TextState.MovedFrom2)
+					if (Lines[lineIndex].Type == TextState.MovedFrom)
 					{
 						this.ToolTip = $"Matches new lines at row {Lines[lineIndex].MatchingLineIndex}";
 						return;

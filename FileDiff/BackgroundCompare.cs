@@ -44,37 +44,43 @@ namespace FileDiff
 
 			AddFillerLines(ref leftLines, ref rightLines);
 
+			int diffId = 0;
+			int diffStart = -1;
+
 			for (int i = 0; i < leftLines.Count; i++)
 			{
 				leftLines[i].DisplayIndex = i;
 				rightLines[i].DisplayIndex = i;
+
+				if (leftLines[i].Type != TextState.FullMatch)
+				{
+					if (diffStart == -1 || leftLines[i].Type != leftLines[diffStart].Type)
+					{
+						diffStart = i;
+						diffId++;
+					}
+					leftLines[i].DiffId = diffId;
+					rightLines[i].DiffId = diffId;
+				}
+				else if (diffStart != -1)
+				{
+					if (leftLines[i].Type != leftLines[diffStart].Type)
+					{
+						diffStart = -1;
+					}
+				}
 			}
 
 			if (AppSettings.DetectMovedLines)
 			{
-				FindMovedLines(leftLines, rightLines);
-
-				for (int i = 0; i < leftLines.Count; i++)
-				{
-					if (leftLines[i].Type == TextState.MovedFrom1 || leftLines[i].Type == TextState.MovedFrom2)
-					{
-						rightLines[i].Type = TextState.MovedFromFiller;
-					}
-
-					if (rightLines[i].Type == TextState.MovedTo)
-					{
-						leftLines[i].Type = TextState.MovedToFiller;
-					}
-				}
+				FindMovedLines(leftLines, rightLines, diffId);
 			}
 
 			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
 		}
 
-		private static void FindMovedLines(List<Line> leftLines, List<Line> rightLines)
+		private static void FindMovedLines(List<Line> leftLines, List<Line> rightLines, int diffId)
 		{
-			bool alternate = false;
-
 			while (true)
 			{
 				// PERFORMANCE: Probably slow to recreate a new list each loop?
@@ -86,8 +92,6 @@ namespace FileDiff
 				int bestMatchIndex = 0;
 				int bestMatchingIndex = 0;
 				int bestMatchLength = 0;
-
-				TextState type = (alternate ^= true) ? TextState.MovedFrom1 : TextState.MovedFrom2;
 
 				foreach (var deletedRange in deletedLineRanges)
 				{
@@ -111,13 +115,21 @@ namespace FileDiff
 
 				if (bestMatchLength > 1)
 				{
+					diffId += 2;
+
 					for (int i = 0; i < bestMatchLength; i++)
 					{
-						bestRange[bestMatchIndex + i].Type = type;
+						bestRange[bestMatchIndex + i].Type = TextState.MovedFrom;
+						bestRange[bestMatchIndex + i].DiffId = diffId;
+						rightLines[bestRange[bestMatchIndex + i].DisplayIndex].DiffId = diffId;
+						rightLines[bestRange[bestMatchIndex + i].DisplayIndex].Type = TextState.MovedFiller;
 						bestRange[bestMatchIndex + i].MatchingLineIndex = bestMatchingRange[bestMatchingIndex + i].LineIndex;
 						bestRange[bestMatchIndex + i].DisplayOffset = bestMatchingRange[bestMatchingIndex + i].DisplayIndex - bestRange[bestMatchIndex + i].DisplayIndex;
 
 						bestMatchingRange[bestMatchingIndex + i].Type = TextState.MovedTo;
+						bestMatchingRange[bestMatchingIndex + i].DiffId = diffId + 1;
+						leftLines[bestMatchingRange[bestMatchingIndex + i].DisplayIndex].DiffId = diffId + 1;
+						leftLines[bestMatchingRange[bestMatchingIndex + i].DisplayIndex].Type = TextState.MovedFiller;
 						bestMatchingRange[bestMatchingIndex + i].MatchingLineIndex = bestRange[bestMatchIndex + i].LineIndex;
 						bestMatchingRange[bestMatchingIndex + i].DisplayOffset = bestRange[bestMatchIndex + i].DisplayIndex - bestMatchingRange[bestMatchingIndex + i].DisplayIndex;
 					}
@@ -127,7 +139,6 @@ namespace FileDiff
 					break;
 				}
 			}
-
 		}
 
 		private static List<List<Line>> FindStateRanges(List<Line> lines, TextState findState)

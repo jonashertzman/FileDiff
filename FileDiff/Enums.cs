@@ -9,24 +9,22 @@
 		New,
 		Filler,
 		Ignored,
-		MovedFrom1,
-		MovedFrom2,
+		MovedFrom,
 		MovedTo,
-		MovedToFiller,
-		MovedFromFiller
+		MovedFiller,
 	}
 
 	public enum CompareMode
 	{
 		File,
-		Folder
+		Folder,
 	}
 
 	public enum NewlineMode
 	{
 		Windows,
 		Unix,
-		Mac
+		Mac,
 	}
 
 }

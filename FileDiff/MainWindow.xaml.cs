@@ -325,7 +325,7 @@ namespace FileDiff
 					}
 				}
 
-				if (diffRange != null && ViewModel.LeftFile[i].Type != ViewModel.LeftFile[diffRange.Start].Type)
+				if (diffRange != null && ViewModel.LeftFile[i].DiffId != ViewModel.LeftFile[diffRange.Start].DiffId)
 				{
 					diffRange.Length = i - diffRange.Start;
 					fileDiffs.Add(diffRange);
@@ -348,11 +348,11 @@ namespace FileDiff
 
 			foreach (DiffRange d in fileDiffs)
 			{
-				if (ViewModel.LeftFile[d.Start].Type == TextState.MovedFrom1 || ViewModel.LeftFile[d.Start].Type == TextState.MovedFrom2)
+				if (ViewModel.LeftFile[d.Start].Type == TextState.MovedFrom)
 				{
 					d.Offset = ViewModel.LeftFile[d.Start].DisplayOffset;
 				}
-				else if (ViewModel.LeftFile[d.Start].Type == TextState.MovedFromFiller || ViewModel.LeftFile[d.Start].Type == TextState.MovedToFiller)
+				else if (ViewModel.LeftFile[d.Start].Type == TextState.MovedFiller)
 				{
 					d.Offset = ViewModel.RightFile[d.Start].DisplayOffset;
 				}
