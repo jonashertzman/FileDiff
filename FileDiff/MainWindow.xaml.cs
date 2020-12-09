@@ -276,7 +276,7 @@ namespace FileDiff
 			LeftFolder.Focus();
 		}
 
-		private string TimeSpanToShortString(TimeSpan timeSpan)
+		private static string TimeSpanToShortString(TimeSpan timeSpan)
 		{
 			if (timeSpan.TotalHours >= 1)
 			{

@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace FileDiff
+﻿namespace FileDiff
 {
 	public class DiffRange
 	{

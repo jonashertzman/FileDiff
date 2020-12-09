@@ -355,7 +355,7 @@ namespace FileDiff
 			UpdateTrigger++;
 		}
 
-		private GuidelineSet CreateGuidelineSet(Pen pen)
+		private static GuidelineSet CreateGuidelineSet(Pen pen)
 		{
 			GuidelineSet guidelineSet = new GuidelineSet();
 			guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
