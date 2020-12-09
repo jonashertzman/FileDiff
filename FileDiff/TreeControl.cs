@@ -223,19 +223,17 @@ namespace FileDiff
 			{
 				if (visibleItems[lineIndex].Type != TextState.Filler && visibleItems[lineIndex].CorrespondingItem.Type != TextState.Filler)
 				{
-					using (Process p = new Process())
+					using Process p = new Process();
+					p.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
+					if (this.Name == "LeftFolder")
 					{
-						p.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
-						if (this.Name == "LeftFolder")
-						{
-							p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].Path}\" \"{visibleItems[lineIndex].CorrespondingItem.Path}\"";
-						}
-						else
-						{
-							p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].CorrespondingItem.Path}\" \"{visibleItems[lineIndex].Path}\"";
-						}
-						p.Start();
+						p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].Path}\" \"{visibleItems[lineIndex].CorrespondingItem.Path}\"";
 					}
+					else
+					{
+						p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].CorrespondingItem.Path}\" \"{visibleItems[lineIndex].Path}\"";
+					}
+					p.Start();
 				}
 			}
 			base.OnMouseDoubleClick(e);

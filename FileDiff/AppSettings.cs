@@ -363,16 +363,14 @@ namespace FileDiff
 
 			if (File.Exists(settingsPath))
 			{
-				using (var xmlReader = XmlReader.Create(settingsPath))
+				using XmlReader xmlReader = XmlReader.Create(settingsPath);
+				try
 				{
-					try
-					{
-						Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
-					}
-					catch (Exception e)
-					{
-						MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
+					Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 
@@ -398,10 +396,8 @@ namespace FileDiff
 					Directory.CreateDirectory(settingsPath);
 				}
 
-				using (var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SETTINGS_FILE_NAME), xmlWriterSettings))
-				{
-					xmlSerializer.WriteObject(xmlWriter, Settings);
-				}
+				using XmlWriter xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SETTINGS_FILE_NAME), xmlWriterSettings);
+				xmlSerializer.WriteObject(xmlWriter, Settings);
 			}
 			catch (Exception e)
 			{

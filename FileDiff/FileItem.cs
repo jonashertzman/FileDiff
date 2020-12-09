@@ -139,12 +139,10 @@ namespace FileDiff
 				{
 					try
 					{
-						using (FileStream stream = File.OpenRead(Path))
+						using FileStream stream = File.OpenRead(Path);
+						foreach (byte b in md5.ComputeHash(stream))
 						{
-							foreach (byte b in md5.ComputeHash(stream))
-							{
-								s.Append(b.ToString("x2"));
-							}
+							s.Append(b.ToString("x2"));
 						}
 					}
 					catch (IOException)

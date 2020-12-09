@@ -36,7 +36,7 @@ namespace FileDiff
 
 		#region Methods
 
-		private TreeViewItem CreateTreeItem(object source)
+		private static TreeViewItem CreateTreeItem(object source)
 		{
 			TreeViewItem item = new TreeViewItem { Tag = source };
 
@@ -86,7 +86,7 @@ namespace FileDiff
 			}
 		}
 
-		private string GetItemPath(TreeViewItem item)
+		private static string GetItemPath(TreeViewItem item)
 		{
 			switch (item.Tag)
 			{
