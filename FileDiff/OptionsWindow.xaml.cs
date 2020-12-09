@@ -59,17 +59,6 @@ namespace FileDiff
 
 		#region Events
 
-		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
-		{
-			//FontDialog fd = new FontDialog { FontMustExist = true };
-
-			//if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			//{
-			//	ComboBoxFont.Text = fd.Font.Name;
-			//	TextBoxFontSize.Text = ((int)(fd.Font.Size * 96.0 / 72.0)).ToString(CultureInfo.InvariantCulture);
-			//}
-		}
-
 		private void Rectangle_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			selectecRectangle = e.Source as Rectangle;
