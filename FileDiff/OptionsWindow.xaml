@@ -27,7 +27,6 @@
 								<ColumnDefinition Width="2*" />
 								<ColumnDefinition Width="1*" />
 								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
@@ -38,12 +37,10 @@
 							<Label Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
 							<ComboBox x:Name="ComboBoxFont" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
 							<TextBox x:Name="TextBoxFontSize" Grid.Column="3" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
-							<Button x:Name="ButtonBrowseFont" Grid.Column="4" Content="..." Style="{StaticResource CommonButton}" MinWidth="25" Click="ButtonBrowseFont_Click" />
-							<Button x:Name="ButtonResetFont" Grid.Column="5" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
+							<Button x:Name="ButtonResetFont" Grid.Column="4" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
 
 							<Label Content="Tab Size" Style="{StaticResource CommonTextLabel}" Grid.Row="1" />
 							<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
-
 						</Grid>
 					</Border>
 				</TabItem>
