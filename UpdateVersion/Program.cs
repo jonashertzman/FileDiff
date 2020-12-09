@@ -12,7 +12,7 @@ namespace UpdateVersion
 
 			Console.WriteLine($"Updating version to {buildNumber}");
 
-			File.WriteAllText(@"..\..\..\docs\download\version.txt", buildNumber);
+			File.WriteAllText(@"..\docs\download\version.txt", buildNumber);
 		}
 	}
 }

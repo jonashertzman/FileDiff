@@ -3,9 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDiff", "FileDiff\FileDiff.csproj", "{1B7CFC39-E9C9-4131-9F24-6F4048C25BAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileDiff", "FileDiff\FileDiff.csproj", "{1B7CFC39-E9C9-4131-9F24-6F4048C25BAA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{50E3F7FD-EC03-4D64-93C5-5582BDD1B8A0} = {50E3F7FD-EC03-4D64-93C5-5582BDD1B8A0}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateVersion", "UpdateVersion\UpdateVersion.csproj", "{50E3F7FD-EC03-4D64-93C5-5582BDD1B8A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpdateVersion", "UpdateVersion\UpdateVersion.csproj", "{50E3F7FD-EC03-4D64-93C5-5582BDD1B8A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
