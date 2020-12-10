@@ -21,12 +21,7 @@ namespace FileDiff
 			}
 
 			// Check if the file has a BOM
-			if (bytes[0] == 0x2B && bytes[1] == 0x2F && bytes[2] == 0x76)
-			{
-				encoding = Encoding.UTF7;
-				bom = true;
-			}
-			else if (bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
+			if (bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
 			{
 				encoding = Encoding.UTF8;
 				bom = true;
