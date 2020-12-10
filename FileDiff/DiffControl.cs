@@ -372,7 +372,7 @@ namespace FileDiff
 						else
 						{
 							int chars = char.IsLowSurrogate(Lines[cursorLine].Text[cursorCharacter - 1]) ? 2 : 1;
-							SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter - chars) + Lines[cursorLine].Text.Substring(cursorCharacter));
+							SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter - chars) + Lines[cursorLine].Text[cursorCharacter..]);
 							cursorCharacter -= chars;
 						}
 					}
@@ -383,7 +383,7 @@ namespace FileDiff
 					{
 						DeleteSelection();
 					}
-					InsertNewLine(cursorLine + 1, Lines[cursorLine].Text.Substring(cursorCharacter));
+					InsertNewLine(cursorLine + 1, Lines[cursorLine].Text[cursorCharacter..]);
 					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter));
 					cursorLine++;
 					cursorCharacter = 0;
@@ -394,7 +394,7 @@ namespace FileDiff
 					{
 						DeleteSelection();
 					}
-					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text.Substring(cursorCharacter));
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + e.Text + Lines[cursorLine].Text[cursorCharacter..]);
 					cursorCharacter++;
 				}
 			}
@@ -446,7 +446,7 @@ namespace FileDiff
 					else
 					{
 						int chars = char.IsHighSurrogate(Lines[cursorLine].Text[cursorCharacter]) ? 2 : 1;
-						SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text.Substring(cursorCharacter + chars));
+						SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + Lines[cursorLine].Text[(cursorCharacter + chars)..]);
 					}
 				}
 				EnsureCursorVisibility();
@@ -475,13 +475,13 @@ namespace FileDiff
 				else if (Selection != null && Selection.TopLine == Selection.BottomLine)
 				{
 					DeleteSelection();
-					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text[cursorCharacter..]);
 					cursorCharacter++;
 					EnsureCursorVisibility();
 				}
 				else
 				{
-					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text.Substring(cursorCharacter));
+					SetLineText(cursorLine, Lines[cursorLine].Text.Substring(0, cursorCharacter) + "\t" + Lines[cursorLine].Text[cursorCharacter..]);
 					cursorCharacter++;
 					EnsureCursorVisibility();
 				}
@@ -535,7 +535,7 @@ namespace FileDiff
 					string[] pastedRows = Clipboard.GetText().Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
 					string leftOfCursor = Lines[cursorLine].Text.Substring(0, cursorCharacter);
-					string rightOfCursor = Lines[cursorLine].Text.Substring(cursorCharacter);
+					string rightOfCursor = Lines[cursorLine].Text[cursorCharacter..];
 
 					for (int i = 0; i < pastedRows.Length; i++)
 					{
@@ -990,7 +990,7 @@ namespace FileDiff
 			{
 				if (Selection.TopLine == Selection.BottomLine)
 				{
-					SetLineText(index, Lines[index].Text.Substring(0, Selection.TopCharacter) + Lines[index].Text.Substring(Math.Min(Selection.BottomCharacter, Lines[index].Text.Length)));
+					SetLineText(index, Lines[index].Text.Substring(0, Selection.TopCharacter) + Lines[index].Text[Math.Min(Selection.BottomCharacter, Lines[index].Text.Length)..]);
 				}
 				else if (index == Selection.TopLine)
 				{
@@ -999,7 +999,7 @@ namespace FileDiff
 				}
 				else if (index == Selection.BottomLine)
 				{
-					SetLineText(index, Lines[index].Text.Substring(Math.Min(Selection.BottomCharacter, Lines[index].Text.Length)));
+					SetLineText(index, Lines[index].Text[Math.Min(Selection.BottomCharacter, Lines[index].Text.Length)..]);
 				}
 				else if (index > Selection.TopLine && index < Selection.BottomLine)
 				{
