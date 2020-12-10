@@ -22,11 +22,7 @@ namespace FileDiff
 		{
 			string name = "";
 
-			if (Type == Encoding.UTF7)
-			{
-				name = "UTF-7";
-			}
-			else if (Type == Encoding.UTF8)
+			if (Type == Encoding.UTF8)
 			{
 				name = "UTF-8";
 			}
@@ -71,11 +67,7 @@ namespace FileDiff
 		{
 			get
 			{
-				if (Type == Encoding.UTF7)
-				{
-					return new UTF7Encoding();
-				}
-				else if (Type == Encoding.UTF8)
+				if (Type == Encoding.UTF8)
 				{
 					return new UTF8Encoding(Bom);
 				}
