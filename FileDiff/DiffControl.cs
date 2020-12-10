@@ -499,11 +499,11 @@ namespace FileDiff
 						Selection = null;
 						cursorLine = 0;
 						cursorCharacter = 0;
-						SetCursorPosition(Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length), true);
+						SetCursorPosition(Lines.Count - 1, Math.Max(0, Lines[^1].Text.Length), true);
 					}
 					else
 					{
-						Selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[Lines.Count - 1].Text.Length));
+						Selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[^1].Text.Length));
 					}
 				}
 			}
@@ -605,7 +605,7 @@ namespace FileDiff
 					VerticalOffset = Lines.Count;
 					if (EditMode)
 					{
-						SetCursorPosition(Lines.Count - 1, Lines[Lines.Count - 1].Text.Length, shiftPressed);
+						SetCursorPosition(Lines.Count - 1, Lines[^1].Text.Length, shiftPressed);
 					}
 				}
 				else

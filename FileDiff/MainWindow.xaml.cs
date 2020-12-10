@@ -1027,7 +1027,7 @@ namespace FileDiff
 
 				if (currentIndex == -1)
 				{
-					RightFolder.Select(folderDiffItems[folderDiffItems.Count - 1]);
+					RightFolder.Select(folderDiffItems[^1]);
 				}
 				else if (currentIndex > 0)
 				{

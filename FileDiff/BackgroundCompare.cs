@@ -12,7 +12,7 @@ namespace FileDiff
 		#region Members
 
 		private static int progress;
-		public static IProgress<int> progressHandler;
+		internal static IProgress<int> progressHandler;
 		private static DateTime startTime;
 		private static string leftRoot;
 		private static string rightRoot;
