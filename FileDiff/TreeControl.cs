@@ -224,7 +224,9 @@ namespace FileDiff
 				if (visibleItems[lineIndex].Type != TextState.Filler && visibleItems[lineIndex].CorrespondingItem.Type != TextState.Filler)
 				{
 					using Process p = new Process();
-					p.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+					p.StartInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
+
 					if (this.Name == "LeftFolder")
 					{
 						p.StartInfo.Arguments = $"\"{visibleItems[lineIndex].Path}\" \"{visibleItems[lineIndex].CorrespondingItem.Path}\"";
