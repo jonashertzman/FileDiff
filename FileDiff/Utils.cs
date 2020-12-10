@@ -27,7 +27,7 @@ namespace FileDiff
 				IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
 				int style = WinApi.GetWindowLong(hwnd, WinApi.GWL_STYLE);
 
-				WinApi.SetWindowLong(hwnd, WinApi.GWL_STYLE, style & ~WinApi.WS_MAXIMIZEBOX & ~WinApi.WS_MINIMIZEBOX);
+				_ = WinApi.SetWindowLong(hwnd, WinApi.GWL_STYLE, style & ~WinApi.WS_MAXIMIZEBOX & ~WinApi.WS_MINIMIZEBOX);
 			};
 		}
 

@@ -42,7 +42,7 @@ namespace FileDiff
 		public string cAlternate;
 	}
 
-	public class WinApi
+	internal class WinApi
 	{
 		public const int MAX_PATH = 260;
 		public const int MAX_ALTERNATE = 14;
@@ -52,7 +52,7 @@ namespace FileDiff
 		public const int WS_MAXIMIZEBOX = 0x10000;
 		public const int WS_MINIMIZEBOX = 0x20000;
 
-		[DllImport("kernel32", CharSet = CharSet.Auto)]
+		[DllImport("kernel32", CharSet = CharSet.Unicode)]
 		public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
 
 		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]

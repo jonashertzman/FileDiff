@@ -750,7 +750,7 @@ namespace FileDiff
 
 		private void Hyperlink_OpenHomepage(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
-			Process.Start(new ProcessStartInfo(e.Uri.ToString()));
+			Process.Start(new ProcessStartInfo(e.Uri.ToString()) { UseShellExecute = true });
 			e.Handled = true;
 		}
 

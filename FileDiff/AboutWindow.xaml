@@ -29,7 +29,7 @@
 				If you like to support my work on free open-source software,
 				<LineBreak />
 				feel free to
-				<Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="">send feedback</Hyperlink>,
+				<Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="x">send feedback</Hyperlink>,
 				have a look at the
 				<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff">source code</Hyperlink>,
 				<LineBreak />

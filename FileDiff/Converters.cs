@@ -45,7 +45,7 @@ namespace FileDiff
 	[ValueConversion(typeof(string), typeof(bool))]
 	public class HeaderToImageConverter : IValueConverter
 	{
-		internal static HeaderToImageConverter Instance = new HeaderToImageConverter();
+		public static HeaderToImageConverter Instance = new HeaderToImageConverter();
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
