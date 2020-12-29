@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -43,6 +44,10 @@ namespace FileDiff
 
 			AddFillerLines(ref leftLines, ref rightLines);
 
+			// If we have identical lines before and after a diff range, we prefer to have the diff as far down as possible.
+			// This will make diffs look more correct when diffs starts at a line that is neither a blank line nor a bracket.
+			ShiftDown(leftLines, rightLines);
+
 			int diffId = 0;
 			int diffStart = -1;
 
@@ -76,6 +81,56 @@ namespace FileDiff
 			}
 
 			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
+		}
+
+		private static void ShiftDown(List<Line> leftLines, List<Line> rightLines)
+		{
+			for (int i = 0; i < leftLines.Count; i++)
+			{
+				if (leftLines[i].Type == TextState.Deleted)
+				{
+					int diffEnd = i;
+					while (leftLines.Count > diffEnd && leftLines[diffEnd].Type == TextState.Deleted)
+					{
+						diffEnd++;
+					}
+
+					while (leftLines.Count > diffEnd && leftLines[i].GetHashCode() == leftLines[diffEnd].GetHashCode())
+					{
+						(leftLines[i], leftLines[diffEnd]) = (leftLines[diffEnd], leftLines[i]);
+						(rightLines[i], rightLines[diffEnd]) = (rightLines[diffEnd], rightLines[i]);
+
+						(leftLines[i].LineIndex, leftLines[diffEnd].LineIndex) = (leftLines[diffEnd].LineIndex, leftLines[i].LineIndex);
+
+						rightLines[i].MatchingLineIndex = leftLines[i].LineIndex;
+
+						i++;
+						diffEnd++;
+					}
+				}
+
+				if (rightLines[i].Type == TextState.New)
+				{
+					int diffEnd = i;
+					while (rightLines.Count > diffEnd && rightLines[diffEnd].Type == TextState.New)
+					{
+						diffEnd++;
+					}
+
+					while (rightLines.Count > diffEnd && rightLines[i].GetHashCode() == leftLines[diffEnd].GetHashCode())
+					{
+						(leftLines[i], leftLines[diffEnd]) = (leftLines[diffEnd], leftLines[i]);
+						(rightLines[i], rightLines[diffEnd]) = (rightLines[diffEnd], rightLines[i]);
+
+						(rightLines[i].LineIndex, rightLines[diffEnd].LineIndex) = (rightLines[diffEnd].LineIndex, rightLines[i].LineIndex);
+
+						leftLines[i].MatchingLineIndex = rightLines[i].LineIndex;
+
+						i++;
+						diffEnd++;
+					}
+				}
+			}
 		}
 
 		private static void FindMovedLines(List<Line> leftLines, List<Line> rightLines, int diffId)
@@ -563,42 +618,42 @@ namespace FileDiff
 			return matchLength;
 		}
 
-		private static void AddFillerLines(ref List<Line> leftFile, ref List<Line> rightFile)
+		private static void AddFillerLines(ref List<Line> leftLines, ref List<Line> rightLines)
 		{
 			int rightIndex = 0;
 
 			List<Line> newLeft = new List<Line>();
 			List<Line> newRight = new List<Line>();
 
-			for (int leftIndex = 0; leftIndex < leftFile.Count; leftIndex++)
+			for (int leftIndex = 0; leftIndex < leftLines.Count; leftIndex++)
 			{
-				if (leftFile[leftIndex].MatchingLineIndex == null)
+				if (leftLines[leftIndex].MatchingLineIndex == null)
 				{
-					newLeft.Add(leftFile[leftIndex]);
+					newLeft.Add(leftLines[leftIndex]);
 					newRight.Add(new Line() { Type = TextState.Filler });
 				}
 				else
 				{
-					while (rightIndex < leftFile[leftIndex].MatchingLineIndex)
+					while (rightIndex < leftLines[leftIndex].MatchingLineIndex)
 					{
 						newLeft.Add(new Line() { Type = TextState.Filler });
-						newRight.Add(rightFile[rightIndex]);
+						newRight.Add(rightLines[rightIndex]);
 						rightIndex++;
 					}
-					newLeft.Add(leftFile[leftIndex]);
-					newRight.Add(rightFile[rightIndex]);
+					newLeft.Add(leftLines[leftIndex]);
+					newRight.Add(rightLines[rightIndex]);
 					rightIndex++;
 				}
 			}
-			while (rightIndex < rightFile.Count)
+			while (rightIndex < rightLines.Count)
 			{
 				newLeft.Add(new Line() { Type = TextState.Filler });
-				newRight.Add(rightFile[rightIndex]);
+				newRight.Add(rightLines[rightIndex]);
 				rightIndex++;
 			}
 
-			leftFile = newLeft;
-			rightFile = newRight;
+			leftLines = newLeft;
+			rightLines = newRight;
 		}
 
 		private static bool WhitespaceRange(List<Line> range)
