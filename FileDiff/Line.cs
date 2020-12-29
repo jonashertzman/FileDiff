@@ -29,7 +29,7 @@ namespace FileDiff
 
 		public override string ToString()
 		{
-			return $"{LineIndex}-{MatchingLineIndex}   {DiffId}   {Type} {Text} ";
+			return $"{LineIndex}-{MatchingLineIndex} ({DiffId})".PadRight(15, '~') + $" {Type.ToString().PadRight(12, '~')}    {Text}";
 		}
 
 		public override int GetHashCode()
