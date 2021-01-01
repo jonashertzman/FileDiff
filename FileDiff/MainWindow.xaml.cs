@@ -1128,7 +1128,8 @@ namespace FileDiff
 			for (int i = ViewModel.CurrentDiff.Start; i < ViewModel.CurrentDiff.Start + ViewModel.CurrentDiff.Length; i++)
 			{
 				ViewModel.RightFile[i].Text = ViewModel.LeftFile[i].Text;
-				ViewModel.RightFile[i].Type = ViewModel.LeftFile[i].Type;
+				ViewModel.RightFile[i].Type = TextState.FullMatch;
+				ViewModel.LeftFile[i].Type = TextState.FullMatch;
 			}
 
 			ViewModel.RightFileDirty = true;
@@ -1145,7 +1146,8 @@ namespace FileDiff
 			for (int i = ViewModel.CurrentDiff.Start; i < ViewModel.CurrentDiff.Start + ViewModel.CurrentDiff.Length; i++)
 			{
 				ViewModel.LeftFile[i].Text = ViewModel.RightFile[i].Text;
-				ViewModel.LeftFile[i].Type = ViewModel.RightFile[i].Type;
+				ViewModel.RightFile[i].Type = TextState.FullMatch;
+				ViewModel.LeftFile[i].Type = TextState.FullMatch;
 			}
 
 			ViewModel.LeftFileDirty = true;
