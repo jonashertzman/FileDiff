@@ -37,7 +37,7 @@ namespace FileDiff
 
 		public string Version
 		{
-			get { return "1.3"; }
+			get { return "1.4"; }
 		}
 
 		public string BuildNumber
