@@ -1014,12 +1014,16 @@ namespace FileDiff
 
 		private void InsertNewLine(int index, string newText)
 		{
+			this.CurrentDiff = null;
+
 			Lines.Insert(index, new Line() { Text = newText, LineIndex = -1 });
 			Edited = true;
 		}
 
 		private void RemoveLine(int index)
 		{
+			this.CurrentDiff = null;
+
 			Lines.RemoveAt(index);
 			if (Lines.Count == 0)
 			{
