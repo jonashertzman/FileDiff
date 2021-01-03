@@ -584,7 +584,7 @@ namespace FileDiff
 			progressTimer.Stop();
 		}
 
-		private void ToggleButtonIgnoreWhiteSpace_Click(object sender, RoutedEventArgs e)
+		private void ToggleButtonNeedRecompare_Click(object sender, RoutedEventArgs e)
 		{
 			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
 			{

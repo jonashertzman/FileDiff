@@ -363,7 +363,20 @@
 						</ToggleButton.ToolTip>
 					</ToggleButton>
 
-					<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonIgnoreWhiteSpace_Click">
+					<ToggleButton x:Name="ToggleButtonDetectMovedLines" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding DetectMovedLines}" Click="ToggleButtonNeedRecompare_Click">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource DetectMovedLines}" Style="{StaticResource CommonButtonIcon}" />
+						</StackPanel>
+						<ToggleButton.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="Detect Moved Lines" />
+								</StackPanel>
+							</ToolTip>
+						</ToggleButton.ToolTip>
+					</ToggleButton>
+
+					<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonNeedRecompare_Click">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
