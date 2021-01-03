@@ -44,10 +44,20 @@ namespace FileDiff
 
 			AddFillerLines(ref leftLines, ref rightLines);
 
-			// If we have identical lines before and after a diff range, we prefer to have the diff as far down as possible.
-			// This will make diffs look more correct when diffs starts at a line that is neither a blank line nor a bracket.
 			ShiftDown(leftLines, rightLines);
 
+			EnumerateDiffs(leftLines, rightLines);
+
+			if (AppSettings.DetectMovedLines)
+			{
+				FindMovedLines(leftLines, rightLines);
+			}
+
+			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
+		}
+
+		private static void EnumerateDiffs(List<Line> leftLines, List<Line> rightLines)
+		{
 			int diffId = 0;
 			int diffStart = -1;
 
@@ -74,17 +84,13 @@ namespace FileDiff
 					}
 				}
 			}
-
-			if (AppSettings.DetectMovedLines)
-			{
-				FindMovedLines(leftLines, rightLines, diffId);
-			}
-
-			return new Tuple<List<Line>, List<Line>, TimeSpan>(leftLines, rightLines, DateTime.UtcNow.Subtract(startTime));
 		}
 
 		private static void ShiftDown(List<Line> leftLines, List<Line> rightLines)
 		{
+			// If we have identical lines before and after a diff range, we prefer to have the diff as far down as possible.
+			// This will make diffs look more correct when diffs starts at a line that is neither a blank line nor a bracket.
+
 			for (int i = 0; i < leftLines.Count; i++)
 			{
 				if (leftLines[i].Type == TextState.Deleted)
@@ -95,7 +101,7 @@ namespace FileDiff
 						diffEnd++;
 					}
 
-					while (leftLines.Count > diffEnd && leftLines[i].GetHashCode() == leftLines[diffEnd].GetHashCode())
+					while (leftLines.Count > diffEnd && leftLines[i].Text == leftLines[diffEnd].Text && leftLines[diffEnd].Type == TextState.FullMatch)
 					{
 						(leftLines[i], leftLines[diffEnd]) = (leftLines[diffEnd], leftLines[i]);
 						(rightLines[i], rightLines[diffEnd]) = (rightLines[diffEnd], rightLines[i]);
@@ -112,12 +118,12 @@ namespace FileDiff
 				if (rightLines[i].Type == TextState.New)
 				{
 					int diffEnd = i;
-					while (rightLines.Count > diffEnd && rightLines[diffEnd].Type == TextState.New)
+					while (rightLines.Count > diffEnd && rightLines[diffEnd].Type == TextState.New && rightLines[diffEnd].Type == TextState.FullMatch)
 					{
 						diffEnd++;
 					}
 
-					while (rightLines.Count > diffEnd && rightLines[i].GetHashCode() == leftLines[diffEnd].GetHashCode())
+					while (rightLines.Count > diffEnd && rightLines[i].Text == leftLines[diffEnd].Text)
 					{
 						(leftLines[i], leftLines[diffEnd]) = (leftLines[diffEnd], leftLines[i]);
 						(rightLines[i], rightLines[diffEnd]) = (rightLines[diffEnd], rightLines[i]);
@@ -133,8 +139,10 @@ namespace FileDiff
 			}
 		}
 
-		private static void FindMovedLines(List<Line> leftLines, List<Line> rightLines, int diffId)
+		private static void FindMovedLines(List<Line> leftLines, List<Line> rightLines)
 		{
+			int diffId = -1;
+
 			while (true)
 			{
 				// PERFORMANCE: Probably slow to recreate a new list each loop?
@@ -169,7 +177,7 @@ namespace FileDiff
 
 				if (bestMatchLength > 1)
 				{
-					diffId += 2;
+					diffId -= 2;
 
 					for (int i = 0; i < bestMatchLength; i++)
 					{
