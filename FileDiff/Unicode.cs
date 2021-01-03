@@ -11,13 +11,23 @@ namespace FileDiff
 			Encoding encoding = Encoding.Default;
 			bool bom = false;
 			NewlineMode newlineMode = NewlineMode.Windows;
+			bool endOfFileNewline = false;
 
-			var bytes = new byte[10000];
+			byte[] bytes = new byte[10000];
 			int bytesRead = 0;
 
 			using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
 			{
 				bytesRead = fileStream.Read(bytes, 0, bytes.Length);
+
+				byte[] lastByte = new byte[1];
+				fileStream.Seek(-1, SeekOrigin.End);
+				fileStream.Read(lastByte, 0, 1);
+
+				if (lastByte[0] == '\n' || lastByte[0] == '\r')
+				{
+					endOfFileNewline = true;
+				}
 			}
 
 			// Check if the file has a BOM
@@ -83,7 +93,7 @@ namespace FileDiff
 				}
 			}
 
-			return new FileEncoding(encoding, bom, newlineMode);
+			return new FileEncoding(encoding, bom, newlineMode, endOfFileNewline);
 		}
 
 		public static bool ValidUtf8(byte[] bytes, int length)

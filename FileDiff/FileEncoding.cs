@@ -7,11 +7,12 @@ namespace FileDiff
 
 		#region Constructor
 
-		public FileEncoding(Encoding type, bool bom, NewlineMode newline)
+		public FileEncoding(Encoding type, bool bom, NewlineMode newline, bool endOfFileNewline)
 		{
 			this.Type = type;
 			this.Bom = bom;
 			this.Newline = newline;
+			this.EndOfFileNewline = endOfFileNewline;
 		}
 
 		#endregion
@@ -62,6 +63,8 @@ namespace FileDiff
 		public bool Bom { get; private set; }
 
 		public NewlineMode Newline { get; private set; }
+
+		public bool EndOfFileNewline { get; private set; }
 
 		public Encoding GetEncoding
 		{
