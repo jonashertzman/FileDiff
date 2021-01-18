@@ -20,13 +20,16 @@ namespace FileDiff
 			{
 				bytesRead = fileStream.Read(bytes, 0, bytes.Length);
 
-				byte[] lastByte = new byte[1];
-				fileStream.Seek(-1, SeekOrigin.End);
-				fileStream.Read(lastByte, 0, 1);
-
-				if (lastByte[0] == '\n' || lastByte[0] == '\r')
+				if (bytesRead > 0)
 				{
-					endOfFileNewline = true;
+					byte[] lastByte = new byte[1];
+					fileStream.Seek(-1, SeekOrigin.End);
+					fileStream.Read(lastByte, 0, 1);
+
+					if (lastByte[0] == '\n' || lastByte[0] == '\r')
+					{
+						endOfFileNewline = true;
+					}
 				}
 			}
 
