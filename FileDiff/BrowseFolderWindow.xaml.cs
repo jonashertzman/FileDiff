@@ -30,7 +30,7 @@ namespace FileDiff
 
 		#region Properties
 
-		public string SelectedPath { get; set; }
+		public string SelectedPath { get; set; } = "";
 
 		#endregion
 

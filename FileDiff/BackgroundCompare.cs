@@ -113,6 +113,7 @@ namespace FileDiff
 						i++;
 						diffEnd++;
 					}
+					i = diffEnd;
 				}
 
 				if (rightLines[i].Type == TextState.New)
@@ -135,6 +136,7 @@ namespace FileDiff
 						i++;
 						diffEnd++;
 					}
+					i = diffEnd;
 				}
 			}
 		}
