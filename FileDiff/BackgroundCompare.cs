@@ -88,8 +88,27 @@ namespace FileDiff
 
 		private static void ShiftDown(List<Line> leftLines, List<Line> rightLines)
 		{
-			// If we have identical lines before and after a diff range, we prefer to have the diff as far down as possible.
-			// This will make diffs look more correct when diffs starts at a line that is neither a blank line nor a bracket.
+			/*
+
+			If we have identical lines before and after a diff range, we prefer to have the diff as far down as possible.
+			This will make diffs look more correct when diffs starts at a line that is neither a blank line nor a bracket.
+			
+			Looks wrong         Much easier to read
+			===========         ===================
+
+			  X() {               X() {
+			    ...                 ...
+			+ }                   }
+			+
+			+ Y() {             + Y() {
+			+   ...             +   ...
+			  }                 + }
+			                    +
+			  Z() {               Z() {
+			    ...                 ...
+			  }                   }
+
+			*/
 
 			for (int i = 0; i < leftLines.Count; i++)
 			{
@@ -113,7 +132,7 @@ namespace FileDiff
 						i++;
 						diffEnd++;
 					}
-					i = diffEnd;
+					i = diffEnd - 1;
 				}
 
 				if (rightLines[i].Type == TextState.New)
@@ -136,7 +155,7 @@ namespace FileDiff
 						i++;
 						diffEnd++;
 					}
-					i = diffEnd;
+					i = diffEnd - 1;
 				}
 			}
 		}
