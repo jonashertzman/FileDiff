@@ -51,21 +51,21 @@ namespace FileDiff
 				TrimmedText = value.Trim();
 				hash = value.GetHashCode();
 
-				characters = null;
-				trimmedCharacters = null;
-
 				string textNoWhitespace = Regex.Replace(value, @"\s+", "");
 				hashNoWhitespace = textNoWhitespace.GetHashCode();
 				IsWhitespaceLine = textNoWhitespace == "";
+
+				characters = null;
+				trimmedCharacters = null;
 
 				TextSegments.Clear();
 				AddTextSegment(value, Type);
 			}
 		}
 
-		public string TrimmedText { get; set; }
+		public string TrimmedText { get; private set; }
 
-		public ObservableCollection<TextSegment> TextSegments { get; set; } = new ObservableCollection<TextSegment>();
+		public ObservableCollection<TextSegment> TextSegments { get; private set; } = new ObservableCollection<TextSegment>();
 
 		public bool IsWhitespaceLine { get; private set; }
 
@@ -106,6 +106,7 @@ namespace FileDiff
 		}
 
 		public int? LineIndex { get; set; }
+
 		public int? MatchingLineIndex { get; set; }
 
 		private TextState type;
@@ -148,6 +149,7 @@ namespace FileDiff
 		}
 
 		public int DisplayIndex { get; set; }
+
 		public int DisplayOffset { get; set; }
 
 		public int DiffId { get; set; } = -1;
