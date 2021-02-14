@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -561,6 +562,22 @@ namespace FileDiff
 				ViewModel.LeftPath = Environment.GetCommandLineArgs()[1];
 				ViewModel.RightPath = Environment.GetCommandLineArgs()[2];
 				Compare();
+			}
+			else if (Environment.GetCommandLineArgs().Length > 1)
+			{
+				if (new[] { "/?", "-h", "--help" }.Contains(Environment.GetCommandLineArgs()[1]))
+				{
+					MessageBox.Show(
+						"Usage:\n\n" +
+						"FilDiff [left-file right-file] [left-folder right-folder] [/? | -h | --help]\n\n" +
+						"left-file\t\tPath to left file\n" +
+						"right-file\t\tPath to right file\n" +
+						"left-folder\tPath to left folder\n" +
+						"right-folder\tPath to right folder\n" +
+						"/? -h --help\tShows this message"
+						,
+						"Help");
+				}
 			}
 
 			renderComplete = true;
