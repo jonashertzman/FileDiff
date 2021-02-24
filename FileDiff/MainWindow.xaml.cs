@@ -74,6 +74,8 @@ namespace FileDiff
 			leftSelection = "";
 			ViewModel.LeftPath = ViewModel.LeftPath.Trim();
 			ViewModel.RightPath = ViewModel.RightPath.Trim();
+			TextBoxLeftPath.Background = new SolidColorBrush(Colors.White);
+			TextBoxRightPath.Background = new SolidColorBrush(Colors.White);
 
 			BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
 			if (ViewModel.LeftPath == "")
@@ -97,17 +99,39 @@ namespace FileDiff
 				}
 			}
 
-			if (File.Exists(ViewModel.LeftPath) && File.Exists(ViewModel.RightPath))
+			if (File.Exists(ViewModel.LeftPath))
 			{
-				ViewModel.Mode = CompareMode.File;
+				if (File.Exists(ViewModel.RightPath))
+				{
+					ViewModel.Mode = CompareMode.File;
 
-				CompareFiles();
+					CompareFiles();
+				}
+				else
+				{
+					TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				}
 			}
-			else if (Directory.Exists(ViewModel.LeftPath) && Directory.Exists(ViewModel.RightPath))
+			else if (Directory.Exists(ViewModel.LeftPath))
 			{
-				ViewModel.Mode = CompareMode.Folder;
+				if (Directory.Exists(ViewModel.RightPath))
+				{
+					ViewModel.Mode = CompareMode.Folder;
 
-				CompareDirectories();
+					CompareDirectories();
+				}
+				else
+				{
+					TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				}
+			}
+			else
+			{
+				TextBoxLeftPath.Background = new SolidColorBrush(Colors.Pink);
+				if (!(File.Exists(ViewModel.RightPath) || Directory.Exists(ViewModel.RightPath)))
+				{
+					TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				}
 			}
 		}
 
@@ -449,7 +473,7 @@ namespace FileDiff
 			}
 			else
 			{
-				SearchBox.Background = new SolidColorBrush(Colors.Tomato);
+				SearchBox.Background = new SolidColorBrush(Colors.Pink);
 			}
 		}
 
