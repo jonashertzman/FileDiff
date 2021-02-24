@@ -143,7 +143,7 @@ namespace FileDiff
 						diffEnd++;
 					}
 
-					while (rightLines.Count > diffEnd && rightLines[i].Text == leftLines[diffEnd].Text && rightLines[diffEnd].Type == TextState.FullMatch)
+					while (rightLines.Count > diffEnd && rightLines[i].Text == rightLines[diffEnd].Text && rightLines[diffEnd].Type == TextState.FullMatch)
 					{
 						(leftLines[i], leftLines[diffEnd]) = (leftLines[diffEnd], leftLines[i]);
 						(rightLines[i], rightLines[diffEnd]) = (rightLines[diffEnd], rightLines[i]);
