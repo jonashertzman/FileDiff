@@ -22,7 +22,7 @@ namespace FileDiff
 
 		public static void HideMinimizeAndMaximizeButtons(Window window)
 		{
-			window.SourceInitialized += (s, e) =>
+			window.SourceInitialized += (sender, eventArgs) =>
 			{
 				IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
 				int style = WinApi.GetWindowLong(hwnd, WinApi.GWL_STYLE);
