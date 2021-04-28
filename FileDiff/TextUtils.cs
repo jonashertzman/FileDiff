@@ -29,7 +29,7 @@ namespace FileDiff
 
 		#region Methods
 
-		static FontData GetFontData(Typeface typeface, double fontSize)
+		private static FontData GetFontData(Typeface typeface, double fontSize)
 		{
 			if (!typeface.Equals(cachedTypeface) || fontSize != cachedFontSize)
 			{
@@ -67,7 +67,8 @@ namespace FileDiff
 			{
 				// C# uses UTF16 encoded strings which for some characters requires 2 surrogate pair chars to encode 
 				// one character, if so we add a zero width space glyph after the real glyph to keep the number of 
-				// glyphs in the glyph run the same as the number of chars in the string.
+				// glyphs in the glyph run the same as the number of chars in the string to easier map mouse clicks
+				// to whole characters in case a surrogate pair is used.
 				if (char.IsHighSurrogate(text[n]))
 				{
 					codePoint = char.ConvertToUtf32(text, n);
