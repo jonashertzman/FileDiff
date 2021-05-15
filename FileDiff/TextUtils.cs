@@ -48,7 +48,7 @@ namespace FileDiff
 			return fontCache;
 		}
 
-		internal static GlyphRun CreateGlyphRun(string text, Typeface typeface, double fontSize, double dpiScale, out double runWidth)
+		internal static GlyphRun CreateGlyphRun(string text, Typeface typeface, double fontSize, double dpiScale, double glyphRunStartPosition, out double runWidth)
 		{
 			if (text.Length == 0)
 			{
@@ -82,7 +82,7 @@ namespace FileDiff
 					codePoint = text[n];
 				}
 
-				ushort glyphIndex = ReplaceGlyph(codePoint, fontData.GlyphTypeface, fontSize, dpiScale, out double width);
+				ushort glyphIndex = ReplaceGlyph(codePoint, fontData.GlyphTypeface, fontSize, dpiScale, glyphRunStartPosition + totalWidth, out double width);
 
 				glyphIndexes[n] = glyphIndex;
 				advanceWidths[n] = width;
@@ -119,7 +119,7 @@ namespace FileDiff
 			return run;
 		}
 
-		private static ushort ReplaceGlyph(int codePoint, GlyphTypeface glyphTypeface, double fontSize, double dpiScale, out double width)
+		private static ushort ReplaceGlyph(int codePoint, GlyphTypeface glyphTypeface, double fontSize, double dpiScale, double characterStartPosition, out double width)
 		{
 			glyphTypeface.CharacterToGlyphMap.TryGetValue('W', out ushort wIndex);
 			double characterWidth = Math.Ceiling(glyphTypeface.AdvanceWidths[wIndex] * fontSize / dpiScale) * dpiScale;
@@ -132,7 +132,9 @@ namespace FileDiff
 				displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? '›' : ' ';
 
 				glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
-				width = AppSettings.TabSize * characterWidth;
+				double tabCharacterWidth = AppSettings.TabSize * characterWidth;
+				width = tabCharacterWidth - ((characterStartPosition + tabCharacterWidth) % tabCharacterWidth);
+
 				return glyphIndex;
 			}
 			else if (codePoint == ' ')

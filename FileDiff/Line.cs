@@ -154,8 +154,8 @@ namespace FileDiff
 
 		public int DiffId { get; set; } = -1;
 
-		private GlyphRun RenderedText;
-		private double renderedTextWidth;
+		private GlyphRun renderedIndexText;
+		private double renderedIndexTextWidth;
 
 		private int? renderedLineIndex;
 		private Typeface renderedTypeface;
@@ -166,7 +166,7 @@ namespace FileDiff
 		{
 			if (renderedLineIndex != LineIndex || !typeface.Equals(renderedTypeface) || fontSize != renderedFontSize || dpiScale != renderedDpiScale)
 			{
-				RenderedText = TextUtils.CreateGlyphRun(LineIndex == -1 ? "+" : LineIndex.ToString(), typeface, fontSize, dpiScale, out renderedTextWidth);
+				renderedIndexText = TextUtils.CreateGlyphRun(LineIndex == -1 ? "+" : LineIndex.ToString(), typeface, fontSize, dpiScale, 0, out renderedIndexTextWidth);
 
 				renderedLineIndex = LineIndex;
 				renderedTypeface = typeface;
@@ -174,8 +174,8 @@ namespace FileDiff
 				renderedDpiScale = dpiScale;
 			}
 
-			runWidth = renderedTextWidth;
-			return RenderedText;
+			runWidth = renderedIndexTextWidth;
+			return renderedIndexText;
 		}
 
 		#endregion

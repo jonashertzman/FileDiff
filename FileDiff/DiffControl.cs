@@ -110,16 +110,16 @@ namespace FileDiff
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
 
-			TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
+			TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, 0, out characterWidth);
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
-			Color c = Color.FromArgb(100, 0, 0, 0);
+			//Color semiTransparent = Color.FromArgb(100, 0, 0, 0);
 
-			Brush currentDiffBrush = new LinearGradientBrush(c, Colors.Transparent, 0);
-			currentDiffBrush.Freeze();
+			//Brush currentDiffBrush = new LinearGradientBrush(semiTransparent, Colors.Transparent, 0);
+			//currentDiffBrush.Freeze();
 
-			Brush currentDiffBrush2 = new LinearGradientBrush(Colors.Transparent, c, 0);
-			currentDiffBrush2.Freeze();
+			//Brush currentDiffBrush2 = new LinearGradientBrush(Colors.Transparent, semiTransparent, 0);
+			//currentDiffBrush2.Freeze();
 
 			Pen borderPen = new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1));
 			borderPen.Freeze();
@@ -227,7 +227,7 @@ namespace FileDiff
 								{
 									drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
-									GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
+									GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, nextPosition, out double runWidth);
 
 									if (nextPosition - HorizontalOffset < ActualWidth && nextPosition + runWidth - HorizontalOffset > 0)
 									{
@@ -1131,24 +1131,24 @@ namespace FileDiff
 
 		private double CharacterPosition(int lineIndex, int characterIndex)
 		{
-			double position = 0;
+			double startPosition = 0;
 			int i = 0;
 
 			foreach (TextSegment textSegment in Lines[lineIndex].TextSegments)
 			{
-				if (textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth) != null)
+				if (textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, startPosition, out double runWidth) != null)
 				{
 					foreach (double x in textSegment.RenderedText.AdvanceWidths)
 					{
 						if (i++ == characterIndex)
 						{
-							return position;
+							return startPosition;
 						}
-						position += x;
+						startPosition += x;
 					}
 				}
 			}
-			return position;
+			return startPosition;
 		}
 
 		private void PointToCharacter(Point point, out int line, out int character)
