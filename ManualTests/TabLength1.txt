@@ -1,14 +1,27 @@
-A
-	A
-		A
-			A
+								X
+								X
+                X
 
-B	B	B
-BB	BB	BB
-BBB	BBB	BBB
-BBBB	BBBB	BBBB
+A								
+	A							
+		A						
+			A					
 
-C		C		
-CC		CC		
-CCC		CCC		
-CCCC		CCCC		
+B	B	B						
+BB	BB	BB						
+BBB	BBB	BBB			
+BBBB	BBBB	BBBB			
+
+C		C						
+CC		CC						
+CCC		CCC				
+CCCC		CCCC				
+
+D			D					
+DD			DD					
+DDD			DDD			
+DDDD			DDDD					
+
+																			
+x xxxx xxx xxxxxxx	xxxxxx	xxxxx
+x xxxx yy xxxzzzzzzxxxx	xxxxxx	xxxxx

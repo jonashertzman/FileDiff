@@ -135,6 +135,11 @@ namespace FileDiff
 				double tabCharacterWidth = AppSettings.TabSize * characterWidth;
 				width = tabCharacterWidth - ((characterStartPosition + tabCharacterWidth) % tabCharacterWidth);
 
+				if (width < 0.01) // Make sure we don't get a rounding error here.
+				{
+					width = tabCharacterWidth;
+				}
+
 				return glyphIndex;
 			}
 			else if (codePoint == ' ')
