@@ -1,0 +1,14 @@
+A
+	A
+		A
+			A
+
+B	B	B
+BB	BB	BB
+BBB	BBB	BBB
+BBBB	BBBB	BBBB
+
+C		C		
+CC		CC		
+CCC		CCC		
+CCCC		CCCC		
