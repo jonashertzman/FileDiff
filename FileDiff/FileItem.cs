@@ -117,7 +117,7 @@ namespace FileDiff
 			{
 				foreach (FileItem i in Children)
 				{
-					if (i.Type != TextState.FullMatch && i.Type != TextState.Ignored)
+					if (i.Type != TextState.FullMatch && !(i.Type == TextState.Ignored || i.CorrespondingItem.Type == TextState.Ignored))
 					{
 						return true;
 					}
