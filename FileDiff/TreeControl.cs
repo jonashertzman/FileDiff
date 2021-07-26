@@ -198,10 +198,7 @@ namespace FileDiff
 				// Item selected		
 				if (e.GetPosition(this).X > (visibleItems[lineIndex].Level * itemHeight) - HorizontalOffset || !visibleItems[lineIndex].IsFolder)
 				{
-					if (visibleItems[lineIndex] != SelectedFile && visibleItems[lineIndex].Type != TextState.Filler)
-					{
-						Select(visibleItems[lineIndex]);
-					}
+					Select(visibleItems[lineIndex]);
 				}
 
 				// Folder expander clicked
