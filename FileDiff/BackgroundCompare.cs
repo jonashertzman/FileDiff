@@ -763,11 +763,11 @@ namespace FileDiff
 			return path;
 		}
 
-		private static bool DirectoryIsIgnored(string directory)
+		private static bool DirectoryIsIgnored(string directoryName)
 		{
 			foreach (TextAttribute a in AppSettings.IgnoredFolders)
 			{
-				if (WildcardCompare(directory, a.Text, true))
+				if (WildcardCompare(directoryName, a.Text, true))
 				{
 					return true;
 				}
@@ -775,11 +775,11 @@ namespace FileDiff
 			return false;
 		}
 
-		private static bool FileIsIgnored(string directory)
+		private static bool FileIsIgnored(string fileName)
 		{
 			foreach (TextAttribute a in AppSettings.IgnoredFiles)
 			{
-				if (WildcardCompare(directory, a.Text, true))
+				if (WildcardCompare(fileName, a.Text, true))
 				{
 					return true;
 				}
