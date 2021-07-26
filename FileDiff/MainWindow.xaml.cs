@@ -515,11 +515,17 @@ namespace FileDiff
 		{
 			foreach (FileItem fileItem in parent)
 			{
-				if (!fileItem.IsFolder && fileItem.Type == TextState.PartialMatch || fileItem == LeftFolder.SelectedFile)
+				if (fileItem.IsFolder)
 				{
-					items.Add(fileItem);
+					GetFolderDiffItems(fileItem.Children, items);
 				}
-				GetFolderDiffItems(fileItem.Children, items);
+				else
+				{
+					if (fileItem.Type == TextState.PartialMatch || (fileItem.Type == TextState.Filler && fileItem.CorrespondingItem.Type == TextState.Deleted) || fileItem.Type == TextState.New)
+					{
+						items.Add(fileItem);
+					}
+				}
 			}
 		}
 
@@ -533,7 +539,7 @@ namespace FileDiff
 			return "";
 		}
 
-		private void CheckForUpdate(bool forced = false)
+		private void CheckForNewVersion(bool forced = false)
 		{
 			if (AppSettings.CheckForUpdates && AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
 			{
@@ -557,13 +563,13 @@ namespace FileDiff
 
 					return null;
 
-				}).ContinueWith(ProcessUpdate, TaskScheduler.FromCurrentSynchronizationContext());
+				}).ContinueWith(ProcessNewVersion, TaskScheduler.FromCurrentSynchronizationContext());
 
 				AppSettings.LastUpdateTime = DateTime.Now;
 			}
 		}
 
-		private void ProcessUpdate(Task<string> task)
+		private void ProcessNewVersion(Task<string> task)
 		{
 			if (task.Result != null)
 			{
@@ -611,7 +617,7 @@ namespace FileDiff
 		private void Window_Initialized(object sender, EventArgs e)
 		{
 			LoadSettings();
-			CheckForUpdate();
+			CheckForNewVersion();
 		}
 
 		private void Window_Closed(object sender, EventArgs e)
@@ -873,7 +879,7 @@ namespace FileDiff
 
 		private void CommandAbout_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			CheckForUpdate(true);
+			CheckForNewVersion(true);
 
 			AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
 			aboutWindow.ShowDialog();
