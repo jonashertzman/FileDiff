@@ -94,14 +94,14 @@ namespace FileDiff
 			}
 		);
 
-		public static readonly RoutedUICommand NextFile = new RoutedUICommand("Next File", "NextFile", typeof(Commands),
+		public static readonly RoutedUICommand NextFile = new RoutedUICommand("Select Next Changed File", "NextFile", typeof(Commands),
 			new InputGestureCollection()
 			{
 				new KeyGesture(Key.PageDown, ModifierKeys.Control)
 			}
 		);
 
-		public static readonly RoutedUICommand PreviousFile = new RoutedUICommand("Previous File", "PreviousFile", typeof(Commands),
+		public static readonly RoutedUICommand PreviousFile = new RoutedUICommand("Select Previous Changed File", "PreviousFile", typeof(Commands),
 			new InputGestureCollection()
 			{
 				new KeyGesture(Key.PageUp, ModifierKeys.Control)

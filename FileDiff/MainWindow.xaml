@@ -645,7 +645,7 @@
 			<!-- Workaround to not fuckup the cleartype rendering -->
 			<Border Visibility="{Binding Visibility, ElementName=ProgressPanel}" Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center">
 				<Border.Effect>
-					<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
+					<DropShadowEffect BlurRadius="25" ShadowDepth="0" Opacity=".35" />
 				</Border.Effect>
 			</Border>
 			<Border x:Name="ProgressPanel" BorderThickness="1" BorderBrush="{x:Static SystemColors.ScrollBarBrush}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow">
