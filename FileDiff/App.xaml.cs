@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
-namespace FileDiff
+namespace FileDiff;
+
+public partial class App : Application
 {
-	public partial class App : Application
-	{
-	}
 }

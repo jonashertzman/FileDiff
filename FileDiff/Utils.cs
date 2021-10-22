@@ -1,35 +1,33 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 
-namespace FileDiff
+namespace FileDiff;
+
+static class Utils
 {
-	static class Utils
+
+	public static bool DirectoryAllowed(string path)
 	{
-
-		public static bool DirectoryAllowed(string path)
+		try
 		{
-			try
-			{
-				Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly);
-			}
-			catch
-			{
-				return false;
-			}
-			return true;
+			Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly);
 		}
-
-		public static void HideMinimizeAndMaximizeButtons(Window window)
+		catch
 		{
-			window.SourceInitialized += (sender, eventArgs) =>
-			{
-				IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
-				int style = WinApi.GetWindowLong(hwnd, WinApi.GWL_STYLE);
-
-				_ = WinApi.SetWindowLong(hwnd, WinApi.GWL_STYLE, style & ~WinApi.WS_MAXIMIZEBOX & ~WinApi.WS_MINIMIZEBOX);
-			};
+			return false;
 		}
-
+		return true;
 	}
+
+	public static void HideMinimizeAndMaximizeButtons(Window window)
+	{
+		window.SourceInitialized += (sender, eventArgs) =>
+		{
+			IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
+			int style = WinApi.GetWindowLong(hwnd, WinApi.GWL_STYLE);
+
+			_ = WinApi.SetWindowLong(hwnd, WinApi.GWL_STYLE, style & ~WinApi.WS_MAXIMIZEBOX & ~WinApi.WS_MINIMIZEBOX);
+		};
+	}
+
 }

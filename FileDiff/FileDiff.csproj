@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net5.0-windows</TargetFramework>
+		<TargetFramework>net6.0-windows</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 	</PropertyGroup>
 
 	<Target Name="PostPublish" AfterTargets="Publish">
-		<Exec Command="..\UpdateVersion\bin\Release\net5.0\UpdateVersion" />
+		<Exec Command="..\UpdateVersion\bin\Release\net6.0\UpdateVersion" />
 	</Target>
 
 	<ItemGroup>

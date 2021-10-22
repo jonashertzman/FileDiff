@@ -1,77 +1,76 @@
-﻿namespace FileDiff
+﻿namespace FileDiff;
+
+class Selection
 {
-	class Selection
+
+	#region Members
+
+	public int StartLine;
+	public int StartCharacter;
+	public int EndLine;
+	public int EndCharacter;
+
+	#endregion
+
+	#region Constructor
+
+	public Selection()
 	{
 
-		#region Members
-
-		public int StartLine;
-		public int StartCharacter;
-		public int EndLine;
-		public int EndCharacter;
-
-		#endregion
-
-		#region Constructor
-
-		public Selection()
-		{
-
-		}
-
-		public Selection(int startLine, int startCharacter, int endLine, int endCharacter)
-		{
-			StartLine = startLine;
-			StartCharacter = startCharacter;
-			EndLine = endLine;
-			EndCharacter = endCharacter;
-		}
-
-		#endregion
-
-		#region Properties
-
-		public int TopLine
-		{
-			get
-			{
-				return StartLine <= EndLine ? StartLine : EndLine;
-			}
-		}
-
-		public int BottomLine
-		{
-			get
-			{
-				return StartLine <= EndLine ? EndLine : StartLine;
-			}
-		}
-
-		public int TopCharacter
-		{
-			get
-			{
-				if (StartLine == EndLine)
-				{
-					return StartCharacter <= EndCharacter ? StartCharacter : EndCharacter;
-				}
-				return StartLine < EndLine ? StartCharacter : EndCharacter;
-			}
-		}
-
-		public int BottomCharacter
-		{
-			get
-			{
-				if (StartLine == EndLine)
-				{
-					return StartCharacter <= EndCharacter ? EndCharacter : StartCharacter;
-				}
-				return StartLine < EndLine ? EndCharacter : StartCharacter;
-			}
-		}
-
-		#endregion
-
 	}
+
+	public Selection(int startLine, int startCharacter, int endLine, int endCharacter)
+	{
+		StartLine = startLine;
+		StartCharacter = startCharacter;
+		EndLine = endLine;
+		EndCharacter = endCharacter;
+	}
+
+	#endregion
+
+	#region Properties
+
+	public int TopLine
+	{
+		get
+		{
+			return StartLine <= EndLine ? StartLine : EndLine;
+		}
+	}
+
+	public int BottomLine
+	{
+		get
+		{
+			return StartLine <= EndLine ? EndLine : StartLine;
+		}
+	}
+
+	public int TopCharacter
+	{
+		get
+		{
+			if (StartLine == EndLine)
+			{
+				return StartCharacter <= EndCharacter ? StartCharacter : EndCharacter;
+			}
+			return StartLine < EndLine ? StartCharacter : EndCharacter;
+		}
+	}
+
+	public int BottomCharacter
+	{
+		get
+		{
+			if (StartLine == EndLine)
+			{
+				return StartCharacter <= EndCharacter ? EndCharacter : StartCharacter;
+			}
+			return StartLine < EndLine ? EndCharacter : StartCharacter;
+		}
+	}
+
+	#endregion
+
 }
