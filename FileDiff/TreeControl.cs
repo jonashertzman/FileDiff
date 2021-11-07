@@ -220,7 +220,7 @@ public class TreeControl : Control
 			{
 				using Process p = new Process();
 
-				p.StartInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
+				p.StartInfo.FileName = Environment.ProcessPath;
 
 				if (this.Name == "LeftFolder")
 				{

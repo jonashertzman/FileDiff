@@ -42,7 +42,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		get
 		{
-			DateTime buildDate = new FileInfo(Process.GetCurrentProcess().MainModule.FileName).LastWriteTime;
+			DateTime buildDate = new FileInfo(Environment.ProcessPath).LastWriteTime;
 			return $"{buildDate:yy}{buildDate.DayOfYear:D3}";
 		}
 	}
