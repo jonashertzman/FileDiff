@@ -1130,9 +1130,7 @@ public partial class MainWindow : Window
 
 	private void CommandSwap_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		string temp = ViewModel.LeftPath;
-		ViewModel.LeftPath = ViewModel.RightPath;
-		ViewModel.RightPath = temp;
+		(ViewModel.RightPath, ViewModel.LeftPath) = (ViewModel.LeftPath, ViewModel.RightPath);
 
 		Compare();
 	}
