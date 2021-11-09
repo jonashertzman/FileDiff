@@ -6,6 +6,7 @@
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<Target Name="PostPublish" AfterTargets="Publish">
