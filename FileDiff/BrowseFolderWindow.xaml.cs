@@ -87,6 +87,10 @@ public partial class BrowseFolderWindow : Window
 					if (i == substrings.Length - 1)
 					{
 						item.IsSelected = true;
+
+						// We cannot scroll to the selected item until a render of the treeview control has occurred,
+						// instead we set a timer long enough so the scroll happens after the next render. 
+						renderTimer.Start();
 					}
 
 					parent = item.Items;
@@ -94,10 +98,6 @@ public partial class BrowseFolderWindow : Window
 				}
 			}
 		}
-
-		// We cannot scroll to the selected item until a render of the treeview control has occurred,
-		// instead we set a timer long enough so the scroll happens after the next render. 
-		renderTimer.Start();
 	}
 
 	private static string GetItemPath(TreeViewItem item)
@@ -199,10 +199,9 @@ public partial class BrowseFolderWindow : Window
 	{
 		folderTreeScrollViewer = GetScrollViewer(FolderTree);
 
-		SelectedPath = Path.GetFullPath(SelectedPath);
-
-		if (SelectedPath != null)
+		if (!string.IsNullOrWhiteSpace(SelectedPath))
 		{
+			SelectedPath = Path.GetFullPath(SelectedPath);
 			ExpandAndSelect(SelectedPath);
 		}
 	}
