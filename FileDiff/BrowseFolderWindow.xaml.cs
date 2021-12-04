@@ -2,11 +2,21 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace FileDiff;
 
 public partial class BrowseFolderWindow : Window
 {
+
+	#region Members
+
+	private readonly DispatcherTimer renderTimer = new DispatcherTimer();
+
+	ScrollViewer folderTreeScrollViewer;
+
+	#endregion
 
 	#region Constructor
 
@@ -15,6 +25,9 @@ public partial class BrowseFolderWindow : Window
 		InitializeComponent();
 
 		Utils.HideMinimizeAndMaximizeButtons(this);
+
+		renderTimer.Interval = new TimeSpan(0, 0, 0, 0, 20);
+		renderTimer.Tick += RenderTimer_Tick;
 
 		foreach (DriveInfo driveInfo in DriveInfo.GetDrives())
 		{
@@ -69,19 +82,22 @@ public partial class BrowseFolderWindow : Window
 			{
 				if (((string)item.Header).Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
 				{
-					item.IsSelected = true;
-					item.BringIntoView();
-					item.Focus();
+					item.IsExpanded = true;
 
-					if (i < substrings.Length - 1)
+					if (i == substrings.Length - 1)
 					{
-						item.IsExpanded = true;
+						item.IsSelected = true;
 					}
+
 					parent = item.Items;
 					break;
 				}
 			}
 		}
+
+		// We cannot scroll to the selected item until a render of the treeview control has occurred,
+		// instead we set a timer long enough so the scroll happens after the next render. 
+		renderTimer.Start();
 	}
 
 	private static string GetItemPath(TreeViewItem item)
@@ -100,9 +116,39 @@ public partial class BrowseFolderWindow : Window
 		return null;
 	}
 
+	private ScrollViewer GetScrollViewer(UIElement element)
+	{
+		if (element == null) return null;
+
+		ScrollViewer retour = null;
+		for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element) && retour == null; i++)
+		{
+			if (VisualTreeHelper.GetChild(element, i) is ScrollViewer)
+			{
+				retour = (ScrollViewer)VisualTreeHelper.GetChild(element, i);
+			}
+			else
+			{
+				retour = GetScrollViewer(VisualTreeHelper.GetChild(element, i) as UIElement);
+			}
+		}
+		return retour;
+	}
+
 	#endregion
 
 	#region Events
+
+	private void RenderTimer_Tick(object sender, EventArgs e)
+	{
+		renderTimer.Stop();
+
+		folderTreeScrollViewer.ScrollToVerticalOffset(double.MaxValue);
+
+		TreeViewItem tvi = FolderTree.SelectedItem as TreeViewItem;
+		tvi.BringIntoView();
+		tvi.Focus();
+	}
 
 	public void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
 	{
@@ -151,6 +197,10 @@ public partial class BrowseFolderWindow : Window
 
 	private void Window_ContentRendered(object sender, EventArgs e)
 	{
+		folderTreeScrollViewer = GetScrollViewer(FolderTree);
+
+		SelectedPath = Path.GetFullPath(SelectedPath);
+
 		if (SelectedPath != null)
 		{
 			ExpandAndSelect(SelectedPath);
