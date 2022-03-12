@@ -1,4 +1,19 @@
-﻿<Window x:Class="FileDiff.OptionsWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Title="Options" Height="498" Width="678" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+﻿<Window
+	x:Class="FileDiff.OptionsWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="Options"
+	Width="678"
+	Height="498"
+	TextOptions.TextFormattingMode="Display"
+	UseLayoutRounding="True"
+	ResizeMode="CanResizeWithGrip"
+	Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
+	WindowStartupLocation="CenterOwner"
+	ShowInTaskbar="False"
+	mc:Ignorable="d">
 
 	<Grid Margin="5">
 		<Grid.RowDefinitions>
@@ -12,8 +27,8 @@
 				<TabItem Header="General">
 					<Border Padding="5">
 						<StackPanel>
-							<CheckBox Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
-							<CheckBox Content="Detect Moved Lines" IsChecked="{Binding DetectMovedLines}" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
+							<CheckBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
+							<CheckBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Detect Moved Lines" IsChecked="{Binding DetectMovedLines}" Style="{StaticResource CommonCheckBox}" />
 						</StackPanel>
 					</Border>
 				</TabItem>
@@ -35,12 +50,12 @@
 							</Grid.RowDefinitions>
 
 							<Label Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
-							<ComboBox x:Name="ComboBoxFont" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
+							<ComboBox x:Name="ComboBoxFont" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
 							<TextBox x:Name="TextBoxFontSize" Grid.Column="3" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
 							<Button x:Name="ButtonResetFont" Grid.Column="4" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
 
-							<Label Content="Tab Size" Style="{StaticResource CommonTextLabel}" Grid.Row="1" />
-							<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
+							<Label Grid.Row="1" Content="Tab Size" Style="{StaticResource CommonTextLabel}" />
+							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
 						</Grid>
 					</Border>
 				</TabItem>
@@ -76,52 +91,52 @@
 							<Button x:Name="ButtonResetColors" Grid.Row="0" Grid.Column="4" Content="Reset All" Style="{StaticResource CommonButton}" Click="ButtonResetColors_Click" />
 
 							<Label Grid.Row="1" Content="Normal" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="FullMatchForeground" Grid.Row="1" Grid.Column="1" Fill="{Binding FullMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle x:Name="FullMatchBackground" Grid.Row="1" Grid.Column="2" Fill="{Binding FullMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="FullMatchForeground" Grid.Row="1" Grid.Column="1" Margin="5" Fill="{Binding FullMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="FullMatchBackground" Grid.Row="1" Grid.Column="2" Margin="5" Fill="{Binding FullMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="2" Content="New" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="NewForeground" Grid.Row="2" Grid.Column="1" Fill="{Binding NewForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle x:Name="NewBackground" Grid.Row="2" Grid.Column="2" Fill="{Binding NewBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="NewForeground" Grid.Row="2" Grid.Column="1" Margin="5" Fill="{Binding NewForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="NewBackground" Grid.Row="2" Grid.Column="2" Margin="5" Fill="{Binding NewBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="3" Content="Moved To" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="MovedToBackground" Grid.Row="3" Grid.Column="2" Fill="{Binding MovedToBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="MovedToBackground" Grid.Row="3" Grid.Column="2" Margin="5" Fill="{Binding MovedToBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="4" Content="Deleted" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="DeletedForeground" Grid.Row="4" Grid.Column="1" Fill="{Binding DeletedForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle x:Name="DeletedBackground" Grid.Row="4" Grid.Column="2" Fill="{Binding DeletedBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="DeletedForeground" Grid.Row="4" Grid.Column="1" Margin="5" Fill="{Binding DeletedForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="DeletedBackground" Grid.Row="4" Grid.Column="2" Margin="5" Fill="{Binding DeletedBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="5" Content="Moved From" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="MovedFromBackground" Grid.Row="5" Grid.Column="2" Fill="{Binding MovedFromdBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="MovedFromBackground" Grid.Row="5" Grid.Column="2" Margin="5" Fill="{Binding MovedFromdBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="6" Content="Changed" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="PartialMatchForeground" Grid.Row="6" Grid.Column="1" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle x:Name="PartialMatchBackground" Grid.Row="6" Grid.Column="2" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="PartialMatchForeground" Grid.Row="6" Grid.Column="1" Margin="5" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="PartialMatchBackground" Grid.Row="6" Grid.Column="2" Margin="5" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="7" Content="Ignored" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="IgnoredForeground" Grid.Row="7" Grid.Column="1" Fill="{Binding IgnoredForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
-							<Rectangle x:Name="IgnoredBackground" Grid.Row="7" Grid.Column="2" Fill="{Binding IgnoredBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="IgnoredForeground" Grid.Row="7" Grid.Column="1" Margin="5" Fill="{Binding IgnoredForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="IgnoredBackground" Grid.Row="7" Grid.Column="2" Margin="5" Fill="{Binding IgnoredBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="8" Content="Selection" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="SelectionBackground" Grid.Row="8" Grid.Column="2" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="SelectionBackground" Grid.Row="8" Grid.Column="2" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="9" Grid.Column="0" Content="Line Numbers" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="LineNumber" Grid.Row="9" Grid.Column="1" Fill="{Binding LineNumberColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="LineNumber" Grid.Row="9" Grid.Column="1" Margin="5" Fill="{Binding LineNumberColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="10" Grid.Column="0" Content="Current Diff" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="CurrentDiff" Grid.Row="10" Grid.Column="2" Fill="{Binding CurrentDiffColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="CurrentDiff" Grid.Row="10" Grid.Column="2" Margin="5" Fill="{Binding CurrentDiffColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="11" Grid.Column="0" Content="Move Arrows" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="Snake" Grid.Row="11" Grid.Column="1" Fill="{Binding SnakeColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="Snake" Grid.Row="11" Grid.Column="1" Margin="5" Fill="{Binding SnakeColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
 								<Grid RenderOptions.ClearTypeHint="Enabled">
-									<!-- Workaround to not fuckup the cleartype rendering -->
-									<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+									<!--  Workaround to not fuckup the cleartype rendering  -->
+									<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 										<Border.Effect>
 											<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
 										</Border.Effect>
 									</Border>
-									<Border Margin="10" Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+									<Border Margin="10" Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 										<Grid Width="150">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="auto" />
@@ -135,7 +150,7 @@
 												<RowDefinition />
 											</Grid.RowDefinitions>
 
-											<TextBox Name="ColorHex" Text="#FFAA2288" Grid.ColumnSpan="2" IsReadOnly="True" Style="{StaticResource CommonTextBox}" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey} }" />
+											<TextBox Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" IsReadOnly="True" Style="{StaticResource CommonTextBox}" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
 
 											<Label Grid.Row="1" Content="R" />
 											<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
@@ -169,19 +184,19 @@
 								<ColumnDefinition />
 							</Grid.ColumnDefinitions>
 
-							<DataGrid Grid.Row="0" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFolders}" Margin="5">
+							<DataGrid Grid.Row="0" Margin="5" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFolders}">
 								<DataGrid.Columns>
-									<DataGridTextColumn Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Directories" CanUserResize="False" Width="*" />
+									<DataGridTextColumn Width="*" Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Directories" CanUserResize="False" />
 								</DataGrid.Columns>
 							</DataGrid>
 
-							<DataGrid Grid.Row="0" Grid.Column="1" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFiles}" Margin="5">
+							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFiles}">
 								<DataGrid.Columns>
-									<DataGridTextColumn Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Files" CanUserResize="False" Width="*" />
+									<DataGridTextColumn Width="*" Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Files" CanUserResize="False" />
 								</DataGrid.Columns>
 							</DataGrid>
 
-							<TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="These are case insensitive and can contain wildcards." Margin="5,0,5,0" Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+							<TextBlock Grid.Row="1" Grid.ColumnSpan="2" Margin="5,0,5,0" Text="These are case insensitive and can contain wildcards." Foreground="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
 
 						</Grid>
 					</Border>
@@ -190,9 +205,9 @@
 			</TabControl>
 		</Border>
 
-		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-			<Button Content="OK" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" IsDefault="True" Click="ButtonOk_Click" />
-			<Button Content="Cancel" Grid.ColumnSpan="2" Style="{StaticResource CommonButton}" IsCancel="True" />
+		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+			<Button Grid.ColumnSpan="2" Content="OK" Style="{StaticResource CommonButton}" IsDefault="True" Click="ButtonOk_Click" />
+			<Button Grid.ColumnSpan="2" Content="Cancel" Style="{StaticResource CommonButton}" IsCancel="True" />
 		</StackPanel>
 
 	</Grid>
