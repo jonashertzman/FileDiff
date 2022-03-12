@@ -34,7 +34,7 @@
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Margin" Value="5" />
 		<Setter Property="MinWidth" Value="80" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ControlDarkBrushKey} }" />
+		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
 	</Style>
 
 	<Style x:Key="CommonCheckBox" TargetType="CheckBox">
@@ -47,7 +47,7 @@
 		<Setter Property="Margin" Value="2" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
-				<Setter Property="Opacity" Value="0.4"></Setter>
+				<Setter Property="Opacity" Value="0.4" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>
@@ -60,7 +60,7 @@
 
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
-				<Setter Property="Background" Value="Transparent"></Setter>
+				<Setter Property="Background" Value="Transparent" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>
@@ -72,14 +72,14 @@
 		<Setter Property="BorderThickness" Value="0" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
-				<Setter Property="Background" Value="Transparent"></Setter>
+				<Setter Property="Background" Value="Transparent" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>
 
 	<Style x:Key="EditableDataGrid" TargetType="DataGrid">
 		<Setter Property="AutoGenerateColumns" Value="False" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" />
+		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 		<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
 		<Setter Property="RowHeaderWidth" Value="0" />
 		<Setter Property="CanUserResizeRows" Value="False" />
