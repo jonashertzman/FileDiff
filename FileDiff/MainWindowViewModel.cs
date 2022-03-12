@@ -397,6 +397,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.DateColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(DateColumnWidth)); }
 	}
 
+
 	// Text colors
 	public Brush FullMatchForeground
 	{
@@ -497,6 +498,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	}
 
 
+	// Font
 	public FontFamily Font
 	{
 		get { return AppSettings.Font; }
@@ -506,7 +508,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public int FontSize
 	{
 		get { return AppSettings.FontSize; }
-		set { AppSettings.FontSize = value; OnPropertyChangedRepaint(nameof(FontSize)); }
+		set { AppSettings.FontSize = value; OnPropertyChangedRepaint(nameof(FontSize)); OnPropertyChanged(nameof(ZoomedFontSize)); }
+	}
+
+	int zoom = 0;
+	public int Zoom
+	{
+		get { return zoom; }
+		set { zoom = Math.Max(value, 1 - FontSize); OnPropertyChanged(nameof(Zoom)); OnPropertyChanged(nameof(ZoomedFontSize)); }
+	}
+
+	public int ZoomedFontSize
+	{
+		get { return Math.Max(FontSize + Zoom, 1); }
 	}
 
 	public int TabSize

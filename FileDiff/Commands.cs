@@ -153,6 +153,27 @@ public static class Commands
 		}
 	);
 
+	public static readonly RoutedUICommand ZoomIn = new RoutedUICommand("Zoom In", "ZoomIn", typeof(Commands),
+		new InputGestureCollection()
+		{
+				new KeyGesture(Key.OemPlus, ModifierKeys.Control)
+		}
+	);
+
+	public static readonly RoutedUICommand ZoomOut = new RoutedUICommand("Zoom Out", "ZoomOut", typeof(Commands),
+		new InputGestureCollection()
+		{
+				new KeyGesture(Key.OemMinus, ModifierKeys.Control)
+		}
+	);
+
+	public static readonly RoutedUICommand ResetZoom = new RoutedUICommand("Reset Zoom", "ResetZoom", typeof(Commands),
+		new InputGestureCollection()
+		{
+			new KeyGesture(Key.D0, ModifierKeys.Control)
+		}
+	);
+
 	public static readonly RoutedUICommand OpenContainingFolder = new RoutedUICommand("Open Containing Folder", "OpenContainingFolder", typeof(Commands));
 
 	public static readonly RoutedUICommand CopyPathToClipboard = new RoutedUICommand("Copy Path to Clipboard", "CopyPathToClipboard", typeof(Commands));

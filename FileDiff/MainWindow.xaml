@@ -61,6 +61,9 @@
 				<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
 				<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute_1" />
 				<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
+				<CommandBinding Command="local:Commands.ZoomIn" Executed="CommandZoomIn_Executed" />
+				<CommandBinding Command="local:Commands.ZoomOut" Executed="CommandZoomOut_Executed" />
+				<CommandBinding Command="local:Commands.ResetZoom" Executed="CommandResetZoom_Executed" />				
 				<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
 				<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />
 			</DockPanel.CommandBindings>
@@ -80,6 +83,11 @@
 							<MenuItem Header="Find" Command="local:Commands.Find" />
 							<MenuItem Header="Find Next" Command="local:Commands.FindNext" />
 							<MenuItem Header="Find Previous" Command="local:Commands.FindPrevious" />
+						</MenuItem>
+						<MenuItem Header="View">
+							<MenuItem Header="Zoom In" Command="local:Commands.ZoomIn" />
+							<MenuItem Header="Zoom Out" Command="local:Commands.ZoomOut" />
+							<MenuItem Header="Reset Zoom" Command="local:Commands.ResetZoom" />
 						</MenuItem>
 						<MenuItem Header="Tools">
 							<MenuItem Header="Options" Command="local:Commands.Options" />
@@ -510,7 +518,7 @@
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
 
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding LeftFile, Mode=TwoWay}" CurrentDiff="{Binding CurrentDiff, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding LeftFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxLeftVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" FocusVisualStyle="{x:Null}" ToolTip="-" />
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding LeftFile, Mode=TwoWay}" CurrentDiff="{Binding CurrentDiff, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding LeftFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxLeftVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" FocusVisualStyle="{x:Null}" ToolTip="-" />
 						<ScrollBar x:Name="LeftHorizontalScrollbar" Grid.Row="1" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Border>
@@ -609,7 +617,7 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding RightFile, Mode=TwoWay}" VisibleLines="{Binding VisibleLines, Mode=OneWayToSource}" CurrentDiff="{Binding CurrentDiff, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding RightFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxRightVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" FocusVisualStyle="{x:Null}" ToolTip="-" />
+						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding RightFile, Mode=TwoWay}" VisibleLines="{Binding VisibleLines, Mode=OneWayToSource}" CurrentDiff="{Binding CurrentDiff, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding RightFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerialcalScroll="{Binding MaxRightVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" FocusVisualStyle="{x:Null}" ToolTip="-" />
 						<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightFile}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
 						<ScrollBar Name="VerticalFileScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding Path=MaxVerialcalScroll}" />
 						<ScrollBar x:Name="RightHorizontalScrollbar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />

@@ -688,8 +688,17 @@ public partial class MainWindow : Window
 
 	private void FileDiff_MouseWheel(object sender, MouseWheelEventArgs e)
 	{
-		int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
-		VerticalFileScrollbar.Value -= lines;
+		bool controlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+
+		if (controlPressed)
+		{
+			ViewModel.Zoom += e.Delta / Math.Abs(e.Delta);
+		}
+		else
+		{
+			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
+			VerticalFileScrollbar.Value -= lines;
+		}
 	}
 
 	private void FolderDiff_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -1122,6 +1131,21 @@ public partial class MainWindow : Window
 	private void CommandCloseFind_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
 		SearchPanel.Visibility = Visibility.Collapsed;
+	}
+
+	private void CommandZoomIn_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		ViewModel.Zoom += 1;
+	}
+
+	private void CommandZoomOut_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		ViewModel.Zoom -= 1;
+	}
+
+	private void CommandResetZoom_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		ViewModel.Zoom = 0;
 	}
 
 	private void CommandSwap_Executed(object sender, ExecutedRoutedEventArgs e)
