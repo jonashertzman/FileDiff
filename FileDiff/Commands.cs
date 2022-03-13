@@ -156,14 +156,14 @@ public static class Commands
 	public static readonly RoutedUICommand ZoomIn = new RoutedUICommand("Zoom In", "ZoomIn", typeof(Commands),
 		new InputGestureCollection()
 		{
-				new KeyGesture(Key.OemPlus, ModifierKeys.Control)
+				new KeyGesture(Key.OemPlus, ModifierKeys.Control, "Ctrl+Plus")
 		}
 	);
 
 	public static readonly RoutedUICommand ZoomOut = new RoutedUICommand("Zoom Out", "ZoomOut", typeof(Commands),
 		new InputGestureCollection()
 		{
-				new KeyGesture(Key.OemMinus, ModifierKeys.Control)
+				new KeyGesture(Key.OemMinus, ModifierKeys.Control, "Ctrl+Minus")
 		}
 	);
 
