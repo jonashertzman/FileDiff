@@ -63,7 +63,7 @@
 				<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
 				<CommandBinding Command="local:Commands.ZoomIn" Executed="CommandZoomIn_Executed" />
 				<CommandBinding Command="local:Commands.ZoomOut" Executed="CommandZoomOut_Executed" />
-				<CommandBinding Command="local:Commands.ResetZoom" Executed="CommandResetZoom_Executed" />				
+				<CommandBinding Command="local:Commands.ResetZoom" Executed="CommandResetZoom_Executed" />
 				<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
 				<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />
 			</DockPanel.CommandBindings>

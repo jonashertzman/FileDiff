@@ -12,7 +12,7 @@
 	ShowInTaskbar="False"
 	SizeToContent="WidthAndHeight"
 	mc:Ignorable="d">
-	
+
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 	</Window.Resources>
