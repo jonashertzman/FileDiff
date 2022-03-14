@@ -58,6 +58,7 @@ public class SettingsData
 
 	public string Font { get; set; } = DefaultSettings.Font;
 	public int FontSize { get; set; } = DefaultSettings.FontSize;
+	public int Zoom { get; set; } = 0;
 	public int TabSize { get; set; } = DefaultSettings.TabSize;
 
 	public double PositionLeft { get; set; }
