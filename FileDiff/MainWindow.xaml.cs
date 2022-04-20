@@ -2,7 +2,7 @@
 
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -536,45 +536,26 @@ public partial class MainWindow : Window
 		return "";
 	}
 
-	private void CheckForNewVersion(bool forced = false)
+	private async void CheckForNewVersion(bool forced = false)
 	{
 		if (AppSettings.CheckForUpdates && AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
 		{
-			Task.Run(() =>
-			{
-				try
-				{
-					Debug.Print("Checking for new version...");
-
-					WebClient webClient = new WebClient();
-					string result = webClient.DownloadString("https://jonashertzman.github.io/FileDiff/download/version.txt");
-
-					Debug.Print($"Latest version found: {result}");
-
-					return result;
-				}
-				catch (Exception exception)
-				{
-					Debug.Print($"Version check failed: {exception.Message}");
-				}
-
-				return null;
-
-			}).ContinueWith(ProcessNewVersion, TaskScheduler.FromCurrentSynchronizationContext());
-
-			AppSettings.LastUpdateTime = DateTime.Now;
-		}
-	}
-
-	private void ProcessNewVersion(Task<string> task)
-	{
-		if (task.Result != null)
-		{
 			try
 			{
-				ViewModel.NewBuildAvailable = int.Parse(task.Result) > int.Parse(ViewModel.BuildNumber);
+				Debug.Print("Checking for new version...");
+
+				HttpClient httpClient = new();
+				string result = await httpClient.GetStringAsync("https://jonashertzman.github.io/FileDiff/download/version.txt");
+
+				Debug.Print($"Latest version found: {result}");
+				ViewModel.NewBuildAvailable = int.Parse(result) > int.Parse(ViewModel.BuildNumber);
 			}
-			catch (Exception) { }
+			catch (Exception exception)
+			{
+				Debug.Print($"Version check failed: {exception.Message}");
+			}
+
+			AppSettings.LastUpdateTime = DateTime.Now;
 		}
 	}
 

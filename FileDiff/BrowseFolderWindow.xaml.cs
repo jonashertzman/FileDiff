@@ -123,9 +123,9 @@ public partial class BrowseFolderWindow : Window
 		ScrollViewer retour = null;
 		for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element) && retour == null; i++)
 		{
-			if (VisualTreeHelper.GetChild(element, i) is ScrollViewer)
+			if (VisualTreeHelper.GetChild(element, i) is ScrollViewer viewer)
 			{
-				retour = (ScrollViewer)VisualTreeHelper.GetChild(element, i);
+				retour = viewer;
 			}
 			else
 			{
