@@ -730,6 +730,10 @@ public static class BackgroundCompare
 						longestMatchLength = matchLength;
 					}
 				}
+				//if (matchLength > 100)
+				//{
+				//	return;
+				//}
 			}
 		}
 	}

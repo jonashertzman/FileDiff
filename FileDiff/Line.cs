@@ -27,7 +27,7 @@ public class Line
 
 	public override string ToString()
 	{
-		return $"{LineIndex}-{MatchingLineIndex} ({DiffId})".PadRight(15, '~') + $" {Type.ToString().PadRight(12, '~')}    {Text}";
+		return $"{LineIndex}-{MatchingLineIndex} ({DiffId})".PadRight(12, ' ') + $" {Type.ToString().PadRight(10, ' ')}    {Text}";
 	}
 
 	public override int GetHashCode()
