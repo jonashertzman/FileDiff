@@ -30,4 +30,17 @@ static class Utils
 		};
 	}
 
+	public static string TimeSpanToShortString(TimeSpan timeSpan)
+	{
+		if (timeSpan.TotalHours >= 1)
+		{
+			return $"{(int)timeSpan.TotalHours}h {timeSpan.Minutes}m";
+		}
+		if (timeSpan.Minutes > 0)
+		{
+			return $"{timeSpan.Minutes}m {timeSpan.Seconds}s";
+		}
+		return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
+	}
+
 }

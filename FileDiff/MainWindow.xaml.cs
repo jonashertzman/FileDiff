@@ -225,7 +225,7 @@ public partial class MainWindow : Window
 		{
 			ViewModel.LeftFile = new ObservableCollection<Line>(task.Result.Item1);
 			ViewModel.RightFile = new ObservableCollection<Line>(task.Result.Item2);
-			Statusbar.Text = $"Compare time {TimeSpanToShortString(task.Result.Item3)}";
+			Statusbar.Text = $"Compare time {Utils.TimeSpanToShortString(task.Result.Item3)}";
 		}
 		else
 		{
@@ -282,7 +282,7 @@ public partial class MainWindow : Window
 
 			ViewModel.LeftFolder = task.Result.Item1;
 			ViewModel.RightFolder = task.Result.Item2;
-			Statusbar.Text = $"Compare time {TimeSpanToShortString(task.Result.Item3)}";
+			Statusbar.Text = $"Compare time {Utils.TimeSpanToShortString(task.Result.Item3)}";
 
 			folderDiffItems = new List<FileItem>();
 			GetFolderDiffItems(ViewModel.RightFolder, folderDiffItems);
@@ -296,19 +296,6 @@ public partial class MainWindow : Window
 		}
 
 		LeftFolder.Focus();
-	}
-
-	private static string TimeSpanToShortString(TimeSpan timeSpan)
-	{
-		if (timeSpan.TotalHours >= 1)
-		{
-			return $"{(int)timeSpan.TotalHours}h {timeSpan.Minutes}m";
-		}
-		if (timeSpan.Minutes > 0)
-		{
-			return $"{timeSpan.Minutes}m {timeSpan.Seconds}s";
-		}
-		return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
 	}
 
 	private void InitNavigationState()
