@@ -20,10 +20,11 @@ public partial class AboutWindow : Window
 	{
 		MainWindowViewModel viewModel = DataContext as MainWindowViewModel;
 
-		string subject = Uri.EscapeDataString(viewModel.FullApplicationName);
-		string body = Uri.EscapeDataString("Hello");
+		string address = "jonashertzmansoftware@gmail.com";
+		string subject = viewModel.FullApplicationName;
+		string body = "Hello";
 
-		string mailto = $"mailto:jonashertzmansoftware@gmail.com?Subject={subject}&Body={body}";
+		string mailto = $"mailto:{address}?Subject={subject}&Body={body}";
 
 		Process.Start(new ProcessStartInfo(mailto) { UseShellExecute = true });
 
