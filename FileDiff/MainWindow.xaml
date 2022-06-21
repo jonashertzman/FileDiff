@@ -529,9 +529,9 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="auto" />
 					</Grid.ColumnDefinitions>
-					<TextBlock x:Name="Statusbar" Grid.Column="0" Margin="2" Text="" />
+					<TextBlock x:Name="Statusbar" Grid.Column="0" Margin="3" Text="" />
 					<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
-						<TextBlock Margin="5,2,0,2" Padding="2,0" Text="{Binding LeftFileDescription}" Background="{Binding EncodingBackground}" />
+						<TextBlock Margin="10,3,3,3" Text="{Binding LeftFileDescription}" Background="{Binding EncodingBackground}" />
 					</Border>
 
 				</Grid>
@@ -626,14 +626,14 @@
 				</Border>
 
 				<!--  Right Status Bar  -->
-				<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2" Margin="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+				<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="auto" />
-						<ColumnDefinition Width="31" />
+						<ColumnDefinition Width="28" />
 					</Grid.ColumnDefinitions>
 					<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
-						<TextBlock Margin="5,2,0,2" Padding="2,0" Text="{Binding RightFileDescription}" Background="{Binding EncodingBackground}" />
+						<TextBlock Margin="3" Text="{Binding RightFileDescription}" Background="{Binding EncodingBackground}" />
 					</Border>
 				</Grid>
 
