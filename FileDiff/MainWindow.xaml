@@ -529,7 +529,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="auto" />
 					</Grid.ColumnDefinitions>
-					<TextBlock x:Name="Statusbar" Grid.Column="0" Margin="3" Text="" />
+					<TextBlock x:Name="Statusbar" Grid.Column="0" Margin="6,3,3,3" Text="" />
 					<Border Grid.Column="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
 						<TextBlock Margin="10,3,3,3" Text="{Binding LeftFileDescription}" Background="{Binding EncodingBackground}" />
 					</Border>
