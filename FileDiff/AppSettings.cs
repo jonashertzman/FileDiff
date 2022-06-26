@@ -161,7 +161,7 @@ public static class AppSettings
 
 
 
-	private static ThemeColors CurrentTheme { get; set; }
+	private static ThemeColors CurrentTheme { get; set; } = new();
 
 
 
@@ -175,7 +175,7 @@ public static class AppSettings
 		{
 			fullMatchForeground = value;
 			fullMatchForeground.Freeze();
-			Settings.FullMatchForeground = value.Color;
+			CurrentTheme.FullMatchForeground = value.Color;
 		}
 	}
 
@@ -187,7 +187,7 @@ public static class AppSettings
 		{
 			fullMatchBackground = value;
 			fullMatchBackground.Freeze();
-			Settings.FullMatchBackground = value.Color;
+			CurrentTheme.FullMatchBackground = value.Color;
 		}
 	}
 
@@ -199,7 +199,7 @@ public static class AppSettings
 		{
 			partialMatchForeground = value;
 			partialMatchForeground.Freeze();
-			Settings.PartialMatchForeground = value.Color;
+			CurrentTheme.PartialMatchForeground = value.Color;
 		}
 	}
 
@@ -211,7 +211,7 @@ public static class AppSettings
 		{
 			partialMatchBackground = value;
 			partialMatchBackground.Freeze();
-			Settings.PartialMatchBackground = value.Color;
+			CurrentTheme.PartialMatchBackground = value.Color;
 		}
 	}
 
@@ -223,7 +223,7 @@ public static class AppSettings
 		{
 			deletedForeground = value;
 			deletedForeground.Freeze();
-			Settings.DeletedForeground = value.Color;
+			CurrentTheme.DeletedForeground = value.Color;
 		}
 	}
 
@@ -235,7 +235,7 @@ public static class AppSettings
 		{
 			deletedBackground = value;
 			deletedBackground.Freeze();
-			Settings.DeletedBackground = value.Color;
+			CurrentTheme.DeletedBackground = value.Color;
 		}
 	}
 
@@ -247,7 +247,7 @@ public static class AppSettings
 		{
 			newForeground = value;
 			newForeground.Freeze();
-			Settings.NewForeground = value.Color;
+			CurrentTheme.NewForeground = value.Color;
 		}
 	}
 
@@ -259,7 +259,7 @@ public static class AppSettings
 		{
 			newBackground = value;
 			newBackground.Freeze();
-			Settings.NewBackground = value.Color;
+			CurrentTheme.NewBackground = value.Color;
 		}
 	}
 
@@ -271,7 +271,7 @@ public static class AppSettings
 		{
 			ignoredForeground = value;
 			ignoredForeground.Freeze();
-			Settings.IgnoredForeground = value.Color;
+			CurrentTheme.IgnoredForeground = value.Color;
 		}
 	}
 
@@ -283,7 +283,7 @@ public static class AppSettings
 		{
 			ignoredBackground = value;
 			ignoredBackground.Freeze();
-			Settings.IgnoredBackground = value.Color;
+			CurrentTheme.IgnoredBackground = value.Color;
 		}
 	}
 
@@ -295,7 +295,7 @@ public static class AppSettings
 		{
 			movedFromdBackground = value;
 			movedFromdBackground.Freeze();
-			Settings.MovedFromdBackground = value.Color;
+			CurrentTheme.MovedFromdBackground = value.Color;
 		}
 	}
 
@@ -307,7 +307,7 @@ public static class AppSettings
 		{
 			movedToBackground = value;
 			movedToBackground.Freeze();
-			Settings.MovedToBackground = value.Color;
+			CurrentTheme.MovedToBackground = value.Color;
 		}
 	}
 
@@ -319,7 +319,7 @@ public static class AppSettings
 		{
 			selectionBackground = value;
 			selectionBackground.Freeze();
-			Settings.SelectionBackground = value.Color;
+			CurrentTheme.SelectionBackground = value.Color;
 		}
 	}
 
@@ -332,7 +332,7 @@ public static class AppSettings
 		{
 			lineNumberColor = value;
 			lineNumberColor.Freeze();
-			Settings.LineNumberColor = value.Color;
+			CurrentTheme.LineNumberColor = value.Color;
 		}
 	}
 
@@ -344,7 +344,7 @@ public static class AppSettings
 		{
 			currentDiffColor = value;
 			currentDiffColor.Freeze();
-			Settings.CurrentDiffColor = value.Color;
+			CurrentTheme.CurrentDiffColor = value.Color;
 		}
 	}
 
@@ -356,7 +356,7 @@ public static class AppSettings
 		{
 			snakeColor = value;
 			snakeColor.Freeze();
-			Settings.SnakeColor = value.Color;
+			CurrentTheme.SnakeColor = value.Color;
 		}
 	}
 
@@ -439,30 +439,30 @@ public static class AppSettings
 	{
 		Font = new FontFamily(Settings.Font);
 
-		FullMatchForeground = new SolidColorBrush(Settings.FullMatchForeground);
-		FullMatchBackground = new SolidColorBrush(Settings.FullMatchBackground);
+		FullMatchForeground = new SolidColorBrush(CurrentTheme.FullMatchForeground);
+		FullMatchBackground = new SolidColorBrush(CurrentTheme.FullMatchBackground);
 
-		PartialMatchForeground = new SolidColorBrush(Settings.PartialMatchForeground);
-		PartialMatchBackground = new SolidColorBrush(Settings.PartialMatchBackground);
+		PartialMatchForeground = new SolidColorBrush(CurrentTheme.PartialMatchForeground);
+		PartialMatchBackground = new SolidColorBrush(CurrentTheme.PartialMatchBackground);
 
-		DeletedForeground = new SolidColorBrush(Settings.DeletedForeground);
-		DeletedBackground = new SolidColorBrush(Settings.DeletedBackground);
+		DeletedForeground = new SolidColorBrush(CurrentTheme.DeletedForeground);
+		DeletedBackground = new SolidColorBrush(CurrentTheme.DeletedBackground);
 
-		NewForeground = new SolidColorBrush(Settings.NewForeground);
-		NewBackground = new SolidColorBrush(Settings.NewBackground);
+		NewForeground = new SolidColorBrush(CurrentTheme.NewForeground);
+		NewBackground = new SolidColorBrush(CurrentTheme.NewBackground);
 
-		MovedFromdBackground = new SolidColorBrush(Settings.MovedFromdBackground);
+		MovedFromdBackground = new SolidColorBrush(CurrentTheme.MovedFromdBackground);
 
-		MovedToBackground = new SolidColorBrush(Settings.MovedToBackground);
+		MovedToBackground = new SolidColorBrush(CurrentTheme.MovedToBackground);
 
-		IgnoredForeground = new SolidColorBrush(Settings.IgnoredForeground);
-		IgnoredBackground = new SolidColorBrush(Settings.IgnoredBackground);
+		IgnoredForeground = new SolidColorBrush(CurrentTheme.IgnoredForeground);
+		IgnoredBackground = new SolidColorBrush(CurrentTheme.IgnoredBackground);
 
-		SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
+		SelectionBackground = new SolidColorBrush(CurrentTheme.SelectionBackground);
 
-		LineNumberColor = new SolidColorBrush(Settings.LineNumberColor);
-		CurrentDiffColor = new SolidColorBrush(Settings.CurrentDiffColor);
-		SnakeColor = new SolidColorBrush(Settings.SnakeColor);
+		LineNumberColor = new SolidColorBrush(CurrentTheme.LineNumberColor);
+		CurrentDiffColor = new SolidColorBrush(CurrentTheme.CurrentDiffColor);
+		SnakeColor = new SolidColorBrush(CurrentTheme.SnakeColor);
 	}
 
 	internal static SolidColorBrush GetForeground(TextState state)
