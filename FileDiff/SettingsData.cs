@@ -61,6 +61,12 @@ public class SettingsData
 	public int Zoom { get; set; } = 0;
 	public int TabSize { get; set; } = DefaultSettings.TabSize;
 
+	public ColorTheme Theme { get; set; } = ColorTheme.Light;
+
+	public static ThemeColors DarkTheme { get; set; }
+
+	public static ThemeColors LightTheme { get; set; }
+
 	public double PositionLeft { get; set; }
 	public double PositionTop { get; set; }
 	public double Width { get; set; } = 700;

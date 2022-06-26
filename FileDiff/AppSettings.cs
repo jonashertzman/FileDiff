@@ -142,6 +142,31 @@ public static class AppSettings
 	}
 
 
+
+	public static ColorTheme Theme
+	{
+		get { return Settings.Theme; }
+		set
+		{
+			Settings.Theme = value;
+
+			CurrentTheme = value switch
+			{
+				ColorTheme.Light => Settings.LightTheme,
+				ColorTheme.Dark => Settings.DarkTheme,
+				_ => throw new NotImplementedException(),
+			};
+		}
+	}
+
+
+
+	private static ThemeColors CurrentTheme { get; set; }
+
+
+
+
+
 	private static SolidColorBrush fullMatchForeground;
 	public static SolidColorBrush FullMatchForeground
 	{
