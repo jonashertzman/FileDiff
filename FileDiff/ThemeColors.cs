@@ -4,30 +4,38 @@ namespace FileDiff;
 
 public class ThemeColors
 {
+	public ThemeColors Default;
 
-	public Color FullMatchForeground { get; set; } = DefaultSettings.FullMatchForeground;
-	public Color FullMatchBackground { get; set; } = DefaultSettings.FullMatchBackground;
+	public Color FullMatchForeground { get; set; } 
+	public Color FullMatchBackground { get; set; } 
 
-	public Color PartialMatchForeground { get; set; } = DefaultSettings.PartialMatchForeground;
-	public Color PartialMatchBackground { get; set; } = DefaultSettings.PartialMatchBackground;
+	public Color PartialMatchForeground { get; set; } 
+	public Color PartialMatchBackground { get; set; }
 
-	public Color DeletedForeground { get; set; } = DefaultSettings.DeletedForeground;
-	public Color DeletedBackground { get; set; } = DefaultSettings.DeletedBackground;
+	public Color DeletedForeground { get; set; } 
+	public Color DeletedBackground { get; set; } 
 
-	public Color NewForeground { get; set; } = DefaultSettings.NewForeground;
-	public Color NewBackground { get; set; } = DefaultSettings.NewBackground;
+	public Color NewForeground { get; set; } 
+	public Color NewBackground { get; set; } 
 
-	public Color IgnoredForeground { get; set; } = DefaultSettings.IgnoredForeground;
-	public Color IgnoredBackground { get; set; } = DefaultSettings.IgnoredBackground;
+	public Color IgnoredForeground { get; set; }
+	public Color IgnoredBackground { get; set; }
 
-	public Color MovedToBackground { get; set; } = DefaultSettings.MovedToBackground;
+	public Color MovedToBackground { get; set; }
 
-	public Color MovedFromdBackground { get; set; } = DefaultSettings.MovedFromdBackground;
+	public Color MovedFromdBackground { get; set; } 
 
-	public Color SelectionBackground { get; set; } = DefaultSettings.SelectionBackground;
+	public Color SelectionBackground { get; set; } 
 
-	public Color LineNumberColor { get; set; } = DefaultSettings.LineNumberColor;
-	public Color CurrentDiffColor { get; set; } = DefaultSettings.CurrentDiffColor;
-	public Color SnakeColor { get; set; } = DefaultSettings.SnakeColor;
+	public Color LineNumberColor { get; set; } 
+	public Color CurrentDiffColor { get; set; }
+	public Color SnakeColor { get; set; } 
+
+	public ThemeColors Clone()
+	{
+		ThemeColors clone = (ThemeColors)MemberwiseClone();
+		clone.Default = this;
+		return clone;
+	}
 
 }

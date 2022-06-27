@@ -35,8 +35,8 @@ public class SettingsData
 	public int TabSize { get; set; } = DefaultSettings.TabSize;
 
 	public ColorTheme Theme { get; set; } = ColorTheme.Light;
-	public ThemeColors DarkTheme { get; set; } = new();
-	public ThemeColors LightTheme { get; set; } = new();
+	public ThemeColors DarkTheme { get; set; } = DefaultSettings.DarkTheme.Clone();
+	public ThemeColors LightTheme { get; set; } = DefaultSettings.LightTheme.Clone();
 
 	public double PositionLeft { get; set; }
 	public double PositionTop { get; set; }

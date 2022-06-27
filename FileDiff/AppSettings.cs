@@ -156,12 +156,14 @@ public static class AppSettings
 				ColorTheme.Dark => Settings.DarkTheme,
 				_ => throw new NotImplementedException(),
 			};
+
+			UpdateCachedSettings();
 		}
 	}
 
 
 
-	private static ThemeColors CurrentTheme { get; set; } = new();
+	public static ThemeColors CurrentTheme { get; set; } = Settings.LightTheme;
 
 
 
