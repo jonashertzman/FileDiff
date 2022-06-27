@@ -26,10 +26,23 @@
 
 				<TabItem Header="General">
 					<Border Padding="5">
-						<StackPanel>
-							<CheckBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
-							<CheckBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Detect Moved Lines" IsChecked="{Binding DetectMovedLines}" Style="{StaticResource CommonCheckBox}" />
-						</StackPanel>
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="auto" />
+								<ColumnDefinition Width="auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Content="Theme" Style="{StaticResource CommonTextLabel}" />
+							<ComboBox x:Name="ComboBoxTheme" Grid.Row="0" Grid.Column="1" MinWidth="100" HorizontalAlignment="Left" Text="{Binding Theme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonComboBox}" />
+							<CheckBox Grid.Row="1" Grid.ColumnSpan="3" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
+							<CheckBox Grid.Row="2" Grid.ColumnSpan="3" Content="Detect Moved Lines" IsChecked="{Binding DetectMovedLines}" Style="{StaticResource CommonCheckBox}" />
+						</Grid>
 					</Border>
 				</TabItem>
 

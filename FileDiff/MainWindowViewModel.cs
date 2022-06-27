@@ -398,6 +398,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	}
 
 
+	public ColorTheme Theme
+	{
+		get { return AppSettings.Theme; }
+		set { AppSettings.Theme = value; OnPropertyChanged(nameof(Theme)); }
+	}
+
+
 	// Text colors
 	public Brush FullMatchForeground
 	{
