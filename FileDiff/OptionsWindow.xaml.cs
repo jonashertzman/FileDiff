@@ -1,5 +1,4 @@
-﻿using System.Security.Policy;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -84,29 +83,36 @@ public partial class OptionsWindow : Window
 
 	private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
 	{
-		FullMatchForeground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.FullMatchForeground);
-		FullMatchBackground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.FullMatchBackground);
+		var Default = AppSettings.Theme switch
+		{
+			ColorTheme.Light => DefaultSettings.LightTheme,
+			ColorTheme.Dark => DefaultSettings.DarkTheme,
+			_ => throw new NotImplementedException(),
+		};
 
-		PartialMatchForeground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.PartialMatchForeground);
-		PartialMatchBackground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.PartialMatchBackground);
+		FullMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FullMatchForeground));
+		FullMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FullMatchBackground));
 
-		DeletedForeground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.DeletedForeground);
-		DeletedBackground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.DeletedBackground);
+		PartialMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.PartialMatchForeground));
+		PartialMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.PartialMatchBackground));
 
-		NewForeground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.NewForeground);
-		NewBackground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.NewBackground);
+		DeletedForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DeletedForeground));
+		DeletedBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DeletedBackground));
 
-		IgnoredForeground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.IgnoredForeground);
-		IgnoredBackground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.IgnoredBackground);
+		NewForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NewForeground));
+		NewBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NewBackground));
 
-		MovedFromBackground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.MovedFromdBackground);
-		MovedToBackground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.MovedToBackground);
+		IgnoredForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.IgnoredForeground));
+		IgnoredBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.IgnoredBackground));
 
-		SelectionBackground.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.SelectionBackground);
+		MovedFromBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedFromdBackground));
+		MovedToBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedToBackground));
 
-		LineNumber.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.LineNumberColor);
-		CurrentDiff.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.CurrentDiffColor);
-		Snake.Fill = new SolidColorBrush(AppSettings.CurrentTheme.Default.SnakeColor);
+		SelectionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SelectionBackground));
+
+		LineNumber.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LineNumberColor));
+		CurrentDiff.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.CurrentDiffColor));
+		Snake.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SnakeColor));
 	}
 
 	private void ButtonResetFont_Click(object sender, RoutedEventArgs e)

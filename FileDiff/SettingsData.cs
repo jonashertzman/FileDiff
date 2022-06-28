@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Media;
 
 namespace FileDiff;
 
@@ -50,4 +49,3 @@ public class SettingsData
 	public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();
 
 }
-

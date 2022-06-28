@@ -150,22 +150,27 @@ public static class AppSettings
 		{
 			Settings.Theme = value;
 
-			CurrentTheme = value switch
-			{
-				ColorTheme.Light => Settings.LightTheme,
-				ColorTheme.Dark => Settings.DarkTheme,
-				_ => throw new NotImplementedException(),
-			};
-
 			UpdateCachedSettings();
 		}
 	}
 
 
 
-	public static ThemeColors CurrentTheme { get; set; } = Settings.LightTheme;
+	public static ThemeColors CurrentTheme
+	{
+		get
+		{
+			return Theme switch
+			{
+				ColorTheme.Light => Settings.LightTheme,
+				ColorTheme.Dark => Settings.DarkTheme,
+				_ => throw new NotImplementedException(),
+			};
+		}
+	}
 
-
+	public static ThemeColors DarkTheme { get; }
+	public static ThemeColors LightTheme { get; }
 
 
 
@@ -177,7 +182,7 @@ public static class AppSettings
 		{
 			fullMatchForeground = value;
 			fullMatchForeground.Freeze();
-			CurrentTheme.FullMatchForeground = value.Color;
+			CurrentTheme.FullMatchForeground = value.Color.ToString();
 		}
 	}
 
@@ -189,7 +194,7 @@ public static class AppSettings
 		{
 			fullMatchBackground = value;
 			fullMatchBackground.Freeze();
-			CurrentTheme.FullMatchBackground = value.Color;
+			CurrentTheme.FullMatchBackground = value.Color.ToString();
 		}
 	}
 
@@ -201,7 +206,7 @@ public static class AppSettings
 		{
 			partialMatchForeground = value;
 			partialMatchForeground.Freeze();
-			CurrentTheme.PartialMatchForeground = value.Color;
+			CurrentTheme.PartialMatchForeground = value.Color.ToString();
 		}
 	}
 
@@ -213,7 +218,7 @@ public static class AppSettings
 		{
 			partialMatchBackground = value;
 			partialMatchBackground.Freeze();
-			CurrentTheme.PartialMatchBackground = value.Color;
+			CurrentTheme.PartialMatchBackground = value.Color.ToString();
 		}
 	}
 
@@ -225,7 +230,7 @@ public static class AppSettings
 		{
 			deletedForeground = value;
 			deletedForeground.Freeze();
-			CurrentTheme.DeletedForeground = value.Color;
+			CurrentTheme.DeletedForeground = value.Color.ToString();
 		}
 	}
 
@@ -237,7 +242,7 @@ public static class AppSettings
 		{
 			deletedBackground = value;
 			deletedBackground.Freeze();
-			CurrentTheme.DeletedBackground = value.Color;
+			CurrentTheme.DeletedBackground = value.Color.ToString();
 		}
 	}
 
@@ -249,7 +254,7 @@ public static class AppSettings
 		{
 			newForeground = value;
 			newForeground.Freeze();
-			CurrentTheme.NewForeground = value.Color;
+			CurrentTheme.NewForeground = value.Color.ToString();
 		}
 	}
 
@@ -261,7 +266,7 @@ public static class AppSettings
 		{
 			newBackground = value;
 			newBackground.Freeze();
-			CurrentTheme.NewBackground = value.Color;
+			CurrentTheme.NewBackground = value.Color.ToString();
 		}
 	}
 
@@ -273,7 +278,7 @@ public static class AppSettings
 		{
 			ignoredForeground = value;
 			ignoredForeground.Freeze();
-			CurrentTheme.IgnoredForeground = value.Color;
+			CurrentTheme.IgnoredForeground = value.Color.ToString();
 		}
 	}
 
@@ -285,7 +290,7 @@ public static class AppSettings
 		{
 			ignoredBackground = value;
 			ignoredBackground.Freeze();
-			CurrentTheme.IgnoredBackground = value.Color;
+			CurrentTheme.IgnoredBackground = value.Color.ToString();
 		}
 	}
 
@@ -297,7 +302,7 @@ public static class AppSettings
 		{
 			movedFromdBackground = value;
 			movedFromdBackground.Freeze();
-			CurrentTheme.MovedFromdBackground = value.Color;
+			CurrentTheme.MovedFromdBackground = value.Color.ToString();
 		}
 	}
 
@@ -309,7 +314,7 @@ public static class AppSettings
 		{
 			movedToBackground = value;
 			movedToBackground.Freeze();
-			CurrentTheme.MovedToBackground = value.Color;
+			CurrentTheme.MovedToBackground = value.Color.ToString();
 		}
 	}
 
@@ -321,7 +326,7 @@ public static class AppSettings
 		{
 			selectionBackground = value;
 			selectionBackground.Freeze();
-			CurrentTheme.SelectionBackground = value.Color;
+			CurrentTheme.SelectionBackground = value.Color.ToString();
 		}
 	}
 
@@ -334,7 +339,7 @@ public static class AppSettings
 		{
 			lineNumberColor = value;
 			lineNumberColor.Freeze();
-			CurrentTheme.LineNumberColor = value.Color;
+			CurrentTheme.LineNumberColor = value.Color.ToString();
 		}
 	}
 
@@ -346,7 +351,7 @@ public static class AppSettings
 		{
 			currentDiffColor = value;
 			currentDiffColor.Freeze();
-			CurrentTheme.CurrentDiffColor = value.Color;
+			CurrentTheme.CurrentDiffColor = value.Color.ToString();
 		}
 	}
 
@@ -358,7 +363,7 @@ public static class AppSettings
 		{
 			snakeColor = value;
 			snakeColor.Freeze();
-			CurrentTheme.SnakeColor = value.Color;
+			CurrentTheme.SnakeColor = value.Color.ToString();
 		}
 	}
 
@@ -441,30 +446,30 @@ public static class AppSettings
 	{
 		Font = new FontFamily(Settings.Font);
 
-		FullMatchForeground = new SolidColorBrush(CurrentTheme.FullMatchForeground);
-		FullMatchBackground = new SolidColorBrush(CurrentTheme.FullMatchBackground);
+		FullMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FullMatchForeground));
+		FullMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FullMatchBackground));
 
-		PartialMatchForeground = new SolidColorBrush(CurrentTheme.PartialMatchForeground);
-		PartialMatchBackground = new SolidColorBrush(CurrentTheme.PartialMatchBackground);
+		PartialMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.PartialMatchForeground));
+		PartialMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.PartialMatchBackground));
 
-		DeletedForeground = new SolidColorBrush(CurrentTheme.DeletedForeground);
-		DeletedBackground = new SolidColorBrush(CurrentTheme.DeletedBackground);
+		DeletedForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DeletedForeground));
+		DeletedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DeletedBackground));
 
-		NewForeground = new SolidColorBrush(CurrentTheme.NewForeground);
-		NewBackground = new SolidColorBrush(CurrentTheme.NewBackground);
+		NewForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewForeground));
+		NewBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewBackground));
 
-		MovedFromdBackground = new SolidColorBrush(CurrentTheme.MovedFromdBackground);
+		MovedFromdBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromdBackground));
 
-		MovedToBackground = new SolidColorBrush(CurrentTheme.MovedToBackground);
+		MovedToBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedToBackground));
 
-		IgnoredForeground = new SolidColorBrush(CurrentTheme.IgnoredForeground);
-		IgnoredBackground = new SolidColorBrush(CurrentTheme.IgnoredBackground);
+		IgnoredForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredForeground));
+		IgnoredBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredBackground));
 
-		SelectionBackground = new SolidColorBrush(CurrentTheme.SelectionBackground);
+		SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
 
-		LineNumberColor = new SolidColorBrush(CurrentTheme.LineNumberColor);
-		CurrentDiffColor = new SolidColorBrush(CurrentTheme.CurrentDiffColor);
-		SnakeColor = new SolidColorBrush(CurrentTheme.SnakeColor);
+		LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
+		CurrentDiffColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.CurrentDiffColor));
+		SnakeColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SnakeColor));
 	}
 
 	internal static SolidColorBrush GetForeground(TextState state)

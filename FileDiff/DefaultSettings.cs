@@ -9,60 +9,60 @@ public static class DefaultSettings
 	internal static int FontSize { get; } = 11;
 	internal static int TabSize { get; } = 2;
 
-	internal static ThemeColors DarkTheme { get;  } = new ThemeColors()
+	internal static ThemeColors DarkTheme { get; } = new ThemeColors()
 	{
-		FullMatchForeground = Colors.Black,
-		FullMatchBackground = Colors.White,
+		FullMatchForeground = Colors.Yellow.ToString(),
+		FullMatchBackground = Colors.Brown.ToString(),
 
-		PartialMatchForeground = Colors.Black,
-		PartialMatchBackground = Color.FromRgb(220, 220, 255),
+		PartialMatchForeground = Colors.Black.ToString(),
+		PartialMatchBackground = Color.FromRgb(220, 220, 255).ToString(),
 
-		DeletedForeground = Color.FromRgb(200, 0, 0),
-		DeletedBackground = Color.FromRgb(255, 220, 220),
+		DeletedForeground = Color.FromRgb(200, 0, 0).ToString(),
+		DeletedBackground = Color.FromRgb(255, 220, 220).ToString(),
 
-		NewForeground = Color.FromRgb(0, 120, 0),
-		NewBackground = Color.FromRgb(220, 255, 220),
+		NewForeground = Color.FromRgb(0, 120, 0).ToString(),
+		NewBackground = Color.FromRgb(220, 255, 220).ToString(),
 
-		IgnoredForeground = Color.FromRgb(90, 90, 90),
-		IgnoredBackground = Color.FromRgb(220, 220, 220),
+		IgnoredForeground = Color.FromRgb(90, 90, 90).ToString(),
+		IgnoredBackground = Color.FromRgb(220, 220, 220).ToString(),
 
-		MovedFromdBackground = Color.FromRgb(255, 240, 240),
+		MovedFromdBackground = Color.FromRgb(255, 240, 240).ToString(),
 
-		MovedToBackground = Color.FromRgb(240, 255, 240),
+		MovedToBackground = Color.FromRgb(240, 255, 240).ToString(),
 
-		SelectionBackground = Color.FromArgb(50, 0, 150, 210),
+		SelectionBackground = Color.FromArgb(50, 0, 150, 210).ToString(),
 
-		LineNumberColor = Color.FromRgb(88, 88, 88),
-		CurrentDiffColor = Color.FromRgb(183, 183, 183),
-		SnakeColor = Color.FromRgb(210, 210, 210),
+		LineNumberColor = Color.FromRgb(88, 88, 88).ToString(),
+		CurrentDiffColor = Color.FromRgb(183, 183, 183).ToString(),
+		SnakeColor = Color.FromRgb(210, 210, 210).ToString(),
 	};
 
 	internal static ThemeColors LightTheme { get; } = new ThemeColors()
 	{
-		FullMatchForeground = Colors.Black,
-		FullMatchBackground = Colors.White,
+		FullMatchForeground = Colors.Black.ToString(),
+		FullMatchBackground = Colors.White.ToString(),
 
-		PartialMatchForeground = Colors.Black,
-		PartialMatchBackground = Color.FromRgb(220, 220, 255),
+		PartialMatchForeground = Colors.Black.ToString(),
+		PartialMatchBackground = Color.FromRgb(220, 220, 255).ToString(),
 
-		DeletedForeground = Color.FromRgb(200, 0, 0),
-		DeletedBackground = Color.FromRgb(255, 220, 220),
+		DeletedForeground = Color.FromRgb(200, 0, 0).ToString(),
+		DeletedBackground = Color.FromRgb(255, 220, 220).ToString(),
 
-		NewForeground = Color.FromRgb(0, 120, 0),
-		NewBackground = Color.FromRgb(220, 255, 220),
+		NewForeground = Color.FromRgb(0, 120, 0).ToString(),
+		NewBackground = Color.FromRgb(220, 255, 220).ToString(),
 
-		IgnoredForeground = Color.FromRgb(90, 90, 90),
-		IgnoredBackground = Color.FromRgb(220, 220, 220),
+		IgnoredForeground = Color.FromRgb(90, 90, 90).ToString(),
+		IgnoredBackground = Color.FromRgb(220, 220, 220).ToString(),
 
-		MovedFromdBackground = Color.FromRgb(255, 240, 240),
+		MovedFromdBackground = Color.FromRgb(255, 240, 240).ToString(),
 
-		MovedToBackground = Color.FromRgb(240, 255, 240),
+		MovedToBackground = Color.FromRgb(240, 255, 240).ToString(),
 
-		SelectionBackground = Color.FromArgb(50, 0, 150, 210),
+		SelectionBackground = Color.FromArgb(50, 0, 150, 210).ToString(),
 
-		LineNumberColor = Color.FromRgb(88, 88, 88),
-		CurrentDiffColor = Color.FromRgb(183, 183, 183),
-		SnakeColor = Color.FromRgb(210, 210, 210),
-	}; 
+		LineNumberColor = Color.FromRgb(88, 88, 88).ToString(),
+		CurrentDiffColor = Color.FromRgb(183, 183, 183).ToString(),
+		SnakeColor = Color.FromRgb(210, 210, 210).ToString(),
+	};
 
 }
