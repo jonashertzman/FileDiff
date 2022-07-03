@@ -787,8 +787,8 @@ public partial class MainWindow : Window
 	private void CommnadOptions_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
 		// Store existing settings data in case the changes are canceled.
-		var oldDarkThemeColors = AppSettings.DarkTheme.Clone();
-		var oldLightThemeColors = AppSettings.LightTheme.Clone();
+		//var oldDarkThemeColors = AppSettings.DarkTheme.Clone();
+		//var oldLightThemeColors = AppSettings.LightTheme.Clone();
 
 		var oldCheckForUpdates = ViewModel.CheckForUpdates;
 		var oldDetectMovedLines = ViewModel.DetectMovedLines;

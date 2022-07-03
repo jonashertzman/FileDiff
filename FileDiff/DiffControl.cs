@@ -245,7 +245,7 @@ public class DiffControl : Control
 						// Draw cursor
 						if (EditMode && this.IsFocused && cursorLine == lineIndex && cursorBlink)
 						{
-							drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
+							drawingContext.DrawRectangle(AppSettings.FullMatchForeground, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
 						}
 					}
 					drawingContext.Pop(); // Line X offset

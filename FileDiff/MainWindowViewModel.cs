@@ -486,6 +486,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 
 	// GUI colors
+	public Brush WindowColor
+	{
+		get { return AppSettings.WindowColor; }
+		set { AppSettings.WindowColor = value as SolidColorBrush; OnPropertyChanged(nameof(WindowColor)); }
+	}
+
 	public Brush LineNumberColor
 	{
 		get { return AppSettings.LineNumberColor; }

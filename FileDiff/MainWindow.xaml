@@ -14,6 +14,7 @@
 	Closed="Window_Closed"
 	ContentRendered="Window_ContentRendered"
 	Initialized="Window_Initialized"
+	Background="{Binding WindowColor}"
 	mc:Ignorable="d">
 
 	<Window.Resources>

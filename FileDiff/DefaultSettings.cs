@@ -11,8 +11,8 @@ public static class DefaultSettings
 
 	internal static ThemeColors DarkTheme { get; } = new ThemeColors()
 	{
-		FullMatchForeground = Colors.Yellow.ToString(),
-		FullMatchBackground = Colors.Brown.ToString(),
+		FullMatchForeground = Colors.White.ToString(),
+		FullMatchBackground = Colors.Black.ToString(),
 
 		PartialMatchForeground = Colors.Black.ToString(),
 		PartialMatchBackground = Color.FromRgb(220, 220, 255).ToString(),

@@ -169,11 +169,9 @@ public static class AppSettings
 		}
 	}
 
-	public static ThemeColors DarkTheme { get; }
-	public static ThemeColors LightTheme { get; }
 
 
-
+	// Text colors
 	private static SolidColorBrush fullMatchForeground;
 	public static SolidColorBrush FullMatchForeground
 	{
@@ -330,6 +328,19 @@ public static class AppSettings
 		}
 	}
 
+
+	// GUI colors
+	private static SolidColorBrush windowColor;
+	public static SolidColorBrush WindowColor
+	{
+		get { return windowColor; }
+		set
+		{
+			windowColor = value;
+			windowColor.Freeze();
+			CurrentTheme.WindowColor = value.Color.ToString();
+		}
+	}
 
 	private static SolidColorBrush lineNumberColor;
 	public static SolidColorBrush LineNumberColor
