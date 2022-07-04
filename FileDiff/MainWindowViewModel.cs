@@ -486,10 +486,22 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 
 	// GUI colors
-	public Brush WindowColor
+	public Brush WindowForeground
 	{
-		get { return AppSettings.WindowColor; }
-		set { AppSettings.WindowColor = value as SolidColorBrush; OnPropertyChanged(nameof(WindowColor)); }
+		get { return AppSettings.WindowForeground; }
+		set { AppSettings.WindowForeground = value as SolidColorBrush; OnPropertyChanged(nameof(WindowForeground)); }
+	}
+
+	public Brush WindowBackground
+	{
+		get { return AppSettings.WindowBackgruond; }
+		set { AppSettings.WindowBackgruond = value as SolidColorBrush; OnPropertyChanged(nameof(WindowBackground)); }
+	}
+
+	public Brush BorderColor
+	{
+		get { return AppSettings.BorderColor; }
+		set { AppSettings.BorderColor = value as SolidColorBrush; OnPropertyChanged(nameof(BorderColor)); }
 	}
 
 	public Brush LineNumberColor

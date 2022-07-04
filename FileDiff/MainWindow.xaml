@@ -14,7 +14,6 @@
 	Closed="Window_Closed"
 	ContentRendered="Window_ContentRendered"
 	Initialized="Window_Initialized"
-	Background="{Binding WindowColor}"
 	mc:Ignorable="d">
 
 	<Window.Resources>
@@ -70,7 +69,7 @@
 			</DockPanel.CommandBindings>
 
 			<!--  Menu  -->
-			<Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+			<Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" Style="{StaticResource CommonBorder}">
 				<Grid x:Name="GridMenu">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -463,20 +462,20 @@
 				</Grid.ColumnDefinitions>
 
 				<!--  Left Path  -->
-				<Border Grid.Column="0" BorderThickness="0,1,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+				<Border Grid.Column="0" BorderThickness="0,1,1,0" Style="{StaticResource CommonBorder}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox Name="TextBoxLeftPath" Grid.Column="0" Padding="2" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" />
+						<TextBox Name="TextBoxLeftPath" Grid.Column="0" Padding="2" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" />
 						<Button x:Name="ButtonLeftBrowse" Grid.Column="1" Width="20" Content="..." BorderThickness="0" Command="local:Commands.BrowseLeft" />
 					</Grid>
 				</Border>
 
 				<!--  Left Folder  -->
-				<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,1,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+				<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,1,1" Style="{StaticResource CommonBorder}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
 					<Grid Name="LeftFolderGrid" MouseWheel="FolderDiff_MouseWheel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="auto" />

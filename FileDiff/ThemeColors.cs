@@ -24,7 +24,10 @@ public class ThemeColors
 
 	public string SelectionBackground { get; set; }
 
-	public string WindowColor { get; set; }
+	public string WindowForeground { get; set; }
+	public string WindowBackground { get; set; }
+
+	public string BorderColor { get; set; }
 	public string LineNumberColor { get; set; }
 	public string CurrentDiffColor { get; set; }
 	public string SnakeColor { get; set; }

@@ -10,6 +10,10 @@
 		<Setter Property="Foreground" Value="Gray" />
 	</Style>
 
+	<Style x:Key="CommonBorder" TargetType="Border">
+		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=LightGray}" />
+	</Style>
+
 	<Style x:Key="CommonTextLabel" TargetType="Label">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />

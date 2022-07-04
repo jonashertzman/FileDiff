@@ -32,6 +32,9 @@ public static class DefaultSettings
 
 		SelectionBackground = Color.FromArgb(50, 0, 150, 210).ToString(),
 
+		WindowForeground = Colors.Cyan.ToString(),
+		WindowBackground = Colors.Red.ToString(),
+		BorderColor = Colors.Blue.ToString(),
 		LineNumberColor = Color.FromRgb(88, 88, 88).ToString(),
 		CurrentDiffColor = Color.FromRgb(183, 183, 183).ToString(),
 		SnakeColor = Color.FromRgb(210, 210, 210).ToString(),
@@ -60,6 +63,9 @@ public static class DefaultSettings
 
 		SelectionBackground = Color.FromArgb(50, 0, 150, 210).ToString(),
 
+		WindowForeground = Colors.Cyan.ToString(),
+		WindowBackground = Colors.Red.ToString(),
+		BorderColor = Colors.Blue.ToString(),
 		LineNumberColor = Color.FromRgb(88, 88, 88).ToString(),
 		CurrentDiffColor = Color.FromRgb(183, 183, 183).ToString(),
 		SnakeColor = Color.FromRgb(210, 210, 210).ToString(),

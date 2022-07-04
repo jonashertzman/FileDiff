@@ -330,15 +330,39 @@ public static class AppSettings
 
 
 	// GUI colors
-	private static SolidColorBrush windowColor;
-	public static SolidColorBrush WindowColor
+	private static SolidColorBrush windowForeground;
+	public static SolidColorBrush WindowForeground
 	{
-		get { return windowColor; }
+		get { return windowForeground; }
 		set
 		{
-			windowColor = value;
-			windowColor.Freeze();
-			CurrentTheme.WindowColor = value.Color.ToString();
+			windowForeground = value;
+			windowForeground.Freeze();
+			CurrentTheme.WindowForeground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush windowBackground;
+	public static SolidColorBrush WindowBackgruond
+	{
+		get { return windowBackground; }
+		set
+		{
+			windowBackground = value;
+			windowBackground.Freeze();
+			CurrentTheme.WindowBackground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush borderColor;
+	public static SolidColorBrush BorderColor
+	{
+		get { return borderColor; }
+		set
+		{
+			borderColor = value;
+			borderColor.Freeze();
+			CurrentTheme.BorderColor = value.Color.ToString();
 		}
 	}
 
@@ -478,6 +502,9 @@ public static class AppSettings
 
 		SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
 
+		WindowForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowForeground));
+		WindowBackgruond = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
+		BorderColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderColor));
 		LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
 		CurrentDiffColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.CurrentDiffColor));
 		SnakeColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SnakeColor));
