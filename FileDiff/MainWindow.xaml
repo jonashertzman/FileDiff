@@ -469,7 +469,7 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox Name="TextBoxLeftPath" Grid.Column="0" Padding="2" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" />
+						<TextBox Name="TextBoxLeftPath" Grid.Column="0" Margin="0" Padding="2" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus, FallbackValue=Left Path}" Style="{StaticResource CommonTextBox}" BorderThickness="0" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" />
 						<Button x:Name="ButtonLeftBrowse" Grid.Column="1" Width="20" Content="..." BorderThickness="0" Command="local:Commands.BrowseLeft" />
 					</Grid>
 				</Border>
@@ -495,11 +495,11 @@
 								</Grid.ColumnDefinitions>
 
 								<TextBlock Grid.Column="0" Padding="2" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" />
-								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" Style="{StaticResource CommonGridSpliter}" />
 								<TextBlock Grid.Column=" 2" Padding="2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" TextAlignment="Right" />
-								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 								<TextBlock Grid.Column="4" Padding="2" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" />
-								<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+								<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 							</Grid>
 						</ScrollViewer>
 
@@ -548,7 +548,7 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox Name="TextBoxRightPath" Padding="2" Text="{Binding RightPath, UpdateSourceTrigger=LostFocus}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" />
+						<TextBox Name="TextBoxRightPath" Margin="0" Padding="2" Style="{StaticResource CommonTextBox}" Text="{Binding RightPath, UpdateSourceTrigger=LostFocus, FallbackValue=Right Path}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" />
 						<Button x:Name="ButtonRightBrowse" Grid.Column="1" Width=" 20" Content="..." BorderThickness="0" Command="local:Commands.BrowseRight" />
 					</Grid>
 				</Border>
@@ -584,11 +584,11 @@
 									</Grid.ColumnDefinitions>
 
 									<TextBlock Grid.Column="0" Padding="2" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="RightColumns_Resized" />
-									<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+									<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" Focusable="False" Style="{StaticResource CommonGridSpliter}" />
 									<TextBlock Grid.Column=" 2" Padding="2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="RightColumns_Resized" TextAlignment="Right" />
-									<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+									<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 									<TextBlock Grid.Column="4" Padding="2" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="RightColumns_Resized" />
-									<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" Focusable=" False" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+									<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 								</Grid>
 							</ScrollViewer>
 
@@ -650,7 +650,7 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 							<Button Grid.Column="0" Style="{StaticResource FlatButton}" Content="Close" Command="local:Commands.CloseFind" />
-							<TextBox Name="SearchBox" Grid.Column="1" Margin="6,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+							<TextBox Name="SearchBox" Grid.Column="1" Margin="6,2" Padding="2" d:Text="Search Text" Style="{StaticResource CommonTextBox}" TextChanged="SearchBox_TextChanged" />
 							<Button Grid.Column="2" Style="{StaticResource FlatButton}" Content="Next" Command="local:Commands.FindNext" />
 							<Button Grid.Column="3" Style="{StaticResource FlatButton}" Content="Previous" Command="local:Commands.FindPrevious" />
 							<CheckBox Name="MatchCase" Grid.Column="4" Margin="6,2" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />

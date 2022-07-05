@@ -11,7 +11,12 @@
 	</Style>
 
 	<Style x:Key="CommonBorder" TargetType="Border">
-		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=LightGray}" />
+		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=DarkGray}" />
+	</Style>
+
+	<Style x:Key="CommonGridSpliter" TargetType="GridSplitter">
+		<Setter Property="BorderThickness" Value="0,0,1,0" />
+		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=DarkGray}" />
 	</Style>
 
 	<Style x:Key="CommonTextLabel" TargetType="Label">
@@ -30,6 +35,10 @@
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="Margin" Value="5" />
+
+		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
+		<Setter Property="Background" Value="{Binding WindowBackground, FallbackValue=White}" />
+		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=DarkGray}" />
 	</Style>
 
 	<Style x:Key="CommonComboBox" TargetType="ComboBox">

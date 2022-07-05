@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace FileDiff;
@@ -71,8 +70,8 @@ public partial class MainWindow : Window
 		leftSelection = "";
 		ViewModel.LeftPath = ViewModel.LeftPath.Trim();
 		ViewModel.RightPath = ViewModel.RightPath.Trim();
-		TextBoxLeftPath.Background = new SolidColorBrush(Colors.White);
-		TextBoxRightPath.Background = new SolidColorBrush(Colors.White);
+		//TextBoxLeftPath.Background = new SolidColorBrush(Colors.White);
+		//TextBoxRightPath.Background = new SolidColorBrush(Colors.White);
 
 		BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
 		if (ViewModel.LeftPath == "")
@@ -106,7 +105,7 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
 			}
 		}
 		else if (Directory.Exists(ViewModel.LeftPath))
@@ -119,15 +118,15 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
 			}
 		}
 		else
 		{
-			TextBoxLeftPath.Background = new SolidColorBrush(Colors.Pink);
+			//TextBoxLeftPath.Background = new SolidColorBrush(Colors.Pink);
 			if (!(File.Exists(ViewModel.RightPath) || Directory.Exists(ViewModel.RightPath)))
 			{
-				TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
 			}
 		}
 	}
@@ -452,12 +451,12 @@ public partial class MainWindow : Window
 	{
 		if (result != -1)
 		{
-			SearchBox.Background = new SolidColorBrush(Colors.White);
+			//SearchBox.Background = new SolidColorBrush(Colors.White);
 			CenterOnLine(result);
 		}
 		else
 		{
-			SearchBox.Background = new SolidColorBrush(Colors.Pink);
+			//SearchBox.Background = new SolidColorBrush(Colors.Pink);
 		}
 	}
 
