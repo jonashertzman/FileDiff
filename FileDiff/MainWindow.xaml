@@ -8,6 +8,7 @@
 	Title="{Binding Title, FallbackValue='File Diff'}"
 	Width="900"
 	Height="500"
+	Style="{StaticResource CommonWindow}"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
@@ -75,7 +76,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<Menu Margin="2" VerticalAlignment="Center" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+					<Menu Margin="2" VerticalAlignment="Center" Style="{StaticResource CommonMenu}">
 						<MenuItem Header="File">
 							<MenuItem Header="Exit" Command="local:Commands.Exit" />
 						</MenuItem>
@@ -111,8 +112,8 @@
 			<WrapPanel x:Name="ToolbarMain" DockPanel.Dock="Top" Orientation="Horizontal">
 				<WrapPanel.Background>
 					<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-						<GradientStop Offset="0" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />
-						<GradientStop Offset="1" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />
+						<GradientStop Offset="0" Color="{Binding WindowBackground, FallbackValue=White}" />
+						<GradientStop Offset="1" Color="{Binding ControlBackground, FallbackValue=#FFEEEEEE}" />
 					</LinearGradientBrush>
 				</WrapPanel.Background>
 
@@ -524,7 +525,7 @@
 				</Border>
 
 				<!--  Left Status Bar  -->
-				<Grid x:Name="LeftStatusBar" Grid.Row="5" Grid.Column="0" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+				<Grid x:Name="LeftStatusBar" Grid.Row="5" Grid.Column="0" Background="{Binding ControlBackground, FallbackValue={StaticResource ControlColor}}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="auto" />
@@ -537,8 +538,8 @@
 				</Grid>
 
 				<!--  Splitter  -->
-				<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="4" HorizontalAlignment="Stretch" Visibility="{Binding FolderVissible, Converter={StaticResource BooleanToVisibilityConverter}}" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" />
-				<GridSplitter x:Name="SplitterLeftRight" Grid.RowSpan="6" Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" />
+				<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="4" HorizontalAlignment="Stretch" Style="{StaticResource CommonGridSpliter}" Visibility="{Binding FolderVissible, Converter={StaticResource BooleanToVisibilityConverter}}" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" />
+				<GridSplitter x:Name="SplitterLeftRight" Grid.RowSpan="6" Grid.Column="1" Width="4" HorizontalAlignment="Center" Style="{StaticResource CommonGridSpliter}" Focusable="False" />
 
 				<!--  Right Path  -->
 				<Border Grid.Column="2" Grid.ColumnSpan="2" BorderThickness="1,1,0,0" Style="{StaticResource CommonBorder}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
@@ -626,7 +627,7 @@
 				</Border>
 
 				<!--  Right Status Bar  -->
-				<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+				<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2" Background="{Binding ControlBackground, FallbackValue={StaticResource ControlColor}}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="auto" />
@@ -638,7 +639,7 @@
 				</Grid>
 
 				<!--  Search panel  -->
-				<Border Name="SearchPanel" Grid.Row="4" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" Style="{StaticResource CommonBorder}" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+				<Border Name="SearchPanel" Grid.Row="4" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" Style="{StaticResource CommonBorder}" Background="{Binding ControlBackground, FallbackValue={StaticResource ControlColor}}">
 					<DockPanel>
 						<Grid Width="{Binding ElementName=LeftStatusBar, Path=ActualWidth}" DockPanel.Dock="Left" Visibility="{Binding FindPanelRight, Converter={StaticResource BooleanToVisibilityConverter}}" />
 						<Grid DockPanel.Dock="Left">
@@ -653,7 +654,7 @@
 							<TextBox Name="SearchBox" Grid.Column="1" Margin="6,2" Padding="2" d:Text="Search Text" Style="{StaticResource CommonTextBox}" TextChanged="SearchBox_TextChanged" />
 							<Button Grid.Column="2" Style="{StaticResource FlatButton}" Content="Next" Command="local:Commands.FindNext" />
 							<Button Grid.Column="3" Style="{StaticResource FlatButton}" Content="Previous" Command="local:Commands.FindPrevious" />
-							<CheckBox Name="MatchCase" Grid.Column="4" Margin="6,2" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
+							<CheckBox Name="MatchCase" Grid.Column="4" Margin="6,2" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Style="{StaticResource CommonCheckBox}" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
 						</Grid>
 					</DockPanel>
 				</Border>
