@@ -354,6 +354,18 @@ public static class AppSettings
 		}
 	}
 
+	private static SolidColorBrush controlBackground;
+	public static SolidColorBrush ControlBackground
+	{
+		get { return controlBackground; }
+		set
+		{
+			controlBackground = value;
+			controlBackground.Freeze();
+			CurrentTheme.ControlBackground = value.Color.ToString();
+		}
+	}
+
 	private static SolidColorBrush borderColor;
 	public static SolidColorBrush BorderColor
 	{

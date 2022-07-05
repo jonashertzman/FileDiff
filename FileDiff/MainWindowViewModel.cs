@@ -498,6 +498,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.WindowBackgruond = value as SolidColorBrush; OnPropertyChanged(nameof(WindowBackground)); }
 	}
 
+	public Brush ControlBackground
+	{
+		get { return AppSettings.ControlBackground; }
+		set { AppSettings.ControlBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlBackground)); }
+	}
+
 	public Brush BorderColor
 	{
 		get { return AppSettings.BorderColor; }

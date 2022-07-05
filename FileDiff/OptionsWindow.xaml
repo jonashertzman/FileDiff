@@ -7,6 +7,7 @@
 	Title="Options"
 	Width="678"
 	Height="498"
+	d:Height="600"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
@@ -101,6 +102,7 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
 							<Label Grid.Row="0" Grid.Column="1" Content="Foreground" Style="{StaticResource CommonTextLabel}" />
@@ -149,8 +151,11 @@
 							<Rectangle x:Name="WindowForeground" Grid.Row="12" Grid.Column="1" Margin="5" Fill="{Binding WindowForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="WindowBackground" Grid.Row="12" Grid.Column="2" Margin="5" Fill="{Binding WindowBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="13" Grid.Column="0" Content="Border" Style="{StaticResource CommonTextLabel}" />
-							<Rectangle x:Name="Border" Grid.Row="13" Grid.Column="1" Margin="5" Fill="{Binding BorderColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="13" Grid.Column="0" Content="Control" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="Control" Grid.Row="13" Grid.Column="2" Margin="5" Fill="{Binding BorderColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+							<Label Grid.Row="14" Grid.Column="0" Content="Border" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="Border" Grid.Row="14" Grid.Column="1" Margin="5" Fill="{Binding BorderColor, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
 								<Grid RenderOptions.ClearTypeHint="Enabled">

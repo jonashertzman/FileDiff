@@ -34,6 +34,7 @@ public static class DefaultSettings
 
 		WindowForeground = Colors.Cyan.ToString(),
 		WindowBackground = Colors.Red.ToString(),
+		ControlBackground = Colors.Gray.ToString(),
 		BorderColor = Colors.Blue.ToString(),
 		LineNumberColor = Color.FromRgb(88, 88, 88).ToString(),
 		CurrentDiffColor = Color.FromRgb(183, 183, 183).ToString(),
@@ -65,6 +66,7 @@ public static class DefaultSettings
 
 		WindowForeground = Colors.Cyan.ToString(),
 		WindowBackground = Colors.Red.ToString(),
+		ControlBackground = Colors.Gray.ToString(),
 		BorderColor = Colors.Blue.ToString(),
 		LineNumberColor = Color.FromRgb(88, 88, 88).ToString(),
 		CurrentDiffColor = Color.FromRgb(183, 183, 183).ToString(),
