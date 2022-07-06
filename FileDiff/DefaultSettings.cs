@@ -9,31 +9,33 @@ public static class DefaultSettings
 
 	internal static ThemeColors DarkTheme { get; } = new ThemeColors()
 	{
-		FullMatchForeground = "#FF000000",
-		FullMatchBackground = "#FFFFFFFF",
+		FullMatchForeground = "#FFFFFFFF",
+		FullMatchBackground = "#1B1B1B",
 
-		PartialMatchForeground = "#FF000000",
-		PartialMatchBackground = "#FFDCDCFF",
+		PartialMatchForeground = "#FF9698FF",
+		PartialMatchBackground = "#FF2B293A",
 
-		DeletedForeground = "#FFC80000",
-		DeletedBackground = "#FFFFDCDC",
+		DeletedForeground = "#FFFFDCDC",
+		DeletedBackground = "#FF820000",
 
-		NewForeground = "#FF007800",
-		NewBackground = "#FFDCFFDC",
+		NewForeground = "#FF81FF72",
+		NewBackground = "#FF006900",
 
-		IgnoredForeground = "#FF5A5A5A",
-		IgnoredBackground = "#FFDCDCDC",
+		IgnoredForeground = "#FFDCDCDC",
+		IgnoredBackground = "#FF5A5A5A",
 
-		MovedFromdBackground = "#FFFFF0F0",
+		MovedFromdBackground = "#FF420000",
 
-		MovedToBackground = "#FFF0FFF0",
+		MovedToBackground = "#FF002800",
 
 		SelectionBackground = "#320096D2",
 
-		WindowForeground = "#FF000000",
-		WindowBackground = "#FFFFFFFF",
-		ControlBackground = "#FFEDEDED",
-		BorderColor = "#FFCECECE",
+		WindowForeground = "#FFFFFFFF",
+		WindowBackground = "#1B1B1B",
+
+		ControlBackground = "#FF252525",
+
+		BorderColor = "#FF464646",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
@@ -65,7 +67,9 @@ public static class DefaultSettings
 
 		WindowForeground = "#FF000000",
 		WindowBackground = "#FFFFFFFF",
+
 		ControlBackground = "#FFEDEDED",
+
 		BorderColor = "#FFCECECE",
 
 		LineNumberColor = "#FF585858",
