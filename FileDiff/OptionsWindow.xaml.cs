@@ -110,6 +110,11 @@ public partial class OptionsWindow : Window
 
 		SelectionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SelectionBackground));
 
+		WindowForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowForeground));
+		WindowBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowBackground));
+		ControlBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.ControlBackground));
+		BorderColor.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.BorderColor));
+
 		LineNumber.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LineNumberColor));
 		CurrentDiff.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.CurrentDiffColor));
 		Snake.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SnakeColor));
