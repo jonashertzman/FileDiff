@@ -112,8 +112,8 @@
 			<WrapPanel x:Name="ToolbarMain" DockPanel.Dock="Top" Orientation="Horizontal">
 				<WrapPanel.Background>
 					<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-						<GradientStop Offset="0" Color="{Binding WindowBackground, FallbackValue=White}" />
-						<GradientStop Offset="1" Color="{Binding ControlBackground, FallbackValue=#FFEEEEEE}" />
+						<GradientStop Offset="0" Color="{Binding WindowBackground.Color, FallbackValue=White}" />
+						<GradientStop Offset="1" Color="{Binding ControlBackground.Color, FallbackValue=#FFEEEEEE}" />
 					</LinearGradientBrush>
 				</WrapPanel.Background>
 
