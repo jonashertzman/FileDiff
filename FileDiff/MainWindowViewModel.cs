@@ -401,7 +401,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public ColorTheme Theme
 	{
 		get { return AppSettings.Theme; }
-		set { AppSettings.Theme = value; OnPropertyChangedRepaint(nameof(Theme)); }
+		set { AppSettings.Theme = value; OnPropertyChangedRepaint(null); } // Refresh all properties when changin theme
 	}
 
 

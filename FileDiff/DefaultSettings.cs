@@ -1,6 +1,4 @@
-﻿using System.Windows.Media;
-
-namespace FileDiff;
+﻿namespace FileDiff;
 
 public static class DefaultSettings
 {
@@ -11,67 +9,68 @@ public static class DefaultSettings
 
 	internal static ThemeColors DarkTheme { get; } = new ThemeColors()
 	{
-		FullMatchForeground = Colors.White.ToString(),
-		FullMatchBackground = Colors.Black.ToString(),
+		FullMatchForeground = "#FF000000",
+		FullMatchBackground = "#FFFFFFFF",
 
-		PartialMatchForeground = Colors.Black.ToString(),
-		PartialMatchBackground = Color.FromRgb(220, 220, 255).ToString(),
+		PartialMatchForeground = "#FF000000",
+		PartialMatchBackground = "#FFDCDCFF",
 
-		DeletedForeground = Color.FromRgb(200, 0, 0).ToString(),
-		DeletedBackground = Color.FromRgb(255, 220, 220).ToString(),
+		DeletedForeground = "#FFC80000",
+		DeletedBackground = "#FFFFDCDC",
 
-		NewForeground = Color.FromRgb(0, 120, 0).ToString(),
-		NewBackground = Color.FromRgb(220, 255, 220).ToString(),
+		NewForeground = "#FF007800",
+		NewBackground = "#FFDCFFDC",
 
-		IgnoredForeground = Color.FromRgb(90, 90, 90).ToString(),
-		IgnoredBackground = Color.FromRgb(220, 220, 220).ToString(),
+		IgnoredForeground = "#FF5A5A5A",
+		IgnoredBackground = "#FFDCDCDC",
 
-		MovedFromdBackground = Color.FromRgb(255, 240, 240).ToString(),
+		MovedFromdBackground = "#FFFFF0F0",
 
-		MovedToBackground = Color.FromRgb(240, 255, 240).ToString(),
+		MovedToBackground = "#FFF0FFF0",
 
-		SelectionBackground = Color.FromArgb(50, 0, 150, 210).ToString(),
-
-		WindowForeground = Colors.Cyan.ToString(),
-		WindowBackground = Colors.Red.ToString(),
-		ControlBackground = Colors.Gray.ToString(),
-		BorderColor = Colors.Blue.ToString(),
-		LineNumberColor = Color.FromRgb(88, 88, 88).ToString(),
-		CurrentDiffColor = Color.FromRgb(183, 183, 183).ToString(),
-		SnakeColor = Color.FromRgb(210, 210, 210).ToString(),
-	};
-
-	internal static ThemeColors LightTheme { get; } = new ThemeColors()
-	{
-		FullMatchForeground = Colors.Black.ToString(),
-		FullMatchBackground = Colors.White.ToString(),
-
-		PartialMatchForeground = Colors.Black.ToString(),
-		PartialMatchBackground = Color.FromRgb(220, 220, 255).ToString(),
-
-		DeletedForeground = Color.FromRgb(200, 0, 0).ToString(),
-		DeletedBackground = Color.FromRgb(255, 220, 220).ToString(),
-
-		NewForeground = Color.FromRgb(0, 120, 0).ToString(),
-		NewBackground = Color.FromRgb(220, 255, 220).ToString(),
-
-		IgnoredForeground = Color.FromRgb(90, 90, 90).ToString(),
-		IgnoredBackground = Color.FromRgb(220, 220, 220).ToString(),
-
-		MovedFromdBackground = Color.FromRgb(255, 240, 240).ToString(),
-
-		MovedToBackground = Color.FromRgb(240, 255, 240).ToString(),
-
-		SelectionBackground = Color.FromArgb(50, 0, 150, 210).ToString(),
+		SelectionBackground = "#320096D2",
 
 		WindowForeground = "#FF000000",
 		WindowBackground = "#FFFFFFFF",
 		ControlBackground = "#FFEDEDED",
 		BorderColor = "#FFCECECE",
 
-		LineNumberColor = Color.FromRgb(88, 88, 88).ToString(),
-		CurrentDiffColor = Color.FromRgb(183, 183, 183).ToString(),
-		SnakeColor = Color.FromRgb(210, 210, 210).ToString(),
+		LineNumberColor = "#FF585858",
+		CurrentDiffColor = "#FFB7B7B7",
+		SnakeColor = "#FFD2D2D2",
+	};
+
+	internal static ThemeColors LightTheme { get; } = new ThemeColors()
+	{
+		FullMatchForeground = "#FF000000",
+		FullMatchBackground = "#FFFFFFFF",
+
+		PartialMatchForeground = "#FF000000",
+		PartialMatchBackground = "#FFDCDCFF",
+
+		DeletedForeground = "#FFC80000",
+		DeletedBackground = "#FFFFDCDC",
+
+		NewForeground = "#FF007800",
+		NewBackground = "#FFDCFFDC",
+
+		IgnoredForeground = "#FF5A5A5A",
+		IgnoredBackground = "#FFDCDCDC",
+
+		MovedFromdBackground = "#FFFFF0F0",
+
+		MovedToBackground = "#FFF0FFF0",
+
+		SelectionBackground = "#320096D2",
+
+		WindowForeground = "#FF000000",
+		WindowBackground = "#FFFFFFFF",
+		ControlBackground = "#FFEDEDED",
+		BorderColor = "#FFCECECE",
+
+		LineNumberColor = "#FF585858",
+		CurrentDiffColor = "#FFB7B7B7",
+		SnakeColor = "#FFD2D2D2",
 	};
 
 }
