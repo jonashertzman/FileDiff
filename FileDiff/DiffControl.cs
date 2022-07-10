@@ -118,7 +118,7 @@ public class DiffControl : Control
 		//Brush currentDiffBrush2 = new LinearGradientBrush(Colors.Transparent, semiTransparent, 0);
 		//currentDiffBrush2.Freeze();
 
-		Pen borderPen = new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1));
+		Pen borderPen = new Pen(AppSettings.BorderColor, RoundToWholePixels(1));
 		borderPen.Freeze();
 		GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
@@ -137,7 +137,7 @@ public class DiffControl : Control
 		MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
 		// Draw line number margin			
-		drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
+		drawingContext.DrawRectangle(AppSettings.ControlBackground, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
 
 		// Draw current diff
 		if (CurrentDiff != null && !Edited)

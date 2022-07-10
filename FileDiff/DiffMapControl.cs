@@ -35,7 +35,7 @@ public class DiffMapControl : Control
 		Debug.Print("DiffMap OnRender");
 
 		// Fill background
-		drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+		drawingContext.DrawRectangle(AppSettings.ControlBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 		if (Lines.Count == 0)
 			return;
