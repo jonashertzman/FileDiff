@@ -789,6 +789,7 @@ public partial class MainWindow : Window
 		//var oldDarkThemeColors = AppSettings.DarkTheme.Clone();
 		//var oldLightThemeColors = AppSettings.LightTheme.Clone();
 
+		var oldTheme = ViewModel.Theme;
 		var oldCheckForUpdates = ViewModel.CheckForUpdates;
 		var oldDetectMovedLines = ViewModel.DetectMovedLines;
 		var oldFont = ViewModel.Font;
@@ -825,6 +826,7 @@ public partial class MainWindow : Window
 		else
 		{
 			// Options window was canceled, revert to old settings.
+			ViewModel.Theme = oldTheme;
 			ViewModel.CheckForUpdates = oldCheckForUpdates;
 			ViewModel.DetectMovedLines = oldDetectMovedLines;
 			ViewModel.Font = oldFont;
