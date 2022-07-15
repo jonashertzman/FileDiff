@@ -8,10 +8,10 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Styles.xaml" />
 				<ResourceDictionary Source="Graphics.xaml" />
 				<ResourceDictionary Source="Templates\ButtonTemplate.xaml" />
 				<ResourceDictionary Source="Templates\ScrollbarTemplate.xaml" />
+				<ResourceDictionary Source="Styles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
