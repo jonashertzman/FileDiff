@@ -58,11 +58,10 @@
 		<Setter Property="Margin" Value="5" />
 	</Style>
 
-	<Style x:Key="CommonButton" TargetType="Button">
+	<Style x:Key="CommonButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Margin" Value="5" />
 		<Setter Property="MinWidth" Value="80" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
 	</Style>
 
 	<Style x:Key="FlatButton" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
