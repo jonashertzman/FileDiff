@@ -12,8 +12,10 @@
 				<ResourceDictionary Source="Templates\ButtonTemplate.xaml" />
 				<ResourceDictionary Source="Templates\ScrollbarTemplate.xaml" />
 				<ResourceDictionary Source="Templates\TabControlTemplate.xaml" />
+				<ResourceDictionary Source="Templates\DataGridTemplate.xaml" />
 				<ResourceDictionary Source="Styles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
+
 </Application>
