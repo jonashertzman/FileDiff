@@ -31,6 +31,10 @@
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 		<Setter Property="BorderBrush" Value="#FF688CAF" />
 		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+		<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+		<Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" />
+
 		<Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
 		<Setter Property="ScrollViewer.PanningMode" Value="Both" />
