@@ -53,7 +53,7 @@
 		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=DarkGray}" />
 	</Style>
 
-	<Style x:Key="CommonComboBox" TargetType="ComboBox">
+	<Style x:Key="CommonComboBox" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Margin" Value="5" />
 	</Style>
