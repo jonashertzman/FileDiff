@@ -13,6 +13,7 @@
 				<ResourceDictionary Source="Templates\ScrollbarTemplate.xaml" />
 				<ResourceDictionary Source="Templates\TabControlTemplate.xaml" />
 				<ResourceDictionary Source="Templates\DataGridTemplate.xaml" />
+				<ResourceDictionary Source="Templates\CheckBoxTemplate.xaml" />
 				<ResourceDictionary Source="Styles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>

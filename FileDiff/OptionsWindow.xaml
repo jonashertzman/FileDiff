@@ -214,13 +214,13 @@
 								<ColumnDefinition />
 							</Grid.ColumnDefinitions>
 
-							<DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding IgnoredFolders}" >
+							<DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding IgnoredFolders}">
 								<DataGrid.Columns>
 									<DataGridTextColumn Width="*" Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Directories" CanUserResize="False" />
 								</DataGrid.Columns>
 							</DataGrid>
 
-							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" ItemsSource="{Binding IgnoredFiles}" >
+							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" ItemsSource="{Binding IgnoredFiles}">
 								<DataGrid.Columns>
 									<DataGridTextColumn Width="*" Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Files" CanUserResize="False" />
 								</DataGrid.Columns>
