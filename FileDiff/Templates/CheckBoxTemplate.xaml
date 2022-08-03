@@ -11,7 +11,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	
+
 	<Style x:Key="OptionMarkFocusVisual">
 		<Setter Property="Control.Template">
 			<Setter.Value>
@@ -21,7 +21,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	
+
 	<SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF" />
 	<SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070" />
 	<SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121" />
@@ -34,7 +34,7 @@
 	<SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6" />
 	<SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC" />
 	<SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070" />
-	
+
 	<Style TargetType="{x:Type CheckBox}">
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
 		<Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}" />
@@ -93,5 +93,5 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	
+
 </ResourceDictionary>

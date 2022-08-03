@@ -231,7 +231,7 @@
 						</Button.ToolTip>
 					</Button>
 
-					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+					<Separator />
 
 				</StackPanel>
 
@@ -265,7 +265,7 @@
 						</Button.ToolTip>
 					</Button>
 
-					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+					<Separator />
 
 				</StackPanel>
 
@@ -341,7 +341,7 @@
 						</Button.ToolTip>
 					</Button>
 
-					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+					<Separator />
 
 				</StackPanel>
 
