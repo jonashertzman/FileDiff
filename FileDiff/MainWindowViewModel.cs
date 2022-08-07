@@ -489,13 +489,33 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public Brush WindowForeground
 	{
 		get { return AppSettings.WindowForeground; }
-		set { AppSettings.WindowForeground = value as SolidColorBrush; OnPropertyChanged(nameof(WindowForeground)); }
+		set
+		{
+			AppSettings.WindowForeground = value as SolidColorBrush;
+			OnPropertyChanged(nameof(WindowForeground));
+			OnPropertyChanged(nameof(WindowForegroundColor));
+		}
+	}
+
+	public Color WindowForegroundColor
+	{
+		get { return AppSettings.WindowForeground.Color; }
 	}
 
 	public Brush WindowBackground
 	{
 		get { return AppSettings.WindowBackgruond; }
-		set { AppSettings.WindowBackgruond = value as SolidColorBrush; OnPropertyChanged(nameof(WindowBackground)); }
+		set
+		{
+			AppSettings.WindowBackgruond = value as SolidColorBrush;
+			OnPropertyChanged(nameof(WindowBackground));
+			OnPropertyChanged(nameof(WindowBackgroundColor));
+		}
+	}
+
+	public Color WindowBackgroundColor
+	{
+		get { return AppSettings.WindowBackgruond.Color; }
 	}
 
 	public Brush ControlBackground
