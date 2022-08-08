@@ -16,6 +16,7 @@
 				<ResourceDictionary Source="Templates\CheckBoxTemplate.xaml" />
 				<ResourceDictionary Source="Templates\ComboBoxTemplate.xaml" />
 				<ResourceDictionary Source="Templates\ToolbarSeparatorTemplate.xaml" />
+				<ResourceDictionary Source="Templates\MenuTemplate.xaml" />
 				<ResourceDictionary Source="Styles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>

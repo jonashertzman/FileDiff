@@ -12,11 +12,6 @@
 		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=LightGray}" />
 	</Style>
 
-	<Style x:Key="CommonMenu" TargetType="Menu">
-		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
-		<Setter Property="Background" Value="{Binding WindowBackground, FallbackValue=White}" />
-	</Style>
-
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
 		<Setter Property="Margin" Value="20,0,0,0" />
 		<Setter Property="Foreground" Value="Gray" />

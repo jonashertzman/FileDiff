@@ -76,7 +76,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<Menu Margin="2" VerticalAlignment="Center" Style="{StaticResource CommonMenu}">
+					<Menu Margin="2" VerticalAlignment="Center" >
 						<MenuItem Header="File">
 							<MenuItem Header="Exit" Command="local:Commands.Exit" />
 						</MenuItem>
@@ -495,11 +495,11 @@
 									<ColumnDefinition Width="4" />
 								</Grid.ColumnDefinitions>
 
-								<TextBlock Grid.Column="0" Padding="2" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" />
+								<TextBlock Grid.Column="0" Padding="3,2" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" />
 								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable="False" Style="{StaticResource CommonGridSpliter}" />
-								<TextBlock Grid.Column=" 2" Padding="2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" TextAlignment="Right" />
+								<TextBlock Grid.Column=" 2" Padding="3,2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" TextAlignment="Right" />
 								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
-								<TextBlock Grid.Column="4" Padding="2" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" />
+								<TextBlock Grid.Column="4" Padding="3,2" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" />
 								<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 							</Grid>
 						</ScrollViewer>
