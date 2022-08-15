@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
@@ -342,7 +344,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush windowBackground;
+	private static SolidColorBrush windowBackground = Brushes.Red;
 	public static SolidColorBrush WindowBackgruond
 	{
 		get { return windowBackground; }
@@ -351,6 +353,23 @@ public static class AppSettings
 			windowBackground = value;
 			windowBackground.Freeze();
 			CurrentTheme.WindowBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(BGC));
+		}
+	}
+
+
+	public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+	private static void NotifyStaticPropertyChanged(string propertyName)
+	{
+		if (StaticPropertyChanged != null)
+			StaticPropertyChanged(null, new PropertyChangedEventArgs(propertyName));
+	}
+
+	public static Color BGC
+	{
+		get
+		{
+			return windowBackground.Color;
 		}
 	}
 
