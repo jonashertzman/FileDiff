@@ -332,7 +332,7 @@ public static class AppSettings
 
 
 	// GUI colors
-	private static SolidColorBrush windowForeground = Brushes.Red; // ???
+	private static SolidColorBrush windowForeground = Brushes.Black;
 	public static SolidColorBrush WindowForeground
 	{
 		get { return windowForeground; }
@@ -352,7 +352,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush windowBackground;
+	private static SolidColorBrush windowBackground = Brushes.White;
 	public static SolidColorBrush WindowBackground
 	{
 		get { return windowBackground; }
@@ -382,8 +382,17 @@ public static class AppSettings
 			controlBackground = value;
 			controlBackground.Freeze();
 			CurrentTheme.ControlBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
 		}
 	}
+	public static Color ControlBackgroundColor
+	{
+		get
+		{
+			return controlBackground.Color;
+		}
+	}
+
 
 	private static SolidColorBrush borderColor;
 	public static SolidColorBrush BorderColor

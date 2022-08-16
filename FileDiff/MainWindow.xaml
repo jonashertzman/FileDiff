@@ -76,7 +76,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<Menu Margin="2" VerticalAlignment="Center" >
+					<Menu Margin="2" VerticalAlignment="Center">
 						<MenuItem Header="File">
 							<MenuItem Header="Exit" Command="local:Commands.Exit" />
 						</MenuItem>

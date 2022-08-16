@@ -4,9 +4,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="clr-namespace:FileDiff">
 
-	<SolidColorBrush x:Key="Menu.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor)}" />
+	<SolidColorBrush x:Key="Menu.Static.Background" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#F0F0F0}" />
 	<SolidColorBrush x:Key="Menu.Static.Border" Color="#FF999999" />
-	<SolidColorBrush x:Key="Menu.Static.Foreground" Color="{Binding Path=(local:AppSettings.WindowForegroundColor)}" />
+	<SolidColorBrush x:Key="Menu.Static.Foreground" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=Black}" />
 	<SolidColorBrush x:Key="Menu.Static.Separator" Color="#FFD7D7D7" />
 	<SolidColorBrush x:Key="Menu.Disabled.Foreground" Color="#FF707070" />
 	<SolidColorBrush x:Key="MenuItem.Selected.Background" Color="#3D26A0DA" />
