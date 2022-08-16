@@ -332,7 +332,7 @@ public static class AppSettings
 
 
 	// GUI colors
-	private static SolidColorBrush windowForeground;
+	private static SolidColorBrush windowForeground = Brushes.Red; // ???
 	public static SolidColorBrush WindowForeground
 	{
 		get { return windowForeground; }
@@ -341,11 +341,19 @@ public static class AppSettings
 			windowForeground = value;
 			windowForeground.Freeze();
 			CurrentTheme.WindowForeground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(WindowForegroundColor));
+		}
+	}
+	public static Color WindowForegroundColor
+	{
+		get
+		{
+			return WindowForeground.Color;
 		}
 	}
 
-	private static SolidColorBrush windowBackground = Brushes.Red;
-	public static SolidColorBrush WindowBackgruond
+	private static SolidColorBrush windowBackground;
+	public static SolidColorBrush WindowBackground
 	{
 		get { return windowBackground; }
 		set
@@ -353,29 +361,16 @@ public static class AppSettings
 			windowBackground = value;
 			windowBackground.Freeze();
 			CurrentTheme.WindowBackground = value.Color.ToString();
-			NotifyStaticPropertyChanged(nameof(BGC));
+			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
 		}
 	}
-
-
-	public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-	private static void NotifyStaticPropertyChanged(string propertyName)
-	{
-		if (StaticPropertyChanged != null)
-			StaticPropertyChanged(null, new PropertyChangedEventArgs(propertyName));
-	}
-
-	public static Color BGC
+	public static Color WindowBackgroundColor
 	{
 		get
 		{
 			return windowBackground.Color;
 		}
 	}
-
-
-
-
 
 
 	private static SolidColorBrush controlBackground;
@@ -539,7 +534,7 @@ public static class AppSettings
 		SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
 
 		WindowForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowForeground));
-		WindowBackgruond = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
+		WindowBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
 
 		ControlBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlBackground));
 
@@ -590,6 +585,18 @@ public static class AppSettings
 			default:
 				return fullMatchBackground;
 		}
+	}
+
+	#endregion
+
+	#region NotifyStaticPropertyChanged
+
+	public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+	private static void NotifyStaticPropertyChanged(string propertyName)
+	{
+		if (StaticPropertyChanged != null)
+			StaticPropertyChanged(null, new PropertyChangedEventArgs(propertyName));
 	}
 
 	#endregion
