@@ -373,6 +373,11 @@ public static class AppSettings
 		}
 	}
 
+
+
+
+
+
 	private static SolidColorBrush controlBackground;
 	public static SolidColorBrush ControlBackground
 	{

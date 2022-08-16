@@ -4,7 +4,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="clr-namespace:FileDiff">
 
-	<SolidColorBrush x:Key="Menu.Static.Background" Color="{Binding Source={x:Static local:AppSettings.BGC}}" />
+	<SolidColorBrush x:Key="Menu.Static.Background" Color="{Binding Path=( local:AppSettings.BGC)}" />
 	<SolidColorBrush x:Key="Menu.Static.Border" Color="#FF999999" />
 	<SolidColorBrush x:Key="Menu.Static.Foreground" Color="#FF212121" />
 	<SolidColorBrush x:Key="Menu.Static.Separator" Color="#FFD7D7D7" />
