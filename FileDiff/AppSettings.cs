@@ -143,8 +143,6 @@ public static class AppSettings
 		set { Settings.TabSize = value; }
 	}
 
-
-
 	public static ColorTheme Theme
 	{
 		get { return Settings.Theme; }
@@ -155,8 +153,6 @@ public static class AppSettings
 			UpdateCachedSettings();
 		}
 	}
-
-
 
 	public static ThemeColors CurrentTheme
 	{

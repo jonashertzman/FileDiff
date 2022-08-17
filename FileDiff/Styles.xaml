@@ -6,10 +6,9 @@
 	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
 	<SolidColorBrush x:Key="ControlColor" Color="#FFEEEEEE" />
 
-	<Style x:Key="CommonWindow" TargetType="Window">
+	<Style TargetType="Window">
 		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
-		<Setter Property="Background" Value="{Binding WindowBackground, FallbackValue=White}" />
-		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=LightGray}" />
+		<Setter Property="Background" Value="{Binding WindowBackground, FallbackValue=white}" />
 	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">

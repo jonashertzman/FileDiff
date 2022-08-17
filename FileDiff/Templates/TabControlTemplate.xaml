@@ -13,12 +13,9 @@
 		</Setter>
 	</Style>
 
-	<LinearGradientBrush x:Key="TabItem.Static.Background" StartPoint="0,0" EndPoint="0,1">
-		<GradientStop Offset="0.0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#F0F0F0}" />
-		<GradientStop Offset="1.0" Color="#E5E5E5" />
-	</LinearGradientBrush>
+	<SolidColorBrush x:Key="TabItem.Static.Background" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#F0F0F0}" />
 	<SolidColorBrush x:Key="TabItem.Static.Border" Color="#ACACAC" />
-	<SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFFFFF" />
+	<SolidColorBrush x:Key="TabItem.Selected.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#F0F0F0}" />
 	<SolidColorBrush x:Key="TabItem.Selected.Border" Color="#ACACAC" />
 	<LinearGradientBrush x:Key="TabItem.MouseOver.Background" StartPoint="0,0" EndPoint="0,1">
 		<GradientStop Offset="0.0" Color="#ECF4FC" />
