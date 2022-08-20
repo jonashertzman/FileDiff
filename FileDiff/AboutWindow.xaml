@@ -7,7 +7,6 @@
 	Title="About"
 	ResizeMode="NoResize"
 	TextOptions.TextFormattingMode="Display"
-	Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	SizeToContent="WidthAndHeight"
@@ -16,7 +15,7 @@
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 	</Window.Resources>
-	<Grid Background="White">
+	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
@@ -57,7 +56,7 @@
 				</StackPanel>
 			</StackPanel>
 		</StackPanel>
-		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="{Binding ControlBackground, FallbackValue=#F0F0F0}">
 			<StackPanel Margin="10">
 				<Button HorizontalAlignment="Right" Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" />
 			</StackPanel>
