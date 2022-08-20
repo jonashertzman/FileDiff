@@ -38,7 +38,7 @@
 				</Label>
 			</StackPanel>
 			<Label Content="Author:  Jonas Hertzman" Style="{StaticResource CondencedTextLabel}" />
-			<Label Content="License:  GNU General Public License v3" Style="{StaticResource CommonTextLabel}" />
+			<Label Content="License:  GNU General Public License v3" />
 			<StackPanel Margin="7,2,7,7">
 				<TextBlock>If you like to support my work on free open-source software,</TextBlock>
 				<StackPanel Orientation="Horizontal">

@@ -674,7 +674,7 @@
 			</Border>
 			<Border x:Name="ProgressPanel" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" Style="{StaticResource CommonBorder}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" Cursor="Arrow">
 				<StackPanel Margin="5">
-					<Label HorizontalAlignment="Center" Content="Comparing..." Style="{StaticResource CommonTextLabel}" />
+					<Label HorizontalAlignment="Center" Content="Comparing..." />
 					<StackPanel Orientation="Horizontal">
 						<ProgressBar x:Name="ProgressBarCompare" Width="300" Margin="5" Value="40" />
 						<Button x:Name="ButtonCancelCompare" HorizontalAlignment="Right" Content="Cancel" Command="local:Commands.CancelCompare" Style="{StaticResource CommonButton}" />

@@ -18,6 +18,8 @@
 
 	<Style x:Key="CommonBorder" TargetType="Border">
 		<Setter Property="BorderBrush" Value="{Binding BorderColor, FallbackValue=#FFCCCCCC}" />
+		<Setter Property="Background" Value="{Binding WindowBackground}" />
+
 	</Style>
 
 	<Style x:Key="CommonGridSpliter" TargetType="GridSplitter">
@@ -25,10 +27,12 @@
 		<Setter Property="Background" Value="{Binding ControlBackground, FallbackValue=#FFEEEEEE}" />
 	</Style>
 
-	<Style x:Key="CommonTextLabel" TargetType="Label">
+	<Style TargetType="Label">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="Margin" Value="5" />
+		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
+		<Setter Property="Background" Value="{Binding WindowBackground, FallbackValue=white}" />
 	</Style>
 
 	<Style x:Key="CondencedTextLabel" TargetType="Label">
