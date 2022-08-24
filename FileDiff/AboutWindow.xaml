@@ -32,20 +32,20 @@
 				<Label Content="Author:  Jonas Hertzman" Style="{StaticResource CondencedTextLabel}" />
 				<Label Content="License:  GNU General Public License v3" />
 				<StackPanel Margin="7,2,7,7">
-					<TextBlock>If you like to support my work on free open-source software,</TextBlock>
+					<TextBlock Style="{StaticResource StyledTextBox}">If you like to support my work on free open-source software,</TextBlock>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="feel free to " />
+						<TextBlock Text="feel free to " Style="{StaticResource StyledTextBox}" />
 						<TextBlock><Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="x">send feedback</Hyperlink></TextBlock>
-						<TextBlock Text=", have a look at the " />
-						<TextBlock>	<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff">source code</Hyperlink></TextBlock>
-						<TextBlock Text=", " />
+						<TextBlock Text=", have a look at the " Style="{StaticResource StyledTextBox}" />
+						<TextBlock><Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff">source code</Hyperlink></TextBlock>
+						<TextBlock Text=", " Style="{StaticResource StyledTextBox}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="support me on " />
+						<TextBlock Text="support me on " Style="{StaticResource StyledTextBox}" />
 						<TextBlock><Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://www.patreon.com/jonashertzman">Patreon</Hyperlink></TextBlock>
-						<TextBlock Text=" or " />
-						<TextBlock>	<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://ko-fi.com/jonashertzman">buy me a coffee</Hyperlink></TextBlock>
-						<TextBlock Text="." />
+						<TextBlock Text=" or " Style="{StaticResource StyledTextBox}" />
+						<TextBlock><Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://ko-fi.com/jonashertzman">buy me a coffee</Hyperlink></TextBlock>
+						<TextBlock Text="." Style="{StaticResource StyledTextBox}" />
 					</StackPanel>
 				</StackPanel>
 			</StackPanel>
