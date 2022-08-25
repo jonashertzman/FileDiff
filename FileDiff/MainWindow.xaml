@@ -8,6 +8,7 @@
 	Title="{Binding Title, FallbackValue='File Diff'}"
 	Width="900"
 	Height="500"
+	d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
@@ -69,7 +70,7 @@
 			</DockPanel.CommandBindings>
 
 			<!--  Menu  -->
-			<Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" Style="{StaticResource CommonBorder}">
+			<Border DockPanel.Dock="Top" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,0,0,1" Style="{StaticResource CommonBorder}">
 				<Grid x:Name="GridMenu">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -503,7 +504,7 @@
 							</Grid>
 						</ScrollViewer>
 
-						<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,0,0" Style="{StaticResource CommonBorder}">
+						<Border Grid.Row="1" Grid.Column="0" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,1,0,0" Style="{StaticResource CommonBorder}">
 							<local:TreeControl x:Name="LeftFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="LeftFolder_SelectionChanged" Lines="{Binding LeftFolder}" HorizontalOffset="{Binding Value, ElementName=LeftFolderHorizontalScrollbar, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 						</Border>
 						<ScrollBar Name="LeftFolderHorizontalScrollbar" Grid.Row="2" ValueChanged="LeftFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
@@ -512,7 +513,7 @@
 
 				<!--  Left File  -->
 				<Border Grid.Row="3" BorderThickness="0,1,1,1" Style="{StaticResource CommonBorder}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
-					<Grid Name="LeftFileGrid" MouseWheel="FileDiff_MouseWheel">
+					<Grid Name="LeftFileGrid" MouseWheel="FileDiff_MouseWheel" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
@@ -592,7 +593,7 @@
 								</Grid>
 							</ScrollViewer>
 
-							<Border Grid.Row="1" BorderThickness="0,1,0,0" Style="{StaticResource CommonBorder}">
+							<Border Grid.Row="1" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,1,0,0" Style="{StaticResource CommonBorder}">
 								<local:TreeControl x:Name="RightFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="RightFolder_SelectionChanged" Lines="{Binding RightFolder}" HorizontalOffset="{Binding Value, ElementName=RightFolderHorizontalScrollbar, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 							</Border>
 							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0" Style="{StaticResource CommonBorder}">
@@ -606,7 +607,7 @@
 
 				<!--  Right File  -->
 				<Border Grid.Row="3" Grid.Column="2" BorderThickness="1,1,0,1" Style="{StaticResource CommonBorder}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
-					<Grid Name="RightFileGrid" MouseWheel="FileDiff_MouseWheel">
+					<Grid Name="RightFileGrid" MouseWheel="FileDiff_MouseWheel" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
