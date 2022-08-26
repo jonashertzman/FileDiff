@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
@@ -390,15 +389,23 @@ public static class AppSettings
 	}
 
 
-	private static SolidColorBrush borderColor;
-	public static SolidColorBrush BorderColor
+	private static SolidColorBrush borderBrush;
+	public static SolidColorBrush BorderBrush
 	{
-		get { return borderColor; }
+		get { return borderBrush; }
 		set
 		{
-			borderColor = value;
-			borderColor.Freeze();
+			borderBrush = value;
+			borderBrush.Freeze();
 			CurrentTheme.BorderColor = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(BorderColor));
+		}
+	}
+	public static Color BorderColor
+	{
+		get
+		{
+			return borderBrush.Color;
 		}
 	}
 
@@ -543,7 +550,7 @@ public static class AppSettings
 
 		ControlBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlBackground));
 
-		BorderColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderColor));
+		BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderColor));
 
 		LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
 		CurrentDiffColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.CurrentDiffColor));

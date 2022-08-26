@@ -514,8 +514,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 	public Brush BorderColor
 	{
-		get { return AppSettings.BorderColor; }
-		set { AppSettings.BorderColor = value as SolidColorBrush; OnPropertyChanged(nameof(BorderColor)); }
+		get { return AppSettings.BorderBrush; }
+		set { AppSettings.BorderBrush = value as SolidColorBrush; OnPropertyChanged(nameof(BorderColor)); }
 	}
 
 	public Brush LineNumberColor
