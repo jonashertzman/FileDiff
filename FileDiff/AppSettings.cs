@@ -367,7 +367,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush dialoglBackground = Brushes.Red;
+	private static SolidColorBrush dialoglBackground = Brushes.LightGray;
 	public static SolidColorBrush DialogBackground
 	{
 		get { return dialoglBackground; }

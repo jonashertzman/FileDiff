@@ -4,11 +4,14 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:filediff="clr-namespace:FileDiff"
 	Title="About"
+	d:DataContext="{d:DesignInstance Type=filediff:MainWindowViewModel}"
 	ResizeMode="NoResize"
 	TextOptions.TextFormattingMode="Display"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
+	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
 	SizeToContent="WidthAndHeight"
 	mc:Ignorable="d">
 
@@ -16,7 +19,7 @@
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 	</Window.Resources>
 	<StackPanel>
-		<StackPanel Orientation="Horizontal" Background="{Binding WindowBackground, FallbackValue=White}">
+		<StackPanel Margin="10" Orientation="Horizontal" Background="{Binding WindowBackground, FallbackValue=White}">
 			<StackPanel Margin="10">
 				<ContentPresenter Width="150" Margin="5" ContentTemplate="{StaticResource CompareIcon}" />
 			</StackPanel>
@@ -50,10 +53,10 @@
 				</StackPanel>
 			</StackPanel>
 		</StackPanel>
-		<StackPanel Background="{Binding ControlBackground, FallbackValue=#F0F0F0}">
+		<Border BorderThickness="0,1,0,0">
 			<StackPanel Margin="10">
 				<Button HorizontalAlignment="Right" Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" />
 			</StackPanel>
-		</StackPanel>
+		</Border>
 	</StackPanel>
 </Window>

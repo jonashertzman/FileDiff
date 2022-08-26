@@ -15,6 +15,7 @@
 	Closed="Window_Closed"
 	ContentRendered="Window_ContentRendered"
 	Initialized="Window_Initialized"
+	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
 	mc:Ignorable="d">
 
 	<Window.Resources>
@@ -70,7 +71,7 @@
 			</DockPanel.CommandBindings>
 
 			<!--  Menu  -->
-			<Border DockPanel.Dock="Top" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,0,0,1" Style="{StaticResource CommonBorder}">
+			<Border DockPanel.Dock="Top" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,0,0,1">
 				<Grid x:Name="GridMenu">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -113,7 +114,7 @@
 				<WrapPanel.Background>
 					<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
 						<GradientStop Offset="0" Color="{Binding WindowBackground.Color, FallbackValue=White}" />
-						<GradientStop Offset="1" Color="{Binding ControlBackground.Color, FallbackValue=#F0F0F0}" />
+						<GradientStop Offset="1" Color="{Binding DialogBackground.Color, FallbackValue=#FFEDEDED}" />
 					</LinearGradientBrush>
 				</WrapPanel.Background>
 
@@ -463,7 +464,7 @@
 				</Grid.ColumnDefinitions>
 
 				<!--  Left Path  -->
-				<Border Grid.Column="0" BorderThickness="0,1,1,0" Style="{StaticResource CommonBorder}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+				<Border Grid.Column="0" BorderThickness="0,1,1,0" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
@@ -476,7 +477,7 @@
 				</Border>
 
 				<!--  Left Folder  -->
-				<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,1,1" Style="{StaticResource CommonBorder}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+				<Border Grid.Row="1" Grid.Column="0" BorderThickness="0,1,1,1" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
 					<Grid Name="LeftFolderGrid" MouseWheel="FolderDiff_MouseWheel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="auto" />
@@ -495,16 +496,16 @@
 									<ColumnDefinition Width="4" />
 								</Grid.ColumnDefinitions>
 
-								<TextBlock Grid.Column="0" Padding="3,2" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" />
+								<TextBlock Grid.Column="0" Padding="3,2" Text="Name" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" />
 								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable="False" Style="{StaticResource CommonGridSpliter}" />
-								<TextBlock Grid.Column=" 2" Padding="3,2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" TextAlignment="Right" />
+								<TextBlock Grid.Column=" 2" Padding="3,2" Text="Size" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" TextAlignment="Right" />
 								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
-								<TextBlock Grid.Column="4" Padding="3,2" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="LeftColumns_Resized" />
+								<TextBlock Grid.Column="4" Padding="3,2" Text="Date" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" />
 								<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 							</Grid>
 						</ScrollViewer>
 
-						<Border Grid.Row="1" Grid.Column="0" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,1,0,0" Style="{StaticResource CommonBorder}">
+						<Border Grid.Row="1" Grid.Column="0" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,1,0,0">
 							<local:TreeControl x:Name="LeftFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="LeftFolder_SelectionChanged" Lines="{Binding LeftFolder}" HorizontalOffset="{Binding Value, ElementName=LeftFolderHorizontalScrollbar, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 						</Border>
 						<ScrollBar Name="LeftFolderHorizontalScrollbar" Grid.Row="2" ValueChanged="LeftFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
@@ -512,7 +513,7 @@
 				</Border>
 
 				<!--  Left File  -->
-				<Border Grid.Row="3" BorderThickness="0,1,1,1" Style="{StaticResource CommonBorder}" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
+				<Border Grid.Row="3" BorderThickness="0,1,1,1" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
 					<Grid Name="LeftFileGrid" MouseWheel="FileDiff_MouseWheel" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
@@ -525,13 +526,13 @@
 				</Border>
 
 				<!--  Left Status Bar  -->
-				<Grid x:Name="LeftStatusBar" Grid.Row="5" Grid.Column="0" Background="{Binding ControlBackground, FallbackValue={StaticResource ControlColor}}">
+				<Grid x:Name="LeftStatusBar" Grid.Row="5" Grid.Column="0">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="auto" />
 					</Grid.ColumnDefinitions>
 					<TextBlock x:Name="Statusbar" Grid.Column="0" Margin="6,3,3,3" Text="" />
-					<Border Grid.Column="1" Style="{StaticResource CommonBorder}">
+					<Border Grid.Column="1">
 						<TextBlock Margin="10,3,3,3" Text="{Binding LeftFileDescription}" Background="{Binding EncodingBackground}" />
 					</Border>
 
@@ -540,22 +541,22 @@
 				<!--  Splitter  -->
 				<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="4" HorizontalAlignment="Stretch" Style="{StaticResource CommonGridSpliter}" Visibility="{Binding FolderVissible, Converter={StaticResource BooleanToVisibilityConverter}}" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" />
 				<GridSplitter x:Name="SplitterLeftRight" Grid.RowSpan="6" Grid.Column="1" Width="4" HorizontalAlignment="Center" Style="{StaticResource CommonGridSpliter}" Focusable="False" />
-
-				<!--  Right Path  -->
-				<Border Grid.Column="2" Grid.ColumnSpan="2" BorderThickness="1,1,0,0" Style="{StaticResource CommonBorder}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
+				<Border Grid.Column="2" Grid.ColumnSpan="2" BorderThickness="1,1,0,0" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox Name="TextBoxRightPath" Margin="0" Padding="2" Style="{StaticResource CommonTextBox}" Text="{Binding RightPath, UpdateSourceTrigger=LostFocus, FallbackValue=Right Path}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" />
+						<TextBox x:Name="TextBoxRightPath" Margin="0" Padding="2" Style="{StaticResource CommonTextBox}" Text="{Binding RightPath, FallbackValue=Right Path, UpdateSourceTrigger=LostFocus}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" />
 						<Button x:Name="ButtonRightBrowse" Grid.Column="1" Width=" 20" Content="..." BorderThickness="0" Command="local:Commands.BrowseRight" />
 					</Grid>
 				</Border>
 
+				<!--  Right Path  -->
+
 				<!--  Right Folder  -->
-				<Border Grid.Row="1" Grid.Column="2" BorderThickness="1,1,0,1" Style="{StaticResource CommonBorder}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
+				<Border Grid.Row="1" Grid.Column="2" BorderThickness="1,1,0,1" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
 					<Grid Name="RightFolderGrid" MouseWheel="FolderDiff_MouseWheel">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="auto" />
@@ -584,29 +585,28 @@
 										<ColumnDefinition Width="4" />
 									</Grid.ColumnDefinitions>
 
-									<TextBlock Grid.Column="0" Padding="2" Text="Name" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="RightColumns_Resized" />
+									<TextBlock Grid.Column="0" Padding="2" Text="Name" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" />
 									<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable="False" Style="{StaticResource CommonGridSpliter}" />
-									<TextBlock Grid.Column=" 2" Padding="2" Text="Size" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="RightColumns_Resized" TextAlignment="Right" />
+									<TextBlock Grid.Column=" 2" Padding="2" Text="Size" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" TextAlignment="Right" />
 									<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
-									<TextBlock Grid.Column="4" Padding="2" Text="Date" TextTrimming="CharacterEllipsis" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" SizeChanged="RightColumns_Resized" />
+									<TextBlock Grid.Column="4" Padding="2" Text="Date" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" />
 									<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 								</Grid>
 							</ScrollViewer>
 
-							<Border Grid.Row="1" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,1,0,0" Style="{StaticResource CommonBorder}">
+							<Border Grid.Row="1" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,1,0,0">
 								<local:TreeControl x:Name="RightFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="RightFolder_SelectionChanged" Lines="{Binding RightFolder}" HorizontalOffset="{Binding Value, ElementName=RightFolderHorizontalScrollbar, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 							</Border>
-							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0" Style="{StaticResource CommonBorder}">
+							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0">
 								<ScrollBar Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll, Mode=TwoWay}" />
 							</Border>
 							<ScrollBar Name="RightFolderHorizontalScrollbar" Grid.Row="2" ValueChanged="RightFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
-							<StackPanel Grid.Row="3" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
 						</Grid>
 					</Grid>
 				</Border>
 
 				<!--  Right File  -->
-				<Border Grid.Row="3" Grid.Column="2" BorderThickness="1,1,0,1" Style="{StaticResource CommonBorder}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
+				<Border Grid.Row="3" Grid.Column="2" BorderThickness="1,1,0,1" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
 					<Grid Name="RightFileGrid" MouseWheel="FileDiff_MouseWheel" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
@@ -622,24 +622,24 @@
 						<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightFile}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
 						<ScrollBar Name="VerticalFileScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding Path=MaxVerialcalScroll}" />
 						<ScrollBar x:Name="RightHorizontalScrollbar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
-						<StackPanel Grid.Row="1" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
+						<StackPanel Grid.Row="1" Grid.Column="2" Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
 					</Grid>
 				</Border>
 
 				<!--  Right Status Bar  -->
-				<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2" Background="{Binding ControlBackground, FallbackValue={StaticResource ControlColor}}">
+				<Grid x:Name="RightStatusBar" Grid.Row="5" Grid.Column="2">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="auto" />
 						<ColumnDefinition Width="28" />
 					</Grid.ColumnDefinitions>
-					<Border Grid.Column="1" Style="{StaticResource CommonBorder}">
+					<Border Grid.Column="1">
 						<TextBlock Margin="3" Text="{Binding RightFileDescription}" Background="{Binding EncodingBackground}" />
 					</Border>
 				</Grid>
 
 				<!--  Search panel  -->
-				<Border Name="SearchPanel" Grid.Row="4" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" Style="{StaticResource CommonBorder}" Background="{Binding ControlBackground, FallbackValue={StaticResource ControlColor}}">
+				<Border Name="SearchPanel" Grid.Row="4" Grid.ColumnSpan="3" BorderThickness="0,0,0,1">
 					<DockPanel>
 						<Grid Width="{Binding ElementName=LeftStatusBar, Path=ActualWidth}" DockPanel.Dock="Left" Visibility="{Binding FindPanelRight, Converter={StaticResource BooleanToVisibilityConverter}}" />
 						<Grid DockPanel.Dock="Left">
@@ -668,17 +668,17 @@
 		<!--  Compare Progress  -->
 		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue='Hidden'}" Cursor="Wait">
 			<!--  Workaround to not fuckup the cleartype rendering  -->
-			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Visibility, ElementName=ProgressPanel}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Visibility, ElementName=ProgressPanel}" Background="{Binding WindowBackground, FallbackValue=White}">
 				<Border.Effect>
 					<DropShadowEffect BlurRadius="25" ShadowDepth="0" Opacity=".35" />
 				</Border.Effect>
 			</Border>
-			<Border x:Name="ProgressPanel" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" Style="{StaticResource CommonBorder}" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" Cursor="Arrow">
+			<Border x:Name="ProgressPanel" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" Cursor="Arrow">
 				<StackPanel Margin="5">
 					<Label HorizontalAlignment="Center" Content="Comparing..." />
 					<StackPanel Orientation="Horizontal">
 						<ProgressBar x:Name="ProgressBarCompare" Width="300" Margin="5" Value="40" />
-						<Button x:Name="ButtonCancelCompare" HorizontalAlignment="Right" Content="Cancel" Command="local:Commands.CancelCompare" Style="{StaticResource CommonButton}" />
+						<Button x:Name="ButtonCancelCompare" HorizontalAlignment="Right" Content="Cancel" Command="local:Commands.CancelCompare" />
 					</StackPanel>
 				</StackPanel>
 			</Border>

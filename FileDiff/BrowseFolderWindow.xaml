@@ -9,13 +9,14 @@
 	Title="Select Target"
 	Width="450"
 	Height="350"
+	d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
-	Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	ContentRendered="Window_ContentRendered"
+	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
 	mc:Ignorable="d">
 
 	<Grid>
@@ -26,12 +27,7 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel Grid.Row="0">
-			<StackPanel.Background>
-				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-					<GradientStop Offset="0" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />
-					<GradientStop Offset="1" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />
-				</LinearGradientBrush>
-			</StackPanel.Background>
+
 			<StackPanel Margin="5" Orientation="Horizontal">
 				<Button x:Name="ButtonDesktop" Style="{StaticResource ToolbarButton}" ToolTip="Desktop" Click="ButtonDesktop_Click">
 					<StackPanel Orientation="Horizontal">

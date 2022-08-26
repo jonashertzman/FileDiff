@@ -137,7 +137,7 @@ public class DiffControl : Control
 		MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
 		// Draw line number margin			
-		drawingContext.DrawRectangle(AppSettings.ControlBackground, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
+		drawingContext.DrawRectangle(AppSettings.DialogBackground, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
 
 		// Draw current diff
 		if (CurrentDiff != null && !Edited)
