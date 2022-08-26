@@ -19,7 +19,7 @@
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 	</Window.Resources>
 	<StackPanel>
-		<StackPanel Margin="10" Orientation="Horizontal" Background="{Binding WindowBackground, FallbackValue=White}">
+		<StackPanel Orientation="Horizontal" Background="{Binding WindowBackground, FallbackValue=White}">
 			<StackPanel Margin="10">
 				<ContentPresenter Width="150" Margin="5" ContentTemplate="{StaticResource CompareIcon}" />
 			</StackPanel>
