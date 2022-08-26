@@ -499,11 +499,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public Brush WindowBackground
 	{
 		get { return AppSettings.WindowBackground; }
-		set
-		{
-			AppSettings.WindowBackground = value as SolidColorBrush;
-			OnPropertyChanged(nameof(WindowBackground));
-		}
+		set { AppSettings.WindowBackground = value as SolidColorBrush; OnPropertyChanged(nameof(WindowBackground)); }
+	}
+
+	public Brush DialogBackground
+	{
+		get { return AppSettings.DialogBackground; }
+		set { AppSettings.DialogBackground = value as SolidColorBrush; OnPropertyChanged(nameof(DialogBackground)); }
 	}
 
 	public Brush ControlBackground

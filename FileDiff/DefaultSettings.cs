@@ -31,11 +31,13 @@ public static class DefaultSettings
 		SelectionBackground = "#320096D2",
 
 		WindowForeground = "#FFFFFFFF",
-		WindowBackground = "#1B1B1B",
+		WindowBackground = "#FF1F1F1F",
 
-		ControlBackground = "#FF252525",
+		DialogBackground = "#FF1F1F1F",
 
-		BorderColor = "#FF464646",
+		ControlBackground = "#FF3D3D3D",
+
+		BorderColor = "#FF424242",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
@@ -68,9 +70,11 @@ public static class DefaultSettings
 		WindowForeground = "#FF000000",
 		WindowBackground = "#FFFFFFFF",
 
-		ControlBackground = "#FFEDEDED",
+		DialogBackground = "#FFEDEDED",
 
-		BorderColor = "#FFCECECE",
+		ControlBackground = "#FFDDDDDD",
+
+		BorderColor = "#FFCCCCCC",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",

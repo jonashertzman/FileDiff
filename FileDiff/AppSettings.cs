@@ -367,6 +367,25 @@ public static class AppSettings
 		}
 	}
 
+	private static SolidColorBrush dialoglBackground = Brushes.Red;
+	public static SolidColorBrush DialogBackground
+	{
+		get { return dialoglBackground; }
+		set
+		{
+			dialoglBackground = value;
+			dialoglBackground.Freeze();
+			CurrentTheme.DialogBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(DialogBackground));
+		}
+	}
+	public static Color DialogBackgroundColor
+	{
+		get
+		{
+			return dialoglBackground.Color;
+		}
+	}
 
 	private static SolidColorBrush controlBackground;
 	public static SolidColorBrush ControlBackground
@@ -547,6 +566,8 @@ public static class AppSettings
 
 		WindowForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowForeground));
 		WindowBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
+
+		DialogBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DialogBackground));
 
 		ControlBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlBackground));
 

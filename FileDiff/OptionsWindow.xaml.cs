@@ -112,12 +112,13 @@ public partial class OptionsWindow : Window
 
 		WindowForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowForeground));
 		WindowBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowBackground));
+		DialogBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DialogBackground));
 		ControlBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.ControlBackground));
 		BorderColor.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.BorderColor));
 
-		LineNumber.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LineNumberColor));
-		CurrentDiff.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.CurrentDiffColor));
-		Snake.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SnakeColor));
+		//LineNumber.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LineNumberColor));
+		//CurrentDiff.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.CurrentDiffColor));
+		//Snake.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SnakeColor));
 	}
 
 	private void ButtonResetFont_Click(object sender, RoutedEventArgs e)

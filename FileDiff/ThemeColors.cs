@@ -27,6 +27,8 @@ public class ThemeColors
 	public string WindowForeground { get; set; }
 	public string WindowBackground { get; set; }
 
+	public string DialogBackground { get; set; }
+
 	public string ControlBackground { get; set; }
 
 	public string BorderColor { get; set; }
