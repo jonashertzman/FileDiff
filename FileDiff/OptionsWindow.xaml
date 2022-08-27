@@ -154,7 +154,7 @@
 							<Rectangle x:Name="ControlBackground" Grid.Row="4" Grid.Column="6" Margin="5" Fill="{Binding ControlBackground, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="5" Grid.Column="5" Content="Border" />
-							<Rectangle x:Name="BorderColor" Grid.Row="5" Grid.Column="6" Margin="5" Fill="{Binding BorderColor, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="BorderColorx" Grid.Row="5" Grid.Column="6" Margin="5" Fill="{Binding BorderColor, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="6" Grid.Column="5" Content="Selection" />
 							<Rectangle x:Name="SelectionBackground" Grid.Row="6" Grid.Column="6" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />

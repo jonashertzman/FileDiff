@@ -114,7 +114,7 @@ public partial class OptionsWindow : Window
 		WindowBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowBackground));
 		DialogBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DialogBackground));
 		ControlBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.ControlBackground));
-		BorderColor.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.BorderColor));
+		BorderColorx.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.BorderColor));
 
 		//LineNumber.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LineNumberColor));
 		//CurrentDiff.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.CurrentDiffColor));
