@@ -367,7 +367,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush dialoglBackground = Brushes.LightGray;
+	private static SolidColorBrush dialoglBackground = new BrushConverter().ConvertFrom("#FFF0F0F0") as SolidColorBrush;
 	public static SolidColorBrush DialogBackground
 	{
 		get { return dialoglBackground; }
@@ -387,7 +387,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush controlBackground = Brushes.Gray;
+	private static SolidColorBrush controlBackground = new BrushConverter().ConvertFrom("#FFDDDDDD") as SolidColorBrush;
 	public static SolidColorBrush ControlBackground
 	{
 		get { return controlBackground; }
@@ -408,7 +408,7 @@ public static class AppSettings
 	}
 
 
-	private static SolidColorBrush borderBrush = Brushes.DarkGray;
+	private static SolidColorBrush borderBrush = new BrushConverter().ConvertFrom("#FFC8C8C8") as SolidColorBrush;
 	public static SolidColorBrush BorderBrush
 	{
 		get { return borderBrush; }
