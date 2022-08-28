@@ -150,6 +150,11 @@ public static class AppSettings
 			Settings.Theme = value;
 
 			UpdateCachedSettings();
+			NotifyStaticPropertyChanged(nameof(WindowForegroundColor));
+			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
+			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
+			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
+			NotifyStaticPropertyChanged(nameof(BorderColor));
 		}
 	}
 
@@ -336,6 +341,7 @@ public static class AppSettings
 			windowForeground = value;
 			windowForeground.Freeze();
 			CurrentTheme.WindowForeground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(WindowForeground));
 			NotifyStaticPropertyChanged(nameof(WindowForegroundColor));
 		}
 	}
@@ -356,6 +362,7 @@ public static class AppSettings
 			windowBackground = value;
 			windowBackground.Freeze();
 			CurrentTheme.WindowBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(WindowBackground));
 			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
 		}
 	}
@@ -377,6 +384,7 @@ public static class AppSettings
 			dialoglBackground.Freeze();
 			CurrentTheme.DialogBackground = value.Color.ToString();
 			NotifyStaticPropertyChanged(nameof(DialogBackground));
+			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
 		}
 	}
 	public static Color DialogBackgroundColor
@@ -396,6 +404,7 @@ public static class AppSettings
 			controlBackground = value;
 			controlBackground.Freeze();
 			CurrentTheme.ControlBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(ControlBackground));
 			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
 		}
 	}
@@ -417,6 +426,7 @@ public static class AppSettings
 			borderBrush = value;
 			borderBrush.Freeze();
 			CurrentTheme.BorderColor = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(BorderBrush));
 			NotifyStaticPropertyChanged(nameof(BorderColor));
 		}
 	}
