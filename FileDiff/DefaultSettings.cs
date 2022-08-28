@@ -70,11 +70,11 @@ public static class DefaultSettings
 		WindowForeground = "#FF000000",
 		WindowBackground = "#FFFFFFFF",
 
-		DialogBackground = "#FFEDEDED",
+		DialogBackground = "#FFF0F0F0",
 
 		ControlBackground = "#FFDDDDDD",
 
-		BorderColor = "#FFCCCCCC",
+		BorderColor = "#FFC8C8C8",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",

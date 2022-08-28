@@ -114,7 +114,7 @@
 				<WrapPanel.Background>
 					<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
 						<GradientStop Offset="0" Color="{Binding WindowBackground.Color, FallbackValue=White}" />
-						<GradientStop Offset="1" Color="{Binding DialogBackground.Color, FallbackValue=#FFEDEDED}" />
+						<GradientStop Offset="1" Color="{Binding DialogBackground.Color, FallbackValue=#FFF0F0F0}" />
 					</LinearGradientBrush>
 				</WrapPanel.Background>
 
