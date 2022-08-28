@@ -387,7 +387,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush controlBackground;
+	private static SolidColorBrush controlBackground = Brushes.Gray;
 	public static SolidColorBrush ControlBackground
 	{
 		get { return controlBackground; }
@@ -408,7 +408,7 @@ public static class AppSettings
 	}
 
 
-	private static SolidColorBrush borderBrush;
+	private static SolidColorBrush borderBrush = Brushes.DarkGray;
 	public static SolidColorBrush BorderBrush
 	{
 		get { return borderBrush; }
