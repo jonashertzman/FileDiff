@@ -91,7 +91,7 @@
 
 	<Style TargetType="{x:Type TabItem}">
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-		<Setter Property="Foreground" Value="Black" />
+		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=#Black}" />
 		<Setter Property="Background" Value="{StaticResource TabItem.Static.Background}" />
 		<Setter Property="BorderBrush" Value="{StaticResource TabItem.Static.Border}" />
 		<Setter Property="Margin" Value="0" />
