@@ -24,7 +24,7 @@
 	<SolidColorBrush x:Key="ScrollBar.Pressed.Background" Color="#606060" />
 	<SolidColorBrush x:Key="ScrollBar.Pressed.Border" Color="#606060" />
 	<SolidColorBrush x:Key="ScrollBar.Pressed.Thumb" Color="#606060" />
-	<SolidColorBrush x:Key="ScrollBar.Pressed.Glyph" Color="#FFFFFF" />
+	<SolidColorBrush x:Key="ScrollBar.Pressed.Glyph" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=#FF000000}" />
 	<SolidColorBrush x:Key="ScrollBar.Disabled.Background" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
 	<SolidColorBrush x:Key="ScrollBar.Disabled.Border" Color="Transparent" />
 	<SolidColorBrush x:Key="ScrollBar.Disabled.Glyph" Color="#BFBFBF" />
@@ -57,7 +57,7 @@
 					<Border x:Name="border" Background="{StaticResource ScrollBar.Static.Background}" BorderBrush="{StaticResource ScrollBar.Static.Border}" BorderThickness="1" SnapsToDevicePixels="true">
 						<ContentPresenter x:Name="contentPresenter" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Focusable="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 					</Border>
-					<ControlTemplate.Triggers>
+					<!--<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="true">
 							<Setter TargetName="border" Property="Background" Value="{StaticResource ScrollBar.MouseOver.Background}" />
 							<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ScrollBar.MouseOver.Border}" />
@@ -71,7 +71,7 @@
 							<Setter TargetName="border" Property="Background" Value="{StaticResource ScrollBar.Disabled.Background}" />
 							<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource ScrollBar.Disabled.Border}" />
 						</Trigger>
-					</ControlTemplate.Triggers>
+					</ControlTemplate.Triggers>-->
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
