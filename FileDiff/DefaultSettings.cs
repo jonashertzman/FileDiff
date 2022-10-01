@@ -36,6 +36,7 @@ public static class DefaultSettings
 		DialogBackground = "#FF1F1F1F",
 
 		ControlBackground = "#FF3D3D3D",
+		ControlDarkBackground = "#FFACACAC",
 
 		BorderColor = "#FF424242",
 
@@ -73,6 +74,7 @@ public static class DefaultSettings
 		DialogBackground = "#FFF0F0F0",
 
 		ControlBackground = "#FFDDDDDD",
+		ControlDarkBackground = "#FFACACAC",
 
 		BorderColor = "#FFC8C8C8",
 

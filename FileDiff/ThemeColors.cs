@@ -30,6 +30,7 @@ public class ThemeColors
 	public string DialogBackground { get; set; }
 
 	public string ControlBackground { get; set; }
+	public string ControlDarkBackground { get; set; }
 
 	public string BorderColor { get; set; }
 	public string LineNumberColor { get; set; }

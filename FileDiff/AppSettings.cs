@@ -416,6 +416,26 @@ public static class AppSettings
 		}
 	}
 
+	private static SolidColorBrush controlDarkBackground = new BrushConverter().ConvertFrom("#FFACACAC") as SolidColorBrush;
+	public static SolidColorBrush ControlDarkBackground
+	{
+		get { return controlDarkBackground; }
+		set
+		{
+			controlDarkBackground = value;
+			controlDarkBackground.Freeze();
+			CurrentTheme.ControlDarkBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(ControlDarkBackground));
+			NotifyStaticPropertyChanged(nameof(ControlDarkBackgroundColor));
+		}
+	}
+	public static Color ControlDarkBackgroundColor
+	{
+		get
+		{
+			return controlDarkBackground.Color;
+		}
+	}
 
 	private static SolidColorBrush borderBrush = new BrushConverter().ConvertFrom("#FFC8C8C8") as SolidColorBrush;
 	public static SolidColorBrush BorderBrush
@@ -580,6 +600,7 @@ public static class AppSettings
 		DialogBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DialogBackground));
 
 		ControlBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlBackground));
+		ControlDarkBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlDarkBackground));
 
 		BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderColor));
 

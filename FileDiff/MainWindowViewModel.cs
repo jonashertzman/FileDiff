@@ -489,11 +489,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public Brush WindowForeground
 	{
 		get { return AppSettings.WindowForeground; }
-		set
-		{
-			AppSettings.WindowForeground = value as SolidColorBrush;
-			OnPropertyChanged(nameof(WindowForeground));
-		}
+		set { AppSettings.WindowForeground = value as SolidColorBrush; OnPropertyChanged(nameof(WindowForeground)); }
 	}
 
 	public Brush WindowBackground
@@ -512,6 +508,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		get { return AppSettings.ControlBackground; }
 		set { AppSettings.ControlBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlBackground)); }
+	}
+
+	public Brush ControlDarkBackground
+	{
+		get { return AppSettings.ControlDarkBackground; }
+		set { AppSettings.ControlDarkBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlDarkBackground)); }
 	}
 
 	public Brush BorderColor
