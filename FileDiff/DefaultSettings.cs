@@ -38,6 +38,9 @@ public static class DefaultSettings
 		ControlBackground = "#FF3D3D3D",
 		ControlDarkBackground = "#FFACACAC",
 
+		HighlightBackground = "#DCECFC",
+		HighlightBorder = "#7EB4EA",
+
 		BorderColor = "#FF424242",
 
 		LineNumberColor = "#FF585858",
@@ -75,6 +78,9 @@ public static class DefaultSettings
 
 		ControlBackground = "#FFDDDDDD",
 		ControlDarkBackground = "#FFACACAC",
+
+		HighlightBackground = "#DCECFC",
+		HighlightBorder = "#7EB4EA",
 
 		BorderColor = "#FFC8C8C8",
 

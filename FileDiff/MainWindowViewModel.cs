@@ -516,6 +516,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.ControlDarkBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlDarkBackground)); }
 	}
 
+	public Brush HighlightBackground
+	{
+		get { return AppSettings.HighlightBackground; }
+		set { AppSettings.HighlightBackground = value as SolidColorBrush; OnPropertyChanged(nameof(HighlightBackground)); }
+	}
+
+	public Brush HighlightBorder
+	{
+		get { return AppSettings.HighlightBorder; }
+		set { AppSettings.HighlightBorder = value as SolidColorBrush; OnPropertyChanged(nameof(HighlightBorder)); }
+	}
+
 	public Brush BorderColor
 	{
 		get { return AppSettings.BorderBrush; }

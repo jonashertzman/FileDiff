@@ -17,10 +17,7 @@
 	<SolidColorBrush x:Key="TabItem.Static.Border" Color="{Binding Path=(local:AppSettings.BorderColor), FallbackValue=#FFC8C8C8}" />
 	<SolidColorBrush x:Key="TabItem.Selected.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#F0F0F0}" />
 	<SolidColorBrush x:Key="TabItem.Selected.Border" Color="{Binding Path=(local:AppSettings.BorderColor), FallbackValue=#FFC8C8C8}" />
-	<LinearGradientBrush x:Key="TabItem.MouseOver.Background" StartPoint="0,0" EndPoint="0,1">
-		<GradientStop Offset="0.0" Color="#ECF4FC" />
-		<GradientStop Offset="1.0" Color="#DCECFC" />
-	</LinearGradientBrush>
+	<SolidColorBrush x:Key="TabItem.MouseOver.Background" Color="#DCECFC" />
 	<SolidColorBrush x:Key="TabItem.MouseOver.Border" Color="#7EB4EA" />
 	<SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0" />
 	<SolidColorBrush x:Key="TabItem.Disabled.Border" Color="#D9D9D9" />

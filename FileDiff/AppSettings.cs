@@ -403,7 +403,7 @@ public static class AppSettings
 		{
 			controlBackground = value;
 			controlBackground.Freeze();
-			CurrentTheme.ControlBackground = value.Color.ToString();
+			CurrentTheme.ControlDarkBackground = value.Color.ToString();
 			NotifyStaticPropertyChanged(nameof(ControlBackground));
 			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
 		}
@@ -457,6 +457,50 @@ public static class AppSettings
 			return borderBrush.Color;
 		}
 	}
+
+	private static SolidColorBrush highlightBackground = new BrushConverter().ConvertFrom("#DCECFC") as SolidColorBrush;
+	public static SolidColorBrush HighlightBackground
+	{
+		get { return highlightBackground; }
+		set
+		{
+			highlightBackground = value;
+			highlightBackground.Freeze();
+			CurrentTheme.HighlightBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(HighlightBackground));
+			NotifyStaticPropertyChanged(nameof(HighlightBackgroundColor));
+		}
+	}
+	public static Color HighlightBackgroundColor
+	{
+		get
+		{
+			return highlightBackground.Color;
+		}
+	}
+
+	private static SolidColorBrush highlightBorder = new BrushConverter().ConvertFrom("#7EB4EA") as SolidColorBrush;
+	public static SolidColorBrush HighlightBorder
+	{
+		get { return highlightBorder; }
+		set
+		{
+			highlightBorder = value;
+			highlightBorder.Freeze();
+			CurrentTheme.HighlightBorder = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(HighlightBorder));
+			NotifyStaticPropertyChanged(nameof(HighlightBorderColor));
+		}
+	}
+	public static Color HighlightBorderColor
+	{
+		get
+		{
+			return highlightBorder.Color;
+		}
+	}
+
+	private static SolidColorBrush highlightBOrder = new BrushConverter().ConvertFrom("#7EB4EA") as SolidColorBrush;
 
 	private static SolidColorBrush lineNumberColor;
 	public static SolidColorBrush LineNumberColor
@@ -601,6 +645,9 @@ public static class AppSettings
 
 		ControlBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlBackground));
 		ControlDarkBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlDarkBackground));
+
+		HighlightBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBackground));
+		HighlightBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBorder));
 
 		BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderColor));
 

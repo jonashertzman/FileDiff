@@ -99,6 +99,8 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
 							<Label Grid.Row="0" Grid.Column="1" Content="Foreground" />
@@ -132,6 +134,8 @@
 							<Rectangle x:Name="IgnoredForeground" Grid.Row="7" Grid.Column="1" Margin="5" Fill="{Binding IgnoredForeground, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="IgnoredBackground" Grid.Row="7" Grid.Column="2" Margin="5" Fill="{Binding IgnoredBackground, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
+							<Label Grid.Row="8" Grid.Column="0" Content="Selection" />
+							<Rectangle x:Name="SelectionBackground" Grid.Row="8" Grid.Column="2" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<!--<Label Grid.Row="9" Grid.Column="0" Content="Line Numbers" />
 							<Rectangle x:Name="LineNumber" Grid.Row="9" Grid.Column="1" Margin="5" Fill="{Binding LineNumberColor, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
@@ -159,8 +163,11 @@
 							<Label Grid.Row="6" Grid.Column="5" Content="Border" />
 							<Rectangle x:Name="BorderColorx" Grid.Row="6" Grid.Column="6" Margin="5" Fill="{Binding BorderColor, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="7" Grid.Column="5" Content="Selection" />
-							<Rectangle x:Name="SelectionBackground" Grid.Row="7" Grid.Column="6" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="7" Grid.Column="5" Content="Highlight Background" />
+							<Rectangle x:Name="HighlightBackground" Grid.Row="7" Grid.Column="6" Margin="5" Fill="{Binding HighlightBackground, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+							<Label Grid.Row="8" Grid.Column="5" Content="Highlight Border" />
+							<Rectangle x:Name="HighlightBorder" Grid.Row="8" Grid.Column="6" Margin="5" Fill="{Binding HighlightBorder, Mode=TwoWay}" Stroke="{Binding BorderColor, FallbackValue=#FFCCCCCC}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
 								<Grid RenderOptions.ClearTypeHint="Enabled">
