@@ -500,8 +500,6 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush highlightBOrder = new BrushConverter().ConvertFrom("#7EB4EA") as SolidColorBrush;
-
 	private static SolidColorBrush lineNumberColor;
 	public static SolidColorBrush LineNumberColor
 	{
