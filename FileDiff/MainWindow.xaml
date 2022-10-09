@@ -71,7 +71,7 @@
 			</DockPanel.CommandBindings>
 
 			<!--  Menu  -->
-			<Border DockPanel.Dock="Top" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,0,0,1">
+			<Border DockPanel.Dock="Top" BorderBrush="{Binding BorderColor, FallbackValue=#FFD6D6D6}" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,0,0,1">
 				<Grid x:Name="GridMenu">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />

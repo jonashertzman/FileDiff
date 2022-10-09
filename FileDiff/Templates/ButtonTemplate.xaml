@@ -14,7 +14,7 @@
 	</Style>
 
 	<SolidColorBrush x:Key="Button.Static.Background" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
-	<SolidColorBrush x:Key="Button.Static.Border" Color="{Binding Path=(local:AppSettings.ControlDarkBackgroundColor), FallbackValue=#FFAAAAAA}" />
+	<SolidColorBrush x:Key="Button.Static.Border" Color="{Binding Path=(local:AppSettings.ControlDarkBackgroundColor), FallbackValue=#FFACACAC}" />
 	<SolidColorBrush x:Key="Button.MouseOver.Background" Color="#DCECFC" />
 	<SolidColorBrush x:Key="Button.MouseOver.Border" Color="#7EB4EA" />
 	<SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6" />

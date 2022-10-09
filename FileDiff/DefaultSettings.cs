@@ -82,7 +82,7 @@ public static class DefaultSettings
 		HighlightBackground = "#DCECFC",
 		HighlightBorder = "#7EB4EA",
 
-		BorderColor = "#FFC8C8C8",
+		BorderColor = "#FFD6D6D6",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
