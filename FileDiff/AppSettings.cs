@@ -332,7 +332,7 @@ public static class AppSettings
 
 
 	// GUI colors
-	private static SolidColorBrush windowForeground = Brushes.Black;
+	private static SolidColorBrush windowForeground = DefaultSettings.LightTheme.WindowForeground.ToBrush();
 	public static SolidColorBrush WindowForeground
 	{
 		get { return windowForeground; }
@@ -353,7 +353,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush windowBackground = Brushes.White;
+	private static SolidColorBrush windowBackground = DefaultSettings.LightTheme.WindowBackground.ToBrush();
 	public static SolidColorBrush WindowBackground
 	{
 		get { return windowBackground; }
@@ -374,7 +374,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush dialoglBackground = new BrushConverter().ConvertFrom("#FFF0F0F0") as SolidColorBrush;
+	private static SolidColorBrush dialoglBackground = DefaultSettings.LightTheme.DialogBackground.ToBrush();
 	public static SolidColorBrush DialogBackground
 	{
 		get { return dialoglBackground; }
@@ -395,7 +395,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush controlBackground = new BrushConverter().ConvertFrom("#FFDDDDDD") as SolidColorBrush;
+	private static SolidColorBrush controlBackground = DefaultSettings.LightTheme.ControlBackground.ToBrush();
 	public static SolidColorBrush ControlBackground
 	{
 		get { return controlBackground; }
@@ -416,7 +416,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush controlDarkBackground = new BrushConverter().ConvertFrom("#FFACACAC") as SolidColorBrush;
+	private static SolidColorBrush controlDarkBackground = DefaultSettings.LightTheme.ControlDarkBackground.ToBrush();
 	public static SolidColorBrush ControlDarkBackground
 	{
 		get { return controlDarkBackground; }
@@ -437,7 +437,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush borderBrush = new BrushConverter().ConvertFrom("#FFC8C8C8") as SolidColorBrush;
+	private static SolidColorBrush borderBrush = DefaultSettings.LightTheme.BorderColor.ToBrush();
 	public static SolidColorBrush BorderBrush
 	{
 		get { return borderBrush; }
@@ -458,7 +458,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush highlightBackground = new BrushConverter().ConvertFrom("#DCECFC") as SolidColorBrush;
+	private static SolidColorBrush highlightBackground = DefaultSettings.LightTheme.HighlightBackground.ToBrush();
 	public static SolidColorBrush HighlightBackground
 	{
 		get { return highlightBackground; }
@@ -479,7 +479,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush highlightBorder = new BrushConverter().ConvertFrom("#7EB4EA") as SolidColorBrush;
+	private static SolidColorBrush highlightBorder = DefaultSettings.LightTheme.HighlightBorder.ToBrush();
 	public static SolidColorBrush HighlightBorder
 	{
 		get { return highlightBorder; }
