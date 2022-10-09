@@ -403,7 +403,7 @@ public static class AppSettings
 		{
 			controlBackground = value;
 			controlBackground.Freeze();
-			CurrentTheme.ControlDarkBackground = value.Color.ToString();
+			CurrentTheme.ControlBackground = value.Color.ToString();
 			NotifyStaticPropertyChanged(nameof(ControlBackground));
 			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
 		}
