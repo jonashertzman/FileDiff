@@ -172,7 +172,6 @@ public static class AppSettings
 	}
 
 
-
 	// Text colors
 	private static SolidColorBrush fullMatchForeground;
 	public static SolidColorBrush FullMatchForeground

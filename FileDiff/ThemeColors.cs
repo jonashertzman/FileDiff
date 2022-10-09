@@ -3,6 +3,8 @@
 public class ThemeColors
 {
 
+	#region Properties
+
 	public string FullMatchForeground { get; set; }
 	public string FullMatchBackground { get; set; }
 
@@ -40,9 +42,15 @@ public class ThemeColors
 	public string CurrentDiffColor { get; set; }
 	public string SnakeColor { get; set; }
 
+	#endregion
+
+	#region Methods
+
 	public ThemeColors Clone()
 	{
 		return (ThemeColors)MemberwiseClone();
 	}
+
+	#endregion
 
 }
