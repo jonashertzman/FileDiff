@@ -54,7 +54,8 @@ public partial class BrowseFolderWindow : Window
 		switch (source)
 		{
 			case DriveInfo drive:
-				item.Header = drive.Name.TrimEnd('\\');
+				string label = drive.IsReady ? $"{drive.VolumeLabel} " : "";
+				item.Header = $"{label}({drive.Name.TrimEnd('\\')})";
 				item.Items.Add("Loading...");
 				break;
 
