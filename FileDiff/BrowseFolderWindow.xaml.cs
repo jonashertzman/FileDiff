@@ -81,7 +81,9 @@ public partial class BrowseFolderWindow : Window
 		{
 			foreach (TreeViewItem item in parent)
 			{
-				if (((string)item.Header).Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
+				string subpath = item.Tag is DriveInfo ? ((DriveInfo)item.Tag).Name.TrimEnd('\\') : (string)item.Header;
+
+				if (subpath.Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
 				{
 					item.IsExpanded = true;
 
