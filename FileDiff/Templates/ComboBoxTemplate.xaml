@@ -164,7 +164,7 @@
 			</Grid.ColumnDefinitions>
 			<Popup x:Name="PART_Popup" Grid.ColumnSpan="2" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
 				<theme:SystemDropShadowChrome x:Name="shadow" MinWidth="{Binding ActualWidth, ElementName=templateRoot}" MaxHeight="{TemplateBinding MaxDropDownHeight}" Color="Transparent">
-					<Border x:Name="dropDownBorder" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
+					<Border x:Name="dropDownBorder" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="{StaticResource ComboBox.Static.Border}" BorderThickness="1">
 						<ScrollViewer x:Name="DropDownScrollViewer">
 							<Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
 								<Canvas x:Name="canvas" Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -217,7 +217,7 @@
 			</Grid.ColumnDefinitions>
 			<Popup x:Name="PART_Popup" Grid.ColumnSpan="2" Margin="1" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
 				<theme:SystemDropShadowChrome x:Name="shadow" MinWidth="{Binding ActualWidth, ElementName=templateRoot}" MaxHeight="{TemplateBinding MaxDropDownHeight}" Color="Transparent">
-					<Border x:Name="dropDownBorder" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
+					<Border x:Name="dropDownBorder" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="{StaticResource ComboBox.Static.Border}" BorderThickness="1">
 						<ScrollViewer x:Name="DropDownScrollViewer">
 							<Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
 								<Canvas x:Name="canvas" Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top">
