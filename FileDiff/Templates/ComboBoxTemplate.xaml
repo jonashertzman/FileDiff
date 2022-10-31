@@ -32,41 +32,26 @@
 		</Setter>
 	</Style>
 
-	<LinearGradientBrush x:Key="ComboBox.Static.Background" StartPoint="0,0" EndPoint="0,1">
-		<GradientStop Offset="0.0" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
-		<GradientStop Offset="1.0" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
-	</LinearGradientBrush>
+	<SolidColorBrush x:Key="ComboBox.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFDDDDDD}" />
 	<SolidColorBrush x:Key="ComboBox.Static.Border" Color="{Binding Path=(local:AppSettings.BorderColor), FallbackValue=#FFD6D6D6}" />
 	<SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="{Binding Path=(local:AppSettings.BorderColor), FallbackValue=#FFD6D6D6}" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent" />
-	<LinearGradientBrush x:Key="ComboBox.MouseOver.Background" StartPoint="0,0" EndPoint="0,1">
-		<GradientStop Offset="0.0" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
-		<GradientStop Offset="1.0" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
-	</LinearGradientBrush>
+	<SolidColorBrush x:Key="ComboBox.MouseOver.Background" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
 	<SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#FF7EB4EA" />
 	<SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="#FF000000" />
 	<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#FFFFFFFF" />
 	<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#FF7EB4EA" />
-	<LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" StartPoint="0,0" EndPoint="0,1">
-		<GradientStop Offset="0.0" Color="#FFEBF4FC" />
-		<GradientStop Offset="1.0" Color="#FFDCECFC" />
-	</LinearGradientBrush>
+	<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" Color="#FFEBF4FC" />
 	<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#FF7EB4EA" />
-	<LinearGradientBrush x:Key="ComboBox.Pressed.Background" StartPoint="0,0" EndPoint="0,1">
-		<GradientStop Offset="0.0" Color="#FFDAECFC" />
-		<GradientStop Offset="1.0" Color="#FFC4E0FC" />
-	</LinearGradientBrush>
+	<SolidColorBrush x:Key="ComboBox.Pressed.Background" Color="#FFDAECFC" />
 	<SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5" />
 	<SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000" />
 	<SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="#FFFFFFFF" />
 	<SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5" />
-	<LinearGradientBrush x:Key="ComboBox.Pressed.Editable.Button.Background" StartPoint="0,0" EndPoint="0,1">
-		<GradientStop Offset="0.0" Color="#FFDAEBFC" />
-		<GradientStop Offset="1.0" Color="#FFC4E0FC" />
-	</LinearGradientBrush>
+	<SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Background" Color="#FFDAEBFC" />
 	<SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5" />
 	<SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0" />
 	<SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9" />
@@ -179,7 +164,7 @@
 			</Grid.ColumnDefinitions>
 			<Popup x:Name="PART_Popup" Grid.ColumnSpan="2" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
 				<theme:SystemDropShadowChrome x:Name="shadow" MinWidth="{Binding ActualWidth, ElementName=templateRoot}" MaxHeight="{TemplateBinding MaxDropDownHeight}" Color="Transparent">
-					<Border x:Name="dropDownBorder" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
+					<Border x:Name="dropDownBorder" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
 						<ScrollViewer x:Name="DropDownScrollViewer">
 							<Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
 								<Canvas x:Name="canvas" Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -232,7 +217,7 @@
 			</Grid.ColumnDefinitions>
 			<Popup x:Name="PART_Popup" Grid.ColumnSpan="2" Margin="1" AllowsTransparency="true" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
 				<theme:SystemDropShadowChrome x:Name="shadow" MinWidth="{Binding ActualWidth, ElementName=templateRoot}" MaxHeight="{TemplateBinding MaxDropDownHeight}" Color="Transparent">
-					<Border x:Name="dropDownBorder" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
+					<Border x:Name="dropDownBorder" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
 						<ScrollViewer x:Name="DropDownScrollViewer">
 							<Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
 								<Canvas x:Name="canvas" Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top">
