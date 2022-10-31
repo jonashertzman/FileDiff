@@ -13,7 +13,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	<SolidColorBrush x:Key="TextBox.Static.Background" Color="#FFFFFFFF" />
+	<SolidColorBrush x:Key="TextBox.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=white}" />
 
 	<Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
 		<Setter Property="OverridesDefaultStyle" Value="true" />
@@ -36,10 +36,10 @@
 		<GradientStop Offset="0.0" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
 		<GradientStop Offset="1.0" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
 	</LinearGradientBrush>
-	<SolidColorBrush x:Key="ComboBox.Static.Border" Color="#FFACACAC" />
+	<SolidColorBrush x:Key="ComboBox.Static.Border" Color="{Binding Path=(local:AppSettings.BorderColor), FallbackValue=#FFD6D6D6}" />
 	<SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF" />
-	<SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="#FFABADB3" />
+	<SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="{Binding Path=(local:AppSettings.BorderColor), FallbackValue=#FFD6D6D6}" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent" />
 	<LinearGradientBrush x:Key="ComboBox.MouseOver.Background" StartPoint="0,0" EndPoint="0,1">
