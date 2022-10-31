@@ -13,7 +13,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	<SolidColorBrush x:Key="TextBox.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=white}" />
+	<SolidColorBrush x:Key="TextBox.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=White}" />
 
 	<Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
 		<Setter Property="OverridesDefaultStyle" Value="true" />
@@ -201,7 +201,7 @@
 				<Setter TargetName="border" Property="Opacity" Value="0.56" />
 			</Trigger>
 			<Trigger Property="IsKeyboardFocusWithin" Value="true">
-				<Setter Property="Foreground" Value="Black" />
+				<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
 			</Trigger>
 			<Trigger SourceName="PART_Popup" Property="HasDropShadow" Value="true">
 				<Setter TargetName="shadow" Property="Margin" Value="0,0,5,5" />
@@ -273,7 +273,7 @@
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
 		<Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}" />
 		<Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}" />
-		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=#Black}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
