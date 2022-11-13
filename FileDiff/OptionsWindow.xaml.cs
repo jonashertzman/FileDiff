@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -24,12 +25,12 @@ public partial class OptionsWindow : Window
 
 		foreach (FontFamily family in Fonts.SystemFontFamilies.OrderBy(x => x.Source))
 		{
-			ComboBoxFont.Items.Add(family.Source);
+			ComboBoxFont.Items.Add(new ComboBoxItem { Content = family.Source });
 		}
 
 		foreach (string name in Enum.GetNames(typeof(ColorTheme)))
 		{
-			ComboBoxTheme.Items.Add(name);
+			ComboBoxTheme.Items.Add(new ComboBoxItem { Content = name });
 		}
 	}
 
