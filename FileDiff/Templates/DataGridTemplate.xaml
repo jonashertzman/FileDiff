@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="clr-namespace:FileDiff">
 
 	<Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
 		<Setter Property="Template">
@@ -29,9 +30,9 @@
 	<Style TargetType="{x:Type DataGrid}">
 		<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-		<Setter Property="BorderBrush" Value="#FF688CAF" />
+		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
 		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+
 		<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
 		<Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" />
 

@@ -9,6 +9,7 @@ public static class DefaultSettings
 
 	internal static ThemeColors DarkTheme { get; } = new ThemeColors()
 	{
+		// Diff colors
 		FullMatchForeground = "#FFFFFFFF",
 		FullMatchBackground = "#1B1B1B",
 
@@ -30,18 +31,23 @@ public static class DefaultSettings
 
 		SelectionBackground = "#320096D2",
 
+		// GUI colors
 		WindowForeground = "#FFFFFFFF",
 		WindowBackground = "#FF1F1F1F",
 
 		DialogBackground = "#FF1F1F1F",
 
 		ControlBackground = "#FF3D3D3D",
+
+		BorderForeground = "#FF424242",
+
 		ControlDarkBackground = "#FFACACAC",
 
 		HighlightBackground = "#DCECFC",
 		HighlightBorder = "#7EB4EA",
 
-		BorderColor = "#FF424242",
+
+
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
@@ -82,7 +88,7 @@ public static class DefaultSettings
 		HighlightBackground = "#DCECFC",
 		HighlightBorder = "#7EB4EA",
 
-		BorderColor = "#FFD6D6D6",
+		BorderForeground = "#FFD6D6D6",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",

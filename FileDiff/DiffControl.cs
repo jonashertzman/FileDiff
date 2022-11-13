@@ -118,7 +118,7 @@ public class DiffControl : Control
 		//Brush currentDiffBrush2 = new LinearGradientBrush(Colors.Transparent, semiTransparent, 0);
 		//currentDiffBrush2.Freeze();
 
-		Pen borderPen = new Pen(AppSettings.BorderBrush, RoundToWholePixels(1));
+		Pen borderPen = new Pen(AppSettings.BorderForeground, RoundToWholePixels(1));
 		borderPen.Freeze();
 		GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 

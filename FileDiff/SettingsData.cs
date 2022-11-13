@@ -48,4 +48,11 @@ public class SettingsData
 
 	public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();
 
+	[System.Runtime.Serialization.OnDeserialized]
+	void OnDeserialized(System.Runtime.Serialization.StreamingContext c)
+	{
+		DarkTheme = DefaultSettings.DarkTheme.Clone();
+		LightTheme = DefaultSettings.LightTheme.Clone();
+	}
+
 }

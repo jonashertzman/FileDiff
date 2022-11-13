@@ -154,7 +154,7 @@ public static class AppSettings
 			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
-			NotifyStaticPropertyChanged(nameof(BorderColor));
+			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
 		}
 	}
 
@@ -436,24 +436,24 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush borderBrush = DefaultSettings.LightTheme.BorderColor.ToBrush();
-	public static SolidColorBrush BorderBrush
+	private static SolidColorBrush borderForeground = DefaultSettings.LightTheme.BorderForeground.ToBrush();
+	public static SolidColorBrush BorderForeground
 	{
-		get { return borderBrush; }
+		get { return borderForeground; }
 		set
 		{
-			borderBrush = value;
-			borderBrush.Freeze();
-			CurrentTheme.BorderColor = value.Color.ToString();
-			NotifyStaticPropertyChanged(nameof(BorderBrush));
-			NotifyStaticPropertyChanged(nameof(BorderColor));
+			borderForeground = value;
+			borderForeground.Freeze();
+			CurrentTheme.BorderForeground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(BorderForeground));
+			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
 		}
 	}
-	public static Color BorderColor
+	public static Color BorderForegroundColor
 	{
 		get
 		{
-			return borderBrush.Color;
+			return borderForeground.Color;
 		}
 	}
 
@@ -612,45 +612,52 @@ public static class AppSettings
 
 	private static void UpdateCachedSettings()
 	{
-		Font = new FontFamily(Settings.Font);
+		try
+		{
+			Font = new FontFamily(Settings.Font);
 
-		FullMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FullMatchForeground));
-		FullMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FullMatchBackground));
+			FullMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FullMatchForeground));
+			FullMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FullMatchBackground));
 
-		PartialMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.PartialMatchForeground));
-		PartialMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.PartialMatchBackground));
+			PartialMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.PartialMatchForeground));
+			PartialMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.PartialMatchBackground));
 
-		DeletedForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DeletedForeground));
-		DeletedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DeletedBackground));
+			DeletedForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DeletedForeground));
+			DeletedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DeletedBackground));
 
-		NewForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewForeground));
-		NewBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewBackground));
+			NewForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewForeground));
+			NewBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewBackground));
 
-		MovedFromdBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromdBackground));
+			MovedFromdBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromdBackground));
 
-		MovedToBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedToBackground));
+			MovedToBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedToBackground));
 
-		IgnoredForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredForeground));
-		IgnoredBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredBackground));
+			IgnoredForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredForeground));
+			IgnoredBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredBackground));
 
-		SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
+			SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
 
-		WindowForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowForeground));
-		WindowBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
+			WindowForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowForeground));
+			WindowBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
 
-		DialogBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DialogBackground));
+			DialogBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DialogBackground));
 
-		ControlBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlBackground));
-		ControlDarkBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlDarkBackground));
+			ControlBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlBackground));
+			ControlDarkBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlDarkBackground));
 
-		HighlightBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBackground));
-		HighlightBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBorder));
+			HighlightBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBackground));
+			HighlightBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBorder));
 
-		BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderColor));
+			BorderForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderForeground));
 
-		LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
-		CurrentDiffColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.CurrentDiffColor));
-		SnakeColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SnakeColor));
+			LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
+			CurrentDiffColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.CurrentDiffColor));
+			SnakeColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SnakeColor));
+		}
+		catch
+		{
+
+		}
 	}
 
 	internal static SolidColorBrush GetForeground(TextState state)

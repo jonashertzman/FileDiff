@@ -37,7 +37,7 @@ public class ThemeColors
 	public string HighlightBackground { get; set; }
 	public string HighlightBorder { get; set; }
 
-	public string BorderColor { get; set; }
+	public string BorderForeground { get; set; }
 	public string LineNumberColor { get; set; }
 	public string CurrentDiffColor { get; set; }
 	public string SnakeColor { get; set; }

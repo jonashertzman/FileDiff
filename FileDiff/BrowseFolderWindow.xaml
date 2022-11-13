@@ -47,7 +47,7 @@
 			</StackPanel>
 		</StackPanel>
 
-		<TreeView x:Name="FolderTree" Grid.Row="1" Grid.ColumnSpan="4" Margin="10,0,10,0" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" TreeViewItem.Expanded="TreeViewItem_Expanded" SelectedItemChanged="FolderTree_SelectedItemChanged">
+		<TreeView x:Name="FolderTree" Grid.Row="1" Margin="10,0,10,0" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" TreeViewItem.Expanded="TreeViewItem_Expanded" SelectedItemChanged="FolderTree_SelectedItemChanged">
 			<TreeView.Resources>
 				<Style TargetType="{x:Type TreeViewItem}">
 					<!--  Style for the selected item  -->

@@ -528,10 +528,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.HighlightBorder = value as SolidColorBrush; OnPropertyChanged(nameof(HighlightBorder)); }
 	}
 
-	public Brush BorderColor
+	public Brush BorderForeground
 	{
-		get { return AppSettings.BorderBrush; }
-		set { AppSettings.BorderBrush = value as SolidColorBrush; OnPropertyChanged(nameof(BorderColor)); }
+		get { return AppSettings.BorderForeground; }
+		set { AppSettings.BorderForeground = value as SolidColorBrush; OnPropertyChanged(nameof(BorderForeground)); }
 	}
 
 	public Brush LineNumberColor

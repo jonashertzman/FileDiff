@@ -24,7 +24,7 @@
 	</Style>
 
 	<SolidColorBrush x:Key="OptionMark.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFFFFFFF}" />
-	<SolidColorBrush x:Key="OptionMark.Static.Border" Color="{Binding Path=(local:AppSettings.BorderColor), FallbackValue=#FFC8C8C8}" />
+	<SolidColorBrush x:Key="OptionMark.Static.Border" Color="{Binding Path=(local:AppSettings.BorderForegroundColor), FallbackValue=#FFC8C8C8}" />
 	<SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=#FF000000}" />
 	<SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF" />
 	<SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF" />
