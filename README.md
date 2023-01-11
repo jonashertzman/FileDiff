@@ -17,17 +17,17 @@ Download latest version **[HERE](https://jonashertzman.github.io/FileDiff/downlo
 
 ### Screen shots
 
-![screen](docs/images/Screen1.png)
+![screen](docs/images/Screen1.png)  
 *File compare.*
 
-![screen](docs/images/Screen2.png)
+![screen](docs/images/Screen2.png)  
 *Directory compare.*
 
-![screen](docs/images/Screen3.png)
+![screen](docs/images/Screen3.png)  
 *Combined master detail compare for quickly going through multiple diffs in large file trees.* 
 
-![screen](docs/images/Screen5.png)
+![screen](docs/images/Screen5.png)  
 *Moved file section.*
 
-![screen](docs/images/Screen4.png)
+![screen](docs/images/Screen4.png)  
 *Full DPI support.*
