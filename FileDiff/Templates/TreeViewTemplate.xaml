@@ -6,10 +6,11 @@
 	<SolidColorBrush x:Key="ListBorder" Color="#828790" />
 	<SolidColorBrush x:Key="Treeview.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFFFFFFF}" />
 	<SolidColorBrush x:Key="Treeview.Static.Foreground" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=#FF000000}" />
+	<SolidColorBrush x:Key="Treeview.Static.Border" Color="{Binding Path=(local:AppSettings.BorderForegroundColor), FallbackValue=#FFD6D6D6}" />
 
 	<Style TargetType="{x:Type TreeView}">
 		<Setter Property="Background" Value="{StaticResource Treeview.Static.Background}" />
-		<Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Treeview.Static.Border}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Padding" Value="1" />
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
