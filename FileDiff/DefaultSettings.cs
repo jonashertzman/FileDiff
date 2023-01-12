@@ -38,16 +38,12 @@ public static class DefaultSettings
 		DialogBackground = "#FF1F1F1F",
 
 		ControlBackground = "#FF3D3D3D",
-
-		BorderForeground = "#FF424242",
-
 		ControlDarkBackground = "#FFACACAC",
 
-		HighlightBackground = "#DCECFC",
-		HighlightBorder = "#7EB4EA",
+		HighlightBackground = "#213E4C",
+		HighlightBorder = "#26A0DA",
 
-
-
+		BorderForeground = "#FF424242",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",

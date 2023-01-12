@@ -710,8 +710,7 @@ public static class AppSettings
 
 	private static void NotifyStaticPropertyChanged(string propertyName)
 	{
-		if (StaticPropertyChanged != null)
-			StaticPropertyChanged(null, new PropertyChangedEventArgs(propertyName));
+		StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
 	}
 
 	#endregion

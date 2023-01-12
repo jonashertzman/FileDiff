@@ -26,8 +26,8 @@
 	<SolidColorBrush x:Key="OptionMark.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFFFFFFF}" />
 	<SolidColorBrush x:Key="OptionMark.Static.Border" Color="{Binding Path=(local:AppSettings.BorderForegroundColor), FallbackValue=#FFC8C8C8}" />
 	<SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=#FF000000}" />
-	<SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF" />
-	<SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF" />
+	<SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}" />
+	<SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="{Binding Path=(local:AppSettings.HighlightBorderColor), FallbackValue=#7EB4EA}" />
 	<SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121" />
 	<SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF" />
 	<SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD" />
@@ -66,8 +66,8 @@
 						<Trigger Property="IsMouseOver" Value="true">
 							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.MouseOver.Background}" />
 							<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{StaticResource OptionMark.MouseOver.Border}" />
-							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.MouseOver.Glyph}" />
-							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.MouseOver.Glyph}" />
+							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.Static.Glyph}" />
+							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.Static.Glyph}" />
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="false">
 							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.Disabled.Background}" />
@@ -75,12 +75,12 @@
 							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.Disabled.Glyph}" />
 							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.Disabled.Glyph}" />
 						</Trigger>
-						<Trigger Property="IsPressed" Value="true">
+						<!--<Trigger Property="IsPressed" Value="true">
 							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.Pressed.Background}" />
 							<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{StaticResource OptionMark.Pressed.Border}" />
 							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.Pressed.Glyph}" />
 							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.Pressed.Glyph}" />
-						</Trigger>
+						</Trigger>-->
 						<Trigger Property="IsChecked" Value="true">
 							<Setter TargetName="optionMark" Property="Opacity" Value="1" />
 							<Setter TargetName="indeterminateMark" Property="Opacity" Value="0" />

@@ -15,8 +15,8 @@
 
 	<SolidColorBrush x:Key="Button.Static.Background" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
 	<SolidColorBrush x:Key="Button.Static.Border" Color="{Binding Path=(local:AppSettings.ControlDarkBackgroundColor), FallbackValue=#FFACACAC}" />
-	<SolidColorBrush x:Key="Button.MouseOver.Background" Color="#DCECFC" />
-	<SolidColorBrush x:Key="Button.MouseOver.Border" Color="#7EB4EA" />
+	<SolidColorBrush x:Key="Button.MouseOver.Background" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}" />
+	<SolidColorBrush x:Key="Button.MouseOver.Border" Color="{Binding Path=(local:AppSettings.HighlightBorderColor), FallbackValue=#7EB4EA}" />
 	<SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6" />
 	<SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B" />
 	<SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4" />
@@ -46,10 +46,10 @@
 							<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
 							<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
 						</Trigger>
-						<Trigger Property="IsPressed" Value="true">
+						<!--<Trigger Property="IsPressed" Value="true">
 							<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
 							<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
-						</Trigger>
+						</Trigger>-->
 						<Trigger Property="IsEnabled" Value="false">
 							<Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
 							<Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
