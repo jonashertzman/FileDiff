@@ -73,6 +73,7 @@ public static class DefaultSettings
 
 		SelectionBackground = "#320096D2",
 
+		// GUI colors
 		WindowForeground = "#FF000000",
 		WindowBackground = "#FFFFFFFF",
 

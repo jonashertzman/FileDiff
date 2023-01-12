@@ -57,7 +57,7 @@
 							<DataTemplate>
 								<StackPanel Margin="0" Orientation="Horizontal">
 									<ContentPresenter ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Tag, Converter={x:Static local:HeaderToImageConverter.Instance}}" Style="{StaticResource CommonButtonIcon}" />
-									<TextBlock Margin="5,0" VerticalAlignment="Center" Text="{Binding}" />
+									<TextBlock Margin="5,0" VerticalAlignment="Center" Text="{Binding}" Style="{StaticResource StyledTextBlock}" />
 								</StackPanel>
 							</DataTemplate>
 						</Setter.Value>
@@ -65,7 +65,7 @@
 					<Style.Triggers>
 						<!--  Selected and has focus  -->
 						<Trigger Property="IsSelected" Value="True">
-							<Setter Property="BorderBrush" Value="#99D1FF" />
+							<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.HighlightBorder), FallbackValue=#7EB4EA}" />
 						</Trigger>
 
 						<!--  Selected but does not have the focus  -->
@@ -86,7 +86,7 @@
 				</Style>
 
 				<!--  Brushes for the selected item  -->
-				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFCBE8F6" />
+				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}"  />
 				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
 				<SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
 			</TreeView.Resources>

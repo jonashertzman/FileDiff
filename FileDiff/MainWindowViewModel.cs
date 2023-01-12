@@ -160,7 +160,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 			{
 				return AppSettings.PartialMatchBackground;
 			}
-			return SystemColors.ControlBrush;
+			return AppSettings.DialogBackground;
 		}
 	}
 
