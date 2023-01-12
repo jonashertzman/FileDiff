@@ -118,8 +118,8 @@
 				<Setter Property="Foreground" Value="Black" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
+				<Setter Property="Background" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
+				<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="True">
 				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
