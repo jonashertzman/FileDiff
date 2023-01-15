@@ -531,7 +531,7 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="auto" />
 					</Grid.ColumnDefinitions>
-					<TextBlock x:Name="Statusbar" Grid.Column="0" Margin="6,3,3,3" d:Text="Status text" Text="" />
+					<TextBlock x:Name="Statusbar" Grid.Column="0" Margin="6,3,3,3" d:Text="Status text" Text="" Style="{StaticResource StyledTextBlock}" />
 					<Border Grid.Column="1">
 						<TextBlock Margin="10,3,3,3" Text="{Binding LeftFileDescription, FallbackValue=UTF-8 (Windows)}" Background="{Binding EncodingBackground}" Style="{StaticResource StyledTextBlock}" />
 					</Border>
