@@ -13,6 +13,7 @@
 		</Setter>
 	</Style>
 
+	<SolidColorBrush x:Key="Button.Static.Foreground" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=Black}" />
 	<SolidColorBrush x:Key="Button.Static.Background" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFDDDDDD}" />
 	<SolidColorBrush x:Key="Button.Static.Border" Color="{Binding Path=(local:AppSettings.ControlDarkBackgroundColor), FallbackValue=#FFACACAC}" />
 	<SolidColorBrush x:Key="Button.MouseOver.Background" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}" />
@@ -27,7 +28,7 @@
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
 		<Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
-		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
+		<Setter Property="Foreground" Value="{StaticResource Button.Static.Foreground}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
