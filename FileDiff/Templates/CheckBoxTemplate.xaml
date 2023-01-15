@@ -7,7 +7,7 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1" />
+					<Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=black}" SnapsToDevicePixels="true" StrokeThickness="1" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -17,7 +17,7 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<Rectangle Margin="14,0,0,0" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1" />
+					<Rectangle Margin="14,0,0,0" StrokeDashArray="1 2" Stroke="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=black}" SnapsToDevicePixels="true" StrokeThickness="1" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
