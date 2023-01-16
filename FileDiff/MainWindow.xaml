@@ -673,7 +673,7 @@
 					<DropShadowEffect BlurRadius="25" ShadowDepth="0" Opacity=".35" />
 				</Border.Effect>
 			</Border>
-			<Border x:Name="ProgressPanel" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" Cursor="Arrow">
+			<Border x:Name="ProgressPanel" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1" Cursor="Arrow">
 				<StackPanel Margin="5">
 					<Label HorizontalAlignment="Center" Content="Comparing..." />
 					<StackPanel Orientation="Horizontal">

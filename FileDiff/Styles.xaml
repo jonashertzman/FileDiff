@@ -147,7 +147,7 @@
 	<Style TargetType="ContextMenu">
 		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
 		<Setter Property="Background" Value="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}" />
-		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFC8C8C8}" />
+		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
 	</Style>
 
 </ResourceDictionary>

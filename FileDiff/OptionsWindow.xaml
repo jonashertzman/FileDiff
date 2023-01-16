@@ -5,6 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:filediff="clr-namespace:FileDiff"
+	xmlns:local="clr-namespace:FileDiff"
 	Title="Options"
 	Width="778"
 	Height="498"
@@ -172,12 +173,12 @@
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
 								<Grid RenderOptions.ClearTypeHint="Enabled">
 									<!--  Workaround to not fuckup the cleartype rendering  -->
-									<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+									<Border Margin="10" Padding="5" BorderThickness="1" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
 										<Border.Effect>
 											<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
 										</Border.Effect>
 									</Border>
-									<Border Margin="10" Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+									<Border Margin="10" Padding="5" BorderThickness="1" BorderBrush="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
 										<Grid Width="150">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="auto" />
