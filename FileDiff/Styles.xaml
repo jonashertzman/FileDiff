@@ -16,7 +16,7 @@
 	</Style>
 
 	<Style TargetType="Rectangle">
-		<Setter Property="Stroke" Value="{Binding BorderForeground, FallbackValue=#FFCCCCCC}" />
+		<Setter Property="Stroke" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
 	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
@@ -25,11 +25,11 @@
 	</Style>
 
 	<Style TargetType="Border">
-		<Setter Property="BorderBrush" Value="{Binding BorderForeground, FallbackValue=#FFD6D6D6}" />
+		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
 	</Style>
 
 	<Style x:Key="CommonGridSpliter" TargetType="GridSplitter">
-		<Setter Property="BorderBrush" Value="{Binding BorderForeground, FallbackValue=#FFD6D6D6}" />
+		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
 		<Setter Property="Background" Value="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
 	</Style>
 
@@ -62,7 +62,7 @@
 		<Setter Property="Margin" Value="5" />
 		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
 		<Setter Property="Background" Value="{Binding WindowBackground, FallbackValue=White}" />
-		<Setter Property="BorderBrush" Value="{Binding BorderForeground, FallbackValue=#FFD6D6D6}" />
+		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
 		<Setter Property="FocusVisualStyle" Value="{DynamicResource MyFocusVisual}" />
 	</Style>
 
@@ -149,5 +149,18 @@
 		<Setter Property="Background" Value="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}" />
 		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
 	</Style>
+
+	<!--<Style TargetType="ToolTip">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ToolTip">
+					<Border BorderBrush="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" BorderThickness="1" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
+						<ContentPresenter Margin="3" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>-->
+
 
 </ResourceDictionary>
