@@ -496,11 +496,11 @@
 									<ColumnDefinition Width="4" />
 								</Grid.ColumnDefinitions>
 
-								<TextBlock Grid.Column="0" Padding="3,2" Text="Name" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" />
+								<TextBlock Grid.Column="0" Padding="3,2" Text="Name" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" Style="{StaticResource StyledTextBlock}" />
 								<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable="False" Style="{StaticResource CommonGridSpliter}" />
-								<TextBlock Grid.Column=" 2" Padding="3,2" Text="Size" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" TextAlignment="Right" />
+								<TextBlock Grid.Column=" 2" Padding="3,2" Text="Size" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" TextAlignment="Right" Style="{StaticResource StyledTextBlock}" />
 								<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
-								<TextBlock Grid.Column="4" Padding="3,2" Text="Date" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" />
+								<TextBlock Grid.Column="4" Padding="3,2" Text="Date" TextTrimming="CharacterEllipsis" SizeChanged="LeftColumns_Resized" Style="{StaticResource StyledTextBlock}" />
 								<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 							</Grid>
 						</ScrollViewer>
@@ -585,11 +585,11 @@
 										<ColumnDefinition Width="4" />
 									</Grid.ColumnDefinitions>
 
-									<TextBlock Grid.Column="0" Padding="2" Text="Name" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" />
+									<TextBlock Grid.Column="0" Padding="2" Text="Name" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" Style="{StaticResource StyledTextBlock}" />
 									<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable="False" Style="{StaticResource CommonGridSpliter}" />
-									<TextBlock Grid.Column=" 2" Padding="2" Text="Size" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" TextAlignment="Right" />
+									<TextBlock Grid.Column=" 2" Padding="2" Text="Size" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" TextAlignment="Right" Style="{StaticResource StyledTextBlock}" />
 									<GridSplitter Grid.Column=" 3" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
-									<TextBlock Grid.Column="4" Padding="2" Text="Date" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" />
+									<TextBlock Grid.Column="4" Padding="2" Text="Date" TextTrimming="CharacterEllipsis" SizeChanged="RightColumns_Resized" Style="{StaticResource StyledTextBlock}" />
 									<GridSplitter Grid.Column=" 5" Width=" 4" HorizontalAlignment="Left" BorderThickness="0,0,1,0" Focusable=" False" Style="{StaticResource CommonGridSpliter}" />
 								</Grid>
 							</ScrollViewer>

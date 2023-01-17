@@ -22,8 +22,8 @@ public static class DefaultSettings
 		NewForeground = "#FF81FF72",
 		NewBackground = "#FF006900",
 
-		IgnoredForeground = "#FFDCDCDC",
-		IgnoredBackground = "#FF5A5A5A",
+		IgnoredForeground = "#FF7E7E7E",
+		IgnoredBackground = "#FF212121",
 
 		MovedFromdBackground = "#FF420000",
 
@@ -33,9 +33,9 @@ public static class DefaultSettings
 
 		// GUI colors
 		WindowForeground = "#FFFFFFFF",
-		WindowBackground = "#FF1F1F1F",
+		WindowBackground = "#FF0B0B0B",
 
-		DialogBackground = "#FF1F1F1F",
+		DialogBackground = "#FF171717",
 
 		ControlBackground = "#FF3D3D3D",
 		ControlDarkBackground = "#FFACACAC",
@@ -43,7 +43,7 @@ public static class DefaultSettings
 		HighlightBackground = "#213E4C",
 		HighlightBorder = "#26A0DA",
 
-		BorderForeground = "#FF424242",
+		BorderForeground = "#FF303030",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
