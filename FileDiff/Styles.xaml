@@ -5,7 +5,17 @@
 
 	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
 	<SolidColorBrush x:Key="ControlColor" Color="#FFEEEEEE" />
-
+	
+	<Style x:Key="MyFocusVisual">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Rectangle Margin="2" StrokeThickness="1" Stroke="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=black}" StrokeDashArray="1 2" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	
 	<!--<Style TargetType="Window">
 		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
 		<Setter Property="Background" Value="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
@@ -46,16 +56,6 @@
 		<Setter Property="Margin" Value="5,0" />
 	</Style>
 
-	<Style x:Key="MyFocusVisual">
-		<Setter Property="Control.Template">
-			<Setter.Value>
-				<ControlTemplate>
-					<Rectangle Margin="2" StrokeThickness="1" Stroke="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=black}" StrokeDashArray="1 2" />
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
-
 	<Style x:Key="CommonTextBox" TargetType="TextBox">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
@@ -77,8 +77,9 @@
 		<Setter Property="MinWidth" Value="80" />
 	</Style>
 
-	<Style x:Key="FlatButton" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+	<Style x:Key="FlatButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
 		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Margin" Value="4,2" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="MinWidth" Value="1" />
