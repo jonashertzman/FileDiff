@@ -199,7 +199,7 @@ public partial class MainWindow : Window
 			ProgressBarCompare.Maximum = leftLines.Count + rightLines.Count;
 
 			BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
-			Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+			Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
 
 			progressTimer.Start();
 		}
@@ -211,9 +211,9 @@ public partial class MainWindow : Window
 		}
 	}
 
-	private void CompareFilesFinnished(Task<Tuple<List<Line>, List<Line>, TimeSpan>> task)
+	private void CompareFilesFinished(Task<Tuple<List<Line>, List<Line>, TimeSpan>> task)
 	{
-		Debug.Print("------ CompareFilesFinnished");
+		Debug.Print("------ CompareFilesFinished");
 
 		progressTimer.Stop();
 		ViewModel.GuiFrozen = false;
@@ -260,14 +260,14 @@ public partial class MainWindow : Window
 		string rightPath = ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
 		BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
-		Task.Run(() => BackgroundCompare.CompareDirectories(leftPath, rightPath)).ContinueWith(CompareDirectoriesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+		Task.Run(() => BackgroundCompare.CompareDirectories(leftPath, rightPath)).ContinueWith(CompareDirectoriesFinished, TaskScheduler.FromCurrentSynchronizationContext());
 
 		progressTimer.Start();
 	}
 
-	private void CompareDirectoriesFinnished(Task<Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan>> task)
+	private void CompareDirectoriesFinished(Task<Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan>> task)
 	{
-		Debug.Print("------ CompareDirectoriesFinnished");
+		Debug.Print("------ CompareDirectoriesFinished");
 
 		progressTimer.Stop();
 		ViewModel.GuiFrozen = false;
@@ -385,7 +385,7 @@ public partial class MainWindow : Window
 		}
 	}
 
-	private void MoveToPrevoiusDiff()
+	private void MoveToPreviousDiff()
 	{
 		if (currentDiffIndex == -1)
 		{
@@ -781,7 +781,7 @@ public partial class MainWindow : Window
 		this.Close();
 	}
 
-	private void CommnadOptions_Executed(object sender, ExecutedRoutedEventArgs e)
+	private void CommandOptions_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
 		// Store existing settings data in case the changes are canceled.
 		//var oldDarkThemeColors = AppSettings.DarkTheme.Clone();
@@ -972,7 +972,7 @@ public partial class MainWindow : Window
 
 	private void CommandPreviousDiff_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		MoveToPrevoiusDiff();
+		MoveToPreviousDiff();
 	}
 
 	private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)

@@ -25,7 +25,7 @@ public static class DefaultSettings
 		IgnoredForeground = "#FF7E7E7E",
 		IgnoredBackground = "#FF212121",
 
-		MovedFromdBackground = "#FF420000",
+		MovedFromBackground = "#FF420000",
 
 		MovedToBackground = "#FF002800",
 
@@ -67,7 +67,7 @@ public static class DefaultSettings
 		IgnoredForeground = "#FF5A5A5A",
 		IgnoredBackground = "#FFDCDCDC",
 
-		MovedFromdBackground = "#FFFFF0F0",
+		MovedFromBackground = "#FFFFF0F0",
 
 		MovedToBackground = "#FFF0FFF0",
 

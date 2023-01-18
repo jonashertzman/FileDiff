@@ -17,7 +17,7 @@ public class DiffControl : Control
 	private double characterWidth;
 	private double lineNumberMargin;
 	private double textMargin;
-	private double maxTextwidth = 0;
+	private double maxTextWidth = 0;
 
 	private bool cursorBlink = true;
 
@@ -93,7 +93,7 @@ public class DiffControl : Control
 		Debug.Print("DiffControl OnRender");
 
 #if DEBUG
-		MeasureRendeTime();
+		MeasureRenderTime();
 #endif
 
 		// Fill background
@@ -239,7 +239,7 @@ public class DiffControl : Control
 
 								drawingContext.Pop();
 							}
-							maxTextwidth = Math.Max(maxTextwidth, nextPosition);
+							maxTextWidth = Math.Max(maxTextWidth, nextPosition);
 						}
 
 						// Draw cursor
@@ -337,7 +337,7 @@ public class DiffControl : Control
 
 
 		TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
-		MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
+		MaxHorizontalScroll = (int)(maxTextWidth - TextAreaWidth + textMargin);
 
 #if DEBUG
 		ReportRenderTime();
@@ -953,7 +953,7 @@ public class DiffControl : Control
 		HorizontalOffset = 0;
 		TextAreaWidth = 0;
 		MaxHorizontalScroll = 0;
-		maxTextwidth = 0;
+		maxTextWidth = 0;
 		cursorLine = 0;
 		cursorCharacter = 0;
 
@@ -1289,7 +1289,7 @@ public class DiffControl : Control
 		return -1;
 	}
 
-	private void MeasureRendeTime()
+	private void MeasureRenderTime()
 	{
 		stopwatch.Restart();
 	}

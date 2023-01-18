@@ -106,7 +106,7 @@ public partial class OptionsWindow : Window
 		IgnoredForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.IgnoredForeground));
 		IgnoredBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.IgnoredBackground));
 
-		MovedFromBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedFromdBackground));
+		MovedFromBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedFromBackground));
 		MovedToBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedToBackground));
 
 		SelectionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SelectionBackground));

@@ -468,8 +468,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 	public Brush MovedFromdBackground
 	{
-		get { return AppSettings.MovedFromdBackground; }
-		set { AppSettings.MovedFromdBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedFromdBackground)); }
+		get { return AppSettings.MovedFromBackground; }
+		set { AppSettings.MovedFromBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedFromdBackground)); }
 	}
 
 	public Brush MovedToBackground

@@ -50,7 +50,7 @@ public class DiffMapControl : Control
 		SolidColorBrush partialMatchBrush = BlendColors(AppSettings.PartialMatchBackground, AppSettings.PartialMatchForeground, .7);
 
 		SolidColorBrush deletedBrush = BlendColors(AppSettings.DeletedBackground, AppSettings.DeletedForeground, .7);
-		SolidColorBrush movedFromBrush = BlendColors(AppSettings.MovedFromdBackground, AppSettings.DeletedForeground, .7);
+		SolidColorBrush movedFromBrush = BlendColors(AppSettings.MovedFromBackground, AppSettings.DeletedForeground, .7);
 
 		SolidColorBrush newBrush = BlendColors(AppSettings.NewBackground, AppSettings.NewForeground, .7);
 		SolidColorBrush movedToBrush = BlendColors(AppSettings.MovedToBackground, AppSettings.NewForeground, .7);

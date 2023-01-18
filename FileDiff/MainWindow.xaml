@@ -58,7 +58,7 @@
 				<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
 				<CommandBinding Command="local:Commands.BrowseLeft" Executed="CommandBrowseLeft_Executed" />
 				<CommandBinding Command="local:Commands.BrowseRight" Executed="CommandBrowseRight_Executed" />
-				<CommandBinding Command="local:Commands.Options" Executed="CommnadOptions_Executed" />
+				<CommandBinding Command="local:Commands.Options" Executed="CommandOptions_Executed" />
 				<CommandBinding Command="local:Commands.Find" Executed="CommandFind_Executed" />
 				<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
 				<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute_1" />

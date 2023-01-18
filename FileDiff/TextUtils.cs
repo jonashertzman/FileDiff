@@ -9,7 +9,7 @@ static class TextUtils
 
 	#region Members
 
-	static readonly Typeface defaultTypface = new Typeface("Courier New");
+	static readonly Typeface defaultTypeface = new Typeface("Courier New");
 
 	static FontData fontCache;
 
@@ -34,7 +34,7 @@ static class TextUtils
 		{
 			if (!typeface.TryGetGlyphTypeface(out GlyphTypeface glyphTypeface))
 			{
-				defaultTypface.TryGetGlyphTypeface(out glyphTypeface);
+				defaultTypeface.TryGetGlyphTypeface(out glyphTypeface);
 			}
 			bool charactersFound = GetTextBounds(glyphTypeface, fontSize, out double topDistance, out double bottomDistance);
 

@@ -22,7 +22,7 @@ public class ColorTheme
 
 	public string MovedToBackground { get; set; }
 
-	public string MovedFromdBackground { get; set; }
+	public string MovedFromBackground { get; set; }
 
 	public string SelectionBackground { get; set; }
 

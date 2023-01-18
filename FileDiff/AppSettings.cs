@@ -293,15 +293,15 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush movedFromdBackground;
-	public static SolidColorBrush MovedFromdBackground
+	private static SolidColorBrush movedFromBackground;
+	public static SolidColorBrush MovedFromBackground
 	{
-		get { return movedFromdBackground; }
+		get { return movedFromBackground; }
 		set
 		{
-			movedFromdBackground = value;
-			movedFromdBackground.Freeze();
-			CurrentTheme.MovedFromdBackground = value.Color.ToString();
+			movedFromBackground = value;
+			movedFromBackground.Freeze();
+			CurrentTheme.MovedFromBackground = value.Color.ToString();
 		}
 	}
 
@@ -373,14 +373,14 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush dialoglBackground = DefaultSettings.LightTheme.DialogBackground.ToBrush();
+	private static SolidColorBrush dialogBackground = DefaultSettings.LightTheme.DialogBackground.ToBrush();
 	public static SolidColorBrush DialogBackground
 	{
-		get { return dialoglBackground; }
+		get { return dialogBackground; }
 		set
 		{
-			dialoglBackground = value;
-			dialoglBackground.Freeze();
+			dialogBackground = value;
+			dialogBackground.Freeze();
 			CurrentTheme.DialogBackground = value.Color.ToString();
 			NotifyStaticPropertyChanged(nameof(DialogBackground));
 			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
@@ -390,7 +390,7 @@ public static class AppSettings
 	{
 		get
 		{
-			return dialoglBackground.Color;
+			return dialogBackground.Color;
 		}
 	}
 
@@ -628,7 +628,7 @@ public static class AppSettings
 			NewForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewForeground));
 			NewBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewBackground));
 
-			MovedFromdBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromdBackground));
+			MovedFromBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromBackground));
 
 			MovedToBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedToBackground));
 
@@ -689,7 +689,7 @@ public static class AppSettings
 			case TextState.New:
 				return newBackground;
 			case TextState.MovedFrom:
-				return movedFromdBackground;
+				return movedFromBackground;
 			case TextState.MovedTo:
 				return movedToBackground;
 			case TextState.PartialMatch:
