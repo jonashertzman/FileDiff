@@ -4,19 +4,21 @@
 	xmlns:local="clr-namespace:FileDiff">
 
 
-
-
 	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
 
 
+	<LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="0,1">
+		<GradientStop Offset="0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=White}" />
+		<GradientStop Offset="1" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFF0F0F0}" />
+	</LinearGradientBrush>
 
 
 	<Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="DataGridColumnHeader">
-		<Setter Property="Background" Value="{StaticResource Theme.Dialog}" />
 		<Setter Property="Padding" Value="5" />
 		<Setter Property="Foreground" Value="{StaticResource Theme.Foreground}" />
-		<Setter Property="BorderThickness" Value="0,0,0,1" />
+		<Setter Property="Background" Value="{StaticResource HeaderGradient}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Theme.Border}" />
+		<Setter Property="BorderThickness" Value="0,0,0,1" />
 	</Style>
 
 	<Style TargetType="{x:Type DataGridCell}">
