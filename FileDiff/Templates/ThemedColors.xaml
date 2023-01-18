@@ -3,7 +3,12 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:FileDiff">
 
+
+
 	<SolidColorBrush x:Key="Theme.Foreground" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=Black}" />
+	<SolidColorBrush x:Key="Theme.Border" Color="{Binding Path=(local:AppSettings.BorderForegroundColor), FallbackValue=#FFACACAC}" />
+	<SolidColorBrush x:Key="Theme.Control" Color="{Binding Path=(local:AppSettings.ControlBackgroundColor), FallbackValue=#FFACACAC}" />
+	<SolidColorBrush x:Key="Theme.Dialog" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFACACAC}" />
 
 
 

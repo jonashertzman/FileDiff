@@ -3,9 +3,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:FileDiff">
 
-	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
-	<SolidColorBrush x:Key="ControlColor" Color="#FFEEEEEE" />
-	
 	<Style x:Key="MyFocusVisual">
 		<Setter Property="Control.Template">
 			<Setter.Value>
@@ -15,7 +12,7 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-	
+
 	<!--<Style TargetType="Window">
 		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
 		<Setter Property="Background" Value="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
@@ -125,26 +122,6 @@
 		</Style.Triggers>
 	</Style>
 
-	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}">
-		<Style.Triggers>
-			<Trigger Property="DataGridCell.IsSelected" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="Foreground" Value="Black" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
-				<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
-
 	<Style TargetType="ContextMenu">
 		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
 		<Setter Property="Background" Value="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}" />
@@ -162,6 +139,5 @@
 			</Setter.Value>
 		</Setter>
 	</Style>-->
-
 
 </ResourceDictionary>

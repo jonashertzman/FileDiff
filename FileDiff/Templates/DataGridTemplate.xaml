@@ -3,6 +3,42 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:FileDiff">
 
+
+
+
+	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
+
+
+
+
+	<Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="DataGridColumnHeader">
+		<Setter Property="Background" Value="{StaticResource Theme.Dialog}" />
+		<Setter Property="Padding" Value="5" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.Foreground}" />
+		<Setter Property="BorderThickness" Value="0,0,0,1" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.Border}" />
+	</Style>
+
+	<Style TargetType="{x:Type DataGridCell}">
+		<Style.Triggers>
+			<Trigger Property="DataGridCell.IsSelected" Value="True">
+				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="BorderBrush" Value="#CCDAFF" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="Foreground" Value="{StaticResource Theme.Foreground}" />
+			</Trigger>
+			<Trigger Property="DataGridCell.IsFocused" Value="False">
+				<Setter Property="Background" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
+				<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
+			</Trigger>
+			<Trigger Property="DataGridCell.IsFocused" Value="True">
+				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="BorderBrush" Value="#CCDAFF" />
+				<Setter Property="BorderThickness" Value="1" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
 	<Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
 		<Setter Property="Template">
 			<Setter.Value>
@@ -31,7 +67,7 @@
 		<!--<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
 		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=#FF000000}" />
 		<Setter Property="Background" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
-		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.Border}" />
 		<Setter Property="BorderThickness" Value="1" />
 
 		<Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" />
