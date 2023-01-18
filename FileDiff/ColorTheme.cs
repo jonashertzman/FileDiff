@@ -1,6 +1,6 @@
 ﻿namespace FileDiff;
 
-public class ThemeColors
+public class ColorTheme
 {
 
 	#region Properties
@@ -46,9 +46,9 @@ public class ThemeColors
 
 	#region Methods
 
-	public ThemeColors Clone()
+	public ColorTheme Clone()
 	{
-		return (ThemeColors)MemberwiseClone();
+		return (ColorTheme)MemberwiseClone();
 	}
 
 	#endregion

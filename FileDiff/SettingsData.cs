@@ -33,9 +33,9 @@ public class SettingsData
 	public int Zoom { get; set; } = 0;
 	public int TabSize { get; set; } = DefaultSettings.TabSize;
 
-	public ColorTheme Theme { get; set; } = ColorTheme.Light;
-	public ThemeColors DarkTheme { get; set; } = DefaultSettings.DarkTheme.Clone();
-	public ThemeColors LightTheme { get; set; } = DefaultSettings.LightTheme.Clone();
+	public Themes Theme { get; set; } = Themes.Light;
+	public ColorTheme DarkTheme { get; set; } = DefaultSettings.DarkTheme.Clone();
+	public ColorTheme LightTheme { get; set; } = DefaultSettings.LightTheme.Clone();
 
 	public double PositionLeft { get; set; }
 	public double PositionTop { get; set; }

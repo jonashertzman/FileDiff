@@ -28,7 +28,7 @@ public partial class OptionsWindow : Window
 			ComboBoxFont.Items.Add(new ComboBoxItem { Content = family.Source });
 		}
 
-		foreach (string name in Enum.GetNames(typeof(ColorTheme)))
+		foreach (string name in Enum.GetNames(typeof(Themes)))
 		{
 			ComboBoxTheme.Items.Add(new ComboBoxItem { Content = name });
 		}
@@ -86,8 +86,8 @@ public partial class OptionsWindow : Window
 	{
 		var Default = AppSettings.Theme switch
 		{
-			ColorTheme.Light => DefaultSettings.LightTheme,
-			ColorTheme.Dark => DefaultSettings.DarkTheme,
+			Themes.Light => DefaultSettings.LightTheme,
+			Themes.Dark => DefaultSettings.DarkTheme,
 			_ => throw new NotImplementedException(),
 		};
 

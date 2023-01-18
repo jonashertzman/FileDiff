@@ -26,7 +26,7 @@ public enum NewlineMode
 	Mac,
 }
 
-public enum ColorTheme
+public enum Themes
 {
 	Light,
 	Dark,

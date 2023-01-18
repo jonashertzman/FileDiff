@@ -7,7 +7,7 @@ public static class DefaultSettings
 	internal static int FontSize { get; } = 11;
 	internal static int TabSize { get; } = 2;
 
-	internal static ThemeColors DarkTheme { get; } = new ThemeColors()
+	internal static ColorTheme DarkTheme { get; } = new ColorTheme()
 	{
 		// Diff colors
 		FullMatchForeground = "#FFFFFFFF",
@@ -50,7 +50,7 @@ public static class DefaultSettings
 		SnakeColor = "#FFD2D2D2",
 	};
 
-	internal static ThemeColors LightTheme { get; } = new ThemeColors()
+	internal static ColorTheme LightTheme { get; } = new ColorTheme()
 	{
 		FullMatchForeground = "#FF000000",
 		FullMatchBackground = "#FFFFFFFF",

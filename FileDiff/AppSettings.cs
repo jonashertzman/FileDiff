@@ -142,7 +142,7 @@ public static class AppSettings
 		set { Settings.TabSize = value; }
 	}
 
-	public static ColorTheme Theme
+	public static Themes Theme
 	{
 		get { return Settings.Theme; }
 		set
@@ -158,14 +158,14 @@ public static class AppSettings
 		}
 	}
 
-	public static ThemeColors CurrentTheme
+	public static ColorTheme CurrentTheme
 	{
 		get
 		{
 			return Theme switch
 			{
-				ColorTheme.Light => Settings.LightTheme,
-				ColorTheme.Dark => Settings.DarkTheme,
+				Themes.Light => Settings.LightTheme,
+				Themes.Dark => Settings.DarkTheme,
 				_ => throw new NotImplementedException(),
 			};
 		}
