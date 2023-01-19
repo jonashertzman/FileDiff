@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:local="clr-namespace:FileDiff">
+	xmlns:local="clr-namespace:FileDiff"
+	xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 
 
 	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
@@ -11,35 +12,6 @@
 		<GradientStop Offset="0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=White}" />
 		<GradientStop Offset="1" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFF0F0F0}" />
 	</LinearGradientBrush>
-
-
-	<Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="DataGridColumnHeader">
-		<Setter Property="Padding" Value="5" />
-		<Setter Property="Foreground" Value="{StaticResource Theme.Foreground}" />
-		<Setter Property="Background" Value="{StaticResource HeaderGradient}" />
-		<Setter Property="BorderBrush" Value="{StaticResource Theme.Border}" />
-		<Setter Property="BorderThickness" Value="0,0,0,1" />
-	</Style>
-
-	<Style TargetType="{x:Type DataGridCell}">
-		<Style.Triggers>
-			<Trigger Property="DataGridCell.IsSelected" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="Foreground" Value="{StaticResource Theme.Foreground}" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
-				<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
 
 	<Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
 		<Setter Property="Template">
@@ -66,25 +38,16 @@
 	</Style>
 
 	<Style TargetType="{x:Type DataGrid}">
-		<!--<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />-->
-		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=#FF000000}" />
-		<Setter Property="Background" Value="{Binding Path=(local:AppSettings.WindowBackground), FallbackValue=#FFFFFFFF}" />
+		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.Foreground}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Theme.Border}" />
 		<Setter Property="BorderThickness" Value="1" />
 
-		<Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" />
-
+		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource Theme.Border}" />
 		<Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="true" />
 		<Setter Property="ScrollViewer.PanningMode" Value="Both" />
 		<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-
-		<Setter Property="AutoGenerateColumns" Value="False" />
-		<Setter Property="RowHeaderWidth" Value="0" />
-		<Setter Property="CanUserResizeRows" Value="False" />
-		<Setter Property="GridLinesVisibility" Value="Horizontal" />
-		<Setter Property="SelectionMode" Value="Single" />
-
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type DataGrid}">
@@ -133,5 +96,79 @@
 			</MultiTrigger>
 		</Style.Triggers>
 	</Style>
+
+	<Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
+		<Setter Property="Width" Value="8" />
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Cursor" Value="SizeWE" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type Thumb}">
+					<Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="DataGridColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="Padding" Value="4" />
+		<Setter Property="BorderThickness" Value="0,0,0,1" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.Border}" />
+		<Setter Property="Template">			
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+					<Grid>
+						<theme:DataGridHeaderBorder Padding="{TemplateBinding Padding}" Background="{StaticResource HeaderGradient}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" IsPressed="{TemplateBinding IsPressed}" IsHovered="{TemplateBinding IsMouseOver}" IsClickable="{TemplateBinding CanUserSort}" SortDirection="{TemplateBinding SortDirection}" SeparatorVisibility="{TemplateBinding SeparatorVisibility}" SeparatorBrush="{TemplateBinding SeparatorBrush}">
+							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						</theme:DataGridHeaderBorder>
+						<Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" Style="{StaticResource ColumnHeaderGripperStyle}" />
+						<Thumb x:Name="PART_RightHeaderGripper" HorizontalAlignment="Right" Style="{StaticResource ColumnHeaderGripperStyle}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000" />
+
+	<Style x:Key="DataGridCellStyle1" TargetType="{x:Type DataGridCell}">
+		<Setter Property="Background" Value="{StaticResource Theme.Dialog}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.Dialog}" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type DataGridCell}">
+					<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True">
+						<ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		<Style.Triggers>
+			<Trigger Property="IsSelected" Value="True">
+				<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+				<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+			</Trigger>
+			<Trigger Property="IsKeyboardFocusWithin" Value="True">
+				<Setter Property="BorderBrush" Value="{DynamicResource {x:Static DataGrid.FocusBorderBrushKey}}" />
+			</Trigger>
+			<MultiTrigger>
+				<MultiTrigger.Conditions>
+					<Condition Property="IsSelected" Value="true" />
+					<Condition Property="Selector.IsSelectionActive" Value="false" />
+				</MultiTrigger.Conditions>
+				<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+				<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
+			</MultiTrigger>
+			<Trigger Property="IsEnabled" Value="false">
+				<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
 
 </ResourceDictionary>

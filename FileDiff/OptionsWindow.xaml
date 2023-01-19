@@ -226,13 +226,13 @@
 								<ColumnDefinition />
 							</Grid.ColumnDefinitions>
 
-							<DataGrid Grid.Row="0" Margin="5" ItemsSource="{Binding IgnoredFolders}">
+							<DataGrid Grid.Row="0" Margin="5" CellStyle="{DynamicResource DataGridCellStyle1}" ItemsSource="{Binding IgnoredFolders}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" AutoGenerateColumns="False" SelectionMode="Single" RowHeaderWidth="0">
 								<DataGrid.Columns>
 									<DataGridTextColumn Width="*" Binding="{Binding Text}" Header="Ignore Directories" CanUserResize="False" />
 								</DataGrid.Columns>
 							</DataGrid>
 
-							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" ItemsSource="{Binding IgnoredFiles}">
+							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" CellStyle="{DynamicResource DataGridCellStyle1}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" ItemsSource="{Binding IgnoredFiles}" AutoGenerateColumns="False" SelectionMode="Single" RowHeaderWidth="0">
 								<DataGrid.Columns>
 									<DataGridTextColumn Width="*" Binding="{Binding Text}" Header="Ignore Files" CanUserResize="False" />
 								</DataGrid.Columns>
