@@ -27,6 +27,7 @@ public class ColorTheme
 	public string SelectionBackground { get; set; }
 
 	public string WindowForeground { get; set; }
+	public string DisabledForeground { get; set; }
 	public string WindowBackground { get; set; }
 
 	public string DialogBackground { get; set; }

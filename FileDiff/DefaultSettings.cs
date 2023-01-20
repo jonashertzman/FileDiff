@@ -33,6 +33,7 @@ public static class DefaultSettings
 
 		// GUI colors
 		WindowForeground = "#FFFFFFFF",
+		DisabledForeground = "#FF888888",
 		WindowBackground = "#FF0B0B0B",
 
 		DialogBackground = "#FF171717",
@@ -75,6 +76,7 @@ public static class DefaultSettings
 
 		// GUI colors
 		WindowForeground = "#FF000000",
+		DisabledForeground = "#FF888888",
 		WindowBackground = "#FFFFFFFF",
 
 		DialogBackground = "#FFF0F0F0",

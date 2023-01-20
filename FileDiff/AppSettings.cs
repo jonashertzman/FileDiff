@@ -352,6 +352,27 @@ public static class AppSettings
 		}
 	}
 
+	private static SolidColorBrush disabledForeground = DefaultSettings.LightTheme.DisabledForeground.ToBrush();
+	public static SolidColorBrush DisabledForeground
+	{
+		get { return disabledForeground; }
+		set
+		{
+			disabledForeground = value;
+			disabledForeground.Freeze();
+			CurrentTheme.DisabledForeground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(DisabledForeground));
+			NotifyStaticPropertyChanged(nameof(DisabledForegroundColor));
+		}
+	}
+	public static Color DisabledForegroundColor
+	{
+		get
+		{
+			return DisabledForeground.Color;
+		}
+	}
+
 	private static SolidColorBrush windowBackground = DefaultSettings.LightTheme.WindowBackground.ToBrush();
 	public static SolidColorBrush WindowBackground
 	{

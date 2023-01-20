@@ -102,6 +102,7 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
 							<Label Grid.Row="0" Grid.Column="1" Content="Foreground" />
@@ -146,29 +147,32 @@
 							<Label Grid.Row="11" Grid.Column="0" Content="Move Arrows" />
 							<Rectangle x:Name="Snake" Grid.Row="11" Grid.Column="1" Margin="5" Fill="{Binding SnakeColor, Mode=TwoWay}"  MouseLeftButtonUp="Rectangle_MouseUp" />-->
 
-							<Label Grid.Row="1" Grid.Column="5" Content="Window Text" />
+							<Label Grid.Row="1" Grid.Column="5" Content="Text" />
 							<Rectangle x:Name="WindowForeground" Grid.Row="1" Grid.Column="6" Margin="5" Fill="{Binding WindowForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="2" Grid.Column="5" Content="Window" />
-							<Rectangle x:Name="WindowBackground" Grid.Row="2" Grid.Column="6" Margin="5" Fill="{Binding WindowBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="2" Grid.Column="5" Content="Disabled Text" />
+							<Rectangle x:Name="DisabledForeground" Grid.Row="2" Grid.Column="6" Margin="5" Fill="{Binding DisabledForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="3" Grid.Column="5" Content="Dialog" />
-							<Rectangle x:Name="DialogBackground" Grid.Row="3" Grid.Column="6" Margin="5" Fill="{Binding DialogBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="3" Grid.Column="5" Content="Window" />
+							<Rectangle x:Name="WindowBackground" Grid.Row="3" Grid.Column="6" Margin="5" Fill="{Binding WindowBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="4" Grid.Column="5" Content="Control Light" />
-							<Rectangle x:Name="ControlBackground" Grid.Row="4" Grid.Column="6" Margin="5" Fill="{Binding ControlBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="4" Grid.Column="5" Content="Dialog" />
+							<Rectangle x:Name="DialogBackground" Grid.Row="4" Grid.Column="6" Margin="5" Fill="{Binding DialogBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="5" Grid.Column="5" Content="Control Dark" />
-							<Rectangle x:Name="ControlDarkBackground" Grid.Row="5" Grid.Column="6" Margin="5" Fill="{Binding ControlDarkBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="5" Grid.Column="5" Content="Control Light" />
+							<Rectangle x:Name="ControlBackground" Grid.Row="5" Grid.Column="6" Margin="5" Fill="{Binding ControlBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="6" Grid.Column="5" Content="Border" />
-							<Rectangle x:Name="BorderForegroundx" Grid.Row="6" Grid.Column="6" Margin="5" Fill="{Binding BorderForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="6" Grid.Column="5" Content="Control Dark" />
+							<Rectangle x:Name="ControlDarkBackground" Grid.Row="6" Grid.Column="6" Margin="5" Fill="{Binding ControlDarkBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="7" Grid.Column="5" Content="Highlight Background" />
-							<Rectangle x:Name="HighlightBackground" Grid.Row="7" Grid.Column="6" Margin="5" Fill="{Binding HighlightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="7" Grid.Column="5" Content="Border" />
+							<Rectangle x:Name="BorderForegroundx" Grid.Row="7" Grid.Column="6" Margin="5" Fill="{Binding BorderForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-							<Label Grid.Row="8" Grid.Column="5" Content="Highlight Border" />
-							<Rectangle x:Name="HighlightBorder" Grid.Row="8" Grid.Column="6" Margin="5" Fill="{Binding HighlightBorder, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Label Grid.Row="8" Grid.Column="5" Content="Highlight Background" />
+							<Rectangle x:Name="HighlightBackground" Grid.Row="8" Grid.Column="6" Margin="5" Fill="{Binding HighlightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+							<Label Grid.Row="9" Grid.Column="5" Content="Highlight Border" />
+							<Rectangle x:Name="HighlightBorder" Grid.Row="9" Grid.Column="6" Margin="5" Fill="{Binding HighlightBorder, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
 								<Grid RenderOptions.ClearTypeHint="Enabled">

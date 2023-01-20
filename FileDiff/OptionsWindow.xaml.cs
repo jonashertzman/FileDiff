@@ -112,6 +112,7 @@ public partial class OptionsWindow : Window
 		SelectionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SelectionBackground));
 
 		WindowForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowForeground));
+		DisabledForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DisabledForeground));
 		WindowBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowBackground));
 		DialogBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DialogBackground));
 		ControlBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.ControlBackground));
