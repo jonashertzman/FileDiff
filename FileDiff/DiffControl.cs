@@ -134,7 +134,7 @@ public class DiffControl : Control
 		lineNumberMargin = RoundToWholePixels(characterWidth * Lines.Count.ToString().Length) + (2 * textMargin) + borderPen.Thickness;
 
 		VisibleLines = (int)(ActualHeight / characterHeight + 1);
-		MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
+		MaxVerticalScroll = Lines.Count - VisibleLines + 1;
 
 		// Draw line number margin			
 		drawingContext.DrawRectangle(AppSettings.DialogBackground, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
@@ -870,21 +870,21 @@ public class DiffControl : Control
 	}
 
 
-	public static readonly DependencyProperty MaxHorizontalScrollPropery = DependencyProperty.Register("MaxHorizontalScroll", typeof(int), typeof(DiffControl));
+	public static readonly DependencyProperty MaxHorizontalScrollProperty = DependencyProperty.Register("MaxHorizontalScroll", typeof(int), typeof(DiffControl));
 
 	public int MaxHorizontalScroll
 	{
-		get { return (int)GetValue(MaxHorizontalScrollPropery); }
-		set { SetValue(MaxHorizontalScrollPropery, value); }
+		get { return (int)GetValue(MaxHorizontalScrollProperty); }
+		set { SetValue(MaxHorizontalScrollProperty, value); }
 	}
 
 
-	public static readonly DependencyProperty TextAreaWidthPropery = DependencyProperty.Register("TextAreaWidth", typeof(int), typeof(DiffControl));
+	public static readonly DependencyProperty TextAreaWidthProperty = DependencyProperty.Register("TextAreaWidth", typeof(int), typeof(DiffControl));
 
 	public int TextAreaWidth
 	{
-		get { return (int)GetValue(TextAreaWidthPropery); }
-		set { SetValue(TextAreaWidthPropery, value); }
+		get { return (int)GetValue(TextAreaWidthProperty); }
+		set { SetValue(TextAreaWidthProperty, value); }
 	}
 
 
@@ -906,12 +906,12 @@ public class DiffControl : Control
 	}
 
 
-	public static readonly DependencyProperty MaxVerialcalScrollProperty = DependencyProperty.Register("MaxVerialcalScroll", typeof(int), typeof(DiffControl));
+	public static readonly DependencyProperty MaxVerticalScrollProperty = DependencyProperty.Register("MaxVerticalScroll", typeof(int), typeof(DiffControl));
 
-	public int MaxVerialcalScroll
+	public int MaxVerticalScroll
 	{
-		get { return (int)GetValue(MaxVerialcalScrollProperty); }
-		set { SetValue(MaxVerialcalScrollProperty, value); }
+		get { return (int)GetValue(MaxVerticalScrollProperty); }
+		set { SetValue(MaxVerticalScrollProperty, value); }
 	}
 
 
