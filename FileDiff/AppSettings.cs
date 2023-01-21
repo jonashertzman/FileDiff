@@ -152,6 +152,7 @@ public static class AppSettings
 			UpdateCachedSettings();
 			NotifyStaticPropertyChanged(nameof(WindowForegroundColor));
 			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
+			NotifyStaticPropertyChanged(nameof(DisabledForegroundColor));
 			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
@@ -659,6 +660,7 @@ public static class AppSettings
 			SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
 
 			WindowForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowForeground));
+			DisabledForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DisabledForeground));
 			WindowBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
 
 			DialogBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DialogBackground));
