@@ -7,43 +7,43 @@ public class ColorTheme
 
 	#region Properties
 
-	public string FullMatchForeground { get; set; }
-	public string FullMatchBackground { get; set; }
+	public required string FullMatchForeground { get; set; }
+	public required string FullMatchBackground { get; set; }
 
-	public string PartialMatchForeground { get; set; }
-	public string PartialMatchBackground { get; set; }
+	public required string PartialMatchForeground { get; set; }
+	public required string PartialMatchBackground { get; set; }
 
-	public string DeletedForeground { get; set; }
-	public string DeletedBackground { get; set; }
+	public required string DeletedForeground { get; set; }
+	public required string DeletedBackground { get; set; }
 
-	public string NewForeground { get; set; }
-	public string NewBackground { get; set; }
+	public required string NewForeground { get; set; }
+	public required string NewBackground { get; set; }
 
-	public string IgnoredForeground { get; set; }
-	public string IgnoredBackground { get; set; }
+	public required string IgnoredForeground { get; set; }
+	public required string IgnoredBackground { get; set; }
 
-	public string MovedToBackground { get; set; }
+	public required string MovedToBackground { get; set; }
 
-	public string MovedFromBackground { get; set; }
+	public required string MovedFromBackground { get; set; }
 
-	public string SelectionBackground { get; set; }
+	public required string SelectionBackground { get; set; }
 
-	public string WindowForeground { get; set; }
-	public string DisabledForeground { get; set; }
-	public string WindowBackground { get; set; }
+	public required string WindowForeground { get; set; }
+	public required string DisabledForeground { get; set; }
+	public required string WindowBackground { get; set; }
 
-	public string DialogBackground { get; set; }
+	public required string DialogBackground { get; set; }
 
-	public string ControlBackground { get; set; }
-	public string ControlDarkBackground { get; set; }
+	public required string ControlBackground { get; set; }
+	public required string ControlDarkBackground { get; set; }
 
-	public string HighlightBackground { get; set; }
-	public string HighlightBorder { get; set; }
+	public required string HighlightBackground { get; set; }
+	public required string HighlightBorder { get; set; }
 
-	public string BorderForeground { get; set; }
-	public string LineNumberColor { get; set; }
-	public string CurrentDiffColor { get; set; }
-	public string SnakeColor { get; set; }
+	public required string BorderForeground { get; set; }
+	public required string LineNumberColor { get; set; }
+	public required string CurrentDiffColor { get; set; }
+	public required string SnakeColor { get; set; }
 
 	#endregion
 
