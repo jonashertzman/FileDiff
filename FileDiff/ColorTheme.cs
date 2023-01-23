@@ -1,4 +1,6 @@
-﻿namespace FileDiff;
+﻿using System.Reflection;
+
+namespace FileDiff;
 
 public class ColorTheme
 {
@@ -50,6 +52,17 @@ public class ColorTheme
 	public ColorTheme Clone()
 	{
 		return (ColorTheme)MemberwiseClone();
+	}
+
+	internal void SetDefaultsIfNull(ColorTheme defaultTheme)
+	{
+		foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
+		{
+			if (propertyInfo.GetValue(this) == null)
+			{
+				propertyInfo.SetValue(this, propertyInfo.GetValue(defaultTheme));
+			}
+		}
 	}
 
 	#endregion

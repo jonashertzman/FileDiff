@@ -606,6 +606,10 @@ public static class AppSettings
 			Settings = new SettingsData();
 		}
 
+		// Replace null values that was not present in the serialized settings
+		Settings.DarkTheme.SetDefaultsIfNull(DefaultSettings.DarkTheme);
+		Settings.LightTheme.SetDefaultsIfNull(DefaultSettings.LightTheme);
+
 		UpdateCachedSettings();
 	}
 
