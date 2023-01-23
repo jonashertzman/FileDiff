@@ -86,7 +86,7 @@
 				</Style>
 
 				<!--  Brushes for the selected item  -->
-				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}"  />
+				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}" />
 				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
 				<SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
 			</TreeView.Resources>

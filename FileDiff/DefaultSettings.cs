@@ -26,29 +26,29 @@ public static class DefaultSettings
 		IgnoredBackground = "#FF212121",
 
 		MovedFromBackground = "#FF420000",
-
 		MovedToBackground = "#FF002800",
 
-		SelectionBackground = "#320096D2",
-
 		// GUI colors
-		WindowForeground = "#FFFFFFFF",
-		DisabledForeground = "#FF888888",
-		WindowBackground = "#FF0B0B0B",
+		NormalText = "#FFFFFFFF",
+		DisabledText = "#FF888888",
 
+		WindowBackground = "#FF0B0B0B",
 		DialogBackground = "#FF171717",
 
-		ControlBackground = "#FF3D3D3D",
-		ControlDarkBackground = "#FFACACAC",
+		LightControlBackground = "#FFACACAC",
+		DarkControlBackground = "#FF3D3D3D",
 
 		HighlightBackground = "#213E4C",
 		HighlightBorder = "#26A0DA",
 
-		BorderForeground = "#FF303030",
+		LightBorder = "#FF303030",
+		DarkBorder = "#FF303030",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
 		SnakeColor = "#FFD2D2D2",
+
+		SelectionBackground = "#320096D2",
 	};
 
 	internal static ColorTheme LightTheme { get; } = new ColorTheme()
@@ -69,29 +69,29 @@ public static class DefaultSettings
 		IgnoredBackground = "#FFDCDCDC",
 
 		MovedFromBackground = "#FFFFF0F0",
-
 		MovedToBackground = "#FFF0FFF0",
 
-		SelectionBackground = "#320096D2",
-
 		// GUI colors
-		WindowForeground = "#FF000000",
-		DisabledForeground = "#FF888888",
+		NormalText = "#FF000000",
+		DisabledText = "#FF888888",
 		WindowBackground = "#FFFFFFFF",
 
 		DialogBackground = "#FFF0F0F0",
 
-		ControlBackground = "#FFDDDDDD",
-		ControlDarkBackground = "#FFACACAC",
+		DarkControlBackground = "#FFDDDDDD",
+		LightControlBackground = "#FFACACAC",
 
 		HighlightBackground = "#DCECFC",
 		HighlightBorder = "#7EB4EA",
 
-		BorderForeground = "#FFD6D6D6",
+		LightBorder = "#FFD6D6D6",
+		DarkBorder = "#FFD6D6D6",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
 		SnakeColor = "#FFD2D2D2",
+
+		SelectionBackground = "#320096D2",
 	};
 
 }

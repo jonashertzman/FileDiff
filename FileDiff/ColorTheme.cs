@@ -7,6 +7,7 @@ public class ColorTheme
 
 	#region Properties
 
+	// Diff colors
 	public required string FullMatchForeground { get; set; }
 	public required string FullMatchBackground { get; set; }
 
@@ -22,28 +23,30 @@ public class ColorTheme
 	public required string IgnoredForeground { get; set; }
 	public required string IgnoredBackground { get; set; }
 
+	public required string MovedFromBackground { get; set; }
 	public required string MovedToBackground { get; set; }
 
-	public required string MovedFromBackground { get; set; }
+	// GUI colors
+	public required string NormalText { get; set; }
+	public required string DisabledText { get; set; }
 
-	public required string SelectionBackground { get; set; }
-
-	public required string WindowForeground { get; set; }
-	public required string DisabledForeground { get; set; }
 	public required string WindowBackground { get; set; }
-
 	public required string DialogBackground { get; set; }
 
-	public required string ControlBackground { get; set; }
-	public required string ControlDarkBackground { get; set; }
+	public required string LightControlBackground { get; set; }
+	public required string DarkControlBackground { get; set; }
 
 	public required string HighlightBackground { get; set; }
 	public required string HighlightBorder { get; set; }
 
-	public required string BorderForeground { get; set; }
+	public required string LightBorder { get; set; }
+	public required string DarkBorder { get; set; }
+
 	public required string LineNumberColor { get; set; }
 	public required string CurrentDiffColor { get; set; }
 	public required string SnakeColor { get; set; }
+
+	public required string SelectionBackground { get; set; }
 
 	#endregion
 
