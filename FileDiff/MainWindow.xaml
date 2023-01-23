@@ -160,7 +160,7 @@
 						</Button.ToolTip>
 					</Button>
 
-					<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}" IsChecked="{Binding EditMode}">
+					<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding FileVisible}" IsChecked="{Binding EditMode}">
 						<ToggleButton.Resources>
 							<DataTemplate x:Key="Unpressed">
 								<StackPanel Orientation="Horizontal">
@@ -348,7 +348,7 @@
 
 				<StackPanel Orientation="Horizontal">
 
-					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CopyLeftDiff" IsEnabled="{Binding FileVissible}">
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CopyLeftDiff" IsEnabled="{Binding FileVisible}">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource CopyLeftSide}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
@@ -362,7 +362,7 @@
 						</Button.ToolTip>
 					</Button>
 
-					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CopyRightDiff" IsEnabled="{Binding FileVissible}">
+					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CopyRightDiff" IsEnabled="{Binding FileVisible}">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource CopyRightSide}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
@@ -376,7 +376,7 @@
 						</Button.ToolTip>
 					</Button>
 
-					<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
+					<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
@@ -389,7 +389,7 @@
 						</ToggleButton.ToolTip>
 					</ToggleButton>
 
-					<ToggleButton x:Name="ToggleButtonDetectMovedLines" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding DetectMovedLines}" Click="ToggleButtonNeedRecompare_Click">
+					<ToggleButton x:Name="ToggleButtonDetectMovedLines" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding DetectMovedLines}" Click="ToggleButtonNeedRecompare_Click">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource DetectMovedLines}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
@@ -402,7 +402,7 @@
 						</ToggleButton.ToolTip>
 					</ToggleButton>
 
-					<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonNeedRecompare_Click">
+					<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonNeedRecompare_Click">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
@@ -415,7 +415,7 @@
 						</ToggleButton.ToolTip>
 					</ToggleButton>
 
-					<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
+					<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
@@ -428,7 +428,7 @@
 						</ToggleButton.ToolTip>
 					</ToggleButton>
 
-					<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
+					<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
@@ -520,7 +520,7 @@
 							<RowDefinition Height="auto" />
 						</Grid.RowDefinitions>
 
-						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding LeftFile, Mode=TwoWay}" CurrentDiff="{Binding CurrentDiff, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding LeftFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerticalScroll="{Binding MaxLeftVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" FocusVisualStyle="{x:Null}" ToolTip="-" />
+						<local:DiffControl x:Name="LeftDiff" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding LeftFile, Mode=TwoWay}" CurrentDiff="{Binding CurrentDiff, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=LeftHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding LeftFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerticalScroll="{Binding MaxLeftVerticalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="LeftDiff_GotFocus" FocusVisualStyle="{x:Null}" ToolTip="-" />
 						<ScrollBar x:Name="LeftHorizontalScrollbar" Grid.Row="1" Orientation="Horizontal" Maximum="{Binding ElementName=LeftDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" ValueChanged="LeftHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=LeftDiff, Path=TextAreaWidth}" />
 					</Grid>
 				</Border>
@@ -539,7 +539,7 @@
 				</Grid>
 
 				<!--  Splitter  -->
-				<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="4" HorizontalAlignment="Stretch" Style="{StaticResource CommonGridSpliter}" Visibility="{Binding FolderVissible, Converter={StaticResource BooleanToVisibilityConverter}}" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" />
+				<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="4" HorizontalAlignment="Stretch" Style="{StaticResource CommonGridSpliter}" Visibility="{Binding FolderVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" />
 				<GridSplitter x:Name="SplitterLeftRight" Grid.RowSpan="6" Grid.Column="1" Width="4" HorizontalAlignment="Center" Style="{StaticResource CommonGridSpliter}" Focusable="False" />
 				<Border Grid.Column="2" Grid.ColumnSpan="2" BorderThickness="1,1,0,0" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
 					<Grid>
@@ -598,7 +598,7 @@
 								<local:TreeControl x:Name="RightFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="RightFolder_SelectionChanged" Lines="{Binding RightFolder}" HorizontalOffset="{Binding Value, ElementName=RightFolderHorizontalScrollbar, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 							</Border>
 							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0">
-								<ScrollBar Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerialcalScroll, Mode=TwoWay}" />
+								<ScrollBar Name="VerticalTreeScrollbar" SmallChange="1" LargeChange="{Binding ElementName=RightFolder, Path=VisibleLines}" ViewportSize="{Binding ElementName=RightFolder, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=RightFolder, Path=MaxVerticalScroll, Mode=TwoWay}" />
 							</Border>
 							<ScrollBar Name="RightFolderHorizontalScrollbar" Grid.Row="2" ValueChanged="RightFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
 						</Grid>
@@ -618,9 +618,9 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding RightFile, Mode=TwoWay}" VisibleLines="{Binding VisibleLines, Mode=OneWayToSource}" CurrentDiff="{Binding CurrentDiff, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding RightFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerticalScroll="{Binding MaxRightVerialcalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" FocusVisualStyle="{x:Null}" ToolTip="-" />
+						<local:DiffControl x:Name="RightDiff" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding RightFile, Mode=TwoWay}" VisibleLines="{Binding VisibleLines, Mode=OneWayToSource}" CurrentDiff="{Binding CurrentDiff, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalFileScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=RightHorizontalScrollbar, Mode=TwoWay}" Edited="{Binding RightFileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" MaxVerticalScroll="{Binding MaxRightVerticalScroll, Mode=OneWayToSource}" UpdateTrigger="{Binding UpdateTrigger}" GotFocus="RightDiff_GotFocus" BorderThickness="0,0,1,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" FocusVisualStyle="{x:Null}" ToolTip="-" />
 						<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightFile}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
-						<ScrollBar Name="VerticalFileScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding Path=MaxVerialcalScroll}" />
+						<ScrollBar Name="VerticalFileScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding Path=MaxVerticalScroll}" />
 						<ScrollBar x:Name="RightHorizontalScrollbar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
 						<StackPanel Grid.Row="1" Grid.Column="2" Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
 					</Grid>

@@ -11,7 +11,7 @@ public partial class OptionsWindow : Window
 
 	#region Members
 
-	Rectangle selectecRectangle;
+	Rectangle selectedRectangle;
 
 	#endregion
 
@@ -65,12 +65,12 @@ public partial class OptionsWindow : Window
 
 	private void Rectangle_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 	{
-		selectecRectangle = e.Source as Rectangle;
+		selectedRectangle = e.Source as Rectangle;
 
-		LabelA.Visibility = selectecRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
-		SliderA.Visibility = selectecRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
+		LabelA.Visibility = selectedRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
+		SliderA.Visibility = selectedRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
 
-		Color currentColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? ((SolidColorBrush)selectecRectangle.Fill).Color.A : 255), ((SolidColorBrush)selectecRectangle.Fill).Color.R, ((SolidColorBrush)selectecRectangle.Fill).Color.G, ((SolidColorBrush)selectecRectangle.Fill).Color.B);
+		Color currentColor = Color.FromArgb((byte)(selectedRectangle == SelectionBackground ? ((SolidColorBrush)selectedRectangle.Fill).Color.A : 255), ((SolidColorBrush)selectedRectangle.Fill).Color.R, ((SolidColorBrush)selectedRectangle.Fill).Color.G, ((SolidColorBrush)selectedRectangle.Fill).Color.B);
 
 		SliderR.Value = currentColor.R;
 		SliderG.Value = currentColor.G;
@@ -142,7 +142,7 @@ public partial class OptionsWindow : Window
 
 	private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
-		byte alpha = (byte)(selectecRectangle == SelectionBackground ? (byte)SliderA.Value : 255);
+		byte alpha = (byte)(selectedRectangle == SelectionBackground ? (byte)SliderA.Value : 255);
 
 		if (Keyboard.IsKeyDown(Key.LeftCtrl))
 		{
@@ -153,7 +153,7 @@ public partial class OptionsWindow : Window
 
 		Color newColor = Color.FromArgb(alpha, (byte)SliderR.Value, (byte)SliderG.Value, (byte)SliderB.Value);
 		ColorHex.Text = newColor.ToString();
-		selectecRectangle.Fill = new SolidColorBrush(newColor);
+		selectedRectangle.Fill = new SolidColorBrush(newColor);
 
 		SliderR.Background = new LinearGradientBrush(Color.FromArgb(alpha, 0, newColor.G, newColor.B), Color.FromArgb(alpha, 255, newColor.G, newColor.B), 0);
 		SliderG.Background = new LinearGradientBrush(Color.FromArgb(alpha, newColor.R, 0, newColor.B), Color.FromArgb(alpha, newColor.R, 255, newColor.B), 0);
