@@ -68,6 +68,14 @@ public class ColorTheme
 		}
 	}
 
+	internal void SetDefaults(ColorTheme defaultTheme)
+	{
+		foreach (PropertyInfo propertyInfo in this.GetType().GetProperties())
+		{
+			propertyInfo.SetValue(this, propertyInfo.GetValue(defaultTheme));
+		}
+	}
+
 	#endregion
 
 }
