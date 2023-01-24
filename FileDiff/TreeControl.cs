@@ -73,8 +73,8 @@ public class TreeControl : Control
 		UpdateVisibleItems();
 
 		VisibleLines = (int)(ActualHeight / itemHeight + 1);
-		MaxVerialcalScroll = visibleItems.Count - VisibleLines + 1;
-		VerticalOffset = Math.Min(VerticalOffset, MaxVerialcalScroll);
+		MaxVerticalScroll = visibleItems.Count - VisibleLines + 1;
+		VerticalOffset = Math.Min(VerticalOffset, MaxVerticalScroll);
 
 
 		for (int i = 0; i < VisibleLines; i++)
@@ -314,12 +314,12 @@ public class TreeControl : Control
 	}
 
 
-	public static readonly DependencyProperty MaxVerialcalScrollProperty = DependencyProperty.Register("MaxVerialcalScroll", typeof(int), typeof(TreeControl));
+	public static readonly DependencyProperty MaxVerticalScrollProperty = DependencyProperty.Register("MaxVerticalScroll", typeof(int), typeof(TreeControl));
 
-	public int MaxVerialcalScroll
+	public int MaxVerticalScroll
 	{
-		get { return (int)GetValue(MaxVerialcalScrollProperty); }
-		set { SetValue(MaxVerialcalScrollProperty, value); }
+		get { return (int)GetValue(MaxVerticalScrollProperty); }
+		set { SetValue(MaxVerticalScrollProperty, value); }
 	}
 
 
@@ -345,7 +345,7 @@ public class TreeControl : Control
 	{
 		ExpandParents(item);
 		UpdateVisibleItems();
-		MaxVerialcalScroll = visibleItems.Count - VisibleLines + 1;
+		MaxVerticalScroll = visibleItems.Count - VisibleLines + 1;
 		MoveItemIntoView(item);
 		SelectedFile = item;
 		SelectionChanged?.Invoke(SelectedFile);

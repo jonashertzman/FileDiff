@@ -603,7 +603,7 @@ public partial class MainWindow : Window
 
 	private void ToggleButtonMasterDetail_Click(object sender, RoutedEventArgs e)
 	{
-		if (ViewModel.FileVissible)
+		if (ViewModel.FileVisible)
 		{
 			CompareFiles();
 		}
@@ -803,7 +803,7 @@ public partial class MainWindow : Window
 		var oldNewForeground = ViewModel.NewForeground;
 		var oldPartialMatchBackground = ViewModel.PartialMatchBackground;
 		var oldPartialMatchForeground = ViewModel.PartialMatchForeground;
-		var oldMovedFromBackground = ViewModel.MovedFromdBackground;
+		var oldMovedFromBackground = ViewModel.MovedFromBackground;
 		var oldMovedToBackground = ViewModel.MovedToBackground;
 		var oldSelectionBackground = ViewModel.SelectionBackground;
 
@@ -840,7 +840,7 @@ public partial class MainWindow : Window
 			ViewModel.NewForeground = oldNewForeground;
 			ViewModel.PartialMatchBackground = oldPartialMatchBackground;
 			ViewModel.PartialMatchForeground = oldPartialMatchForeground;
-			ViewModel.MovedFromdBackground = oldMovedFromBackground;
+			ViewModel.MovedFromBackground = oldMovedFromBackground;
 			ViewModel.MovedToBackground = oldMovedToBackground;
 			ViewModel.SelectionBackground = oldSelectionBackground;
 
@@ -977,7 +977,7 @@ public partial class MainWindow : Window
 
 	private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex > 0 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex > 0 && NoManualEdit;
 	}
 
 	private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -987,7 +987,7 @@ public partial class MainWindow : Window
 
 	private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
 	}
 
 	private void CommandCurrentDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -997,7 +997,7 @@ public partial class MainWindow : Window
 
 	private void CommandCurrentDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex != -1 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex != -1 && NoManualEdit;
 	}
 
 	private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1007,7 +1007,7 @@ public partial class MainWindow : Window
 
 	private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex != 0 && fileDiffs.Count > 0 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex != 0 && fileDiffs.Count > 0 && NoManualEdit;
 	}
 
 	private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1017,7 +1017,7 @@ public partial class MainWindow : Window
 
 	private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
 	}
 
 	private void CommandNextFile_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1039,7 +1039,7 @@ public partial class MainWindow : Window
 
 	private void CommandNextFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FolderVissible && folderDiffItems.IndexOf(RightFolder.SelectedFile) < folderDiffItems.Count - 1; ;
+		e.CanExecute = ViewModel.FolderVisible && folderDiffItems.IndexOf(RightFolder.SelectedFile) < folderDiffItems.Count - 1; ;
 	}
 
 	private void CommandPreviousFile_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1061,7 +1061,7 @@ public partial class MainWindow : Window
 
 	private void CommandPreviousFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FolderVissible && folderDiffItems.IndexOf(RightFolder.SelectedFile) > 0;
+		e.CanExecute = ViewModel.FolderVisible && folderDiffItems.IndexOf(RightFolder.SelectedFile) > 0;
 	}
 
 	private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)

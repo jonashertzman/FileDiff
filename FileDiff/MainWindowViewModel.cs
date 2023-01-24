@@ -197,33 +197,33 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.IgnoredFiles = value; OnPropertyChangedRepaint(nameof(IgnoredFiles)); }
 	}
 
-	public int MaxVerialcalScroll
+	public int MaxVerticalScroll
 	{
 		get
 		{
-			return Math.Max(maxLeftVerialcalScroll, maxRightVerialcalScroll);
+			return Math.Max(maxLeftVerticalScroll, maxRightVerticalScroll);
 		}
 	}
 
-	int maxLeftVerialcalScroll;
-	public int MaxLeftVerialcalScroll
+	int maxLeftVerticalScroll;
+	public int MaxLeftVerticalScroll
 	{
-		get { return maxLeftVerialcalScroll; }
-		set { maxLeftVerialcalScroll = value; OnPropertyChanged(nameof(MaxLeftVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		get { return maxLeftVerticalScroll; }
+		set { maxLeftVerticalScroll = value; OnPropertyChanged(nameof(MaxLeftVerticalScroll)); OnPropertyChanged(nameof(MaxVerticalScroll)); }
 	}
 
-	int maxRightVerialcalScroll;
-	public int MaxRightVerialcalScroll
+	int maxRightVerticalScroll;
+	public int MaxRightVerticalScroll
 	{
-		get { return maxRightVerialcalScroll; }
-		set { maxRightVerialcalScroll = value; OnPropertyChanged(nameof(MaxRightVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		get { return maxRightVerticalScroll; }
+		set { maxRightVerticalScroll = value; OnPropertyChanged(nameof(MaxRightVerticalScroll)); OnPropertyChanged(nameof(MaxVerticalScroll)); }
 	}
 
 	int visibleLines;
 	public int VisibleLines
 	{
 		get { return visibleLines; }
-		set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerticalScroll)); }
 	}
 
 	DiffRange currentDiff;
@@ -240,15 +240,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set
 		{
 			mode = value;
-			OnPropertyChangedRepaint(nameof(FileVissible));
-			OnPropertyChangedRepaint(nameof(FolderVissible));
+			OnPropertyChangedRepaint(nameof(FileVisible));
+			OnPropertyChangedRepaint(nameof(FolderVisible));
 			OnPropertyChangedRepaint(nameof(FolderRowHeight));
 			OnPropertyChangedRepaint(nameof(SplitterRowHeight));
 			OnPropertyChangedRepaint(nameof(FileRowHeight));
 		}
 	}
 
-	public bool FileVissible
+	public bool FileVisible
 	{
 		get
 		{
@@ -256,7 +256,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public bool FolderVissible
+	public bool FolderVisible
 	{
 		get
 		{
@@ -371,8 +371,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 			OnPropertyChanged(nameof(MasterDetail));
 			OnPropertyChanged(nameof(Mode));
 
-			OnPropertyChangedRepaint(nameof(FileVissible));
-			OnPropertyChangedRepaint(nameof(FolderVissible));
+			OnPropertyChangedRepaint(nameof(FileVisible));
+			OnPropertyChangedRepaint(nameof(FolderVisible));
 			OnPropertyChangedRepaint(nameof(FolderRowHeight));
 			OnPropertyChangedRepaint(nameof(SplitterRowHeight));
 			OnPropertyChangedRepaint(nameof(FileRowHeight));
@@ -401,7 +401,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public Themes Theme
 	{
 		get { return AppSettings.Theme; }
-		set { AppSettings.Theme = value; OnPropertyChangedRepaint(null); } // Refresh all properties when changin theme
+		set { AppSettings.Theme = value; OnPropertyChangedRepaint(null); } // Refresh all properties when changing theme
 	}
 
 
@@ -466,10 +466,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.IgnoredBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
 	}
 
-	public Brush MovedFromdBackground
+	public Brush MovedFromBackground
 	{
 		get { return AppSettings.MovedFromBackground; }
-		set { AppSettings.MovedFromBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedFromdBackground)); }
+		set { AppSettings.MovedFromBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedFromBackground)); }
 	}
 
 	public Brush MovedToBackground
