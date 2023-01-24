@@ -126,7 +126,7 @@
 							<Rectangle x:Name="DeletedBackground" Grid.Row="4" Grid.Column="2" Margin="5" Fill="{Binding DeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="5" Content="Moved From" />
-							<Rectangle x:Name="MovedFromBackground" Grid.Row="5" Grid.Column="2" Margin="5" Fill="{Binding MovedFromdBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="MovedFromBackground" Grid.Row="5" Grid.Column="2" Margin="5" Fill="{Binding MovedFromBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="6" Content="Changed" />
 							<Rectangle x:Name="PartialMatchForeground" Grid.Row="6" Grid.Column="1" Margin="5" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
