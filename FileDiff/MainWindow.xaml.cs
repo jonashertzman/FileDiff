@@ -1151,7 +1151,7 @@ public partial class MainWindow : Window
 
 	private void CommandCopyPathToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		Clipboard.SetText(Path.GetFullPath(GetFocusedPath(e.OriginalSource)));
+		WinApi.CopyTextToClipboard(Path.GetFullPath(GetFocusedPath(e.OriginalSource)));
 	}
 
 	private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)

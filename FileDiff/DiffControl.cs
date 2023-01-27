@@ -1062,7 +1062,7 @@ public class DiffControl : Control
 			lineIndex++;
 		} while (lineIndex <= Selection.BottomLine);
 
-		Clipboard.SetText(sb.ToString());
+		WinApi.CopyTextToClipboard(sb.ToString());
 	}
 
 	private void SetCursorPosition(int line, int character, bool select)

@@ -49,6 +49,8 @@ internal class WinApi
 	public const int GWL_STYLE = -16;
 	public const int WS_MAXIMIZEBOX = 0x10000;
 	public const int WS_MINIMIZEBOX = 0x20000;
+	private const uint CF_UNICODETEXT = 13;
+
 
 	[DllImport("kernel32", CharSet = CharSet.Unicode)]
 	public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
@@ -67,4 +69,29 @@ internal class WinApi
 
 	[DllImport("user32.dll")]
 	extern public static int SetWindowLong(IntPtr hwnd, int index, int value);
+
+	[DllImport("user32.dll")]
+	private static extern bool OpenClipboard(IntPtr hWndNewOwner);
+
+	[DllImport("user32.dll")]
+	private static extern bool CloseClipboard();
+
+	[DllImport("user32.dll")]
+	private static extern bool SetClipboardData(uint uFormat, IntPtr data);
+
+
+	public static bool CopyTextToClipboard(string text)
+	{
+		if (!OpenClipboard(IntPtr.Zero))
+		{
+			return false;
+		}
+
+		var global = Marshal.StringToHGlobalUni(text);
+
+		SetClipboardData(CF_UNICODETEXT, global);
+		CloseClipboard();
+
+		return true;
+	}
 }
