@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace FileDiff;
 
@@ -79,6 +80,23 @@ internal class WinApi
 	[DllImport("user32.dll")]
 	private static extern bool SetClipboardData(uint uFormat, IntPtr data);
 
+	[DllImport("user32.dll")]
+	private static extern IntPtr GetClipboardData(uint uFormat);
+
+	[DllImport("User32.dll", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static extern bool IsClipboardFormatAvailable(uint format);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	private static extern IntPtr GlobalLock(IntPtr hMem);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static extern bool GlobalUnlock(IntPtr hMem);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	private static extern int GlobalSize(IntPtr hMem);
+
 
 	public static bool CopyTextToClipboard(string text)
 	{
@@ -93,5 +111,47 @@ internal class WinApi
 		CloseClipboard();
 
 		return true;
+	}
+
+
+	public static string GetTextFromClipboard()
+	{
+		if (!IsClipboardFormatAvailable(CF_UNICODETEXT))
+			return null;
+
+		try
+		{
+			if (!OpenClipboard(IntPtr.Zero))
+				return null;
+
+			IntPtr handle = GetClipboardData(CF_UNICODETEXT);
+			if (handle == IntPtr.Zero)
+				return null;
+
+			IntPtr pointer = IntPtr.Zero;
+
+			try
+			{
+				pointer = GlobalLock(handle);
+				if (pointer == IntPtr.Zero)
+					return null;
+
+				int size = GlobalSize(handle);
+				byte[] buff = new byte[size];
+
+				Marshal.Copy(pointer, buff, 0, size);
+
+				return Encoding.Unicode.GetString(buff).TrimEnd('\0');
+			}
+			finally
+			{
+				if (pointer != IntPtr.Zero)
+					GlobalUnlock(handle);
+			}
+		}
+		finally
+		{
+			CloseClipboard();
+		}
 	}
 }

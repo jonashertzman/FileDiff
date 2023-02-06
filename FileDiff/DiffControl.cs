@@ -529,7 +529,10 @@ public class DiffControl : Control
 					DeleteSelection();
 				}
 
-				string[] pastedRows = Clipboard.GetText().Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+				string[] pastedRows = WinApi.GetTextFromClipboard().Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+				//string[] pastedRows2 = ((string)Clipboard.GetData(DataFormats.UnicodeText)).Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+				//string[] pastedRows3 = ((string)Clipboard.GetData(DataFormats.Text)).Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+				//string[] pastedRows4 = Clipboard.GetText().Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
 
 				string leftOfCursor = Lines[cursorLine].Text[..cursorCharacter];
 				string rightOfCursor = Lines[cursorLine].Text[cursorCharacter..];
