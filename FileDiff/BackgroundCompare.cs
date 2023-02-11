@@ -407,8 +407,8 @@ public static class BackgroundCompare
 
 		if (matchTooShort)
 		{
-			leftLine.AddTextSegment(CharactersToString(leftRange), TextState.Deleted);
-			rightLine.AddTextSegment(CharactersToString(rightRange), TextState.New);
+			leftLine.AddTextSegment(new string(leftRange.ToArray()), TextState.Deleted);
+			rightLine.AddTextSegment(new string(rightRange.ToArray()), TextState.New);
 			return;
 		}
 
@@ -418,15 +418,15 @@ public static class BackgroundCompare
 		}
 		else if (matchIndex > 0)
 		{
-			leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(0, matchIndex)), TextState.Deleted);
+			leftLine.AddTextSegment(new string(leftRange.GetRange(0, matchIndex).ToArray()), TextState.Deleted);
 		}
 		else if (matchingIndex > 0)
 		{
-			rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(0, matchingIndex)), TextState.New);
+			rightLine.AddTextSegment(new string(rightRange.GetRange(0, matchingIndex).ToArray()), TextState.New);
 		}
 
-		leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(matchIndex, matchLength)), TextState.PartialMatch);
-		rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(matchingIndex, matchLength)), TextState.PartialMatch);
+		leftLine.AddTextSegment(new string(leftRange.GetRange(matchIndex, matchLength).ToArray()), TextState.PartialMatch);
+		rightLine.AddTextSegment(new string(rightRange.GetRange(matchingIndex, matchLength).ToArray()), TextState.PartialMatch);
 
 		if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
 		{
@@ -434,11 +434,11 @@ public static class BackgroundCompare
 		}
 		else if (leftRange.Count > matchIndex + matchLength)
 		{
-			leftLine.AddTextSegment(CharactersToString(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength))), TextState.Deleted);
+			leftLine.AddTextSegment(new string(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)).ToArray()), TextState.Deleted);
 		}
 		else if (rightRange.Count > matchingIndex + matchLength)
 		{
-			rightLine.AddTextSegment(CharactersToString(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength))), TextState.New);
+			rightLine.AddTextSegment(new string(rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)).ToArray()), TextState.New);
 		}
 	}
 
@@ -730,22 +730,12 @@ public static class BackgroundCompare
 						longestMatchLength = matchLength;
 					}
 				}
-				//if (matchLength > 100)
-				//{
-				//	return;
-				//}
+				if (longestMatchLength > 100)
+				{
+					return;
+				}
 			}
 		}
-	}
-
-	private static string CharactersToString(List<char> characters)
-	{
-		var sb = new StringBuilder();
-		foreach (char c in characters)
-		{
-			sb.Append(c);
-		}
-		return sb.ToString();
 	}
 
 	private static void IncreaseProgress(int amount)
