@@ -80,6 +80,7 @@ public partial class OptionsWindow : Window
 		ColorHex.Text = currentColor.ToString();
 
 		ColorChooser.IsOpen = true;
+		SliderR.Focus();
 	}
 
 	private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
@@ -144,7 +145,7 @@ public partial class OptionsWindow : Window
 	{
 		byte alpha = (byte)(selectedRectangle == SelectionBackground ? (byte)SliderA.Value : 255);
 
-		if (Keyboard.IsKeyDown(Key.LeftCtrl))
+		if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
 		{
 			SliderR.Value = e.NewValue;
 			SliderG.Value = e.NewValue;
@@ -159,6 +160,36 @@ public partial class OptionsWindow : Window
 		SliderG.Background = new LinearGradientBrush(Color.FromArgb(alpha, newColor.R, 0, newColor.B), Color.FromArgb(alpha, newColor.R, 255, newColor.B), 0);
 		SliderB.Background = new LinearGradientBrush(Color.FromArgb(alpha, newColor.R, newColor.G, 0), Color.FromArgb(alpha, newColor.R, newColor.G, 255), 0);
 		SliderA.Background = new LinearGradientBrush(Color.FromArgb(0, newColor.R, newColor.G, newColor.B), Color.FromArgb(255, newColor.R, newColor.G, newColor.B), 0);
+	}
+
+	private void Border_PreviewKeyDown(object sender, KeyEventArgs e)
+	{
+		bool controlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+
+		if (e.Key == Key.C && controlPressed)
+		{
+			Clipboard.SetText(ColorHex.Text);
+
+			e.Handled = true;
+			return;
+		}
+		else if (e.Key == Key.V && controlPressed)
+		{
+			string s = Clipboard.GetText();
+
+			SolidColorBrush newBrush = Utils.ToBrush(s);
+			if (newBrush != null)
+			{
+				SliderR.Value = newBrush.Color.R;
+				SliderG.Value = newBrush.Color.G;
+				SliderB.Value = newBrush.Color.B;
+				SliderA.Value = newBrush.Color.A;
+
+				e.Handled = true;
+				return;
+			}
+		}
+		e.Handled = false;
 	}
 
 	#endregion

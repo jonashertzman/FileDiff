@@ -46,7 +46,14 @@ static class Utils
 
 	public static SolidColorBrush ToBrush(this string HexColorString)
 	{
-		return new BrushConverter().ConvertFrom(HexColorString) as SolidColorBrush;
+		try
+		{
+			return new BrushConverter().ConvertFrom(HexColorString) as SolidColorBrush;
+		}
+		catch (Exception ex)
+		{
+			return null;
+		}
 	}
 
 }
