@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows;
 
 namespace FileDiff;
 
@@ -97,32 +98,53 @@ internal class WinApi
 	[DllImport("Kernel32.dll", SetLastError = true)]
 	private static extern int GlobalSize(IntPtr hMem);
 
+	[DllImport("user32.dll")]
+	static extern IntPtr GetOpenClipboardWindow();
+
+	[DllImport("user32.dll")]
+	static extern int GetWindowText(int hwnd, StringBuilder text, int count);
+
 
 	public static bool CopyTextToClipboard(string text)
 	{
 		if (!OpenClipboard(IntPtr.Zero))
 		{
+			MessageBox.Show($"OpenClipboard failed {getOpenClipboardWindowText()}");
 			return false;
 		}
 
 		var global = Marshal.StringToHGlobalUni(text);
 
-		SetClipboardData(CF_UNICODETEXT, global);
-		CloseClipboard();
+		if (!SetClipboardData(CF_UNICODETEXT, global))
+		{
+			MessageBox.Show($"SetClipboardData failed {getOpenClipboardWindowText()}");
+			return false;
+		}
+
+		if (!CloseClipboard())
+		{
+			MessageBox.Show($"CloseClipboard failed {getOpenClipboardWindowText()}");
+			return false;
+		}
 
 		return true;
 	}
 
-
 	public static string GetTextFromClipboard()
 	{
 		if (!IsClipboardFormatAvailable(CF_UNICODETEXT))
+		{
+			MessageBox.Show("clipboard not available");
 			return null;
+		}
 
 		try
 		{
 			if (!OpenClipboard(IntPtr.Zero))
+			{
+				MessageBox.Show("OpenClipboard failed");
 				return null;
+			}
 
 			IntPtr handle = GetClipboardData(CF_UNICODETEXT);
 			if (handle == IntPtr.Zero)
@@ -154,4 +176,13 @@ internal class WinApi
 			CloseClipboard();
 		}
 	}
+
+	private static string getOpenClipboardWindowText()
+	{
+		IntPtr hwnd = GetOpenClipboardWindow();
+		StringBuilder sb = new StringBuilder(501);
+		GetWindowText(hwnd.ToInt32(), sb, 500);
+		return sb.ToString();
+	}
+
 }
