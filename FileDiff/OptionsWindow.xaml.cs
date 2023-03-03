@@ -168,7 +168,7 @@ public partial class OptionsWindow : Window
 
 		if (e.Key == Key.C && controlPressed)
 		{
-			Clipboard.SetText(ColorHex.Text);
+			WinApi.CopyTextToClipboard(ColorHex.Text);
 
 			e.Handled = true;
 			return;

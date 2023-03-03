@@ -104,12 +104,20 @@ internal class WinApi
 	[DllImport("user32.dll")]
 	static extern int GetWindowText(int hwnd, StringBuilder text, int count);
 
+	[DllImport("user32.dll")]
+	static extern bool EmptyClipboard();
 
 	public static bool CopyTextToClipboard(string text)
 	{
 		if (!OpenClipboard(IntPtr.Zero))
 		{
-			MessageBox.Show($"OpenClipboard failed {getOpenClipboardWindowText()}");
+			MessageBox.Show($"OpenClipboard failed ({getOpenClipboardWindowText()})");
+			return false;
+		}
+
+		if (!EmptyClipboard())
+		{
+			MessageBox.Show($"EmptyClipboard failed ({getOpenClipboardWindowText()})");
 			return false;
 		}
 
@@ -117,64 +125,17 @@ internal class WinApi
 
 		if (!SetClipboardData(CF_UNICODETEXT, global))
 		{
-			MessageBox.Show($"SetClipboardData failed {getOpenClipboardWindowText()}");
+			MessageBox.Show($"SetClipboardData failed ({getOpenClipboardWindowText()})");
 			return false;
 		}
 
 		if (!CloseClipboard())
 		{
-			MessageBox.Show($"CloseClipboard failed {getOpenClipboardWindowText()}");
+			MessageBox.Show($"CloseClipboard failed ({getOpenClipboardWindowText()})");
 			return false;
 		}
 
 		return true;
-	}
-
-	public static string GetTextFromClipboard()
-	{
-		if (!IsClipboardFormatAvailable(CF_UNICODETEXT))
-		{
-			MessageBox.Show("clipboard not available");
-			return null;
-		}
-
-		try
-		{
-			if (!OpenClipboard(IntPtr.Zero))
-			{
-				MessageBox.Show("OpenClipboard failed");
-				return null;
-			}
-
-			IntPtr handle = GetClipboardData(CF_UNICODETEXT);
-			if (handle == IntPtr.Zero)
-				return null;
-
-			IntPtr pointer = IntPtr.Zero;
-
-			try
-			{
-				pointer = GlobalLock(handle);
-				if (pointer == IntPtr.Zero)
-					return null;
-
-				int size = GlobalSize(handle);
-				byte[] buff = new byte[size];
-
-				Marshal.Copy(pointer, buff, 0, size);
-
-				return Encoding.Unicode.GetString(buff).TrimEnd('\0');
-			}
-			finally
-			{
-				if (pointer != IntPtr.Zero)
-					GlobalUnlock(handle);
-			}
-		}
-		finally
-		{
-			CloseClipboard();
-		}
 	}
 
 	private static string getOpenClipboardWindowText()
