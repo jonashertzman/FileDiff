@@ -160,8 +160,8 @@
 					<Condition Property="IsSelected" Value="true" />
 					<Condition Property="Selector.IsSelectionActive" Value="false" />
 				</MultiTrigger.Conditions>
-				<Setter Property="Background" Value="{StaticResource Theme.Control}" />
-				<Setter Property="BorderBrush" Value="{StaticResource Theme.Control}" />
+				<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
+				<Setter Property="BorderBrush" Value="{StaticResource Theme.Border}" />
 				<!--<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />-->
 			</MultiTrigger>
 			<Trigger Property="IsEnabled" Value="false">
