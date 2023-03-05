@@ -44,13 +44,13 @@ static class Utils
 		return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
 	}
 
-	public static SolidColorBrush ToBrush(this string HexColorString)
+	public static SolidColorBrush ToBrush(this string colorString)
 	{
 		try
 		{
-			return new BrushConverter().ConvertFrom(HexColorString) as SolidColorBrush;
+			return new BrushConverter().ConvertFrom(colorString) as SolidColorBrush;
 		}
-		catch (Exception ex)
+		catch (Exception)
 		{
 			return null;
 		}

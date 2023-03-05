@@ -175,9 +175,9 @@ public partial class OptionsWindow : Window
 		}
 		else if (e.Key == Key.V && controlPressed)
 		{
-			string s = Clipboard.GetText();
+			string colorString = Clipboard.GetText();
 
-			SolidColorBrush newBrush = Utils.ToBrush(s);
+			SolidColorBrush newBrush = colorString.ToBrush();
 			if (newBrush != null)
 			{
 				SliderR.Value = newBrush.Color.R;
