@@ -330,6 +330,41 @@ public static class AppSettings
 		}
 	}
 
+	private static SolidColorBrush lineNumberColor;
+	public static SolidColorBrush LineNumberColor
+	{
+		get { return lineNumberColor; }
+		set
+		{
+			lineNumberColor = value;
+			lineNumberColor.Freeze();
+			CurrentTheme.LineNumberColor = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush currentDiffColor;
+	public static SolidColorBrush CurrentDiffColor
+	{
+		get { return currentDiffColor; }
+		set
+		{
+			currentDiffColor = value;
+			currentDiffColor.Freeze();
+			CurrentTheme.CurrentDiffColor = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush snakeColor;
+	public static SolidColorBrush SnakeColor
+	{
+		get { return snakeColor; }
+		set
+		{
+			snakeColor = value;
+			snakeColor.Freeze();
+			CurrentTheme.SnakeColor = value.Color.ToString();
+		}
+	}
 
 	// GUI colors
 	private static SolidColorBrush windowForeground = DefaultSettings.LightTheme.NormalText.ToBrush();
@@ -458,7 +493,7 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush borderForeground = DefaultSettings.LightTheme.LightBorder.ToBrush();
+	private static SolidColorBrush borderForeground = DefaultSettings.LightTheme.BorderLight.ToBrush();
 	public static SolidColorBrush BorderForeground
 	{
 		get { return borderForeground; }
@@ -466,7 +501,7 @@ public static class AppSettings
 		{
 			borderForeground = value;
 			borderForeground.Freeze();
-			CurrentTheme.LightBorder = value.Color.ToString();
+			CurrentTheme.BorderLight = value.Color.ToString();
 			NotifyStaticPropertyChanged(nameof(BorderForeground));
 			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
 		}
@@ -518,42 +553,6 @@ public static class AppSettings
 		get
 		{
 			return highlightBorder.Color;
-		}
-	}
-
-	private static SolidColorBrush lineNumberColor;
-	public static SolidColorBrush LineNumberColor
-	{
-		get { return lineNumberColor; }
-		set
-		{
-			lineNumberColor = value;
-			lineNumberColor.Freeze();
-			CurrentTheme.LineNumberColor = value.Color.ToString();
-		}
-	}
-
-	private static SolidColorBrush currentDiffColor;
-	public static SolidColorBrush CurrentDiffColor
-	{
-		get { return currentDiffColor; }
-		set
-		{
-			currentDiffColor = value;
-			currentDiffColor.Freeze();
-			CurrentTheme.CurrentDiffColor = value.Color.ToString();
-		}
-	}
-
-	private static SolidColorBrush snakeColor;
-	public static SolidColorBrush SnakeColor
-	{
-		get { return snakeColor; }
-		set
-		{
-			snakeColor = value;
-			snakeColor.Freeze();
-			CurrentTheme.SnakeColor = value.Color.ToString();
 		}
 	}
 
@@ -675,7 +674,7 @@ public static class AppSettings
 			HighlightBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBackground));
 			HighlightBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBorder));
 
-			BorderForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LightBorder));
+			BorderForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderLight));
 
 			LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
 			CurrentDiffColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.CurrentDiffColor));

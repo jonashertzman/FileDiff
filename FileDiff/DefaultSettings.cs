@@ -38,8 +38,8 @@ public static class DefaultSettings
 		LightControlBackground = "#FFACACAC",
 		DarkControlBackground = "#FF3D3D3D",
 
-		LightBorder = "#FF303030",
-		DarkBorder = "#FF303030",
+		BorderLight = "#FF303030",
+		BorderDark = "#FF303030",
 
 		HighlightBackground = "#213E4C",
 		HighlightBorder = "#26A0DA",
@@ -81,8 +81,8 @@ public static class DefaultSettings
 		LightControlBackground = "#FFACACAC",
 		DarkControlBackground = "#FFDDDDDD",
 
-		LightBorder = "#FFD6D6D6",
-		DarkBorder = "#FFD6D6D6",
+		BorderLight = "#FFD6D6D6",
+		BorderDark = "#FFD6D6D6",
 
 		HighlightBackground = "#DCECFC",
 		HighlightBorder = "#7EB4EA",

@@ -36,8 +36,8 @@ public class ColorTheme
 	public required string LightControlBackground { get; set; }
 	public required string DarkControlBackground { get; set; }
 
-	public required string LightBorder { get; set; }
-	public required string DarkBorder { get; set; }
+	public required string BorderLight { get; set; }
+	public required string BorderDark { get; set; }
 
 	public required string HighlightBackground { get; set; }
 	public required string HighlightBorder { get; set; }
