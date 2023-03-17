@@ -38,11 +38,11 @@ public static class DefaultSettings
 		LightControlBackground = "#FFACACAC",
 		DarkControlBackground = "#FF3D3D3D",
 
-		HighlightBackground = "#213E4C",
-		HighlightBorder = "#26A0DA",
-
 		LightBorder = "#FF303030",
 		DarkBorder = "#FF303030",
+
+		HighlightBackground = "#213E4C",
+		HighlightBorder = "#26A0DA",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
@@ -74,18 +74,18 @@ public static class DefaultSettings
 		// GUI colors
 		NormalText = "#FF000000",
 		DisabledText = "#FF888888",
-		WindowBackground = "#FFFFFFFF",
 
+		WindowBackground = "#FFFFFFFF",
 		DialogBackground = "#FFF0F0F0",
 
-		DarkControlBackground = "#FFDDDDDD",
 		LightControlBackground = "#FFACACAC",
-
-		HighlightBackground = "#DCECFC",
-		HighlightBorder = "#7EB4EA",
+		DarkControlBackground = "#FFDDDDDD",
 
 		LightBorder = "#FFD6D6D6",
 		DarkBorder = "#FFD6D6D6",
+
+		HighlightBackground = "#DCECFC",
+		HighlightBorder = "#7EB4EA",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
