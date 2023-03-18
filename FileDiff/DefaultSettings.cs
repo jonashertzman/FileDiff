@@ -28,6 +28,12 @@ public static class DefaultSettings
 		MovedFromBackground = "#FF420000",
 		MovedToBackground = "#FF002800",
 
+		LineNumberColor = "#FF585858",
+		CurrentDiffColor = "#FFB7B7B7",
+		SnakeColor = "#FFD2D2D2",
+
+		SelectionBackground = "#320096D2",
+
 		// GUI colors
 		NormalText = "#FFFFFFFF",
 		DisabledText = "#FF888888",
@@ -39,16 +45,10 @@ public static class DefaultSettings
 		DarkControlBackground = "#FF3D3D3D",
 
 		BorderLight = "#FF303030",
-		BorderDark = "#FF303030",
+		BorderDark = "#FF6A6A6A",
 
 		HighlightBackground = "#213E4C",
 		HighlightBorder = "#26A0DA",
-
-		LineNumberColor = "#FF585858",
-		CurrentDiffColor = "#FFB7B7B7",
-		SnakeColor = "#FFD2D2D2",
-
-		SelectionBackground = "#320096D2",
 	};
 
 	internal static ColorTheme LightTheme { get; } = new ColorTheme()
@@ -71,6 +71,12 @@ public static class DefaultSettings
 		MovedFromBackground = "#FFFFF0F0",
 		MovedToBackground = "#FFF0FFF0",
 
+		LineNumberColor = "#FF585858",
+		CurrentDiffColor = "#FFB7B7B7",
+		SnakeColor = "#FFD2D2D2",
+
+		SelectionBackground = "#320096D2",
+
 		// GUI colors
 		NormalText = "#FF000000",
 		DisabledText = "#FF888888",
@@ -82,16 +88,10 @@ public static class DefaultSettings
 		DarkControlBackground = "#FFDDDDDD",
 
 		BorderLight = "#FFD6D6D6",
-		BorderDark = "#FFD6D6D6",
+		BorderDark = "#FFA9A9A9",
 
 		HighlightBackground = "#DCECFC",
 		HighlightBorder = "#7EB4EA",
-
-		LineNumberColor = "#FF585858",
-		CurrentDiffColor = "#FFB7B7B7",
-		SnakeColor = "#FFD2D2D2",
-
-		SelectionBackground = "#320096D2",
 	};
 
 }

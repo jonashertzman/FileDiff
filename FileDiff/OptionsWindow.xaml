@@ -107,7 +107,7 @@
 
 							<Label Grid.Row="0" Grid.Column="1" Content="Foreground" />
 							<Label Grid.Row="0" Grid.Column="2" Content="Background" />
-							<Label Grid.Row="0" Grid.Column="6" Content="Color      " />
+							<Label Grid.Row="0" Grid.Column="6" Content="Color            " />
 							<Button x:Name="ButtonResetColors" Grid.Row="0" Grid.Column="8" Content="Reset All" Style="{StaticResource CommonButton}" Click="ButtonResetColors_Click" />
 
 							<Label Grid.Row="1" Content="Normal" />
@@ -169,7 +169,7 @@
 							<Rectangle x:Name="BorderForegroundx" Grid.Row="7" Grid.Column="6" Margin="5" Fill="{Binding BorderForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="8" Grid.Column="5" Content="Border Dark" />
-							<Rectangle x:Name="BorderDarkForegroundx" Grid.Row="8" Grid.Column="6" Margin="5" Fill="{Binding BorderForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="BorderDarkForegroundx" Grid.Row="8" Grid.Column="6" Margin="5" Fill="{Binding BorderDarkForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="9" Grid.Column="5" Content="Highlight Background" />
 							<Rectangle x:Name="HighlightBackground" Grid.Row="9" Grid.Column="6" Margin="5" Fill="{Binding HighlightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
@@ -180,7 +180,7 @@
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
 								<Grid RenderOptions.ClearTypeHint="Enabled">
 									<!--  Workaround to not fuckup the cleartype rendering  -->
-									<Border Margin="10" Padding="5" BorderThickness="1" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
+									<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource Theme.Dialog}">
 										<Border.Effect>
 											<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
 										</Border.Effect>

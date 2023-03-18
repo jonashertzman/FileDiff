@@ -26,6 +26,12 @@ public class ColorTheme
 	public required string MovedFromBackground { get; set; }
 	public required string MovedToBackground { get; set; }
 
+	public required string LineNumberColor { get; set; }
+	public required string CurrentDiffColor { get; set; }
+	public required string SnakeColor { get; set; }
+
+	public required string SelectionBackground { get; set; }
+
 	// GUI colors
 	public required string NormalText { get; set; }
 	public required string DisabledText { get; set; }
@@ -42,11 +48,6 @@ public class ColorTheme
 	public required string HighlightBackground { get; set; }
 	public required string HighlightBorder { get; set; }
 
-	public required string LineNumberColor { get; set; }
-	public required string CurrentDiffColor { get; set; }
-	public required string SnakeColor { get; set; }
-
-	public required string SelectionBackground { get; set; }
 
 	#endregion
 

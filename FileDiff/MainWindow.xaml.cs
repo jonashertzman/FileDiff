@@ -793,6 +793,7 @@ public partial class MainWindow : Window
 		var oldFont = ViewModel.Font;
 		var oldFontSize = ViewModel.FontSize;
 		var oldTabSize = ViewModel.TabSize;
+
 		var oldDeletedBackground = ViewModel.DeletedBackground;
 		var oldDeletedForeground = ViewModel.DeletedForeground;
 		var oldFullMatchBackground = ViewModel.FullMatchBackground;
@@ -806,7 +807,6 @@ public partial class MainWindow : Window
 		var oldMovedFromBackground = ViewModel.MovedFromBackground;
 		var oldMovedToBackground = ViewModel.MovedToBackground;
 		var oldSelectionBackground = ViewModel.SelectionBackground;
-
 		var oldLineNumberColor = ViewModel.LineNumberColor;
 		var oldCurrentDiffColor = ViewModel.CurrentDiffColor;
 		var oldSnakeColor = ViewModel.SnakeColor;
@@ -830,6 +830,7 @@ public partial class MainWindow : Window
 			ViewModel.Font = oldFont;
 			ViewModel.FontSize = oldFontSize;
 			ViewModel.TabSize = oldTabSize;
+
 			ViewModel.DeletedBackground = oldDeletedBackground;
 			ViewModel.DeletedForeground = oldDeletedForeground;
 			ViewModel.FullMatchBackground = oldFullMatchBackground;
@@ -843,7 +844,6 @@ public partial class MainWindow : Window
 			ViewModel.MovedFromBackground = oldMovedFromBackground;
 			ViewModel.MovedToBackground = oldMovedToBackground;
 			ViewModel.SelectionBackground = oldSelectionBackground;
-
 			ViewModel.LineNumberColor = oldLineNumberColor;
 			ViewModel.CurrentDiffColor = oldCurrentDiffColor;
 			ViewModel.SnakeColor = oldSnakeColor;

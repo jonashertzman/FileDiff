@@ -405,7 +405,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	}
 
 
-	// Text colors
+	// Diff colors
 	public Brush FullMatchForeground
 	{
 		get { return AppSettings.FullMatchForeground; }
@@ -484,6 +484,24 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.SelectionBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
 	}
 
+	public Brush LineNumberColor
+	{
+		get { return AppSettings.LineNumberColor; }
+		set { AppSettings.LineNumberColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(LineNumberColor)); }
+	}
+
+	public Brush SnakeColor
+	{
+		get { return AppSettings.SnakeColor; }
+		set { AppSettings.SnakeColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SnakeColor)); }
+	}
+
+	public Brush CurrentDiffColor
+	{
+		get { return AppSettings.CurrentDiffColor; }
+		set { AppSettings.CurrentDiffColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(CurrentDiffColor)); }
+	}
+
 
 	// GUI colors
 	public Brush WindowForeground
@@ -522,6 +540,18 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.ControlDarkBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlDarkBackground)); }
 	}
 
+	public Brush BorderForeground
+	{
+		get { return AppSettings.BorderForeground; }
+		set { AppSettings.BorderForeground = value as SolidColorBrush; OnPropertyChanged(nameof(BorderForeground)); }
+	}
+
+	public Brush BorderDarkForeground
+	{
+		get { return AppSettings.BorderDarkForeground; }
+		set { AppSettings.BorderDarkForeground = value as SolidColorBrush; OnPropertyChanged(nameof(BorderDarkForeground)); }
+	}
+
 	public Brush HighlightBackground
 	{
 		get { return AppSettings.HighlightBackground; }
@@ -532,30 +562,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		get { return AppSettings.HighlightBorder; }
 		set { AppSettings.HighlightBorder = value as SolidColorBrush; OnPropertyChanged(nameof(HighlightBorder)); }
-	}
-
-	public Brush BorderForeground
-	{
-		get { return AppSettings.BorderForeground; }
-		set { AppSettings.BorderForeground = value as SolidColorBrush; OnPropertyChanged(nameof(BorderForeground)); }
-	}
-
-	public Brush LineNumberColor
-	{
-		get { return AppSettings.LineNumberColor; }
-		set { AppSettings.LineNumberColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(LineNumberColor)); }
-	}
-
-	public Brush SnakeColor
-	{
-		get { return AppSettings.SnakeColor; }
-		set { AppSettings.SnakeColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SnakeColor)); }
-	}
-
-	public Brush CurrentDiffColor
-	{
-		get { return AppSettings.CurrentDiffColor; }
-		set { AppSettings.CurrentDiffColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(CurrentDiffColor)); }
 	}
 
 
