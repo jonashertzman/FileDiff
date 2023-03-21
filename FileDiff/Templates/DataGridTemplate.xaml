@@ -39,7 +39,7 @@
 
 	<Style TargetType="{x:Type DataGrid}">
 		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
-		<Setter Property="Foreground" Value="{StaticResource Theme.Foreground}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
 		<Setter Property="BorderThickness" Value="1" />
 

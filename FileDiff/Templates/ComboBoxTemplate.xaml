@@ -71,7 +71,7 @@
 				<ControlTemplate TargetType="{x:Type ToggleButton}">
 					<Border x:Name="templateRoot" Background="{StaticResource Theme.ControlDark}" BorderBrush="{StaticResource ComboBox.Static.Border}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
 						<Border x:Name="splitBorder" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Margin="0" HorizontalAlignment="Right" BorderBrush="Transparent" BorderThickness="1" SnapsToDevicePixels="true">
-							<Path x:Name="arrow" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{StaticResource Theme.Foreground}" />
+							<Path x:Name="arrow" Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{StaticResource Theme.NormalText}" />
 						</Border>
 					</Border>
 					<ControlTemplate.Triggers>

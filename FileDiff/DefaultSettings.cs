@@ -53,6 +53,7 @@ public static class DefaultSettings
 
 	internal static ColorTheme LightTheme { get; } = new ColorTheme()
 	{
+		// Diff colors
 		FullMatchForeground = "#FF000000",
 		FullMatchBackground = "#FFFFFFFF",
 

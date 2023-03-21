@@ -26,9 +26,9 @@
 
 	<Style TargetType="{x:Type Button}">
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-		<Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
+		<Setter Property="Background" Value="{StaticResource Theme.ControlDark}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderDark}" />
-		<Setter Property="Foreground" Value="{StaticResource Theme.Foreground}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />

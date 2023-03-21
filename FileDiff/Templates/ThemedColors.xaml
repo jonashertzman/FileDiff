@@ -5,8 +5,8 @@
 
 
 
-	<SolidColorBrush x:Key="Theme.Foreground" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=Black}" />
-	<SolidColorBrush x:Key="Theme.DissabledForeground" Color="{Binding Path=(local:AppSettings.DisabledForegroundColor), FallbackValue=Gray}" />
+	<SolidColorBrush x:Key="Theme.NormalText" Color="{Binding Path=(local:AppSettings.WindowForegroundColor), FallbackValue=Black}" />
+	<SolidColorBrush x:Key="Theme.DissabledText" Color="{Binding Path=(local:AppSettings.DisabledForegroundColor), FallbackValue=Gray}" />
 
 	<SolidColorBrush x:Key="Theme.Window" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=White}" />
 	<SolidColorBrush x:Key="Theme.Dialog" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFACACAC}" />
