@@ -17,8 +17,8 @@
 	<SolidColorBrush x:Key="Theme.BorderLight" Color="{Binding Path=(local:AppSettings.BorderForegroundColor), FallbackValue=#FFACACAC}" />
 	<SolidColorBrush x:Key="Theme.BorderDark" Color="{Binding Path=(local:AppSettings.BorderDarkForegroundColor), FallbackValue=#FFACACAC}" />
 
-	<SolidColorBrush x:Key="Theme.HighlightBackground" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFCBE8F6}" />
-	<SolidColorBrush x:Key="Theme.HighlightBorder" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FF26A0DA}" />
+	<SolidColorBrush x:Key="Theme.HighlightBackground" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#FFDCECFC}" />
+	<SolidColorBrush x:Key="Theme.HighlightBorder" Color="{Binding Path=(local:AppSettings.HighlightBorderColor), FallbackValue=#FF26A0DA}" />
 
 
 
