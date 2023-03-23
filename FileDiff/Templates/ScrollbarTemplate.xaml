@@ -56,7 +56,7 @@
 					</Border>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsMouseOver" Value="True">
-							<Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
+							<Setter TargetName="border" Property="Background" Value="{StaticResource Theme.ControlDark}" />
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
