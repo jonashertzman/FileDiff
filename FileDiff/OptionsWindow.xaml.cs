@@ -124,8 +124,8 @@ public partial class OptionsWindow : Window
 		WindowBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowBackground));
 		DialogBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DialogBackground));
 
-		ControlBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DarkControlBackground));
-		ControlDarkBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LightControlBackground));
+		ControlLightBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.ControlLightBackground));
+		ControlDarkBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.ControlDarkBackground));
 
 		BorderForegroundx.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.BorderLight));
 		BorderDarkForegroundx.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.BorderDark));

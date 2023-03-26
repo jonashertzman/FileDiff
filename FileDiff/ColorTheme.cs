@@ -39,8 +39,8 @@ public class ColorTheme
 	public required string WindowBackground { get; set; }
 	public required string DialogBackground { get; set; }
 
-	public required string LightControlBackground { get; set; }
-	public required string DarkControlBackground { get; set; }
+	public required string ControlLightBackground { get; set; }
+	public required string ControlDarkBackground { get; set; }
 
 	public required string BorderLight { get; set; }
 	public required string BorderDark { get; set; }

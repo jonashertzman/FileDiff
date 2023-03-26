@@ -528,10 +528,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.DialogBackground = value as SolidColorBrush; OnPropertyChanged(nameof(DialogBackground)); }
 	}
 
-	public Brush ControlBackground
+	public Brush ControlLightBackground
 	{
-		get { return AppSettings.ControlBackground; }
-		set { AppSettings.ControlBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlBackground)); }
+		get { return AppSettings.ControlLightBackground; }
+		set { AppSettings.ControlLightBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlLightBackground)); }
 	}
 
 	public Brush ControlDarkBackground

@@ -67,11 +67,11 @@
 
 							<Label Grid.Column="0" Content="Font" />
 							<ComboBox x:Name="ComboBoxFont" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=Font}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
-							<TextBox x:Name="TextBoxFontSize" Grid.Column="3" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=11}" Style="{StaticResource CommonTextBox}" />
+							<TextBox x:Name="TextBoxFontSize" Grid.Column="3" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=11}" />
 							<Button x:Name="ButtonResetFont" Grid.Column="4" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
 
 							<Label Grid.Row="1" Content="Tab Size" />
-							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=2}" Style="{StaticResource CommonTextBox}" />
+							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=2}" />
 						</Grid>
 					</Border>
 				</TabItem>
@@ -160,7 +160,7 @@
 							<Rectangle x:Name="DialogBackground" Grid.Row="4" Grid.Column="6" Margin="5" Fill="{Binding DialogBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="5" Grid.Column="5" Content="Control Light" />
-							<Rectangle x:Name="ControlBackground" Grid.Row="5" Grid.Column="6" Margin="5" Fill="{Binding ControlBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+							<Rectangle x:Name="ControlLightBackground" Grid.Row="5" Grid.Column="6" Margin="5" Fill="{Binding ControlLightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 							<Label Grid.Row="6" Grid.Column="5" Content="Control Dark" />
 							<Rectangle x:Name="ControlDarkBackground" Grid.Row="6" Grid.Column="6" Margin="5" Fill="{Binding ControlDarkBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
@@ -199,7 +199,7 @@
 												<RowDefinition />
 											</Grid.RowDefinitions>
 
-											<TextBox Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" IsReadOnly="True" Style="{StaticResource CommonTextBox}" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
+											<TextBox Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" IsReadOnly="True" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
 
 											<Label Grid.Row="1" Content="R" />
 											<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />

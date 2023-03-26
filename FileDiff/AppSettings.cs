@@ -154,7 +154,7 @@ public static class AppSettings
 			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(DisabledForegroundColor));
 			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
-			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
+			NotifyStaticPropertyChanged(nameof(ControlLightBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
 		}
 	}
@@ -451,28 +451,28 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush controlBackground = DefaultSettings.LightTheme.DarkControlBackground.ToBrush();
-	public static SolidColorBrush ControlBackground
+	private static SolidColorBrush controlLightBackground = DefaultSettings.LightTheme.ControlLightBackground.ToBrush();
+	public static SolidColorBrush ControlLightBackground
 	{
-		get { return controlBackground; }
+		get { return controlLightBackground; }
 		set
 		{
-			controlBackground = value;
-			controlBackground.Freeze();
-			CurrentTheme.DarkControlBackground = value.Color.ToString();
-			NotifyStaticPropertyChanged(nameof(ControlBackground));
-			NotifyStaticPropertyChanged(nameof(ControlBackgroundColor));
+			controlLightBackground = value;
+			controlLightBackground.Freeze();
+			CurrentTheme.ControlDarkBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(ControlLightBackground));
+			NotifyStaticPropertyChanged(nameof(ControlLightBackgroundColor));
 		}
 	}
-	public static Color ControlBackgroundColor
+	public static Color ControlLightBackgroundColor
 	{
 		get
 		{
-			return controlBackground.Color;
+			return controlLightBackground.Color;
 		}
 	}
 
-	private static SolidColorBrush controlDarkBackground = DefaultSettings.LightTheme.LightControlBackground.ToBrush();
+	private static SolidColorBrush controlDarkBackground = DefaultSettings.LightTheme.ControlDarkBackground.ToBrush();
 	public static SolidColorBrush ControlDarkBackground
 	{
 		get { return controlDarkBackground; }
@@ -480,7 +480,7 @@ public static class AppSettings
 		{
 			controlDarkBackground = value;
 			controlDarkBackground.Freeze();
-			CurrentTheme.LightControlBackground = value.Color.ToString();
+			CurrentTheme.ControlLightBackground = value.Color.ToString();
 			NotifyStaticPropertyChanged(nameof(ControlDarkBackground));
 			NotifyStaticPropertyChanged(nameof(ControlDarkBackgroundColor));
 		}
@@ -695,8 +695,8 @@ public static class AppSettings
 			WindowBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
 			DialogBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DialogBackground));
 
-			ControlBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DarkControlBackground));
-			ControlDarkBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LightControlBackground));
+			ControlLightBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlDarkBackground));
+			ControlDarkBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlLightBackground));
 
 			BorderForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderLight));
 			BorderDarkForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderDark));

@@ -111,13 +111,13 @@ internal class WinApi
 	{
 		if (!OpenClipboard(IntPtr.Zero))
 		{
-			MessageBox.Show($"OpenClipboard failed ({getOpenClipboardWindowText()})");
+			MessageBox.Show($"OpenClipboard failed ({GetOpenClipboardWindowText()})");
 			return false;
 		}
 
 		if (!EmptyClipboard())
 		{
-			MessageBox.Show($"EmptyClipboard failed ({getOpenClipboardWindowText()})");
+			MessageBox.Show($"EmptyClipboard failed ({GetOpenClipboardWindowText()})");
 			return false;
 		}
 
@@ -125,20 +125,20 @@ internal class WinApi
 
 		if (!SetClipboardData(CF_UNICODETEXT, global))
 		{
-			MessageBox.Show($"SetClipboardData failed ({getOpenClipboardWindowText()})");
+			MessageBox.Show($"SetClipboardData failed ({GetOpenClipboardWindowText()})");
 			return false;
 		}
 
 		if (!CloseClipboard())
 		{
-			MessageBox.Show($"CloseClipboard failed ({getOpenClipboardWindowText()})");
+			MessageBox.Show($"CloseClipboard failed ({GetOpenClipboardWindowText()})");
 			return false;
 		}
 
 		return true;
 	}
 
-	private static string getOpenClipboardWindowText()
+	private static string GetOpenClipboardWindowText()
 	{
 		IntPtr hwnd = GetOpenClipboardWindow();
 		StringBuilder sb = new StringBuilder(501);

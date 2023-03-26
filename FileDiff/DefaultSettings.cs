@@ -41,8 +41,8 @@ public static class DefaultSettings
 		WindowBackground = "#FF0B0B0B",
 		DialogBackground = "#FF171717",
 
-		LightControlBackground = "#FFACACAC",
-		DarkControlBackground = "#FF3D3D3D",
+		ControlLightBackground = "#FFACACAC",
+		ControlDarkBackground = "#FF3D3D3D",
 
 		BorderLight = "#FF303030",
 		BorderDark = "#FF6A6A6A",
@@ -85,10 +85,10 @@ public static class DefaultSettings
 		WindowBackground = "#FFFFFFFF",
 		DialogBackground = "#FFF0F0F0",
 
-		LightControlBackground = "#FFACACAC",
-		DarkControlBackground = "#FFDDDDDD",
+		ControlLightBackground = "#FFFFFFFF",
+		ControlDarkBackground = "#FFDDDDDD",
 
-		BorderLight = "#FFCCCCCC",
+		BorderLight = "#FFD8D8D8",
 		BorderDark = "#FFAAAAAA",
 
 		HighlightBackground = "#FFDCECFC",
