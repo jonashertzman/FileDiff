@@ -132,9 +132,6 @@ public partial class OptionsWindow : Window
 
 		HighlightBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HighlightBackground));
 		HighlightBorder.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HighlightBorder));
-
-
-
 	}
 
 	private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
