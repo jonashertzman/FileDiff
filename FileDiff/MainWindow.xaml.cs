@@ -772,6 +772,16 @@ public partial class MainWindow : Window
 		e.Handled = true;
 	}
 
+	private void LightMode_Click(object sender, RoutedEventArgs e)
+	{
+		ViewModel.Theme = Themes.Light;
+	}
+
+	private void DarkMode_Click(object sender, RoutedEventArgs e)
+	{
+		ViewModel.Theme = Themes.Dark;
+	}
+
 	#endregion
 
 	#region Commands

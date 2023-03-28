@@ -108,7 +108,7 @@
 						</Button>-->
 					</StackPanel>
 					<StackPanel Grid.Column="2" Orientation="Horizontal">
-						<Button Margin="0" Style="{StaticResource ToolbarButton}" Visibility="{Binding Path=LightTheme, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+						<Button Margin="0" Style="{StaticResource ToolbarButton}" Visibility="{Binding Path=LightTheme, Converter={StaticResource InverseBooleanToVisibilityConverter}}" Click="LightMode_Click">
 							<StackPanel Orientation="Horizontal">
 								<ContentPresenter Margin="0" ContentTemplate="{StaticResource LightModeIcon}" Style="{StaticResource CommonButtonIcon}" />
 							</StackPanel>
@@ -119,7 +119,7 @@
 							</Button.ToolTip>
 						</Button>
 
-						<Button Margin="0" Style="{StaticResource ToolbarButton}" Visibility="{Binding Path=LightTheme, Converter={StaticResource BooleanToVisibilityConverter}}">
+						<Button Margin="0" Style="{StaticResource ToolbarButton}" Visibility="{Binding Path=LightTheme, Converter={StaticResource BooleanToVisibilityConverter}}" Click="DarkMode_Click">
 							<StackPanel Orientation="Horizontal">
 								<ContentPresenter Margin="0" ContentTemplate="{StaticResource DarkModeIcon}" Style="{StaticResource CommonButtonIcon}" />
 							</StackPanel>

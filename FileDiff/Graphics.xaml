@@ -1050,13 +1050,7 @@
 	<DataTemplate x:Key="LightModeIcon">
 		<Viewbox>
 			<Canvas Width="16" Height="16" UseLayoutRounding="False">
-				<Path StrokeThickness="1.3">
-					<Path.Stroke>
-						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-							<GradientStop Offset="0" Color="Gray" />
-							<GradientStop Offset="1" Color="DarkGray" />
-						</LinearGradientBrush>
-					</Path.Stroke>
+				<Path StrokeThickness="1.3" Stroke="{StaticResource Theme.BorderDark}">
 					<Path.Data>
 						<GeometryGroup FillRule="Nonzero">
 							<EllipseGeometry Center="7.5,7.5" RadiusX="3" RadiusY="3" />
@@ -1078,13 +1072,7 @@
 	<DataTemplate x:Key="DarkModeIcon">
 		<Viewbox>
 			<Canvas Width="16" Height="16" UseLayoutRounding="False">
-				<Path StrokeThickness="1">
-					<Path.Stroke>
-						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-							<GradientStop Offset="0" Color="Gray" />
-							<GradientStop Offset="1" Color="DarkGray" />
-						</LinearGradientBrush>
-					</Path.Stroke>
+				<Path StrokeThickness="1" Stroke="{StaticResource Theme.BorderDark}">
 					<Path.Data>
 						<CombinedGeometry GeometryCombineMode="Exclude">
 							<CombinedGeometry.Geometry1>
