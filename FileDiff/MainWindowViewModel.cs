@@ -404,6 +404,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.Theme = value; OnPropertyChangedRepaint(null); } // Refresh all properties when changing theme
 	}
 
+	public bool LightTheme
+	{
+		get { return Theme == Themes.Light; }
+	}
+
 
 	// Diff colors
 	public Brush FullMatchForeground

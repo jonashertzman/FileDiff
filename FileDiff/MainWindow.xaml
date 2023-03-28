@@ -76,6 +76,7 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 					<Menu Margin="2" VerticalAlignment="Center">
 						<MenuItem Header="File">
@@ -105,6 +106,29 @@
 						<!--<Button BorderThickness="0" Margin="3" Padding="0" Foreground="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="Transparent" VerticalAlignment="Center" Click="Button_Click">
 							&#x274C;
 						</Button>-->
+					</StackPanel>
+					<StackPanel Grid.Column="2" Orientation="Horizontal">
+						<Button Margin="0" Style="{StaticResource ToolbarButton}" Visibility="{Binding Path=LightTheme, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+							<StackPanel Orientation="Horizontal">
+								<ContentPresenter Margin="0" ContentTemplate="{StaticResource LightModeIcon}" Style="{StaticResource CommonButtonIcon}" />
+							</StackPanel>
+							<Button.ToolTip>
+								<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+									<TextBlock Text="Switch to light mode" />
+								</ToolTip>
+							</Button.ToolTip>
+						</Button>
+
+						<Button Margin="0" Style="{StaticResource ToolbarButton}" Visibility="{Binding Path=LightTheme, Converter={StaticResource BooleanToVisibilityConverter}}">
+							<StackPanel Orientation="Horizontal">
+								<ContentPresenter Margin="0" ContentTemplate="{StaticResource DarkModeIcon}" Style="{StaticResource CommonButtonIcon}" />
+							</StackPanel>
+							<Button.ToolTip>
+								<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+									<TextBlock Text="Switch to dark mode" />
+								</ToolTip>
+							</Button.ToolTip>
+						</Button>
 					</StackPanel>
 				</Grid>
 			</Border>
@@ -441,53 +465,7 @@
 						</ToggleButton.ToolTip>
 					</ToggleButton>
 
-					<!--<Separator />
 
-					<ToggleButton>
-						<ToggleButton.Resources>
-							<DataTemplate x:Key="Unpressed">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource LightMode}" Style="{StaticResource CommonButtonIcon}" />
-									<StackPanel.ToolTip>
-										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-											<StackPanel Orientation="Horizontal">
-												<TextBlock Text="Enable Editing" />
-											</StackPanel>
-										</ToolTip>
-									</StackPanel.ToolTip>
-								</StackPanel>
-							</DataTemplate>
-							<DataTemplate x:Key="Pressed">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource DarkMode}" Style="{StaticResource CommonButtonIcon}" />
-									<StackPanel.ToolTip>
-										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-											<StackPanel Orientation="Horizontal">
-												<TextBlock Text="Unlocked" />
-											</StackPanel>
-										</ToolTip>
-									</StackPanel.ToolTip>
-								</StackPanel>
-							</DataTemplate>
-						</ToggleButton.Resources>
-						<ToggleButton.Style>
-							<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
-								<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
-								<Style.Triggers>
-									<Trigger Property="IsChecked" Value="True">
-										<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
-									</Trigger>
-								</Style.Triggers>
-							</Style>
-						</ToggleButton.Style>
-						<ToggleButton.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-								</StackPanel>
-							</ToolTip>
-						</ToggleButton.ToolTip>
-					</ToggleButton>-->
 
 				</StackPanel>
 
