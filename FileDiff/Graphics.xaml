@@ -1047,4 +1047,57 @@
 		</Viewbox>
 	</DataTemplate>
 
+	<DataTemplate x:Key="LightMode">
+		<Viewbox>
+			<Canvas Width="16" Height="16" UseLayoutRounding="False" >
+				<Path StrokeThickness="1.3">
+					<Path.Stroke>
+						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+							<GradientStop Offset="0" Color="Gray" />
+							<GradientStop Offset="1" Color="Black" />
+						</LinearGradientBrush>
+					</Path.Stroke>
+					<Path.Data>
+						<GeometryGroup FillRule="Nonzero">
+							<EllipseGeometry Center="7.5,7.5" RadiusX="3" RadiusY="3" />
+							<LineGeometry StartPoint="7.5,0" EndPoint="7.5,3" />
+							<LineGeometry StartPoint="7.5,12" EndPoint="7.5,15" />
+							<LineGeometry StartPoint="15,7.5" EndPoint="12,7.5" />
+							<LineGeometry StartPoint="3,7.5" EndPoint="0,7.5" />
+							<LineGeometry StartPoint="12.80,2.19" EndPoint="10.68,4.31" />
+							<LineGeometry StartPoint="4.31,10.68" EndPoint="2.19,12.80" />
+							<LineGeometry StartPoint="12.80,12.80" EndPoint="10.68,10.68" />
+							<LineGeometry StartPoint="4.31,4.31" EndPoint="2.19,2.19" />
+						</GeometryGroup>
+					</Path.Data>
+				</Path>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
+	<DataTemplate x:Key="DarkMode">
+		<Viewbox>
+			<Canvas Width="16" Height="16" UseLayoutRounding="False">
+				<Path StrokeThickness="1.3">
+					<Path.Stroke>
+						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+							<GradientStop Offset="0" Color="Gray" />
+							<GradientStop Offset="1" Color="Black" />
+						</LinearGradientBrush>
+					</Path.Stroke>
+					<Path.Data>
+						<CombinedGeometry GeometryCombineMode="Exclude">
+							<CombinedGeometry.Geometry1>
+								<EllipseGeometry RadiusX="5" RadiusY="5" Center="7,7" />
+							</CombinedGeometry.Geometry1>
+							<CombinedGeometry.Geometry2>
+								<EllipseGeometry RadiusX="5" RadiusY="5" Center="12,7" />
+							</CombinedGeometry.Geometry2>
+						</CombinedGeometry>
+					</Path.Data>
+				</Path>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
 </ResourceDictionary>

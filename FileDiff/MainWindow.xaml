@@ -441,6 +441,54 @@
 						</ToggleButton.ToolTip>
 					</ToggleButton>
 
+					<!--<Separator />
+
+					<ToggleButton>
+						<ToggleButton.Resources>
+							<DataTemplate x:Key="Unpressed">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource LightMode}" Style="{StaticResource CommonButtonIcon}" />
+									<StackPanel.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="Enable Editing" />
+											</StackPanel>
+										</ToolTip>
+									</StackPanel.ToolTip>
+								</StackPanel>
+							</DataTemplate>
+							<DataTemplate x:Key="Pressed">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource DarkMode}" Style="{StaticResource CommonButtonIcon}" />
+									<StackPanel.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="Unlocked" />
+											</StackPanel>
+										</ToolTip>
+									</StackPanel.ToolTip>
+								</StackPanel>
+							</DataTemplate>
+						</ToggleButton.Resources>
+						<ToggleButton.Style>
+							<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
+								<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
+								<Style.Triggers>
+									<Trigger Property="IsChecked" Value="True">
+										<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
+									</Trigger>
+								</Style.Triggers>
+							</Style>
+						</ToggleButton.Style>
+						<ToggleButton.ToolTip>
+							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Text="{Binding Path=Command.Text}" />
+								</StackPanel>
+							</ToolTip>
+						</ToggleButton.ToolTip>
+					</ToggleButton>-->
+
 				</StackPanel>
 
 			</WrapPanel>
