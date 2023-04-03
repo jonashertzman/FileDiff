@@ -130,10 +130,7 @@
 		</Setter>
 	</Style>
 
-
-	<SolidColorBrush x:Key="{x:Static DataGrid.FocusBorderBrushKey}" Color="#FF000000" />
-
-	<Style x:Key="DataGridCellStyle1" TargetType="{x:Type DataGridCell}">
+	<Style TargetType="{x:Type DataGridCell}">
 		<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
 		<Setter Property="BorderBrush" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="1" />
@@ -161,7 +158,7 @@
 					<Condition Property="IsSelected" Value="true" />
 					<Condition Property="Selector.IsSelectionActive" Value="false" />
 				</MultiTrigger.Conditions>
-				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
+				<Setter Property="Background" Value="{StaticResource Theme.ControlDark}" />
 				<Setter Property="BorderBrush" Value="Transparent" />
 				<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 			</MultiTrigger>
