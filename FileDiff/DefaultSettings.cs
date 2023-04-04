@@ -16,11 +16,11 @@ public static class DefaultSettings
 		PartialMatchForeground = "#FF9698FF",
 		PartialMatchBackground = "#FF2B293A",
 
-		DeletedForeground = "#FFFFDCDC",
-		DeletedBackground = "#FF820000",
+		DeletedForeground = "#FFFF8387",
+		DeletedBackground = "#FF552F2D",
 
-		NewForeground = "#FF81FF72",
-		NewBackground = "#FF006900",
+		NewForeground = "#FF51C153",
+		NewBackground = "#FF153604",
 
 		IgnoredForeground = "#FF7E7E7E",
 		IgnoredBackground = "#FF212121",

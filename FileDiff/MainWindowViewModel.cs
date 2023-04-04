@@ -512,61 +512,61 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public Brush WindowForeground
 	{
 		get { return AppSettings.WindowForeground; }
-		set { AppSettings.WindowForeground = value as SolidColorBrush; OnPropertyChanged(nameof(WindowForeground)); }
+		set { AppSettings.WindowForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(WindowForeground)); }
 	}
 
 	public Brush DisabledForeground
 	{
 		get { return AppSettings.DisabledForeground; }
-		set { AppSettings.DisabledForeground = value as SolidColorBrush; OnPropertyChanged(nameof(DisabledForeground)); }
+		set { AppSettings.DisabledForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DisabledForeground)); }
 	}
 
 	public Brush WindowBackground
 	{
 		get { return AppSettings.WindowBackground; }
-		set { AppSettings.WindowBackground = value as SolidColorBrush; OnPropertyChanged(nameof(WindowBackground)); }
+		set { AppSettings.WindowBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(WindowBackground)); }
 	}
 
 	public Brush DialogBackground
 	{
 		get { return AppSettings.DialogBackground; }
-		set { AppSettings.DialogBackground = value as SolidColorBrush; OnPropertyChanged(nameof(DialogBackground)); }
+		set { AppSettings.DialogBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DialogBackground)); }
 	}
 
 	public Brush ControlLightBackground
 	{
 		get { return AppSettings.ControlLightBackground; }
-		set { AppSettings.ControlLightBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlLightBackground)); }
+		set { AppSettings.ControlLightBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(ControlLightBackground)); }
 	}
 
 	public Brush ControlDarkBackground
 	{
 		get { return AppSettings.ControlDarkBackground; }
-		set { AppSettings.ControlDarkBackground = value as SolidColorBrush; OnPropertyChanged(nameof(ControlDarkBackground)); }
+		set { AppSettings.ControlDarkBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(ControlDarkBackground)); }
 	}
 
 	public Brush BorderForeground
 	{
 		get { return AppSettings.BorderForeground; }
-		set { AppSettings.BorderForeground = value as SolidColorBrush; OnPropertyChanged(nameof(BorderForeground)); }
+		set { AppSettings.BorderForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(BorderForeground)); }
 	}
 
 	public Brush BorderDarkForeground
 	{
 		get { return AppSettings.BorderDarkForeground; }
-		set { AppSettings.BorderDarkForeground = value as SolidColorBrush; OnPropertyChanged(nameof(BorderDarkForeground)); }
+		set { AppSettings.BorderDarkForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(BorderDarkForeground)); }
 	}
 
 	public Brush HighlightBackground
 	{
 		get { return AppSettings.HighlightBackground; }
-		set { AppSettings.HighlightBackground = value as SolidColorBrush; OnPropertyChanged(nameof(HighlightBackground)); }
+		set { AppSettings.HighlightBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HighlightBackground)); }
 	}
 
 	public Brush HighlightBorder
 	{
 		get { return AppSettings.HighlightBorder; }
-		set { AppSettings.HighlightBorder = value as SolidColorBrush; OnPropertyChanged(nameof(HighlightBorder)); }
+		set { AppSettings.HighlightBorder = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HighlightBorder)); }
 	}
 
 
