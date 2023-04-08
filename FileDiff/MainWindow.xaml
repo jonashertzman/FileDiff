@@ -497,7 +497,7 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox Name="TextBoxLeftPath" Grid.Column="0" Margin="0" Padding="2" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus, FallbackValue=Left Path}" BorderThickness="0" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" />
+						<TextBox Name="TextBoxLeftPath" Grid.Column="0" Margin="0" Padding="2" Text="{Binding LeftPath, UpdateSourceTrigger=LostFocus, FallbackValue=Left Path}" Background="{Binding FullMatchBackground, FallbackValue=White}" BorderThickness="0" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" />
 						<Button x:Name="ButtonLeftBrowse" Grid.Column="1" Width="20" Content="..." BorderThickness="0" Command="local:Commands.BrowseLeft" />
 					</Grid>
 				</Border>
@@ -567,6 +567,8 @@
 				<!--  Splitter  -->
 				<GridSplitter x:Name="SplitterMasterDetail" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="4" HorizontalAlignment="Stretch" Style="{StaticResource CommonGridSpliter}" Visibility="{Binding FolderVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Focusable="False" Cursor="SizeNS" ResizeDirection="Rows" />
 				<GridSplitter x:Name="SplitterLeftRight" Grid.RowSpan="6" Grid.Column="1" Width="4" HorizontalAlignment="Center" Style="{StaticResource CommonGridSpliter}" Focusable="False" />
+
+				<!--  Right Path  -->
 				<Border Grid.Column="2" Grid.ColumnSpan="2" BorderThickness="1,1,0,0" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
 					<Grid>
 						<Grid.ColumnDefinitions>
@@ -574,12 +576,10 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-						<TextBox x:Name="TextBoxRightPath" Margin="0" Padding="2" Text="{Binding RightPath, FallbackValue=Right Path, UpdateSourceTrigger=LostFocus}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" />
+						<TextBox x:Name="TextBoxRightPath" Margin="0" Padding="2" Text="{Binding RightPath, FallbackValue=Right Path, UpdateSourceTrigger=LostFocus}" Background="{Binding FullMatchBackground, FallbackValue=White}" BorderThickness="0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" />
 						<Button x:Name="ButtonRightBrowse" Grid.Column="1" Width=" 20" Content="..." BorderThickness="0" Command="local:Commands.BrowseRight" />
 					</Grid>
 				</Border>
-
-				<!--  Right Path  -->
 
 				<!--  Right Folder  -->
 				<Border Grid.Row="1" Grid.Column="2" BorderThickness="1,1,0,1" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
