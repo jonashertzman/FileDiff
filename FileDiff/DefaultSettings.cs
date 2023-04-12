@@ -17,16 +17,16 @@ public static class DefaultSettings
 		PartialMatchBackground = "#FF2B293A",
 
 		DeletedForeground = "#FFFF8387",
-		DeletedBackground = "#FF552F2D",
+		DeletedBackground = "#FF5C2626",
 
 		NewForeground = "#FF51C153",
-		NewBackground = "#FF153604",
+		NewBackground = "#FF264D26",
 
 		IgnoredForeground = "#FF7E7E7E",
 		IgnoredBackground = "#FF212121",
 
-		MovedFromBackground = "#FF332F2D",
-		MovedToBackground = "#FF152704",
+		MovedFromBackground = "#FF2D1B1B",
+		MovedToBackground = "#FF1B261B",
 
 		LineNumberColor = "#FF797979",
 		CurrentDiffColor = "#FF252525",
