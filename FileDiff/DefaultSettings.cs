@@ -10,7 +10,7 @@ public static class DefaultSettings
 	internal static ColorTheme DarkTheme { get; } = new ColorTheme()
 	{
 		// Diff colors
-		FullMatchForeground = "#FFFFFFFF",
+		FullMatchForeground = "#FFD8D8D8",
 		FullMatchBackground = "#1B1B1B",
 
 		PartialMatchForeground = "#FF9698FF",
@@ -25,17 +25,17 @@ public static class DefaultSettings
 		IgnoredForeground = "#FF7E7E7E",
 		IgnoredBackground = "#FF212121",
 
-		MovedFromBackground = "#FF420000",
-		MovedToBackground = "#FF002800",
+		MovedFromBackground = "#FF332F2D",
+		MovedToBackground = "#FF152704",
 
-		LineNumberColor = "#FF585858",
+		LineNumberColor = "#FF797979",
 		CurrentDiffColor = "#FF252525",
 		SnakeColor = "#FF383838",
 
 		SelectionBackground = "#320096D2",
 
 		// GUI colors
-		NormalText = "#FFFFFFFF",
+		NormalText = "#FFD8D8D8",
 		DisabledText = "#FF888888",
 
 		WindowBackground = "#FF0B0B0B",
