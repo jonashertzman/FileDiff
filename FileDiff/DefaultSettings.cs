@@ -29,8 +29,8 @@ public static class DefaultSettings
 		MovedToBackground = "#FF002800",
 
 		LineNumberColor = "#FF585858",
-		CurrentDiffColor = "#FFB7B7B7",
-		SnakeColor = "#FFD2D2D2",
+		CurrentDiffColor = "#FF252525",
+		SnakeColor = "#FF383838",
 
 		SelectionBackground = "#320096D2",
 
