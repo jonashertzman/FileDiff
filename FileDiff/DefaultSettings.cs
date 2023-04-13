@@ -9,7 +9,23 @@ public static class DefaultSettings
 
 	internal static ColorTheme DarkTheme { get; } = new ColorTheme()
 	{
-		// Diff colors
+		// Folder diff colors
+		FolderFullMatchForeground = "#FFD8D8D8",
+		FolderFullMatchBackground = "#1B1B1B",
+
+		FolderPartialMatchForeground = "#FF9698FF",
+		FolderPartialMatchBackground = "#FF2B293A",
+
+		FolderDeletedForeground = "#FFFF8387",
+		FolderDeletedBackground = "#FF5C2626",
+
+		FolderNewForeground = "#FF51C153",
+		FolderNewBackground = "#FF264D26",
+
+		FolderIgnoredForeground = "#FF7E7E7E",
+		FolderIgnoredBackground = "#FF212121",
+
+		// File diff colors
 		FullMatchForeground = "#FFD8D8D8",
 		FullMatchBackground = "#1B1B1B",
 
@@ -28,10 +44,10 @@ public static class DefaultSettings
 		MovedFromBackground = "#FF2D1B1B",
 		MovedToBackground = "#FF1B261B",
 
+		// Editor colors
 		LineNumberColor = "#FF797979",
 		CurrentDiffColor = "#FF252525",
 		SnakeColor = "#FF383838",
-
 		SelectionBackground = "#320096D2",
 
 		// GUI colors
@@ -53,7 +69,23 @@ public static class DefaultSettings
 
 	internal static ColorTheme LightTheme { get; } = new ColorTheme()
 	{
-		// Diff colors
+		// Folder diff colors
+		FolderFullMatchForeground = "#FF000000",
+		FolderFullMatchBackground = "#FFFFFFFF",
+
+		FolderPartialMatchForeground = "#FF000000",
+		FolderPartialMatchBackground = "#FFDCDCFF",
+
+		FolderDeletedForeground = "#FFC80000",
+		FolderDeletedBackground = "#FFFFDCDC",
+
+		FolderNewForeground = "#FF007800",
+		FolderNewBackground = "#FFDCFFDC",
+
+		FolderIgnoredForeground = "#FF5A5A5A",
+		FolderIgnoredBackground = "#FFDCDCDC",
+
+		// File diff colors
 		FullMatchForeground = "#FF000000",
 		FullMatchBackground = "#FFFFFFFF",
 
@@ -72,10 +104,10 @@ public static class DefaultSettings
 		MovedFromBackground = "#FFFFF0F0",
 		MovedToBackground = "#FFF0FFF0",
 
+		// Editor colors
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
 		SnakeColor = "#FFD2D2D2",
-
 		SelectionBackground = "#320096D2",
 
 		// GUI colors

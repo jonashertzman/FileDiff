@@ -173,7 +173,129 @@ public static class AppSettings
 	}
 
 
-	// Diff colors
+	// Folder diff colors
+	private static SolidColorBrush folderFullMatchForeground;
+	public static SolidColorBrush FolderFullMatchForeground
+	{
+		get { return folderFullMatchForeground; }
+		set
+		{
+			folderFullMatchForeground = value;
+			folderFullMatchForeground.Freeze();
+			CurrentTheme.FolderFullMatchForeground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderFullMatchBackground;
+	public static SolidColorBrush FolderFullMatchBackground
+	{
+		get { return folderFullMatchBackground; }
+		set
+		{
+			folderFullMatchBackground = value;
+			folderFullMatchBackground.Freeze();
+			CurrentTheme.FolderFullMatchBackground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderPartialMatchForeground;
+	public static SolidColorBrush FolderPartialMatchForeground
+	{
+		get { return folderPartialMatchForeground; }
+		set
+		{
+			folderPartialMatchForeground = value;
+			folderPartialMatchForeground.Freeze();
+			CurrentTheme.FolderPartialMatchForeground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderPartialMatchBackground;
+	public static SolidColorBrush FolderPartialMatchBackground
+	{
+		get { return folderPartialMatchBackground; }
+		set
+		{
+			folderPartialMatchBackground = value;
+			folderPartialMatchBackground.Freeze();
+			CurrentTheme.FolderPartialMatchBackground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderDeletedForeground;
+	public static SolidColorBrush FolderDeletedForeground
+	{
+		get { return folderDeletedForeground; }
+		set
+		{
+			folderDeletedForeground = value;
+			folderDeletedForeground.Freeze();
+			CurrentTheme.FolderDeletedForeground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderDeletedBackground;
+	public static SolidColorBrush FolderDeletedBackground
+	{
+		get { return folderDeletedBackground; }
+		set
+		{
+			folderDeletedBackground = value;
+			folderDeletedBackground.Freeze();
+			CurrentTheme.FolderDeletedBackground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderNewForeground;
+	public static SolidColorBrush FolderNewForeground
+	{
+		get { return folderNewForeground; }
+		set
+		{
+			folderNewForeground = value;
+			folderNewForeground.Freeze();
+			CurrentTheme.FolderNewForeground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderNewBackground;
+	public static SolidColorBrush FolderNewBackground
+	{
+		get { return folderNewBackground; }
+		set
+		{
+			folderNewBackground = value;
+			folderNewBackground.Freeze();
+			CurrentTheme.FolderNewBackground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderIgnoredForeground;
+	public static SolidColorBrush FolderIgnoredForeground
+	{
+		get { return folderIgnoredForeground; }
+		set
+		{
+			folderIgnoredForeground = value;
+			folderIgnoredForeground.Freeze();
+			CurrentTheme.FolderIgnoredForeground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush folderIgnoredBackground;
+	public static SolidColorBrush FolderIgnoredBackground
+	{
+		get { return folderIgnoredBackground; }
+		set
+		{
+			folderIgnoredBackground = value;
+			folderIgnoredBackground.Freeze();
+			CurrentTheme.FolderIgnoredBackground = value.Color.ToString();
+		}
+	}
+
+
+	// File diff colors
 	private static SolidColorBrush fullMatchForeground;
 	public static SolidColorBrush FullMatchForeground
 	{
@@ -318,18 +440,8 @@ public static class AppSettings
 		}
 	}
 
-	private static SolidColorBrush selectionBackground;
-	public static SolidColorBrush SelectionBackground
-	{
-		get { return selectionBackground; }
-		set
-		{
-			selectionBackground = value;
-			selectionBackground.Freeze();
-			CurrentTheme.SelectionBackground = value.Color.ToString();
-		}
-	}
 
+	// Editor colors
 	private static SolidColorBrush lineNumberColor;
 	public static SolidColorBrush LineNumberColor
 	{
@@ -365,6 +477,19 @@ public static class AppSettings
 			CurrentTheme.SnakeColor = value.Color.ToString();
 		}
 	}
+
+	private static SolidColorBrush selectionBackground;
+	public static SolidColorBrush SelectionBackground
+	{
+		get { return selectionBackground; }
+		set
+		{
+			selectionBackground = value;
+			selectionBackground.Freeze();
+			CurrentTheme.SelectionBackground = value.Color.ToString();
+		}
+	}
+
 
 	// GUI colors
 	private static SolidColorBrush windowForeground = DefaultSettings.LightTheme.NormalText.ToBrush();
@@ -662,7 +787,23 @@ public static class AppSettings
 		{
 			Font = new FontFamily(Settings.Font);
 
-			// Diff colors
+			// Folder diff colors
+			FolderFullMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderFullMatchForeground));
+			FolderFullMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderFullMatchBackground));
+
+			FolderPartialMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderPartialMatchForeground));
+			FolderPartialMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderPartialMatchBackground));
+
+			FolderDeletedForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderDeletedForeground));
+			FolderDeletedBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderDeletedBackground));
+
+			FolderNewForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderNewForeground));
+			FolderNewBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderNewBackground));
+
+			FolderIgnoredForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderIgnoredForeground));
+			FolderIgnoredBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderIgnoredBackground));
+
+			// File diff colors
 			FullMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FullMatchForeground));
 			FullMatchBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FullMatchBackground));
 
@@ -675,17 +816,16 @@ public static class AppSettings
 			NewForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewForeground));
 			NewBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewBackground));
 
-			MovedFromBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromBackground));
-
-			MovedToBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedToBackground));
-
 			IgnoredForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredForeground));
 			IgnoredBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredBackground));
 
+			MovedFromBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromBackground));
+			MovedToBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedToBackground));
+
+			// Editor colors
 			LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
 			CurrentDiffColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.CurrentDiffColor));
 			SnakeColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SnakeColor));
-
 			SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
 
 			// GUI colors
