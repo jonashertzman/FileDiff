@@ -92,53 +92,36 @@
 										<ColumnDefinition Width="80" />
 									</Grid.ColumnDefinitions>
 									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
+										<RowDefinition Height="Auto" MinHeight="30" />
 									</Grid.RowDefinitions>
 
 									<Label Grid.Row="0" Grid.Column="1" Content="Foreground" />
@@ -173,76 +156,76 @@
 									<TextBlock Grid.Row="7" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="File Diff Colors" Background="{StaticResource Theme.Dialog}" />
 
 
-									<Label Grid.Row="10" Content="Normal" />
-									<Rectangle x:Name="FullMatchForeground" Grid.Row="10" Grid.Column="1" Margin="5" Fill="{Binding FullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FullMatchBackground" Grid.Row="10" Grid.Column="2" Margin="5" Fill="{Binding FullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="8" Content="Normal" />
+									<Rectangle x:Name="FullMatchForeground" Grid.Row="8" Grid.Column="1" Margin="5" Fill="{Binding FullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FullMatchBackground" Grid.Row="8" Grid.Column="2" Margin="5" Fill="{Binding FullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="11" Content="New" />
-									<Rectangle x:Name="NewForeground" Grid.Row="11" Grid.Column="1" Margin="5" Fill="{Binding NewForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="NewBackground" Grid.Row="11" Grid.Column="2" Margin="5" Fill="{Binding NewBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="9" Content="New" />
+									<Rectangle x:Name="NewForeground" Grid.Row="9" Grid.Column="1" Margin="5" Fill="{Binding NewForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="NewBackground" Grid.Row="9" Grid.Column="2" Margin="5" Fill="{Binding NewBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="12" Content="Moved To" />
-									<Rectangle x:Name="MovedToBackground" Grid.Row="12" Grid.Column="2" Margin="5" Fill="{Binding MovedToBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="10" Content="Moved To" />
+									<Rectangle x:Name="MovedToBackground" Grid.Row="10" Grid.Column="2" Margin="5" Fill="{Binding MovedToBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="13" Content="Deleted" />
-									<Rectangle x:Name="DeletedForeground" Grid.Row="13" Grid.Column="1" Margin="5" Fill="{Binding DeletedForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="DeletedBackground" Grid.Row="13" Grid.Column="2" Margin="5" Fill="{Binding DeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="11" Content="Deleted" />
+									<Rectangle x:Name="DeletedForeground" Grid.Row="11" Grid.Column="1" Margin="5" Fill="{Binding DeletedForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="DeletedBackground" Grid.Row="11" Grid.Column="2" Margin="5" Fill="{Binding DeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="14" Content="Moved From" />
-									<Rectangle x:Name="MovedFromBackground" Grid.Row="14" Grid.Column="2" Margin="5" Fill="{Binding MovedFromBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="12" Content="Moved From" />
+									<Rectangle x:Name="MovedFromBackground" Grid.Row="12" Grid.Column="2" Margin="5" Fill="{Binding MovedFromBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="15" Content="Changed" />
-									<Rectangle x:Name="PartialMatchForeground" Grid.Row="15" Grid.Column="1" Margin="5" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="PartialMatchBackground" Grid.Row="15" Grid.Column="2" Margin="5" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="13" Content="Changed" />
+									<Rectangle x:Name="PartialMatchForeground" Grid.Row="13" Grid.Column="1" Margin="5" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="PartialMatchBackground" Grid.Row="13" Grid.Column="2" Margin="5" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="16" Content="Ignored" />
-									<Rectangle x:Name="IgnoredForeground" Grid.Row="16" Grid.Column="1" Margin="5" Fill="{Binding IgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="IgnoredBackground" Grid.Row="16" Grid.Column="2" Margin="5" Fill="{Binding IgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="14" Content="Ignored" />
+									<Rectangle x:Name="IgnoredForeground" Grid.Row="14" Grid.Column="1" Margin="5" Fill="{Binding IgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="IgnoredBackground" Grid.Row="14" Grid.Column="2" Margin="5" Fill="{Binding IgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="17" Grid.Column="0" Content="Selection" />
-									<Rectangle x:Name="SelectionBackground" Grid.Row="17" Grid.Column="2" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Label Grid.Row="18" Grid.Column="0" Content="Line Numbers" />
-									<Rectangle x:Name="LineNumber" Grid.Row="18" Grid.Column="1" Margin="5" Fill="{Binding LineNumberColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="15" Grid.Column="0" Content="Selection" />
+									<Rectangle x:Name="SelectionBackground" Grid.Row="15" Grid.Column="2" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="16" Grid.Column="0" Content="Line Numbers" />
+									<Rectangle x:Name="LineNumber" Grid.Row="16" Grid.Column="1" Margin="5" Fill="{Binding LineNumberColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="19" Grid.Column="0" Content="Current Diff" />
-									<Rectangle x:Name="CurrentDiff" Grid.Row="19" Grid.Column="2" Margin="5" Fill="{Binding CurrentDiffColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="17" Grid.Column="0" Content="Current Diff" />
+									<Rectangle x:Name="CurrentDiff" Grid.Row="17" Grid.Column="2" Margin="5" Fill="{Binding CurrentDiffColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="20" Grid.Column="0" Content="Move Arrows" />
-									<Rectangle x:Name="Snake" Grid.Row="20" Grid.Column="1" Margin="5" Fill="{Binding SnakeColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-
-									<TextBlock Grid.Row="23" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="UI olors" Background="{StaticResource Theme.Dialog}" />
+									<Label Grid.Row="18" Grid.Column="0" Content="Move Arrows" />
+									<Rectangle x:Name="Snake" Grid.Row="18" Grid.Column="1" Margin="5" Fill="{Binding SnakeColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 
-									<Label Grid.Row="24" Content="Text" />
-									<Rectangle x:Name="WindowForeground" Grid.Row="24" Grid.Column="1" Margin="5" Fill="{Binding WindowForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<TextBlock Grid.Row="19" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="UI olors" Background="{StaticResource Theme.Dialog}" />
 
-									<Label Grid.Row="25" Content="Disabled Text" />
-									<Rectangle x:Name="DisabledForeground" Grid.Row="25" Grid.Column="1" Margin="5" Fill="{Binding DisabledForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="26" Content="Window" />
-									<Rectangle x:Name="WindowBackground" Grid.Row="26" Grid.Column="2" Margin="5" Fill="{Binding WindowBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="20" Content="Text" />
+									<Rectangle x:Name="WindowForeground" Grid.Row="20" Grid.Column="1" Margin="5" Fill="{Binding WindowForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="27" Content="Dialog" />
-									<Rectangle x:Name="DialogBackground" Grid.Row="27" Grid.Column="2" Margin="5" Fill="{Binding DialogBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="21" Content="Disabled Text" />
+									<Rectangle x:Name="DisabledForeground" Grid.Row="21" Grid.Column="1" Margin="5" Fill="{Binding DisabledForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="28" Content="Control Light" />
-									<Rectangle x:Name="ControlLightBackground" Grid.Row="28" Grid.Column="2" Margin="5" Fill="{Binding ControlLightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="22" Content="Window" />
+									<Rectangle x:Name="WindowBackground" Grid.Row="22" Grid.Column="2" Margin="5" Fill="{Binding WindowBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="29" Content="Control Dark" />
-									<Rectangle x:Name="ControlDarkBackground" Grid.Row="29" Grid.Column="2" Margin="5" Fill="{Binding ControlDarkBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="23" Content="Dialog" />
+									<Rectangle x:Name="DialogBackground" Grid.Row="23" Grid.Column="2" Margin="5" Fill="{Binding DialogBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="30" Content="Border Light" />
-									<Rectangle x:Name="BorderForegroundx" Grid.Row="30" Grid.Column="1" Margin="5" Fill="{Binding BorderForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="24" Content="Control Light" />
+									<Rectangle x:Name="ControlLightBackground" Grid.Row="24" Grid.Column="2" Margin="5" Fill="{Binding ControlLightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="31" Content="Border Dark" />
-									<Rectangle x:Name="BorderDarkForegroundx" Grid.Row="31" Grid.Column="1" Margin="5" Fill="{Binding BorderDarkForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="25" Content="Control Dark" />
+									<Rectangle x:Name="ControlDarkBackground" Grid.Row="25" Grid.Column="2" Margin="5" Fill="{Binding ControlDarkBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="32" Content="Highlight Background" />
-									<Rectangle x:Name="HighlightBackground" Grid.Row="32" Grid.Column="2" Margin="5" Fill="{Binding HighlightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="26" Content="Border Light" />
+									<Rectangle x:Name="BorderForegroundx" Grid.Row="26" Grid.Column="1" Margin="5" Fill="{Binding BorderForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									<Label Grid.Row="33" Content="Highlight Border" />
-									<Rectangle x:Name="HighlightBorder" Grid.Row="33" Grid.Column="1" Margin="5" Fill="{Binding HighlightBorder, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Label Grid.Row="27" Content="Border Dark" />
+									<Rectangle x:Name="BorderDarkForegroundx" Grid.Row="27" Grid.Column="1" Margin="5" Fill="{Binding BorderDarkForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+									<Label Grid.Row="28" Content="Highlight Background" />
+									<Rectangle x:Name="HighlightBackground" Grid.Row="28" Grid.Column="2" Margin="5" Fill="{Binding HighlightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+									<Label Grid.Row="29" Content="Highlight Border" />
+									<Rectangle x:Name="HighlightBorder" Grid.Row="29" Grid.Column="1" Margin="5" Fill="{Binding HighlightBorder, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 
 								</Grid>

@@ -701,7 +701,7 @@
 				<StackPanel Margin="5">
 					<Label HorizontalAlignment="Center" Content="Comparing..." />
 					<StackPanel Orientation="Horizontal">
-						<ProgressBar x:Name="ProgressBarCompare" Width="300" Margin="5" Value="40" />
+						<ProgressBar x:Name="ProgressBarCompare" Width="300" Margin="5" Background="{StaticResource Theme.Dialog}" Value="40" />
 						<Button x:Name="ButtonCancelCompare" HorizontalAlignment="Right" Style="{StaticResource CommonButton}" Content="Cancel" Command="local:Commands.CancelCompare" />
 					</StackPanel>
 				</StackPanel>
