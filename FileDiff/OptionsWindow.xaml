@@ -144,10 +144,10 @@
 									<Label Grid.Row="0" Grid.Column="1" Content="Foreground" />
 									<Label Grid.Row="0" Grid.Column="2" Content="Background" />
 
-									
+
 									<TextBlock Grid.Row="1" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="Folder Diff Colors" Background="{StaticResource Theme.Dialog}" />
 
-									
+
 									<Label Grid.Row="2" Content="Normal" />
 									<Rectangle x:Name="FolderFullMatchForeground" Grid.Row="2" Grid.Column="1" Margin="5" Fill="{Binding FullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 									<Rectangle x:Name="FolderFullMatchBackground" Grid.Row="2" Grid.Column="2" Margin="5" Fill="{Binding FullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
@@ -169,7 +169,7 @@
 									<Rectangle x:Name="FolderIgnoredForeground" Grid.Row="6" Grid.Column="1" Margin="5" Fill="{Binding IgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 									<Rectangle x:Name="FolderIgnoredBackground" Grid.Row="6" Grid.Column="2" Margin="5" Fill="{Binding IgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									
+
 									<TextBlock Grid.Row="7" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="File Diff Colors" Background="{StaticResource Theme.Dialog}" />
 
 
@@ -210,10 +210,10 @@
 									<Label Grid.Row="20" Grid.Column="0" Content="Move Arrows" />
 									<Rectangle x:Name="Snake" Grid.Row="20" Grid.Column="1" Margin="5" Fill="{Binding SnakeColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-									
+
 									<TextBlock Grid.Row="23" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="UI olors" Background="{StaticResource Theme.Dialog}" />
 
-									
+
 									<Label Grid.Row="24" Content="Text" />
 									<Rectangle x:Name="WindowForeground" Grid.Row="24" Grid.Column="1" Margin="5" Fill="{Binding WindowForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
