@@ -850,7 +850,7 @@ public static class AppSettings
 		}
 	}
 
-	internal static SolidColorBrush GetForeground(TextState state)
+	internal static SolidColorBrush GetFileForeground(TextState state)
 	{
 		switch (state)
 		{
@@ -870,7 +870,7 @@ public static class AppSettings
 		}
 	}
 
-	internal static SolidColorBrush GetBackground(TextState state)
+	internal static SolidColorBrush GetFileBackground(TextState state)
 	{
 		switch (state)
 		{
@@ -889,6 +889,42 @@ public static class AppSettings
 
 			default:
 				return fullMatchBackground;
+		}
+	}
+
+	internal static SolidColorBrush GetFolderBackground(TextState state)
+	{
+		switch (state)
+		{
+			case TextState.Deleted:
+				return folderDeletedBackground;
+			case TextState.New:
+				return folderNewBackground;
+			case TextState.PartialMatch:
+				return folderPartialMatchBackground;
+			case TextState.Ignored:
+				return folderIgnoredBackground;
+
+			default:
+				return folderFullMatchBackground;
+		}
+	}
+
+	internal static SolidColorBrush GetFolderForeground(TextState state)
+	{
+		switch (state)
+		{
+			case TextState.Deleted:
+				return FolderDeletedForeground;
+			case TextState.New:
+				return folderNewForeground;
+			case TextState.PartialMatch:
+				return folderPartialMatchForeground;
+			case TextState.Ignored:
+				return folderIgnoredForeground;
+
+			default:
+				return folderFullMatchForeground;
 		}
 	}
 

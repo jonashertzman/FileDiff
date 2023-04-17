@@ -40,7 +40,7 @@ public class TreeControl : Control
 		Debug.Print("TreeControl OnRender");
 
 		// Fill background
-		drawingContext.DrawRectangle(AppSettings.FullMatchBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+		drawingContext.DrawRectangle(AppSettings.FolderFullMatchBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 		if (Lines.Count == 0)
 			return;
@@ -62,11 +62,11 @@ public class TreeControl : Control
 
 		Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
-		Pen selectionPen = new Pen(new SolidColorBrush(SystemColors.HighlightColor), itemMargin);
+		Pen selectionPen = new Pen(AppSettings.HighlightBorder, itemMargin);
 		selectionPen.Freeze();
 		GuidelineSet selectionGuide = CreateGuidelineSet(selectionPen);
 
-		Pen expanderPen = new Pen(new SolidColorBrush(AppSettings.FullMatchForeground.Color), 1 * dpiScale);
+		Pen expanderPen = new Pen(new SolidColorBrush(AppSettings.FolderFullMatchForeground.Color), 1 * dpiScale);
 		expanderPen.Freeze();
 		GuidelineSet expanderGuide = CreateGuidelineSet(expanderPen);
 

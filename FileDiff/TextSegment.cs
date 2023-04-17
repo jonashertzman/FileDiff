@@ -41,7 +41,7 @@ public class TextSegment
 	{
 		get
 		{
-			return AppSettings.GetBackground(Type);
+			return AppSettings.GetFileBackground(Type);
 		}
 	}
 
@@ -49,7 +49,7 @@ public class TextSegment
 	{
 		get
 		{
-			return AppSettings.GetForeground(Type);
+			return AppSettings.GetFileForeground(Type);
 		}
 	}
 

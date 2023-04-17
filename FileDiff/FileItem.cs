@@ -95,7 +95,7 @@ public class FileItem
 	{
 		get
 		{
-			return AppSettings.GetBackground(Type);
+			return AppSettings.GetFolderBackground(Type);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class FileItem
 	{
 		get
 		{
-			return AppSettings.GetForeground(Type);
+			return AppSettings.GetFolderForeground(Type);
 		}
 	}
 
