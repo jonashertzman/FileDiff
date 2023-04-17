@@ -92,7 +92,23 @@ public partial class OptionsWindow : Window
 			_ => throw new NotImplementedException(),
 		};
 
-		// Diff colors
+		// Folder diff colors
+		FolderFullMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderFullMatchForeground));
+		FolderFullMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderFullMatchBackground));
+
+		FolderPartialMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderPartialMatchForeground));
+		FolderPartialMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderPartialMatchBackground));
+
+		FolderDeletedForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderDeletedForeground));
+		FolderDeletedBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderDeletedBackground));
+
+		FolderNewForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderNewForeground));
+		FolderNewBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderNewBackground));
+
+		FolderIgnoredForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderIgnoredForeground));
+		FolderIgnoredBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderIgnoredBackground));
+
+		// File diff colors
 		FullMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FullMatchForeground));
 		FullMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FullMatchBackground));
 

@@ -410,7 +410,69 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	}
 
 
-	// Diff colors
+	// Folder diff colors
+	public Brush FolderFullMatchForeground
+	{
+		get { return AppSettings.FolderFullMatchForeground; }
+		set { AppSettings.FolderFullMatchForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderFullMatchForeground)); }
+	}
+
+	public Brush FolderFullMatchBackground
+	{
+		get { return AppSettings.FolderFullMatchBackground; }
+		set { AppSettings.FolderFullMatchBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderFullMatchBackground)); }
+	}
+
+	public Brush FolderPartialMatchForeground
+	{
+		get { return AppSettings.FolderPartialMatchForeground; }
+		set { AppSettings.FolderPartialMatchForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderPartialMatchForeground)); }
+	}
+
+	public Brush FolderPartialMatchBackground
+	{
+		get { return AppSettings.FolderPartialMatchBackground; }
+		set { AppSettings.FolderPartialMatchBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderPartialMatchBackground)); }
+	}
+
+	public Brush FolderDeletedForeground
+	{
+		get { return AppSettings.FolderDeletedForeground; }
+		set { AppSettings.FolderDeletedForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderDeletedForeground)); }
+	}
+
+	public Brush FolderDeletedBackground
+	{
+		get { return AppSettings.FolderDeletedBackground; }
+		set { AppSettings.FolderDeletedBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderDeletedBackground)); }
+	}
+
+	public Brush FolderNewForeground
+	{
+		get { return AppSettings.FolderNewForeground; }
+		set { AppSettings.FolderNewForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderNewForeground)); }
+	}
+
+	public Brush FolderNewBackground
+	{
+		get { return AppSettings.FolderNewBackground; }
+		set { AppSettings.FolderNewBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderNewBackground)); }
+	}
+
+	public Brush FolderIgnoredForeground
+	{
+		get { return AppSettings.FolderIgnoredForeground; }
+		set { AppSettings.FolderIgnoredForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderIgnoredForeground)); }
+	}
+
+	public Brush FolderIgnoredBackground
+	{
+		get { return AppSettings.FolderIgnoredBackground; }
+		set { AppSettings.FolderIgnoredBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderIgnoredBackground)); }
+	}
+
+
+	// File diff colors
 	public Brush FullMatchForeground
 	{
 		get { return AppSettings.FullMatchForeground; }
@@ -483,6 +545,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.MovedToBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedToBackground)); }
 	}
 
+
+	// Editor colors
 	public Brush SelectionBackground
 	{
 		get { return AppSettings.SelectionBackground; }
@@ -508,7 +572,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	}
 
 
-	// GUI colors
+	// UI colors
 	public Brush WindowForeground
 	{
 		get { return AppSettings.WindowForeground; }

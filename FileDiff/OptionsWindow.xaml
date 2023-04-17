@@ -132,25 +132,25 @@
 
 
 									<Label Grid.Row="2" Content="Normal" />
-									<Rectangle x:Name="FolderFullMatchForeground" Grid.Row="2" Grid.Column="1" Margin="5" Fill="{Binding FullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderFullMatchBackground" Grid.Row="2" Grid.Column="2" Margin="5" Fill="{Binding FullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderFullMatchForeground" Grid.Row="2" Grid.Column="1" Margin="5" Fill="{Binding FolderFullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderFullMatchBackground" Grid.Row="2" Grid.Column="2" Margin="5" Fill="{Binding FolderFullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 									<Label Grid.Row="3" Content="New" />
-									<Rectangle x:Name="FolderNewForeground" Grid.Row="3" Grid.Column="1" Margin="5" Fill="{Binding NewForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderNewBackground" Grid.Row="3" Grid.Column="2" Margin="5" Fill="{Binding NewBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderNewForeground" Grid.Row="3" Grid.Column="1" Margin="5" Fill="{Binding FolderNewForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderNewBackground" Grid.Row="3" Grid.Column="2" Margin="5" Fill="{Binding FolderNewBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 
 									<Label Grid.Row="4" Content="Deleted" />
-									<Rectangle x:Name="FolderDeletedForeground" Grid.Row="4" Grid.Column="1" Margin="5" Fill="{Binding DeletedForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderDeletedBackground" Grid.Row="4" Grid.Column="2" Margin="5" Fill="{Binding DeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderDeletedForeground" Grid.Row="4" Grid.Column="1" Margin="5" Fill="{Binding FolderDeletedForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderDeletedBackground" Grid.Row="4" Grid.Column="2" Margin="5" Fill="{Binding FolderDeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 									<Label Grid.Row="5" Content="Changed" />
-									<Rectangle x:Name="FolderPartialMatchForeground" Grid.Row="5" Grid.Column="1" Margin="5" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderPartialMatchBackground" Grid.Row="5" Grid.Column="2" Margin="5" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderPartialMatchForeground" Grid.Row="5" Grid.Column="1" Margin="5" Fill="{Binding FolderPartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderPartialMatchBackground" Grid.Row="5" Grid.Column="2" Margin="5" Fill="{Binding FolderPartialMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 									<Label Grid.Row="6" Content="Ignored" />
-									<Rectangle x:Name="FolderIgnoredForeground" Grid.Row="6" Grid.Column="1" Margin="5" Fill="{Binding IgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderIgnoredBackground" Grid.Row="6" Grid.Column="2" Margin="5" Fill="{Binding IgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderIgnoredForeground" Grid.Row="6" Grid.Column="1" Margin="5" Fill="{Binding FolderIgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="FolderIgnoredBackground" Grid.Row="6" Grid.Column="2" Margin="5" Fill="{Binding FolderIgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 
 									<TextBlock Grid.Row="7" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="File Diff Colors" Background="{StaticResource Theme.Dialog}" />
@@ -194,7 +194,7 @@
 									<Rectangle x:Name="Snake" Grid.Row="18" Grid.Column="1" Margin="5" Fill="{Binding SnakeColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 
-									<TextBlock Grid.Row="19" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="UI olors" Background="{StaticResource Theme.Dialog}" />
+									<TextBlock Grid.Row="19" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="UI Colors" Background="{StaticResource Theme.Dialog}" />
 
 
 									<Label Grid.Row="20" Content="Text" />
