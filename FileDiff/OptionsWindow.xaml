@@ -9,7 +9,7 @@
 	Title="Options"
 	Width="778"
 	Height="498"
-	d:Height="1500"
+	d:Height="1100"
 	d:DataContext="{d:DesignInstance Type=filediff:MainWindowViewModel}"
 	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
 	TextOptions.TextFormattingMode="Display"
@@ -78,203 +78,204 @@
 				</TabItem>
 
 				<TabItem Header="Colors">
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="auto" />
-						</Grid.ColumnDefinitions>
-						<ScrollViewer Margin="5" Padding="5" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-							<StackPanel>
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="80" />
-										<ColumnDefinition Width="80" />
-									</Grid.ColumnDefinitions>
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-										<RowDefinition Height="Auto" MinHeight="30" />
-									</Grid.RowDefinitions>
-
-									<Label Grid.Row="0" Grid.Column="1" Content="Foreground" />
-									<Label Grid.Row="0" Grid.Column="2" Content="Background" />
-
-
-									<TextBlock Grid.Row="1" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="Folder Diff Colors" Background="{StaticResource Theme.Dialog}" />
-
-
-									<Label Grid.Row="2" Content="Normal" />
-									<Rectangle x:Name="FolderFullMatchForeground" Grid.Row="2" Grid.Column="1" Margin="5" Fill="{Binding FolderFullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderFullMatchBackground" Grid.Row="2" Grid.Column="2" Margin="5" Fill="{Binding FolderFullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="3" Content="New" />
-									<Rectangle x:Name="FolderNewForeground" Grid.Row="3" Grid.Column="1" Margin="5" Fill="{Binding FolderNewForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderNewBackground" Grid.Row="3" Grid.Column="2" Margin="5" Fill="{Binding FolderNewBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-
-									<Label Grid.Row="4" Content="Deleted" />
-									<Rectangle x:Name="FolderDeletedForeground" Grid.Row="4" Grid.Column="1" Margin="5" Fill="{Binding FolderDeletedForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderDeletedBackground" Grid.Row="4" Grid.Column="2" Margin="5" Fill="{Binding FolderDeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="5" Content="Changed" />
-									<Rectangle x:Name="FolderPartialMatchForeground" Grid.Row="5" Grid.Column="1" Margin="5" Fill="{Binding FolderPartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderPartialMatchBackground" Grid.Row="5" Grid.Column="2" Margin="5" Fill="{Binding FolderPartialMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="6" Content="Ignored" />
-									<Rectangle x:Name="FolderIgnoredForeground" Grid.Row="6" Grid.Column="1" Margin="5" Fill="{Binding FolderIgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FolderIgnoredBackground" Grid.Row="6" Grid.Column="2" Margin="5" Fill="{Binding FolderIgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-
-									<TextBlock Grid.Row="7" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="File Diff Colors" Background="{StaticResource Theme.Dialog}" />
-
-
-									<Label Grid.Row="8" Content="Normal" />
-									<Rectangle x:Name="FullMatchForeground" Grid.Row="8" Grid.Column="1" Margin="5" Fill="{Binding FullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="FullMatchBackground" Grid.Row="8" Grid.Column="2" Margin="5" Fill="{Binding FullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="9" Content="New" />
-									<Rectangle x:Name="NewForeground" Grid.Row="9" Grid.Column="1" Margin="5" Fill="{Binding NewForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="NewBackground" Grid.Row="9" Grid.Column="2" Margin="5" Fill="{Binding NewBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="10" Content="Moved To" />
-									<Rectangle x:Name="MovedToBackground" Grid.Row="10" Grid.Column="2" Margin="5" Fill="{Binding MovedToBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="11" Content="Deleted" />
-									<Rectangle x:Name="DeletedForeground" Grid.Row="11" Grid.Column="1" Margin="5" Fill="{Binding DeletedForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="DeletedBackground" Grid.Row="11" Grid.Column="2" Margin="5" Fill="{Binding DeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="12" Content="Moved From" />
-									<Rectangle x:Name="MovedFromBackground" Grid.Row="12" Grid.Column="2" Margin="5" Fill="{Binding MovedFromBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="13" Content="Changed" />
-									<Rectangle x:Name="PartialMatchForeground" Grid.Row="13" Grid.Column="1" Margin="5" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="PartialMatchBackground" Grid.Row="13" Grid.Column="2" Margin="5" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="14" Content="Ignored" />
-									<Rectangle x:Name="IgnoredForeground" Grid.Row="14" Grid.Column="1" Margin="5" Fill="{Binding IgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Rectangle x:Name="IgnoredBackground" Grid.Row="14" Grid.Column="2" Margin="5" Fill="{Binding IgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="15" Grid.Column="0" Content="Selection" />
-									<Rectangle x:Name="SelectionBackground" Grid.Row="15" Grid.Column="2" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-									<Label Grid.Row="16" Grid.Column="0" Content="Line Numbers" />
-									<Rectangle x:Name="LineNumber" Grid.Row="16" Grid.Column="1" Margin="5" Fill="{Binding LineNumberColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="17" Grid.Column="0" Content="Current Diff" />
-									<Rectangle x:Name="CurrentDiff" Grid.Row="17" Grid.Column="2" Margin="5" Fill="{Binding CurrentDiffColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="18" Grid.Column="0" Content="Move Arrows" />
-									<Rectangle x:Name="Snake" Grid.Row="18" Grid.Column="1" Margin="5" Fill="{Binding SnakeColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-
-									<TextBlock Grid.Row="19" Grid.ColumnSpan="3" Margin="3" Padding="5" Text="UI Colors" Background="{StaticResource Theme.Dialog}" />
-
-
-									<Label Grid.Row="20" Content="Text" />
-									<Rectangle x:Name="WindowForeground" Grid.Row="20" Grid.Column="1" Margin="5" Fill="{Binding WindowForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="21" Content="Disabled Text" />
-									<Rectangle x:Name="DisabledForeground" Grid.Row="21" Grid.Column="1" Margin="5" Fill="{Binding DisabledForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="22" Content="Window" />
-									<Rectangle x:Name="WindowBackground" Grid.Row="22" Grid.Column="2" Margin="5" Fill="{Binding WindowBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="23" Content="Dialog" />
-									<Rectangle x:Name="DialogBackground" Grid.Row="23" Grid.Column="2" Margin="5" Fill="{Binding DialogBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="24" Content="Control Light" />
-									<Rectangle x:Name="ControlLightBackground" Grid.Row="24" Grid.Column="2" Margin="5" Fill="{Binding ControlLightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="25" Content="Control Dark" />
-									<Rectangle x:Name="ControlDarkBackground" Grid.Row="25" Grid.Column="2" Margin="5" Fill="{Binding ControlDarkBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="26" Content="Border Light" />
-									<Rectangle x:Name="BorderForegroundx" Grid.Row="26" Grid.Column="1" Margin="5" Fill="{Binding BorderForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="27" Content="Border Dark" />
-									<Rectangle x:Name="BorderDarkForegroundx" Grid.Row="27" Grid.Column="1" Margin="5" Fill="{Binding BorderDarkForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="28" Content="Highlight Background" />
-									<Rectangle x:Name="HighlightBackground" Grid.Row="28" Grid.Column="2" Margin="5" Fill="{Binding HighlightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-									<Label Grid.Row="29" Content="Highlight Border" />
-									<Rectangle x:Name="HighlightBorder" Grid.Row="29" Grid.Column="1" Margin="5" Fill="{Binding HighlightBorder, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-
-								</Grid>
-							</StackPanel>
-						</ScrollViewer>
-						<StackPanel Grid.Column="1">
-							<Button x:Name="ButtonResetColors" Grid.Row="0" Grid.Column="8" Content="Reset All" Style="{StaticResource CommonButton}" Click="ButtonResetColors_Click" />
-						</StackPanel>
-						<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
-							<Grid RenderOptions.ClearTypeHint="Enabled">
-								<!--  Workaround to not fuckup the cleartype rendering  -->
-								<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource Theme.Dialog}">
-									<Border.Effect>
-										<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
-									</Border.Effect>
-								</Border>
-								<Border Margin="10" Padding="5" PreviewKeyDown="Border_PreviewKeyDown" BorderThickness="1" BorderBrush="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
-									<Grid Width="150">
+					<Border Padding="5">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="auto" />
+							</Grid.ColumnDefinitions>
+							<ScrollViewer Margin="5" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+								<StackPanel Margin="0,-5,0,0">
+									<Grid>
 										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="auto" />
-											<ColumnDefinition />
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="80" />
+											<ColumnDefinition Width="80" />
 										</Grid.ColumnDefinitions>
 										<Grid.RowDefinitions>
-											<RowDefinition />
-											<RowDefinition />
-											<RowDefinition />
-											<RowDefinition />
-											<RowDefinition />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
 										</Grid.RowDefinitions>
 
-										<TextBox Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" IsReadOnly="True" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
 
-										<Label Grid.Row="1" Content="R" />
-										<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+										<TextBlock Grid.Row="0" Grid.ColumnSpan="3" Margin="0,5" Padding="7" Text="Folder Diff Colors" Background="{StaticResource Theme.Dialog}" />
+										<Label Grid.Row="0" Grid.Column="1" Content="Foreground" />
+										<Label Grid.Row="0" Grid.Column="2" Content="Background" />
 
-										<Label Grid.Row="2" Content="G" />
-										<Slider Name="SliderG" Grid.Row="2" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+										<Label Grid.Row="1" Content="Normal" />
+										<Rectangle x:Name="FolderFullMatchForeground" Grid.Row="1" Grid.Column="1" Margin="5" Fill="{Binding FolderFullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="FolderFullMatchBackground" Grid.Row="1" Grid.Column="2" Margin="5" Fill="{Binding FolderFullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-										<Label Grid.Row="3" Content="B" />
-										<Slider Name="SliderB" Grid.Row="3" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+										<Label Grid.Row="2" Content="New" />
+										<Rectangle x:Name="FolderNewForeground" Grid.Row="2" Grid.Column="1" Margin="5" Fill="{Binding FolderNewForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="FolderNewBackground" Grid.Row="2" Grid.Column="2" Margin="5" Fill="{Binding FolderNewBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-										<Label Name="LabelA" Grid.Row="4" Content="A" />
-										<Slider Name="SliderA" Grid.Row="4" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+										<Label Grid.Row="3" Content="Deleted" />
+										<Rectangle x:Name="FolderDeletedForeground" Grid.Row="3" Grid.Column="1" Margin="5" Fill="{Binding FolderDeletedForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="FolderDeletedBackground" Grid.Row="3" Grid.Column="2" Margin="5" Fill="{Binding FolderDeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="4" Content="Changed" />
+										<Rectangle x:Name="FolderPartialMatchForeground" Grid.Row="4" Grid.Column="1" Margin="5" Fill="{Binding FolderPartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="FolderPartialMatchBackground" Grid.Row="4" Grid.Column="2" Margin="5" Fill="{Binding FolderPartialMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="5" Content="Ignored" />
+										<Rectangle x:Name="FolderIgnoredForeground" Grid.Row="5" Grid.Column="1" Margin="5" Fill="{Binding FolderIgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="FolderIgnoredBackground" Grid.Row="5" Grid.Column="2" Margin="5" Fill="{Binding FolderIgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+
+										<TextBlock Grid.Row="6" Grid.ColumnSpan="3" Margin="0,5" Padding="7" Text="File Diff Colors" Background="{StaticResource Theme.Dialog}" />
+										<Label Grid.Row="6" Grid.Column="1" Content="Foreground" />
+										<Label Grid.Row="6" Grid.Column="2" Content="Background" />
+
+										<Label Grid.Row="7" Content="Normal" />
+										<Rectangle x:Name="FullMatchForeground" Grid.Row="7" Grid.Column="1" Margin="5" Fill="{Binding FullMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="FullMatchBackground" Grid.Row="7" Grid.Column="2" Margin="5" Fill="{Binding FullMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="8" Content="New" />
+										<Rectangle x:Name="NewForeground" Grid.Row="8" Grid.Column="1" Margin="5" Fill="{Binding NewForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="NewBackground" Grid.Row="8" Grid.Column="2" Margin="5" Fill="{Binding NewBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="9" Content="Moved To" />
+										<Rectangle x:Name="MovedToBackground" Grid.Row="9" Grid.Column="2" Margin="5" Fill="{Binding MovedToBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="10" Content="Deleted" />
+										<Rectangle x:Name="DeletedForeground" Grid.Row="10" Grid.Column="1" Margin="5" Fill="{Binding DeletedForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="DeletedBackground" Grid.Row="10" Grid.Column="2" Margin="5" Fill="{Binding DeletedBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="11" Content="Moved From" />
+										<Rectangle x:Name="MovedFromBackground" Grid.Row="11" Grid.Column="2" Margin="5" Fill="{Binding MovedFromBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="12" Content="Changed" />
+										<Rectangle x:Name="PartialMatchForeground" Grid.Row="12" Grid.Column="1" Margin="5" Fill="{Binding PartialMatchForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="PartialMatchBackground" Grid.Row="12" Grid.Column="2" Margin="5" Fill="{Binding PartialMatchBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="13" Content="Ignored" />
+										<Rectangle x:Name="IgnoredForeground" Grid.Row="13" Grid.Column="1" Margin="5" Fill="{Binding IgnoredForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+										<Rectangle x:Name="IgnoredBackground" Grid.Row="13" Grid.Column="2" Margin="5" Fill="{Binding IgnoredBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="14" Grid.Column="0" Content="Selection" />
+										<Rectangle x:Name="SelectionBackground" Grid.Row="14" Grid.Column="2" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="15" Grid.Column="0" Content="Line Numbers" />
+										<Rectangle x:Name="LineNumber" Grid.Row="15" Grid.Column="1" Margin="5" Fill="{Binding LineNumberColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="16" Grid.Column="0" Content="Current Diff" />
+										<Rectangle x:Name="CurrentDiff" Grid.Row="16" Grid.Column="2" Margin="5" Fill="{Binding CurrentDiffColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="17" Grid.Column="0" Content="Move Arrows" />
+										<Rectangle x:Name="Snake" Grid.Row="17" Grid.Column="1" Margin="5" Fill="{Binding SnakeColor, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+
+										<TextBlock Grid.Row="18" Grid.ColumnSpan="3" Margin="0,5" Padding="7" Text="UI Colors" Background="{StaticResource Theme.Dialog}" />
+										<Label Grid.Row="18" Grid.Column="1" Content="Foreground" />
+										<Label Grid.Row="18" Grid.Column="2" Content="Background" />
+
+										<Label Grid.Row="19" Content="Text" />
+										<Rectangle x:Name="WindowForeground" Grid.Row="19" Grid.Column="1" Margin="5" Fill="{Binding WindowForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="20" Content="Disabled Text" />
+										<Rectangle x:Name="DisabledForeground" Grid.Row="20" Grid.Column="1" Margin="5" Fill="{Binding DisabledForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="21" Content="Window" />
+										<Rectangle x:Name="WindowBackground" Grid.Row="21" Grid.Column="2" Margin="5" Fill="{Binding WindowBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="22" Content="Dialog" />
+										<Rectangle x:Name="DialogBackground" Grid.Row="22" Grid.Column="2" Margin="5" Fill="{Binding DialogBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="23" Content="Control Light" />
+										<Rectangle x:Name="ControlLightBackground" Grid.Row="23" Grid.Column="2" Margin="5" Fill="{Binding ControlLightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="24" Content="Control Dark" />
+										<Rectangle x:Name="ControlDarkBackground" Grid.Row="24" Grid.Column="2" Margin="5" Fill="{Binding ControlDarkBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="25" Content="Border Light" />
+										<Rectangle x:Name="BorderForegroundx" Grid.Row="25" Grid.Column="1" Margin="5" Fill="{Binding BorderForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="26" Content="Border Dark" />
+										<Rectangle x:Name="BorderDarkForegroundx" Grid.Row="26" Grid.Column="1" Margin="5" Fill="{Binding BorderDarkForeground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="27" Content="Highlight Background" />
+										<Rectangle x:Name="HighlightBackground" Grid.Row="27" Grid.Column="2" Margin="5" Fill="{Binding HighlightBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+										<Label Grid.Row="28" Content="Highlight Border" />
+										<Rectangle x:Name="HighlightBorder" Grid.Row="28" Grid.Column="1" Margin="5" Fill="{Binding HighlightBorder, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
 
 									</Grid>
-								</Border>
-							</Grid>
-						</Popup>
-					</Grid>
+								</StackPanel>
+							</ScrollViewer>
+							<StackPanel Grid.Column="1">
+								<Button x:Name="ButtonResetColors" Grid.Row="0" Grid.Column="8" Content="Reset All" Style="{StaticResource CommonButton}" Click="ButtonResetColors_Click" />
+							</StackPanel>
+							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
+								<Grid RenderOptions.ClearTypeHint="Enabled">
+									<!--  Workaround to not fuckup the cleartype rendering  -->
+									<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource Theme.Dialog}">
+										<Border.Effect>
+											<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
+										</Border.Effect>
+									</Border>
+									<Border Margin="10" Padding="5" PreviewKeyDown="Border_PreviewKeyDown" BorderThickness="1" BorderBrush="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
+										<Grid Width="150">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="auto" />
+												<ColumnDefinition />
+											</Grid.ColumnDefinitions>
+											<Grid.RowDefinitions>
+												<RowDefinition />
+												<RowDefinition />
+												<RowDefinition />
+												<RowDefinition />
+												<RowDefinition />
+											</Grid.RowDefinitions>
+
+											<TextBox Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" IsReadOnly="True" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
+
+											<Label Grid.Row="1" Content="R" />
+											<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+
+											<Label Grid.Row="2" Content="G" />
+											<Slider Name="SliderG" Grid.Row="2" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+
+											<Label Grid.Row="3" Content="B" />
+											<Slider Name="SliderB" Grid.Row="3" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+
+											<Label Name="LabelA" Grid.Row="4" Content="A" />
+											<Slider Name="SliderA" Grid.Row="4" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+
+										</Grid>
+									</Border>
+								</Grid>
+							</Popup>
+						</Grid>
+					</Border>
 				</TabItem>
 
 				<TabItem Header="Ignores">
