@@ -63,8 +63,8 @@ public static class DefaultSettings
 		BorderLight = "#FF323232",
 		BorderDark = "#FF595959",
 
-		HighlightBackground = "#213E4C",
-		HighlightBorder = "#26A0DA",
+		HighlightBackground = "#FF112E3C",
+		HighlightBorder = "#2F7999",
 	};
 
 	internal static ColorTheme LightTheme { get; } = new ColorTheme()

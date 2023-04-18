@@ -68,11 +68,11 @@
 
 							<Label Grid.Column="0" Content="Font" />
 							<ComboBox x:Name="ComboBoxFont" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=Font}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
-							<TextBox x:Name="TextBoxFontSize" Grid.Column="3" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=11}" />
+							<TextBox x:Name="TextBoxFontSize" Grid.Column="3" Style="{StaticResource CommonTextBox}" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=11}" />
 							<Button x:Name="ButtonResetFont" Grid.Column="4" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
 
 							<Label Grid.Row="1" Content="Tab Size" />
-							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=2}" />
+							<TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource CommonTextBox}" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=2}" />
 						</Grid>
 					</Border>
 				</TabItem>
