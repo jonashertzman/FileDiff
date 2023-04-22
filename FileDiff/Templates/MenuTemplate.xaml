@@ -3,10 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:FileDiff">
 
-	<SolidColorBrush x:Key="Menu.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=White}" />
-
 	<Style TargetType="{x:Type Menu}">
-		<Setter Property="Background" Value="{StaticResource Menu.Static.Background}" />
+		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
 		<Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}" />
 		<Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MenuFontSizeKey}}" />
 		<Setter Property="FontStyle" Value="{DynamicResource {x:Static SystemFonts.MenuFontStyleKey}}" />
