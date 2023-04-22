@@ -514,8 +514,8 @@ public partial class MainWindow : Window
 	{
 		if (control == LeftDiff) return leftSelection;
 		else if (control == RightDiff) return rightSelection;
-		else if (control == LeftFolder) return LeftFolder.SelectedFile.Path;
-		else if (control == RightFolder) return RightFolder.SelectedFile.Path;
+		else if (control == LeftFolder && LeftFolder.SelectedFile != null) return LeftFolder.SelectedFile.Path;
+		else if (control == RightFolder && RightFolder.SelectedFile != null) return RightFolder.SelectedFile.Path;
 
 		return "";
 	}
