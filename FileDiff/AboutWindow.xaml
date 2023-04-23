@@ -11,7 +11,7 @@
 	TextOptions.TextFormattingMode="Display"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
-	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
+	Background="{StaticResource Theme.Dialog}"
 	SizeToContent="WidthAndHeight"
 	mc:Ignorable="d">
 

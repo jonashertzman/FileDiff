@@ -11,7 +11,7 @@
 	Height="498"
 	d:Height="1100"
 	d:DataContext="{d:DesignInstance Type=filediff:MainWindowViewModel}"
-	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
+	Background="{StaticResource Theme.Dialog}"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
@@ -266,7 +266,7 @@
 											<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
 										</Border.Effect>
 									</Border>
-									<Border Margin="10" Padding="5" PreviewKeyDown="Border_PreviewKeyDown" BorderThickness="1" BorderBrush="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
+									<Border Margin="10" Padding="5" PreviewKeyDown="Border_PreviewKeyDown" BorderThickness="1" Background="{StaticResource Theme.Dialog}">
 										<Grid Width="150">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="auto" />

@@ -16,7 +16,7 @@
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	ContentRendered="Window_ContentRendered"
-	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
+	Background="{StaticResource Theme.Dialog}"
 	mc:Ignorable="d">
 
 	<Grid>

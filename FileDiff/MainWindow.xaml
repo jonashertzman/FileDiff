@@ -15,7 +15,7 @@
 	Closed="Window_Closed"
 	ContentRendered="Window_ContentRendered"
 	Initialized="Window_Initialized"
-	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
+	Background="{StaticResource Theme.Dialog}"
 	mc:Ignorable="d">
 
 	<Window.Resources>
@@ -71,7 +71,7 @@
 			</DockPanel.CommandBindings>
 
 			<!--  Menu  -->
-			<Border DockPanel.Dock="Top" BorderBrush="{Binding BorderForeground, FallbackValue=#FFD6D6D6}" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,0,0,1">
+			<Border DockPanel.Dock="Top" Background="{StaticResource Theme.Window}" BorderThickness="0,0,0,1">
 				<Grid x:Name="GridMenu">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -529,7 +529,7 @@
 							</Grid>
 						</ScrollViewer>
 
-						<Border Grid.Row="1" Grid.Column="0" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,1,0,0">
+						<Border Grid.Row="1" Grid.Column="0" Background="{StaticResource Theme.Window}" BorderThickness="0,1,0,0">
 							<local:TreeControl x:Name="LeftFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="LeftFolder_SelectionChanged" Lines="{Binding LeftFolder}" HorizontalOffset="{Binding Value, ElementName=LeftFolderHorizontalScrollbar, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 						</Border>
 						<ScrollBar Name="LeftFolderHorizontalScrollbar" Grid.Row="2" ValueChanged="LeftFolderHorizontalScrollbar_ValueChanged" Orientation="Horizontal" SmallChange="10" />
@@ -538,7 +538,7 @@
 
 				<!--  Left File  -->
 				<Border Grid.Row="3" BorderThickness="0,1,1,1" PreviewDragOver="LeftSide_PreviewDragOver" PreviewDrop="LeftSide_DragDrop" AllowDrop="True">
-					<Grid Name="LeftFileGrid" MouseWheel="FileDiff_MouseWheel" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}">
+					<Grid Name="LeftFileGrid" MouseWheel="FileDiff_MouseWheel" Background="{StaticResource Theme.Window}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
@@ -618,7 +618,7 @@
 								</Grid>
 							</ScrollViewer>
 
-							<Border Grid.Row="1" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}" BorderThickness="0,1,0,0">
+							<Border Grid.Row="1" Background="{StaticResource Theme.Window}" BorderThickness="0,1,0,0">
 								<local:TreeControl x:Name="RightFolder" ContextMenu="{StaticResource ContextMenuFileItem}" SelectionChanged="RightFolder_SelectionChanged" Lines="{Binding RightFolder}" HorizontalOffset="{Binding Value, ElementName=RightFolderHorizontalScrollbar, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalTreeScrollbar, Path=Value, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger, Mode=TwoWay}" FocusVisualStyle="{x:Null}" />
 							</Border>
 							<Border Grid.Row="1" Grid.Column="1" BorderThickness="0,1,0,0">
@@ -631,7 +631,7 @@
 
 				<!--  Right File  -->
 				<Border Grid.Row="3" Grid.Column="2" BorderThickness="1,1,0,1" PreviewDragOver="RightSide_PreviewDragOver" PreviewDrop="RightSide_DragDrop" AllowDrop="True">
-					<Grid Name="RightFileGrid" MouseWheel="FileDiff_MouseWheel" Background="{Binding WindowBackground, FallbackValue=#FFFFFF}">
+					<Grid Name="RightFileGrid" MouseWheel="FileDiff_MouseWheel" Background="{StaticResource Theme.Window}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*" />
 							<RowDefinition Height="auto" />
@@ -646,7 +646,7 @@
 						<local:DiffMapControl Grid.Column="1" Width="12" Lines="{Binding RightFile}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
 						<ScrollBar Name="VerticalFileScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding VisibleLines}" ViewportSize="{Binding ElementName=RightDiff, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding Path=MaxVerticalScroll}" />
 						<ScrollBar x:Name="RightHorizontalScrollbar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Maximum="{Binding ElementName=RightDiff, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=RightDiff, Path=TextAreaWidth}" ValueChanged="RightHorizontalScrollbar_ValueChanged" SmallChange="10" LargeChange="{Binding ElementName=RightDiff, Path=TextAreaWidth}" />
-						<StackPanel Grid.Row="1" Grid.Column="2" Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
+						<StackPanel Grid.Row="1" Grid.Column="2" Background="{StaticResource Theme.Dialog}" />
 					</Grid>
 				</Border>
 
