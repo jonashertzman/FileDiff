@@ -115,12 +115,12 @@ public static class DefaultSettings
 		DisabledText = "#FF888888",
 
 		WindowBackground = "#FFFFFFFF",
-		DialogBackground = "#FFF0F0F0",
+		DialogBackground = "#FFEBEBEB",
 
 		ControlLightBackground = "#FFFFFFFF",
-		ControlDarkBackground = "#FFDDDDDD",
+		ControlDarkBackground = "#FFD9D9D9",
 
-		BorderLight = "#FFD8D8D8",
+		BorderLight = "#FFCFCFCF",
 		BorderDark = "#FFAAAAAA",
 
 		HighlightBackground = "#FFDCECFC",
