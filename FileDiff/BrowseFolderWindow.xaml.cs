@@ -54,7 +54,18 @@ public partial class BrowseFolderWindow : Window
 		switch (source)
 		{
 			case DriveInfo drive:
-				string label = drive.IsReady ? $"{drive.VolumeLabel} " : "";
+				string label = "";
+				if (drive.IsReady)
+				{
+					if (drive.VolumeLabel == "")
+					{
+						label = "Local Disk ";
+					}
+					else
+					{
+						label = $"{drive.VolumeLabel} ";
+					}
+				}
 				item.Header = $"{label}({drive.Name.TrimEnd('\\')})";
 				item.Items.Add("Loading...");
 				break;
