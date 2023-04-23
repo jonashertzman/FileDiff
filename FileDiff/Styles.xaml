@@ -3,50 +3,83 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:FileDiff">
 
-	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
+	<Style x:Key="MyFocusVisual">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Rectangle Margin="2" StrokeThickness="1" Stroke="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=black}" StrokeDashArray="1 2" />
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!--<Style TargetType="Window">
+		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
+		<Setter Property="Background" Value="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
+	</Style>-->
+
+	<Style x:Key="StyledTextBlock" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
+	</Style>
+
+	<Style TargetType="Rectangle">
+		<Setter Property="Stroke" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
+	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
 		<Setter Property="Margin" Value="20,0,0,0" />
 		<Setter Property="Foreground" Value="Gray" />
 	</Style>
 
-	<Style x:Key="CommonTextLabel" TargetType="Label">
+	<Style TargetType="Border">
+		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
+	</Style>
+
+	<Style x:Key="CommonGridSpliter" TargetType="GridSplitter">
+		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
+		<Setter Property="Background" Value="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
+	</Style>
+
+	<Style TargetType="Label">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="Margin" Value="5" />
+		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
 	</Style>
 
-	<Style x:Key="CondencedTextLabel" TargetType="Label">
+	<Style x:Key="CondencedTextLabel" TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="Margin" Value="5,0" />
 	</Style>
 
-	<Style x:Key="CommonTextBox" TargetType="TextBox">
+	<Style x:Key="CommonTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="Margin" Value="5" />
+		<Setter Property="FocusVisualStyle" Value="{DynamicResource MyFocusVisual}" />
 	</Style>
 
-	<Style x:Key="CommonComboBox" TargetType="ComboBox">
+	<Style x:Key="CommonComboBox" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Margin" Value="5" />
 	</Style>
 
-	<Style x:Key="CommonButton" TargetType="Button">
+	<Style x:Key="CommonButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Margin" Value="5" />
 		<Setter Property="MinWidth" Value="80" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
 	</Style>
 
-	<Style x:Key="FlatButton" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+	<Style x:Key="FlatButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
 		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Margin" Value="4,2" />
 		<Setter Property="Padding" Value="2" />
+		<Setter Property="MinWidth" Value="1" />
 	</Style>
 
-	<Style x:Key="CommonCheckBox" TargetType="CheckBox">
+	<Style x:Key="CommonCheckBox" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
 		<Setter Property="Margin" Value="5" />
 	</Style>
 
@@ -86,35 +119,16 @@
 		</Style.Triggers>
 	</Style>
 
-	<Style x:Key="EditableDataGrid" TargetType="DataGrid">
-		<Setter Property="AutoGenerateColumns" Value="False" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
-		<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-		<Setter Property="RowHeaderWidth" Value="0" />
-		<Setter Property="CanUserResizeRows" Value="False" />
-		<Setter Property="GridLinesVisibility" Value="Horizontal" />
-		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
-		<Setter Property="SelectionMode" Value="Single" />
-	</Style>
-
-	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}">
-		<Style.Triggers>
-			<Trigger Property="DataGridCell.IsSelected" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="Foreground" Value="Black" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
+	<!--<Style TargetType="ToolTip">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ToolTip">
+					<Border BorderBrush="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" BorderThickness="1" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
+						<ContentPresenter Margin="3" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>-->
 
 </ResourceDictionary>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Media;
 
 namespace FileDiff;
 
@@ -29,37 +28,14 @@ public class SettingsData
 	// The percentage of matching characters two lines must have in common to be considered partially matched lines.
 	public float LineSimilarityThreshold { get; set; } = 0.4f;
 
-
-	public Color FullMatchForeground { get; set; } = DefaultSettings.FullMatchForeground;
-	public Color FullMatchBackground { get; set; } = DefaultSettings.FullMatchBackground;
-
-	public Color PartialMatchForeground { get; set; } = DefaultSettings.PartialMatchForeground;
-	public Color PartialMatchBackground { get; set; } = DefaultSettings.PartialMatchBackground;
-
-	public Color DeletedForeground { get; set; } = DefaultSettings.DeletedForeground;
-	public Color DeletedBackground { get; set; } = DefaultSettings.DeletedBackground;
-
-	public Color NewForeground { get; set; } = DefaultSettings.NewForeground;
-	public Color NewBackground { get; set; } = DefaultSettings.NewBackground;
-
-	public Color IgnoredForeground { get; set; } = DefaultSettings.IgnoredForeground;
-	public Color IgnoredBackground { get; set; } = DefaultSettings.IgnoredBackground;
-
-	public Color MovedToBackground { get; set; } = DefaultSettings.MovedToBackground;
-
-	public Color MovedFromdBackground { get; set; } = DefaultSettings.MovedFromdBackground;
-
-	public Color SelectionBackground { get; set; } = DefaultSettings.SelectionBackground;
-
-	public Color LineNumberColor { get; set; } = DefaultSettings.LineNumberColor;
-	public Color CurrentDiffColor { get; set; } = DefaultSettings.CurrentDiffColor;
-	public Color SnakeColor { get; set; } = DefaultSettings.SnakeColor;
-
-
 	public string Font { get; set; } = DefaultSettings.Font;
 	public int FontSize { get; set; } = DefaultSettings.FontSize;
 	public int Zoom { get; set; } = 0;
 	public int TabSize { get; set; } = DefaultSettings.TabSize;
+
+	public Themes Theme { get; set; } = Themes.Light;
+	public ColorTheme DarkTheme { get; set; } = DefaultSettings.DarkTheme.Clone();
+	public ColorTheme LightTheme { get; set; } = DefaultSettings.LightTheme.Clone();
 
 	public double PositionLeft { get; set; }
 	public double PositionTop { get; set; }
@@ -73,4 +49,3 @@ public class SettingsData
 	public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();
 
 }
-

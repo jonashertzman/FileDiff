@@ -9,13 +9,14 @@
 	Title="Select Target"
 	Width="450"
 	Height="350"
+	d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
-	Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	ContentRendered="Window_ContentRendered"
+	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
 	mc:Ignorable="d">
 
 	<Grid>
@@ -26,12 +27,7 @@
 		</Grid.RowDefinitions>
 
 		<StackPanel Grid.Row="0">
-			<StackPanel.Background>
-				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-					<GradientStop Offset="0" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />
-					<GradientStop Offset="1" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />
-				</LinearGradientBrush>
-			</StackPanel.Background>
+
 			<StackPanel Margin="5" Orientation="Horizontal">
 				<Button x:Name="ButtonDesktop" Style="{StaticResource ToolbarButton}" ToolTip="Desktop" Click="ButtonDesktop_Click">
 					<StackPanel Orientation="Horizontal">
@@ -51,7 +47,7 @@
 			</StackPanel>
 		</StackPanel>
 
-		<TreeView x:Name="FolderTree" Grid.Row="1" Grid.ColumnSpan="4" Margin="10,0,10,0" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" TreeViewItem.Expanded="TreeViewItem_Expanded" SelectedItemChanged="FolderTree_SelectedItemChanged">
+		<TreeView x:Name="FolderTree" Grid.Row="1" Margin="10,0,10,0" TreeViewItem.Expanded="TreeViewItem_Expanded" SelectedItemChanged="FolderTree_SelectedItemChanged">
 			<TreeView.Resources>
 				<Style TargetType="{x:Type TreeViewItem}">
 					<!--  Style for the selected item  -->
@@ -61,7 +57,7 @@
 							<DataTemplate>
 								<StackPanel Margin="0" Orientation="Horizontal">
 									<ContentPresenter ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Tag, Converter={x:Static local:HeaderToImageConverter.Instance}}" Style="{StaticResource CommonButtonIcon}" />
-									<TextBlock Margin="5,0" VerticalAlignment="Center" Text="{Binding}" />
+									<TextBlock Margin="5,0" VerticalAlignment="Center" Text="{Binding}" Style="{StaticResource StyledTextBlock}" />
 								</StackPanel>
 							</DataTemplate>
 						</Setter.Value>
@@ -69,7 +65,7 @@
 					<Style.Triggers>
 						<!--  Selected and has focus  -->
 						<Trigger Property="IsSelected" Value="True">
-							<Setter Property="BorderBrush" Value="#99D1FF" />
+							<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.HighlightBorder), FallbackValue=#7EB4EA}" />
 						</Trigger>
 
 						<!--  Selected but does not have the focus  -->
@@ -90,7 +86,7 @@
 				</Style>
 
 				<!--  Brushes for the selected item  -->
-				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFCBE8F6" />
+				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}" />
 				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
 				<SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
 			</TreeView.Resources>

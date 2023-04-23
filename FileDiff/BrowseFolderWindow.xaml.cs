@@ -59,8 +59,8 @@ public partial class BrowseFolderWindow : Window
 				item.Items.Add("Loading...");
 				break;
 
-			case DirectoryInfo direcory:
-				item.Header = direcory.Name;
+			case DirectoryInfo directory:
+				item.Header = directory.Name;
 				item.Items.Add("Loading...");
 				break;
 
@@ -91,7 +91,7 @@ public partial class BrowseFolderWindow : Window
 					{
 						item.IsSelected = true;
 
-						// We cannot scroll to the selected item until a render of the treeview control has occurred,
+						// We cannot scroll to the selected item until a render of the tree view control has occurred,
 						// instead we set a timer long enough so the scroll happens after the next render. 
 						renderTimer.Start();
 					}

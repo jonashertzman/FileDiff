@@ -25,3 +25,9 @@ public enum NewlineMode
 	Unix,
 	Mac,
 }
+
+public enum Themes
+{
+	Light,
+	Dark,
+}

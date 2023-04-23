@@ -134,7 +134,7 @@ public class Line
 	{
 		get
 		{
-			return AppSettings.GetBackground(type);
+			return AppSettings.GetFileBackground(type);
 		}
 	}
 
@@ -142,7 +142,7 @@ public class Line
 	{
 		get
 		{
-			return AppSettings.GetForeground(type);
+			return AppSettings.GetFileForeground(type);
 		}
 	}
 

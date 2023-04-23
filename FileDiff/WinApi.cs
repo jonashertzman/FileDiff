@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows;
 
 namespace FileDiff;
 
@@ -49,6 +51,8 @@ internal class WinApi
 	public const int GWL_STYLE = -16;
 	public const int WS_MAXIMIZEBOX = 0x10000;
 	public const int WS_MINIMIZEBOX = 0x20000;
+	private const uint CF_UNICODETEXT = 13;
+
 
 	[DllImport("kernel32", CharSet = CharSet.Unicode)]
 	public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
@@ -67,4 +71,79 @@ internal class WinApi
 
 	[DllImport("user32.dll")]
 	extern public static int SetWindowLong(IntPtr hwnd, int index, int value);
+
+	[DllImport("user32.dll")]
+	private static extern bool OpenClipboard(IntPtr hWndNewOwner);
+
+	[DllImport("user32.dll")]
+	private static extern bool CloseClipboard();
+
+	[DllImport("user32.dll")]
+	private static extern bool SetClipboardData(uint uFormat, IntPtr data);
+
+	[DllImport("user32.dll")]
+	private static extern IntPtr GetClipboardData(uint uFormat);
+
+	[DllImport("User32.dll", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static extern bool IsClipboardFormatAvailable(uint format);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	private static extern IntPtr GlobalLock(IntPtr hMem);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static extern bool GlobalUnlock(IntPtr hMem);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	private static extern int GlobalSize(IntPtr hMem);
+
+	[DllImport("user32.dll")]
+	static extern IntPtr GetOpenClipboardWindow();
+
+	[DllImport("user32.dll")]
+	static extern int GetWindowText(int hwnd, StringBuilder text, int count);
+
+	[DllImport("user32.dll")]
+	static extern bool EmptyClipboard();
+
+	public static bool CopyTextToClipboard(string text)
+	{
+		if (!OpenClipboard(IntPtr.Zero))
+		{
+			MessageBox.Show($"OpenClipboard failed ({GetOpenClipboardWindowText()})");
+			return false;
+		}
+
+		if (!EmptyClipboard())
+		{
+			MessageBox.Show($"EmptyClipboard failed ({GetOpenClipboardWindowText()})");
+			return false;
+		}
+
+		var global = Marshal.StringToHGlobalUni(text);
+
+		if (!SetClipboardData(CF_UNICODETEXT, global))
+		{
+			MessageBox.Show($"SetClipboardData failed ({GetOpenClipboardWindowText()})");
+			return false;
+		}
+
+		if (!CloseClipboard())
+		{
+			MessageBox.Show($"CloseClipboard failed ({GetOpenClipboardWindowText()})");
+			return false;
+		}
+
+		return true;
+	}
+
+	private static string GetOpenClipboardWindowText()
+	{
+		IntPtr hwnd = GetOpenClipboardWindow();
+		StringBuilder sb = new StringBuilder(501);
+		GetWindowText(hwnd.ToInt32(), sb, 500);
+		return sb.ToString();
+	}
+
 }

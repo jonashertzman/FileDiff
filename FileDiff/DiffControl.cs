@@ -17,7 +17,7 @@ public class DiffControl : Control
 	private double characterWidth;
 	private double lineNumberMargin;
 	private double textMargin;
-	private double maxTextwidth = 0;
+	private double maxTextWidth = 0;
 
 	private bool cursorBlink = true;
 
@@ -93,7 +93,7 @@ public class DiffControl : Control
 		Debug.Print("DiffControl OnRender");
 
 #if DEBUG
-		MeasureRendeTime();
+		MeasureRenderTime();
 #endif
 
 		// Fill background
@@ -118,7 +118,7 @@ public class DiffControl : Control
 		//Brush currentDiffBrush2 = new LinearGradientBrush(Colors.Transparent, semiTransparent, 0);
 		//currentDiffBrush2.Freeze();
 
-		Pen borderPen = new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1));
+		Pen borderPen = new Pen(AppSettings.BorderForeground, RoundToWholePixels(1));
 		borderPen.Freeze();
 		GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
@@ -134,10 +134,10 @@ public class DiffControl : Control
 		lineNumberMargin = RoundToWholePixels(characterWidth * Lines.Count.ToString().Length) + (2 * textMargin) + borderPen.Thickness;
 
 		VisibleLines = (int)(ActualHeight / characterHeight + 1);
-		MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
+		MaxVerticalScroll = Lines.Count - VisibleLines + 1;
 
 		// Draw line number margin			
-		drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
+		drawingContext.DrawRectangle(AppSettings.DialogBackground, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
 
 		// Draw current diff
 		if (CurrentDiff != null && !Edited)
@@ -239,13 +239,13 @@ public class DiffControl : Control
 
 								drawingContext.Pop();
 							}
-							maxTextwidth = Math.Max(maxTextwidth, nextPosition);
+							maxTextWidth = Math.Max(maxTextWidth, nextPosition);
 						}
 
 						// Draw cursor
 						if (EditMode && this.IsFocused && cursorLine == lineIndex && cursorBlink)
 						{
-							drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
+							drawingContext.DrawRectangle(AppSettings.FullMatchForeground, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
 						}
 					}
 					drawingContext.Pop(); // Line X offset
@@ -337,7 +337,7 @@ public class DiffControl : Control
 
 
 		TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
-		MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
+		MaxHorizontalScroll = (int)(maxTextWidth - TextAreaWidth + textMargin);
 
 #if DEBUG
 		ReportRenderTime();
@@ -870,21 +870,21 @@ public class DiffControl : Control
 	}
 
 
-	public static readonly DependencyProperty MaxHorizontalScrollPropery = DependencyProperty.Register("MaxHorizontalScroll", typeof(int), typeof(DiffControl));
+	public static readonly DependencyProperty MaxHorizontalScrollProperty = DependencyProperty.Register("MaxHorizontalScroll", typeof(int), typeof(DiffControl));
 
 	public int MaxHorizontalScroll
 	{
-		get { return (int)GetValue(MaxHorizontalScrollPropery); }
-		set { SetValue(MaxHorizontalScrollPropery, value); }
+		get { return (int)GetValue(MaxHorizontalScrollProperty); }
+		set { SetValue(MaxHorizontalScrollProperty, value); }
 	}
 
 
-	public static readonly DependencyProperty TextAreaWidthPropery = DependencyProperty.Register("TextAreaWidth", typeof(int), typeof(DiffControl));
+	public static readonly DependencyProperty TextAreaWidthProperty = DependencyProperty.Register("TextAreaWidth", typeof(int), typeof(DiffControl));
 
 	public int TextAreaWidth
 	{
-		get { return (int)GetValue(TextAreaWidthPropery); }
-		set { SetValue(TextAreaWidthPropery, value); }
+		get { return (int)GetValue(TextAreaWidthProperty); }
+		set { SetValue(TextAreaWidthProperty, value); }
 	}
 
 
@@ -906,12 +906,12 @@ public class DiffControl : Control
 	}
 
 
-	public static readonly DependencyProperty MaxVerialcalScrollProperty = DependencyProperty.Register("MaxVerialcalScroll", typeof(int), typeof(DiffControl));
+	public static readonly DependencyProperty MaxVerticalScrollProperty = DependencyProperty.Register("MaxVerticalScroll", typeof(int), typeof(DiffControl));
 
-	public int MaxVerialcalScroll
+	public int MaxVerticalScroll
 	{
-		get { return (int)GetValue(MaxVerialcalScrollProperty); }
-		set { SetValue(MaxVerialcalScrollProperty, value); }
+		get { return (int)GetValue(MaxVerticalScrollProperty); }
+		set { SetValue(MaxVerticalScrollProperty, value); }
 	}
 
 
@@ -953,7 +953,7 @@ public class DiffControl : Control
 		HorizontalOffset = 0;
 		TextAreaWidth = 0;
 		MaxHorizontalScroll = 0;
-		maxTextwidth = 0;
+		maxTextWidth = 0;
 		cursorLine = 0;
 		cursorCharacter = 0;
 
@@ -1062,7 +1062,7 @@ public class DiffControl : Control
 			lineIndex++;
 		} while (lineIndex <= Selection.BottomLine);
 
-		Clipboard.SetText(sb.ToString());
+		WinApi.CopyTextToClipboard(sb.ToString());
 	}
 
 	private void SetCursorPosition(int line, int character, bool select)
@@ -1289,7 +1289,7 @@ public class DiffControl : Control
 		return -1;
 	}
 
-	private void MeasureRendeTime()
+	private void MeasureRenderTime()
 	{
 		stopwatch.Restart();
 	}
@@ -1298,8 +1298,7 @@ public class DiffControl : Control
 	{
 		Dispatcher.BeginInvoke(
 			DispatcherPriority.Loaded,
-			new Action(() =>
-			{
+			new Action(() => {
 				stopwatch.Stop();
 				Debug.Print($"Took {stopwatch.ElapsedMilliseconds} ms");
 			})

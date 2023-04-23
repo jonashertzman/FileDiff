@@ -1,12 +1,9 @@
-﻿global using System.Diagnostics;
-
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace FileDiff;
@@ -71,8 +68,8 @@ public partial class MainWindow : Window
 		leftSelection = "";
 		ViewModel.LeftPath = ViewModel.LeftPath.Trim();
 		ViewModel.RightPath = ViewModel.RightPath.Trim();
-		TextBoxLeftPath.Background = new SolidColorBrush(Colors.White);
-		TextBoxRightPath.Background = new SolidColorBrush(Colors.White);
+		//TextBoxLeftPath.Background = new SolidColorBrush(Colors.White);
+		//TextBoxRightPath.Background = new SolidColorBrush(Colors.White);
 
 		BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
 		if (ViewModel.LeftPath == "")
@@ -106,7 +103,7 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
 			}
 		}
 		else if (Directory.Exists(ViewModel.LeftPath))
@@ -119,15 +116,15 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
 			}
 		}
 		else
 		{
-			TextBoxLeftPath.Background = new SolidColorBrush(Colors.Pink);
+			//TextBoxLeftPath.Background = new SolidColorBrush(Colors.Pink);
 			if (!(File.Exists(ViewModel.RightPath) || Directory.Exists(ViewModel.RightPath)))
 			{
-				TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
 			}
 		}
 	}
@@ -202,7 +199,7 @@ public partial class MainWindow : Window
 			ProgressBarCompare.Maximum = leftLines.Count + rightLines.Count;
 
 			BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
-			Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+			Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
 
 			progressTimer.Start();
 		}
@@ -214,9 +211,9 @@ public partial class MainWindow : Window
 		}
 	}
 
-	private void CompareFilesFinnished(Task<Tuple<List<Line>, List<Line>, TimeSpan>> task)
+	private void CompareFilesFinished(Task<Tuple<List<Line>, List<Line>, TimeSpan>> task)
 	{
-		Debug.Print("------ CompareFilesFinnished");
+		Debug.Print("------ CompareFilesFinished");
 
 		progressTimer.Stop();
 		ViewModel.GuiFrozen = false;
@@ -263,14 +260,14 @@ public partial class MainWindow : Window
 		string rightPath = ViewModel.RightPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
 		BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
-		Task.Run(() => BackgroundCompare.CompareDirectories(leftPath, rightPath)).ContinueWith(CompareDirectoriesFinnished, TaskScheduler.FromCurrentSynchronizationContext());
+		Task.Run(() => BackgroundCompare.CompareDirectories(leftPath, rightPath)).ContinueWith(CompareDirectoriesFinished, TaskScheduler.FromCurrentSynchronizationContext());
 
 		progressTimer.Start();
 	}
 
-	private void CompareDirectoriesFinnished(Task<Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan>> task)
+	private void CompareDirectoriesFinished(Task<Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan>> task)
 	{
-		Debug.Print("------ CompareDirectoriesFinnished");
+		Debug.Print("------ CompareDirectoriesFinished");
 
 		progressTimer.Stop();
 		ViewModel.GuiFrozen = false;
@@ -388,7 +385,7 @@ public partial class MainWindow : Window
 		}
 	}
 
-	private void MoveToPrevoiusDiff()
+	private void MoveToPreviousDiff()
 	{
 		if (currentDiffIndex == -1)
 		{
@@ -452,12 +449,12 @@ public partial class MainWindow : Window
 	{
 		if (result != -1)
 		{
-			SearchBox.Background = new SolidColorBrush(Colors.White);
+			//SearchBox.Background = new SolidColorBrush(Colors.White);
 			CenterOnLine(result);
 		}
 		else
 		{
-			SearchBox.Background = new SolidColorBrush(Colors.Pink);
+			//SearchBox.Background = new SolidColorBrush(Colors.Pink);
 		}
 	}
 
@@ -517,8 +514,8 @@ public partial class MainWindow : Window
 	{
 		if (control == LeftDiff) return leftSelection;
 		else if (control == RightDiff) return rightSelection;
-		else if (control == LeftFolder) return LeftFolder.SelectedFile.Path;
-		else if (control == RightFolder) return RightFolder.SelectedFile.Path;
+		else if (control == LeftFolder && LeftFolder.SelectedFile != null) return LeftFolder.SelectedFile.Path;
+		else if (control == RightFolder && RightFolder.SelectedFile != null) return RightFolder.SelectedFile.Path;
 
 		return "";
 	}
@@ -606,7 +603,7 @@ public partial class MainWindow : Window
 
 	private void ToggleButtonMasterDetail_Click(object sender, RoutedEventArgs e)
 	{
-		if (ViewModel.FileVissible)
+		if (ViewModel.FileVisible)
 		{
 			CompareFiles();
 		}
@@ -775,6 +772,16 @@ public partial class MainWindow : Window
 		e.Handled = true;
 	}
 
+	private void LightMode_Click(object sender, RoutedEventArgs e)
+	{
+		ViewModel.Theme = Themes.Light;
+	}
+
+	private void DarkMode_Click(object sender, RoutedEventArgs e)
+	{
+		ViewModel.Theme = Themes.Dark;
+	}
+
 	#endregion
 
 	#region Commands
@@ -784,14 +791,19 @@ public partial class MainWindow : Window
 		this.Close();
 	}
 
-	private void CommnadOptions_Executed(object sender, ExecutedRoutedEventArgs e)
+	private void CommandOptions_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
 		// Store existing settings data in case the changes are canceled.
+		//var oldDarkThemeColors = AppSettings.DarkTheme.Clone();
+		//var oldLightThemeColors = AppSettings.LightTheme.Clone();
+
+		var oldTheme = ViewModel.Theme;
 		var oldCheckForUpdates = ViewModel.CheckForUpdates;
 		var oldDetectMovedLines = ViewModel.DetectMovedLines;
 		var oldFont = ViewModel.Font;
 		var oldFontSize = ViewModel.FontSize;
 		var oldTabSize = ViewModel.TabSize;
+
 		var oldDeletedBackground = ViewModel.DeletedBackground;
 		var oldDeletedForeground = ViewModel.DeletedForeground;
 		var oldFullMatchBackground = ViewModel.FullMatchBackground;
@@ -802,10 +814,9 @@ public partial class MainWindow : Window
 		var oldNewForeground = ViewModel.NewForeground;
 		var oldPartialMatchBackground = ViewModel.PartialMatchBackground;
 		var oldPartialMatchForeground = ViewModel.PartialMatchForeground;
-		var oldMovedFromBackground = ViewModel.MovedFromdBackground;
+		var oldMovedFromBackground = ViewModel.MovedFromBackground;
 		var oldMovedToBackground = ViewModel.MovedToBackground;
 		var oldSelectionBackground = ViewModel.SelectionBackground;
-
 		var oldLineNumberColor = ViewModel.LineNumberColor;
 		var oldCurrentDiffColor = ViewModel.CurrentDiffColor;
 		var oldSnakeColor = ViewModel.SnakeColor;
@@ -823,11 +834,13 @@ public partial class MainWindow : Window
 		else
 		{
 			// Options window was canceled, revert to old settings.
+			ViewModel.Theme = oldTheme;
 			ViewModel.CheckForUpdates = oldCheckForUpdates;
 			ViewModel.DetectMovedLines = oldDetectMovedLines;
 			ViewModel.Font = oldFont;
 			ViewModel.FontSize = oldFontSize;
 			ViewModel.TabSize = oldTabSize;
+
 			ViewModel.DeletedBackground = oldDeletedBackground;
 			ViewModel.DeletedForeground = oldDeletedForeground;
 			ViewModel.FullMatchBackground = oldFullMatchBackground;
@@ -838,10 +851,9 @@ public partial class MainWindow : Window
 			ViewModel.NewForeground = oldNewForeground;
 			ViewModel.PartialMatchBackground = oldPartialMatchBackground;
 			ViewModel.PartialMatchForeground = oldPartialMatchForeground;
-			ViewModel.MovedFromdBackground = oldMovedFromBackground;
+			ViewModel.MovedFromBackground = oldMovedFromBackground;
 			ViewModel.MovedToBackground = oldMovedToBackground;
 			ViewModel.SelectionBackground = oldSelectionBackground;
-
 			ViewModel.LineNumberColor = oldLineNumberColor;
 			ViewModel.CurrentDiffColor = oldCurrentDiffColor;
 			ViewModel.SnakeColor = oldSnakeColor;
@@ -970,12 +982,12 @@ public partial class MainWindow : Window
 
 	private void CommandPreviousDiff_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		MoveToPrevoiusDiff();
+		MoveToPreviousDiff();
 	}
 
 	private void CommandPreviousDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex > 0 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex > 0 && NoManualEdit;
 	}
 
 	private void CommandNextDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -985,7 +997,7 @@ public partial class MainWindow : Window
 
 	private void CommandNextDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
 	}
 
 	private void CommandCurrentDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -995,7 +1007,7 @@ public partial class MainWindow : Window
 
 	private void CommandCurrentDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex != -1 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex != -1 && NoManualEdit;
 	}
 
 	private void CommandFirstDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1005,7 +1017,7 @@ public partial class MainWindow : Window
 
 	private void CommandFirstDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex != 0 && fileDiffs.Count > 0 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex != 0 && fileDiffs.Count > 0 && NoManualEdit;
 	}
 
 	private void CommandLastDiff_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1015,7 +1027,7 @@ public partial class MainWindow : Window
 
 	private void CommandLastDiff_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FileVissible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
+		e.CanExecute = ViewModel.FileVisible && currentDiffIndex < fileDiffs.Count - 1 && NoManualEdit;
 	}
 
 	private void CommandNextFile_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1037,7 +1049,7 @@ public partial class MainWindow : Window
 
 	private void CommandNextFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FolderVissible && folderDiffItems.IndexOf(RightFolder.SelectedFile) < folderDiffItems.Count - 1; ;
+		e.CanExecute = ViewModel.FolderVisible && folderDiffItems.IndexOf(RightFolder.SelectedFile) < folderDiffItems.Count - 1; ;
 	}
 
 	private void CommandPreviousFile_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1059,7 +1071,7 @@ public partial class MainWindow : Window
 
 	private void CommandPreviousFile_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = ViewModel.FolderVissible && folderDiffItems.IndexOf(RightFolder.SelectedFile) > 0;
+		e.CanExecute = ViewModel.FolderVisible && folderDiffItems.IndexOf(RightFolder.SelectedFile) > 0;
 	}
 
 	private void CommandFind_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -1149,7 +1161,7 @@ public partial class MainWindow : Window
 
 	private void CommandCopyPathToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		Clipboard.SetText(Path.GetFullPath(GetFocusedPath(e.OriginalSource)));
+		WinApi.CopyTextToClipboard(Path.GetFullPath(GetFocusedPath(e.OriginalSource)));
 	}
 
 	private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)

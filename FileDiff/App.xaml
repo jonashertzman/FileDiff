@@ -8,9 +8,22 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Styles.xaml" />
+				<ResourceDictionary Source="Templates\ThemedColors.xaml" />
 				<ResourceDictionary Source="Graphics.xaml" />
+				<ResourceDictionary Source="Templates\ButtonTemplate.xaml" />
+				<ResourceDictionary Source="Templates\TextBoxTemplate.xaml" />
+				<ResourceDictionary Source="Templates\CheckBoxTemplate.xaml" />
+				<ResourceDictionary Source="Templates\ComboBoxTemplate.xaml" />
+				<ResourceDictionary Source="Templates\DataGridTemplate.xaml" />
+				<ResourceDictionary Source="Templates\MenuItemTemplate.xaml" />
+				<ResourceDictionary Source="Templates\MenuTemplate.xaml" />
+				<ResourceDictionary Source="Templates\ScrollbarTemplate.xaml" />
+				<ResourceDictionary Source="Templates\TabControlTemplate.xaml" />
+				<ResourceDictionary Source="Templates\ToolbarSeparatorTemplate.xaml" />
+				<ResourceDictionary Source="Templates\TreeViewTemplate.xaml" />
+				<ResourceDictionary Source="Styles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
+
 </Application>

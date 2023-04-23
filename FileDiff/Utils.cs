@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Windows.Media;
 
 namespace FileDiff;
 
@@ -41,6 +42,18 @@ static class Utils
 			return $"{timeSpan.Minutes}m {timeSpan.Seconds}s";
 		}
 		return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
+	}
+
+	public static SolidColorBrush ToBrush(this string colorString)
+	{
+		try
+		{
+			return new BrushConverter().ConvertFrom(colorString) as SolidColorBrush;
+		}
+		catch (Exception)
+		{
+			return null;
+		}
 	}
 
 }

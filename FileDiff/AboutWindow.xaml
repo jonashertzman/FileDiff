@@ -4,63 +4,59 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:filediff="clr-namespace:FileDiff"
 	Title="About"
+	d:DataContext="{d:DesignInstance Type=filediff:MainWindowViewModel}"
 	ResizeMode="NoResize"
 	TextOptions.TextFormattingMode="Display"
-	Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
+	Background="{Binding DialogBackground, FallbackValue=#FFF0F0F0}"
 	SizeToContent="WidthAndHeight"
 	mc:Ignorable="d">
 
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 	</Window.Resources>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<StackPanel Margin="10">
-			<ContentPresenter Width="150" Margin="5" ContentTemplate="{StaticResource CompareIcon}" />
-		</StackPanel>
-		<StackPanel Grid.Column="1" Margin="10">
-			<Label Content="{Binding ApplicationName, FallbackValue='File Diff X.X'}" Style="{StaticResource CondencedTextLabel}" FontSize="20" FontWeight="Bold" />
-			<StackPanel Orientation="Horizontal">
-				<Label Margin="5,5,0,5" Padding="2,2,0,2" Content="Build Number:  " Style="{StaticResource CondencedTextLabel}" />
-				<Label Margin="0,5,5,5" Padding="0,2,2,2" Content="{Binding BuildNumber, FallbackValue='12345'}" Style="{StaticResource CondencedTextLabel}" />
-				<Label Name="NewVersionLabel" Style="{StaticResource CondencedTextLabel}" Visibility="{Binding NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
-					<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff/blob/master/README.md">New Version Available</Hyperlink>
-				</Label>
+	<StackPanel>
+		<StackPanel Orientation="Horizontal" Background="{Binding WindowBackground, FallbackValue=White}">
+			<StackPanel Margin="10">
+				<ContentPresenter Width="150" Margin="5" ContentTemplate="{StaticResource CompareIcon}" />
 			</StackPanel>
-			<Label Content="Author:  Jonas Hertzman" Style="{StaticResource CondencedTextLabel}" />
-			<Label Content="License:  GNU General Public License v3" Style="{StaticResource CommonTextLabel}" />
-			<StackPanel Margin="7,2,7,7">
-				<TextBlock>If you like to support my work on free open-source software,</TextBlock>
+			<StackPanel Margin="10">
+				<Label Content="{Binding ApplicationName, FallbackValue='File Diff X.X'}" Style="{StaticResource CondencedTextLabel}" FontSize="20" FontWeight="Bold" />
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="feel free to " />
-					<TextBlock><Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="x">send feedback</Hyperlink></TextBlock>
-					<TextBlock Text=", have a look at the " />
-					<TextBlock>	<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff">source code</Hyperlink></TextBlock>
-					<TextBlock Text=", " />
+					<Label Margin="5,5,0,5" Padding="2,2,0,2" Content="Build Number:  " Style="{StaticResource CondencedTextLabel}" />
+					<Label Margin="0,5,5,5" Padding="0,2,2,2" Content="{Binding BuildNumber, FallbackValue='12345'}" Style="{StaticResource CondencedTextLabel}" />
+					<Label Name="NewVersionLabel" Style="{StaticResource CondencedTextLabel}" Visibility="{Binding NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+						<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff/blob/master/README.md">New Version Available</Hyperlink>
+					</Label>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="support me on " />
-					<TextBlock><Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://www.patreon.com/jonashertzman">Patreon</Hyperlink></TextBlock>
-					<TextBlock Text=" or " />
-					<TextBlock>	<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://ko-fi.com/jonashertzman">buy me a coffee</Hyperlink></TextBlock>
-					<TextBlock Text="." />
+				<Label Content="Author:  Jonas Hertzman" Style="{StaticResource CondencedTextLabel}" />
+				<Label Content="License:  GNU General Public License v3" />
+				<StackPanel Margin="7,2,7,7">
+					<TextBlock Style="{StaticResource StyledTextBlock}">If you like to support my work on free open-source software,</TextBlock>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="feel free to " Style="{StaticResource StyledTextBlock}" />
+						<TextBlock><Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="x">send feedback</Hyperlink></TextBlock>
+						<TextBlock Text=", have a look at the " Style="{StaticResource StyledTextBlock}" />
+						<TextBlock><Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileDiff">source code</Hyperlink></TextBlock>
+						<TextBlock Text=", " Style="{StaticResource StyledTextBlock}" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="support me on " Style="{StaticResource StyledTextBlock}" />
+						<TextBlock><Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://www.patreon.com/jonashertzman">Patreon</Hyperlink></TextBlock>
+						<TextBlock Text=" or " Style="{StaticResource StyledTextBlock}" />
+						<TextBlock><Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://ko-fi.com/jonashertzman">buy me a coffee</Hyperlink></TextBlock>
+						<TextBlock Text="." Style="{StaticResource StyledTextBlock}" />
+					</StackPanel>
 				</StackPanel>
 			</StackPanel>
 		</StackPanel>
-		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+		<Border BorderThickness="0,1,0,0">
 			<StackPanel Margin="10">
 				<Button HorizontalAlignment="Right" Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" />
 			</StackPanel>
-		</StackPanel>
-	</Grid>
+		</Border>
+	</StackPanel>
 </Window>

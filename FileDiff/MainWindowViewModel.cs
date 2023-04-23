@@ -160,7 +160,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 			{
 				return AppSettings.PartialMatchBackground;
 			}
-			return SystemColors.ControlBrush;
+			return AppSettings.DialogBackground;
 		}
 	}
 
@@ -197,33 +197,33 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.IgnoredFiles = value; OnPropertyChangedRepaint(nameof(IgnoredFiles)); }
 	}
 
-	public int MaxVerialcalScroll
+	public int MaxVerticalScroll
 	{
 		get
 		{
-			return Math.Max(maxLeftVerialcalScroll, maxRightVerialcalScroll);
+			return Math.Max(maxLeftVerticalScroll, maxRightVerticalScroll);
 		}
 	}
 
-	int maxLeftVerialcalScroll;
-	public int MaxLeftVerialcalScroll
+	int maxLeftVerticalScroll;
+	public int MaxLeftVerticalScroll
 	{
-		get { return maxLeftVerialcalScroll; }
-		set { maxLeftVerialcalScroll = value; OnPropertyChanged(nameof(MaxLeftVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		get { return maxLeftVerticalScroll; }
+		set { maxLeftVerticalScroll = value; OnPropertyChanged(nameof(MaxLeftVerticalScroll)); OnPropertyChanged(nameof(MaxVerticalScroll)); }
 	}
 
-	int maxRightVerialcalScroll;
-	public int MaxRightVerialcalScroll
+	int maxRightVerticalScroll;
+	public int MaxRightVerticalScroll
 	{
-		get { return maxRightVerialcalScroll; }
-		set { maxRightVerialcalScroll = value; OnPropertyChanged(nameof(MaxRightVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		get { return maxRightVerticalScroll; }
+		set { maxRightVerticalScroll = value; OnPropertyChanged(nameof(MaxRightVerticalScroll)); OnPropertyChanged(nameof(MaxVerticalScroll)); }
 	}
 
 	int visibleLines;
 	public int VisibleLines
 	{
 		get { return visibleLines; }
-		set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+		set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerticalScroll)); }
 	}
 
 	DiffRange currentDiff;
@@ -240,15 +240,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set
 		{
 			mode = value;
-			OnPropertyChangedRepaint(nameof(FileVissible));
-			OnPropertyChangedRepaint(nameof(FolderVissible));
+			OnPropertyChangedRepaint(nameof(FileVisible));
+			OnPropertyChangedRepaint(nameof(FolderVisible));
 			OnPropertyChangedRepaint(nameof(FolderRowHeight));
 			OnPropertyChangedRepaint(nameof(SplitterRowHeight));
 			OnPropertyChangedRepaint(nameof(FileRowHeight));
 		}
 	}
 
-	public bool FileVissible
+	public bool FileVisible
 	{
 		get
 		{
@@ -256,7 +256,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public bool FolderVissible
+	public bool FolderVisible
 	{
 		get
 		{
@@ -371,8 +371,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 			OnPropertyChanged(nameof(MasterDetail));
 			OnPropertyChanged(nameof(Mode));
 
-			OnPropertyChangedRepaint(nameof(FileVissible));
-			OnPropertyChangedRepaint(nameof(FolderVissible));
+			OnPropertyChangedRepaint(nameof(FileVisible));
+			OnPropertyChangedRepaint(nameof(FolderVisible));
 			OnPropertyChangedRepaint(nameof(FolderRowHeight));
 			OnPropertyChangedRepaint(nameof(SplitterRowHeight));
 			OnPropertyChangedRepaint(nameof(FileRowHeight));
@@ -398,7 +398,81 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	}
 
 
-	// Text colors
+	public Themes Theme
+	{
+		get { return AppSettings.Theme; }
+		set { AppSettings.Theme = value; OnPropertyChangedRepaint(null); } // Refresh all properties when changing theme
+	}
+
+	public bool LightTheme
+	{
+		get { return Theme == Themes.Light; }
+	}
+
+
+	// Folder diff colors
+	public Brush FolderFullMatchForeground
+	{
+		get { return AppSettings.FolderFullMatchForeground; }
+		set { AppSettings.FolderFullMatchForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderFullMatchForeground)); }
+	}
+
+	public Brush FolderFullMatchBackground
+	{
+		get { return AppSettings.FolderFullMatchBackground; }
+		set { AppSettings.FolderFullMatchBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderFullMatchBackground)); }
+	}
+
+	public Brush FolderPartialMatchForeground
+	{
+		get { return AppSettings.FolderPartialMatchForeground; }
+		set { AppSettings.FolderPartialMatchForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderPartialMatchForeground)); }
+	}
+
+	public Brush FolderPartialMatchBackground
+	{
+		get { return AppSettings.FolderPartialMatchBackground; }
+		set { AppSettings.FolderPartialMatchBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderPartialMatchBackground)); }
+	}
+
+	public Brush FolderDeletedForeground
+	{
+		get { return AppSettings.FolderDeletedForeground; }
+		set { AppSettings.FolderDeletedForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderDeletedForeground)); }
+	}
+
+	public Brush FolderDeletedBackground
+	{
+		get { return AppSettings.FolderDeletedBackground; }
+		set { AppSettings.FolderDeletedBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderDeletedBackground)); }
+	}
+
+	public Brush FolderNewForeground
+	{
+		get { return AppSettings.FolderNewForeground; }
+		set { AppSettings.FolderNewForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderNewForeground)); }
+	}
+
+	public Brush FolderNewBackground
+	{
+		get { return AppSettings.FolderNewBackground; }
+		set { AppSettings.FolderNewBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderNewBackground)); }
+	}
+
+	public Brush FolderIgnoredForeground
+	{
+		get { return AppSettings.FolderIgnoredForeground; }
+		set { AppSettings.FolderIgnoredForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderIgnoredForeground)); }
+	}
+
+	public Brush FolderIgnoredBackground
+	{
+		get { return AppSettings.FolderIgnoredBackground; }
+		set { AppSettings.FolderIgnoredBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(FolderIgnoredBackground)); }
+	}
+
+
+	// File diff colors
 	public Brush FullMatchForeground
 	{
 		get { return AppSettings.FullMatchForeground; }
@@ -459,10 +533,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.IgnoredBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
 	}
 
-	public Brush MovedFromdBackground
+	public Brush MovedFromBackground
 	{
-		get { return AppSettings.MovedFromdBackground; }
-		set { AppSettings.MovedFromdBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedFromdBackground)); }
+		get { return AppSettings.MovedFromBackground; }
+		set { AppSettings.MovedFromBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedFromBackground)); }
 	}
 
 	public Brush MovedToBackground
@@ -471,14 +545,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.MovedToBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedToBackground)); }
 	}
 
+
+	// Editor colors
 	public Brush SelectionBackground
 	{
 		get { return AppSettings.SelectionBackground; }
 		set { AppSettings.SelectionBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
 	}
 
-
-	// GUI colors
 	public Brush LineNumberColor
 	{
 		get { return AppSettings.LineNumberColor; }
@@ -495,6 +569,68 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		get { return AppSettings.CurrentDiffColor; }
 		set { AppSettings.CurrentDiffColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(CurrentDiffColor)); }
+	}
+
+
+	// UI colors
+	public Brush WindowForeground
+	{
+		get { return AppSettings.WindowForeground; }
+		set { AppSettings.WindowForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(WindowForeground)); }
+	}
+
+	public Brush DisabledForeground
+	{
+		get { return AppSettings.DisabledForeground; }
+		set { AppSettings.DisabledForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DisabledForeground)); }
+	}
+
+	public Brush WindowBackground
+	{
+		get { return AppSettings.WindowBackground; }
+		set { AppSettings.WindowBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(WindowBackground)); }
+	}
+
+	public Brush DialogBackground
+	{
+		get { return AppSettings.DialogBackground; }
+		set { AppSettings.DialogBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DialogBackground)); }
+	}
+
+	public Brush ControlLightBackground
+	{
+		get { return AppSettings.ControlLightBackground; }
+		set { AppSettings.ControlLightBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(ControlLightBackground)); }
+	}
+
+	public Brush ControlDarkBackground
+	{
+		get { return AppSettings.ControlDarkBackground; }
+		set { AppSettings.ControlDarkBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(ControlDarkBackground)); }
+	}
+
+	public Brush BorderForeground
+	{
+		get { return AppSettings.BorderForeground; }
+		set { AppSettings.BorderForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(BorderForeground)); }
+	}
+
+	public Brush BorderDarkForeground
+	{
+		get { return AppSettings.BorderDarkForeground; }
+		set { AppSettings.BorderDarkForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(BorderDarkForeground)); }
+	}
+
+	public Brush HighlightBackground
+	{
+		get { return AppSettings.HighlightBackground; }
+		set { AppSettings.HighlightBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HighlightBackground)); }
+	}
+
+	public Brush HighlightBorder
+	{
+		get { return AppSettings.HighlightBorder; }
+		set { AppSettings.HighlightBorder = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HighlightBorder)); }
 	}
 
 
