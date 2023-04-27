@@ -14,6 +14,7 @@ Download latest version **[HERE](https://jonashertzman.github.io/FileDiff/downlo
 - Combined master detail compare
 - Editable diffs
 - High DPI support
+- Dark mode
 
 ### Screen shots
 
@@ -30,4 +31,7 @@ Download latest version **[HERE](https://jonashertzman.github.io/FileDiff/downlo
 *Moved file section.*
 
 ![screen](docs/images/Screen4.png)  
-*Full DPI support.*
+*Full DPI support.* 
+
+![screen](docs/images/Screen6.png)  
+*Dark mode*
