@@ -1,4 +1,4 @@
-File Diff
+File Diff 1.5
 =========
 
 A visual file and directory diff tool.
