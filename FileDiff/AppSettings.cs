@@ -491,7 +491,7 @@ public static class AppSettings
 	}
 
 
-	// GUI colors
+	// UI colors
 	private static SolidColorBrush windowForeground = DefaultSettings.LightTheme.NormalText.ToBrush();
 	public static SolidColorBrush WindowForeground
 	{
@@ -702,6 +702,19 @@ public static class AppSettings
 		}
 	}
 
+	private static SolidColorBrush attentionBackground = DefaultSettings.LightTheme.AttentionBackground.ToBrush();
+	public static SolidColorBrush AttentionBackground
+	{
+		get { return attentionBackground; }
+		set
+		{
+			attentionBackground = value;
+			attentionBackground.Freeze();
+			CurrentTheme.AttentionBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(AttentionBackground));
+		}
+	}
+
 
 	public static double NameColumnWidth { get; internal set; } = 300;
 
@@ -828,7 +841,7 @@ public static class AppSettings
 			SnakeColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SnakeColor));
 			SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
 
-			// GUI colors
+			// UI colors
 			WindowForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NormalText));
 			DisabledForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DisabledText));
 
@@ -843,6 +856,8 @@ public static class AppSettings
 
 			HighlightBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBackground));
 			HighlightBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBorder));
+
+			AttentionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.AttentionBackground));
 		}
 		catch
 		{

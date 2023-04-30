@@ -133,7 +133,7 @@ public partial class OptionsWindow : Window
 
 		SelectionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SelectionBackground));
 
-		// GUI colors
+		// UI colors
 		WindowForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NormalText));
 		DisabledForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DisabledText));
 
@@ -148,6 +148,8 @@ public partial class OptionsWindow : Window
 
 		HighlightBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HighlightBackground));
 		HighlightBorder.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HighlightBorder));
+
+		AttentionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString((Default.AttentionBackground)));
 	}
 
 	private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
@@ -211,6 +213,22 @@ public partial class OptionsWindow : Window
 			}
 		}
 		e.Handled = false;
+	}
+
+	private void ColorHex_TextChanged(object sender, TextChangedEventArgs e)
+	{
+		if (selectedRectangle != null)
+		{
+			if (ColorHex.Text.ToBrush() != null)
+			{
+				ColorHex.Background = AppSettings.ControlLightBackground;
+				selectedRectangle.Fill = ColorHex.Text.ToBrush();
+			}
+			else
+			{
+				ColorHex.Background = AppSettings.AttentionBackground;
+			}
+		}
 	}
 
 	#endregion

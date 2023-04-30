@@ -68,8 +68,8 @@ public partial class MainWindow : Window
 		leftSelection = "";
 		ViewModel.LeftPath = ViewModel.LeftPath.Trim();
 		ViewModel.RightPath = ViewModel.RightPath.Trim();
-		//TextBoxLeftPath.Background = new SolidColorBrush(Colors.White);
-		//TextBoxRightPath.Background = new SolidColorBrush(Colors.White);
+		TextBoxLeftPath.Background = AppSettings.ControlLightBackground;
+		TextBoxRightPath.Background = AppSettings.ControlLightBackground;
 
 		BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
 		if (ViewModel.LeftPath == "")
@@ -103,7 +103,7 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				TextBoxRightPath.Background = AppSettings.AttentionBackground;
 			}
 		}
 		else if (Directory.Exists(ViewModel.LeftPath))
@@ -116,15 +116,15 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				TextBoxRightPath.Background = AppSettings.AttentionBackground;
 			}
 		}
 		else
 		{
-			//TextBoxLeftPath.Background = new SolidColorBrush(Colors.Pink);
+			TextBoxLeftPath.Background = AppSettings.AttentionBackground;
 			if (!(File.Exists(ViewModel.RightPath) || Directory.Exists(ViewModel.RightPath)))
 			{
-				//TextBoxRightPath.Background = new SolidColorBrush(Colors.Pink);
+				TextBoxRightPath.Background = AppSettings.AttentionBackground;
 			}
 		}
 	}

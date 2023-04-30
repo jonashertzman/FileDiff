@@ -633,6 +633,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.HighlightBorder = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HighlightBorder)); }
 	}
 
+	public Brush AttentionBackground
+	{
+		get { return AppSettings.AttentionBackground; }
+		set { AppSettings.AttentionBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(AttentionBackground)); }
+	}
+
 
 	// Font
 	public FontFamily Font

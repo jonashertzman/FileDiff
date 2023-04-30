@@ -122,6 +122,7 @@
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
+											<RowDefinition Height="Auto" MinHeight="20" />
 										</Grid.RowDefinitions>
 
 
@@ -251,6 +252,9 @@
 										<Label Grid.Row="28" Content="Highlight Border" />
 										<Rectangle x:Name="HighlightBorder" Grid.Row="28" Grid.Column="1" Margin="5" Fill="{Binding HighlightBorder, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
+										<Label Grid.Row="29" Content="Attention Background" />
+										<Rectangle x:Name="AttentionBackground" Grid.Row="29" Grid.Column="2" Margin="5" Fill="{Binding AttentionBackground, Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
+
 
 									</Grid>
 								</StackPanel>
@@ -280,7 +284,7 @@
 												<RowDefinition />
 											</Grid.RowDefinitions>
 
-											<TextBox Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" IsReadOnly="True" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
+											<TextBox Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" TextChanged="ColorHex_TextChanged" />
 
 											<Label Grid.Row="1" Content="R" />
 											<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />

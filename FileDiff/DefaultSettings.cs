@@ -50,7 +50,7 @@ public static class DefaultSettings
 		SnakeColor = "#FF383838",
 		SelectionBackground = "#320096D2",
 
-		// GUI colors
+		// UI colors
 		NormalText = "#FFD8D8D8",
 		DisabledText = "#FF888888",
 
@@ -65,6 +65,8 @@ public static class DefaultSettings
 
 		HighlightBackground = "#FF112E3C",
 		HighlightBorder = "#2F7999",
+
+		AttentionBackground = "#FF92413D",
 	};
 
 	internal static ColorTheme LightTheme { get; } = new ColorTheme()
@@ -110,7 +112,7 @@ public static class DefaultSettings
 		SnakeColor = "#FFD2D2D2",
 		SelectionBackground = "#320096D2",
 
-		// GUI colors
+		// UI colors
 		NormalText = "#FF000000",
 		DisabledText = "#FF888888",
 
@@ -125,6 +127,8 @@ public static class DefaultSettings
 
 		HighlightBackground = "#FFDCECFC",
 		HighlightBorder = "#FF7EB4EA",
+
+		AttentionBackground = "#FFFF9F9D",
 	};
 
 }
