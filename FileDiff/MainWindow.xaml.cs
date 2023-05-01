@@ -449,12 +449,12 @@ public partial class MainWindow : Window
 	{
 		if (result != -1)
 		{
-			//SearchBox.Background = new SolidColorBrush(Colors.White);
+			SearchBox.Background = AppSettings.ControlLightBackground;
 			CenterOnLine(result);
 		}
 		else
 		{
-			//SearchBox.Background = new SolidColorBrush(Colors.Pink);
+			SearchBox.Background = AppSettings.AttentionBackground;
 		}
 	}
 
