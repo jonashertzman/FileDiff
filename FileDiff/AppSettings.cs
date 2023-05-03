@@ -712,6 +712,14 @@ public static class AppSettings
 			attentionBackground.Freeze();
 			CurrentTheme.AttentionBackground = value.Color.ToString();
 			NotifyStaticPropertyChanged(nameof(AttentionBackground));
+			NotifyStaticPropertyChanged(nameof(AttentionBackgroundColor));
+		}
+	}
+	public static Color AttentionBackgroundColor
+	{
+		get
+		{
+			return attentionBackground.Color;
 		}
 	}
 

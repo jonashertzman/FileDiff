@@ -221,12 +221,12 @@ public partial class OptionsWindow : Window
 		{
 			if (ColorHex.Text.ToBrush() != null)
 			{
-				ColorHex.Background = AppSettings.ControlLightBackground;
+				ColorHex.Error = false;
 				selectedRectangle.Fill = ColorHex.Text.ToBrush();
 			}
 			else
 			{
-				ColorHex.Background = AppSettings.AttentionBackground;
+				ColorHex.Error = true;
 			}
 		}
 	}

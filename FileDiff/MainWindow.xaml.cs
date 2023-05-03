@@ -68,8 +68,8 @@ public partial class MainWindow : Window
 		leftSelection = "";
 		ViewModel.LeftPath = ViewModel.LeftPath.Trim();
 		ViewModel.RightPath = ViewModel.RightPath.Trim();
-		TextBoxLeftPath.Background = AppSettings.ControlLightBackground;
-		TextBoxRightPath.Background = AppSettings.ControlLightBackground;
+		TextBoxLeftPath.Error = false;
+		TextBoxRightPath.Error = false;
 
 		BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
 		if (ViewModel.LeftPath == "")
@@ -103,7 +103,7 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				TextBoxRightPath.Background = AppSettings.AttentionBackground;
+				TextBoxRightPath.Error = true;
 			}
 		}
 		else if (Directory.Exists(ViewModel.LeftPath))
@@ -116,15 +116,15 @@ public partial class MainWindow : Window
 			}
 			else
 			{
-				TextBoxRightPath.Background = AppSettings.AttentionBackground;
+				TextBoxRightPath.Error = true;
 			}
 		}
 		else
 		{
-			TextBoxLeftPath.Background = AppSettings.AttentionBackground;
+			TextBoxLeftPath.Error = true;
 			if (!(File.Exists(ViewModel.RightPath) || Directory.Exists(ViewModel.RightPath)))
 			{
-				TextBoxRightPath.Background = AppSettings.AttentionBackground;
+				TextBoxRightPath.Error = true;
 			}
 		}
 	}
@@ -449,12 +449,12 @@ public partial class MainWindow : Window
 	{
 		if (result != -1)
 		{
-			SearchBox.Background = AppSettings.ControlLightBackground;
+			SearchBox.Error = false;
 			CenterOnLine(result);
 		}
 		else
 		{
-			SearchBox.Background = AppSettings.AttentionBackground;
+			SearchBox.Error = true;
 		}
 	}
 

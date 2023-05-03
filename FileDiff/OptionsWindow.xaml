@@ -284,7 +284,7 @@
 												<RowDefinition />
 											</Grid.RowDefinitions>
 
-											<TextBox Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" TextChanged="ColorHex_TextChanged" />
+											<local:ErrorTextBox x:Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" TextChanged="ColorHex_TextChanged" />
 
 											<Label Grid.Row="1" Content="R" />
 											<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />

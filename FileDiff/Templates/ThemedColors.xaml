@@ -19,5 +19,7 @@
 	<SolidColorBrush x:Key="Theme.HighlightBackground" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#FFDCECFC}" />
 	<SolidColorBrush x:Key="Theme.HighlightBorder" Color="{Binding Path=(local:AppSettings.HighlightBorderColor), FallbackValue=#FF7EB4EA}" />
 
+	<SolidColorBrush x:Key="Theme.AttentionBackground" Color="{Binding Path=(local:AppSettings.AttentionBackgroundColor), FallbackValue=#FF7EB4EA}" />
+
 
 </ResourceDictionary>

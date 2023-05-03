@@ -66,7 +66,7 @@ public static class DefaultSettings
 		HighlightBackground = "#FF112E3C",
 		HighlightBorder = "#2F7999",
 
-		AttentionBackground = "#FF92413D",
+		AttentionBackground = "#FF5C2626",
 	};
 
 	internal static ColorTheme LightTheme { get; } = new ColorTheme()
