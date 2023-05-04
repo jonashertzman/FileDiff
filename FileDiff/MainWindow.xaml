@@ -557,7 +557,7 @@
 					</Grid.ColumnDefinitions>
 					<TextBlock x:Name="Statusbar" Grid.Column="0" Margin="6,3,3,3" d:Text="Status text" Text="" Style="{StaticResource StyledTextBlock}" />
 					<Border Grid.Column="1">
-						<TextBlock Margin="10,3,3,3" Text="{Binding LeftFileDescription, FallbackValue=UTF-8 (Windows)}" Background="{Binding EncodingBackground}" Style="{StaticResource StyledTextBlock}" />
+						<TextBlock Margin="10,3,0,3" Padding="3,0" Text="{Binding LeftFileDescription, FallbackValue=UTF-8 (Windows)}" Background="{Binding EncodingBackground}" Style="{StaticResource StyledTextBlock}" />
 					</Border>
 
 				</Grid>
@@ -658,7 +658,7 @@
 						<ColumnDefinition Width="28" />
 					</Grid.ColumnDefinitions>
 					<Border Grid.Column="1">
-						<TextBlock Margin="3" Text="{Binding RightFileDescription, FallbackValue=UTF-8 (Windows)}" Background="{Binding EncodingBackground}" Style="{StaticResource StyledTextBlock}" />
+						<TextBlock Margin="0,3" Padding="3,0" Text="{Binding RightFileDescription, FallbackValue=UTF-8 (Windows)}" Background="{Binding EncodingBackground}" Style="{StaticResource StyledTextBlock}" />
 					</Border>
 				</Grid>
 
