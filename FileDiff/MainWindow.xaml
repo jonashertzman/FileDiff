@@ -114,7 +114,7 @@
 							</StackPanel>
 							<Button.ToolTip>
 								<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-									<TextBlock Text="Switch to light mode" />
+									<TextBlock Text="Switch To Light Mode" />
 								</ToolTip>
 							</Button.ToolTip>
 						</Button>
@@ -125,7 +125,7 @@
 							</StackPanel>
 							<Button.ToolTip>
 								<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-									<TextBlock Text="Switch to dark mode" />
+									<TextBlock Text="Switch To Dark Mode" />
 								</ToolTip>
 							</Button.ToolTip>
 						</Button>
