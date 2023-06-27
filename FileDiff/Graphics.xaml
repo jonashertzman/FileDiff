@@ -6,7 +6,7 @@
 	<DataTemplate x:Key="CompareIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="60" Canvas.Top="20" Width="100" Height="140">
+				<Rectangle Canvas.Left="60" Canvas.Top="20" Width="100" Height="140" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="LightGreen" />
@@ -14,7 +14,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="0" Width="100" Height="140">
+				<Rectangle Canvas.Left="0" Canvas.Top="0" Width="100" Height="140" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="LightPink" />
@@ -343,7 +343,7 @@
 	<DataTemplate x:Key="ShowLineChangesIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="0" Canvas.Top="40" Width="160" Height="30">
+				<Rectangle Canvas.Left="0" Canvas.Top="40" Width="160" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFA9A9FF" />
@@ -351,7 +351,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="90" Width="160" Height="30">
+				<Rectangle Canvas.Left="0" Canvas.Top="90" Width="160" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFA9A9FF" />
@@ -359,7 +359,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="40" Canvas.Top="40" Width="60" Height="30">
+				<Rectangle Canvas.Left="40" Canvas.Top="40" Width="60" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="LightPink" />
@@ -367,7 +367,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="70" Canvas.Top="90" Width="60" Height="30">
+				<Rectangle Canvas.Left="70" Canvas.Top="90" Width="60" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FF81D181" />
@@ -382,7 +382,7 @@
 	<DataTemplate x:Key="DetectMovedLines">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="0" Canvas.Top="-10" Width="50" Height="40">
+				<Rectangle Canvas.Left="0" Canvas.Top="-10" Width="50" Height="40" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="LightPink" />
@@ -390,7 +390,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="40" Width="50" Height="30">
+				<Rectangle Canvas.Left="0" Canvas.Top="40" Width="50" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#777" />
@@ -398,7 +398,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="80" Width="50" Height="30">
+				<Rectangle Canvas.Left="0" Canvas.Top="80" Width="50" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#777" />
@@ -421,7 +421,7 @@
 						</PathGeometry>
 					</Path.Data>
 				</Path>
-				<Rectangle Canvas.Left="110" Canvas.Top="40" Width="50" Height="30">
+				<Rectangle Canvas.Left="110" Canvas.Top="40" Width="50" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#777" />
@@ -429,7 +429,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="110" Canvas.Top="80" Width="50" Height="30">
+				<Rectangle Canvas.Left="110" Canvas.Top="80" Width="50" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#777" />
@@ -437,7 +437,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="110" Canvas.Top="120" Width="50" Height="40">
+				<Rectangle Canvas.Left="110" Canvas.Top="120" Width="50" Height="40" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FF81D181" />
@@ -452,7 +452,7 @@
 	<DataTemplate x:Key="IgnoreWhiteSpaceIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="0" Canvas.Top="70" Width="40" Height="30">
+				<Rectangle Canvas.Left="0" Canvas.Top="70" Width="40" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#777" />
@@ -460,7 +460,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="60" Canvas.Top="70" Width="40" Height="30">
+				<Rectangle Canvas.Left="60" Canvas.Top="70" Width="40" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#777" />
@@ -468,7 +468,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="120" Canvas.Top="70" Width="40" Height="30">
+				<Rectangle Canvas.Left="120" Canvas.Top="70" Width="40" Height="30" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#777" />
@@ -518,7 +518,7 @@
 	<DataTemplate x:Key="MasterDetailIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="0" Canvas.Top="10" Width="160" Height="20">
+				<Rectangle Canvas.Left="0" Canvas.Top="10" Width="160" Height="20" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFA9A9FF" />
@@ -526,7 +526,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="40" Width="160" Height="20">
+				<Rectangle Canvas.Left="0" Canvas.Top="40" Width="160" Height="20" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="1,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFA9A9FF" />
@@ -534,7 +534,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="80" Width="75" Height="70">
+				<Rectangle Canvas.Left="0" Canvas.Top="80" Width="75" Height="70" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="LightPink" />
@@ -542,7 +542,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="85" Canvas.Top="80" Width="75" Height="70">
+				<Rectangle Canvas.Left="85" Canvas.Top="80" Width="75" Height="70" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="LightGreen" />
@@ -572,7 +572,7 @@
 						</PathGeometry>
 					</Path.Data>
 				</Path>
-				<Rectangle Canvas.Left="35" Canvas.Top="80" Width="90" Height="70">
+				<Rectangle Canvas.Left="35" Canvas.Top="80" Width="90" Height="70" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFE8CF6B" />
@@ -602,7 +602,7 @@
 						</PathGeometry>
 					</Path.Data>
 				</Path>
-				<Rectangle Canvas.Left="35" Canvas.Top="90" Width="90" Height="70">
+				<Rectangle Canvas.Left="35" Canvas.Top="90" Width="90" Height="70" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFE8CF6B" />
@@ -639,7 +639,7 @@
 						</PathGeometry>
 					</Path.Data>
 				</Path>
-				<Rectangle Canvas.Left="50" Canvas.Top="0" Width="70" Height="50">
+				<Rectangle Canvas.Left="50" Canvas.Top="0" Width="70" Height="50" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFE2E0FF" />
@@ -647,7 +647,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="20" Canvas.Top="70" Width="120" Height="80">
+				<Rectangle Canvas.Left="20" Canvas.Top="70" Width="120" Height="80" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="White" />
@@ -655,7 +655,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="70" Canvas.Top="80" Width="20" Height="60">
+				<Rectangle Canvas.Left="70" Canvas.Top="80" Width="20" Height="60" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="Gray" />
@@ -692,7 +692,7 @@
 						</PathGeometry>
 					</Path.Data>
 				</Path>
-				<Rectangle Canvas.Left="50" Canvas.Top="0" Width="70" Height="50">
+				<Rectangle Canvas.Left="50" Canvas.Top="0" Width="70" Height="50" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFE2E0FF" />
@@ -700,7 +700,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="20" Canvas.Top="70" Width="120" Height="80">
+				<Rectangle Canvas.Left="20" Canvas.Top="70" Width="120" Height="80" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="White" />
@@ -708,7 +708,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="50" Canvas.Top="80" Width="20" Height="60">
+				<Rectangle Canvas.Left="50" Canvas.Top="80" Width="20" Height="60" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="Gray" />
@@ -716,7 +716,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="90" Canvas.Top="80" Width="20" Height="60">
+				<Rectangle Canvas.Left="90" Canvas.Top="80" Width="20" Height="60" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="Gray" />
@@ -938,8 +938,8 @@
 	<DataTemplate x:Key="DesktopIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="0" Canvas.Top="20" Width="160" Height="120" Fill="#FF0078BF" />
-				<Rectangle Canvas.Left="10" Canvas.Top="30" Width="140" Height="80">
+				<Rectangle Canvas.Left="0" Canvas.Top="20" Width="160" Height="120" Fill="#FF0078BF" StrokeThickness="0" />
+				<Rectangle Canvas.Left="10" Canvas.Top="30" Width="140" Height="80" StrokeThickness="0">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FF1BA8FE" />
@@ -947,9 +947,9 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="10" Canvas.Top="120" Width="10" Height="10" Fill="White" />
-				<Rectangle Canvas.Left="120" Canvas.Top="120" Width="10" Height="10" Fill="White" />
-				<Rectangle Canvas.Left="140" Canvas.Top="120" Width="10" Height="10" Fill="White" />
+				<Rectangle Canvas.Left="10" Canvas.Top="120" Width="10" Height="10" Fill="White" StrokeThickness="0" />
+				<Rectangle Canvas.Left="120" Canvas.Top="120" Width="10" Height="10" Fill="White" StrokeThickness="0" />
+				<Rectangle Canvas.Left="140" Canvas.Top="120" Width="10" Height="10" Fill="White" StrokeThickness="0" />
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
@@ -987,13 +987,13 @@
 						</PathGeometry>
 					</Path.Data>
 				</Path>
-				<Rectangle Canvas.Left="30" Canvas.Top="20" Width="60" Height="40" Fill="#FF7C8695" />
-				<Rectangle Canvas.Left="40" Canvas.Top="30" Width="40" Height="20" Fill="#FFC1C6E0" />
-				<Rectangle Canvas.Left="100" Canvas.Top="50" Width="30" Height="30" Fill="#FF7587E2" />
-				<Rectangle Canvas.Left="30" Canvas.Top="70" Width="60" Height="10" Fill="#FF858585" />
-				<Rectangle Canvas.Left="30" Canvas.Top="90" Width="100" Height="10" Fill="#FFC3C3C3" />
-				<Rectangle Canvas.Left="30" Canvas.Top="110" Width="100" Height="10" Fill="#FF858585" />
-				<Rectangle Canvas.Left="30" Canvas.Top="130" Width="100" Height="10" Fill="#FFC3C3C3" />
+				<Rectangle Canvas.Left="30" Canvas.Top="20" Width="60" Height="40" Fill="#FF7C8695" StrokeThickness="0" />
+				<Rectangle Canvas.Left="40" Canvas.Top="30" Width="40" Height="20" Fill="#FFC1C6E0" StrokeThickness="0" />
+				<Rectangle Canvas.Left="100" Canvas.Top="50" Width="30" Height="30" Fill="#FF7587E2" StrokeThickness="0" />
+				<Rectangle Canvas.Left="30" Canvas.Top="70" Width="60" Height="10" Fill="#FF858585" StrokeThickness="0" />
+				<Rectangle Canvas.Left="30" Canvas.Top="90" Width="100" Height="10" Fill="#FFC3C3C3" StrokeThickness="0" />
+				<Rectangle Canvas.Left="30" Canvas.Top="110" Width="100" Height="10" Fill="#FF858585" StrokeThickness="0" />
+				<Rectangle Canvas.Left="30" Canvas.Top="130" Width="100" Height="10" Fill="#FFC3C3C3" StrokeThickness="0" />
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
