@@ -1298,7 +1298,8 @@ public class DiffControl : Control
 	{
 		Dispatcher.BeginInvoke(
 			DispatcherPriority.Loaded,
-			new Action(() => {
+			new Action(() =>
+			{
 				stopwatch.Stop();
 				Debug.Print($"Took {stopwatch.ElapsedMilliseconds} ms");
 			})
