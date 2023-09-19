@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FileDiff;
 
@@ -13,9 +14,10 @@ static class Unicode
 		NewlineMode newlineMode = NewlineMode.Windows;
 		bool endOfFileNewline = false;
 
-		byte[] bytes = new byte[10000];
+		var bytes = new byte[10000];
 		int bytesRead = 0;
 
+		// Check if the file ends with a newline character
 		using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
 		{
 			bytesRead = fileStream.Read(bytes, 0, bytes.Length);
@@ -74,26 +76,28 @@ static class Unicode
 			}
 		}
 
-
 		// Check what newline characters are used
-		for (int i = 0; i < bytesRead; i++)
+		MatchCollection allNewLines = Regex.Matches(File.ReadAllText(path, encoding), "(\r\n|\r|\n)");
+
+		HashSet<string> distinctNewLines = new();
+
+		foreach (Match match in allNewLines)
 		{
-			if (bytes[i] == '\n')
+			distinctNewLines.Add(match.Value);
+		}
+
+		if (distinctNewLines.Count > 1)
+		{
+			newlineMode = NewlineMode.Mixed;
+		}
+		else if (distinctNewLines.Count == 1)
+		{
+			newlineMode = distinctNewLines.ToArray()[0] switch
 			{
-				newlineMode = NewlineMode.Unix;
-				break;
-			}
-			else if (bytes[i] == '\r')
-			{
-				int newLineBytes = encoding == Encoding.Unicode || encoding == Encoding.BigEndianUnicode ? 2 : 1;
-				if (i < bytesRead - newLineBytes && bytes[i + newLineBytes] == '\n')
-				{
-					newlineMode = NewlineMode.Windows;
-					break;
-				}
-				newlineMode = NewlineMode.Mac;
-				break;
-			}
+				"\n" => NewlineMode.Unix,
+				"\r" => NewlineMode.Mac,
+				_ => NewlineMode.Windows,
+			};
 		}
 
 		return new FileEncoding(encoding, bom, newlineMode, endOfFileNewline);

@@ -24,6 +24,7 @@ public enum NewlineMode
 	Windows,
 	Unix,
 	Mac,
+	Mixed,
 }
 
 public enum Themes
