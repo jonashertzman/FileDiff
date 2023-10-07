@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
 
 namespace FileDiff;
 
@@ -9,8 +8,10 @@ public static class BackgroundCompare
 
 	#region Members
 
-	private static int progress;
 	internal static IProgress<int> progressHandler;
+
+	private static int progress;
+	private static int depth = 0;
 	private static DateTime startTime;
 	private static string leftRoot;
 	private static string rightRoot;
@@ -34,6 +35,7 @@ public static class BackgroundCompare
 	{
 		CompareCancelled = false;
 		progress = 0;
+		depth = 0;
 
 		startTime = DateTime.UtcNow;
 
@@ -277,12 +279,18 @@ public static class BackgroundCompare
 		if (CompareCancelled)
 			return;
 
+		depth++;
+
+		string indent = "".PadLeft(depth);
+		Debug.Print($"{indent}------ MatchLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
+
 		FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
 		// Single line matches and ranges containing only whitespace are in most cases false positives.
 		if (matchLength < 2 || WhitespaceRange(leftRange.GetRange(matchIndex, matchLength)))
 		{
 			MatchPartialLines(leftRange, rightRange);
+			depth--;
 			return;
 		}
 
@@ -307,10 +315,16 @@ public static class BackgroundCompare
 		{
 			MatchLines(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
 		}
+		depth--;
 	}
 
 	private static void MatchPartialLines(List<Line> leftRange, List<Line> rightRange)
 	{
+		if (CompareCancelled)
+			return;
+
+		depth++;
+
 		int matchingCharacters;
 		float bestMatchFraction = 0;
 		float matchFraction;
@@ -318,6 +332,10 @@ public static class BackgroundCompare
 		int bestRight = 0;
 
 		bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
+
+		string indent = "".PadLeft(depth);
+		Debug.Print($"{indent}------ MatchPartialLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
+
 
 		for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
 		{
@@ -338,9 +356,20 @@ public static class BackgroundCompare
 					continue;
 				}
 
-				matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
+				int shortLineLength = Math.Min(leftRange[leftIndex].TrimmedCharacters.Count, rightRange[rightIndex].TrimmedCharacters.Count);
+				int longLineLength = Math.Max(leftRange[leftIndex].TrimmedCharacters.Count, rightRange[rightIndex].TrimmedCharacters.Count);
+				float lengthFraction = (float)shortLineLength * 2 / (shortLineLength + longLineLength);
 
+				// The difference in line length large enough to make a comparison pointless, even a full partial match
+				// will result in a worse match than the current best match.
+				if (lengthFraction < bestMatchFraction)
+				{
+					continue;
+				}
+
+				matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
 				matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
+
 				if (matchFraction > bestMatchFraction)
 				{
 					bestMatchFraction = matchFraction;
@@ -374,6 +403,8 @@ public static class BackgroundCompare
 				HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
 			}
 
+			IncreaseProgress(2);
+
 			if (bestLeft > 0 && bestRight > 0)
 			{
 				MatchPartialLines(leftRange.GetRange(0, bestLeft), rightRange.GetRange(0, bestRight));
@@ -384,14 +415,13 @@ public static class BackgroundCompare
 				MatchPartialLines(leftRange.GetRange(bestLeft + 1, leftRange.Count - (bestLeft + 1)), rightRange.GetRange(bestRight + 1, rightRange.Count - (bestRight + 1)));
 			}
 		}
+		depth--;
 	}
 
 	private static void HighlightCharacterMatches(Line leftLine, Line rightLine, List<char> leftRange, List<char> rightRange)
 	{
 		if (CompareCancelled)
 			return;
-
-		IncreaseProgress(2);
 
 		FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
