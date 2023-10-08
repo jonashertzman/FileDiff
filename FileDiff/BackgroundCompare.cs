@@ -330,8 +330,6 @@ public static class BackgroundCompare
 		int bestLeft = 0;
 		int bestRight = 0;
 
-		bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
-
 		Debug.Print($"{"".PadLeft(depth)}------ MatchPartialLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
 
 
@@ -365,8 +363,12 @@ public static class BackgroundCompare
 					continue;
 				}
 
-				matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters, lastLine);
-				matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
+				if (!leftRange[leftIndex].MatchFactions.TryGetValue(rightRange[rightIndex].LineIndex, out matchFraction))
+				{
+					matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters);
+					matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
+					leftRange[leftIndex].MatchFactions.Add(rightRange[rightIndex].LineIndex, matchFraction);
+				}
 
 				if (matchFraction > bestMatchFraction)
 				{
@@ -634,36 +636,26 @@ public static class BackgroundCompare
 		return items;
 	}
 
-	private static int CountMatchingCharacters(List<char> leftRange, List<char> rightRange, bool lastLine)
+	private static int CountMatchingCharacters(List<char> leftRange, List<char> rightRange)
 	{
 		if (CompareCancelled)
 			return 0;
 
 		FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
-		if (lastLine)
+		if (matchLength == 0)
 		{
-			if (matchLength == 0)
-			{
-				return 0;
-			}
-		}
-		else
-		{
-			if (matchLength < AppSettings.CharacterMatchThreshold)
-			{
-				return 0;
-			}
+			return 0;
 		}
 
 		if (matchIndex > 0 && matchingIndex > 0)
 		{
-			matchLength += CountMatchingCharacters(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex), lastLine);
+			matchLength += CountMatchingCharacters(leftRange.GetRange(0, matchIndex), rightRange.GetRange(0, matchingIndex));
 		}
 
 		if (leftRange.Count > matchIndex + matchLength && rightRange.Count > matchingIndex + matchLength)
 		{
-			matchLength += CountMatchingCharacters(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)), lastLine);
+			matchLength += CountMatchingCharacters(leftRange.GetRange(matchIndex + matchLength, leftRange.Count - (matchIndex + matchLength)), rightRange.GetRange(matchingIndex + matchLength, rightRange.Count - (matchingIndex + matchLength)));
 		}
 
 		return matchLength;

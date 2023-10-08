@@ -107,6 +107,8 @@ public class Line
 
 	public int? MatchingLineIndex { get; set; }
 
+	public Dictionary<int?, float> MatchFactions { get; } = new();
+
 	private TextState type;
 	public TextState Type
 	{
