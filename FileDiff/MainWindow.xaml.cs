@@ -24,8 +24,11 @@ public partial class MainWindow : Window
 
 	DiffControl activeDiff;
 
-	string rightSelection = "";
 	string leftSelection = "";
+	string rightSelection = "";
+
+	List<Line> canceledLeftLines = null;
+	List<Line> canceledRightLines = null;
 
 	readonly DispatcherTimer progressTimer = new DispatcherTimer();
 
@@ -198,6 +201,9 @@ public partial class MainWindow : Window
 			ProgressBarCompare.Value = 0;
 			ProgressBarCompare.Maximum = leftLines.Count + rightLines.Count;
 
+			canceledLeftLines = leftLines;
+			canceledRightLines = rightLines;
+
 			BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
 			Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
 
@@ -226,10 +232,13 @@ public partial class MainWindow : Window
 		}
 		else
 		{
-			ViewModel.LeftFile = new ObservableCollection<Line>();
-			ViewModel.RightFile = new ObservableCollection<Line>();
+			ViewModel.LeftFile = new ObservableCollection<Line>(canceledLeftLines);
+			ViewModel.RightFile = new ObservableCollection<Line>(canceledRightLines);
 			Statusbar.Text = $"Compare cancelled";
 		}
+
+		canceledLeftLines = null;
+		canceledRightLines = null;
 
 		LeftDiff.Focus();
 		InitNavigationState();

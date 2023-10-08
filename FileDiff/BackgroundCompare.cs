@@ -420,9 +420,6 @@ public static class BackgroundCompare
 
 	private static void HighlightCharacterMatches(Line leftLine, Line rightLine, List<char> leftRange, List<char> rightRange)
 	{
-		if (CompareCancelled)
-			return;
-
 		FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
 		bool matchTooShort = matchLength == 0;
