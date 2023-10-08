@@ -281,8 +281,7 @@ public static class BackgroundCompare
 
 		depth++;
 
-		string indent = "".PadLeft(depth);
-		Debug.Print($"{indent}------ MatchLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
+		Debug.Print($"{"".PadLeft(depth)}------ MatchLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
 
 		FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
 
@@ -333,8 +332,7 @@ public static class BackgroundCompare
 
 		bool lastLine = leftRange.Count == 1 || rightRange.Count == 1;
 
-		string indent = "".PadLeft(depth);
-		Debug.Print($"{indent}------ MatchPartialLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
+		Debug.Print($"{"".PadLeft(depth)}------ MatchPartialLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
 
 
 		for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
