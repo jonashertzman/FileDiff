@@ -559,7 +559,7 @@ public static class BackgroundCompare
 				}
 				else
 				{
-					MatchDirectories(leftItem.Name == "" ? null : Path.Combine(FixRootPath(leftPath), leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(FixRootPath(rightPath), rightItem.Name), rightItem.Children, level + 1);
+					MatchDirectories(leftItem.Name == "" ? null : Path.Combine(Utils.FixRootPath(leftPath), leftItem.Name), leftItem.Children, rightItem.Name == "" ? null : Path.Combine(Utils.FixRootPath(rightPath), rightItem.Name), rightItem.Children, level + 1);
 					foreach (FileItem child in leftItem.Children)
 					{
 						child.Parent = leftItem;
@@ -610,7 +610,7 @@ public static class BackgroundCompare
 
 	private static List<FileItem> SearchDirectory(string path, int level)
 	{
-		path = FixRootPath(path);
+		path = Utils.FixRootPath(path);
 		List<FileItem> items = new List<FileItem>();
 
 		IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
@@ -759,16 +759,6 @@ public static class BackgroundCompare
 	{
 		progress += amount;
 		progressHandler.Report(progress);
-	}
-
-	private static string FixRootPath(string path)
-	{
-		// Directory.GetDirectories, Directory.GetFiles and Path.Combine does not work on root paths without trailing backslashes.
-		if (path.EndsWith(":"))
-		{
-			return path += "\\";
-		}
-		return path;
 	}
 
 	private static bool DirectoryIsIgnored(string directoryName)

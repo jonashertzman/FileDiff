@@ -215,7 +215,7 @@ public partial class BrowseFolderWindow : Window
 
 		if (!string.IsNullOrWhiteSpace(SelectedPath))
 		{
-			SelectedPath = Path.GetFullPath(SelectedPath);
+			SelectedPath = Path.GetFullPath(Utils.FixRootPath(SelectedPath));
 			ExpandAndSelect(SelectedPath);
 		}
 	}
