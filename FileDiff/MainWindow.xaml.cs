@@ -74,10 +74,13 @@ public partial class MainWindow : Window
 		TextBoxLeftPath.Error = false;
 		TextBoxRightPath.Error = false;
 
-		BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
+		bool? firstResult = true;
+
 		if (ViewModel.LeftPath == "")
 		{
+			BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
 			browseLeft.ShowDialog();
+			firstResult = browseLeft.DialogResult;
 
 			if (browseLeft.DialogResult == true)
 			{
@@ -85,7 +88,7 @@ public partial class MainWindow : Window
 			}
 		}
 
-		if (ViewModel.RightPath == "" && browseLeft.DialogResult != false)
+		if (ViewModel.RightPath == "" && firstResult != false)
 		{
 			BrowseFolderWindow browseRight = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Right Path" };
 			browseRight.ShowDialog();
