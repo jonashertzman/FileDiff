@@ -92,7 +92,7 @@ public partial class BrowseFolderWindow : Window
 		{
 			foreach (TreeViewItem item in parent)
 			{
-				string subpath = item.Tag is DriveInfo ? ((DriveInfo)item.Tag).Name.TrimEnd('\\') : (string)item.Header;
+				string subpath = item.Tag is DriveInfo info ? info.Name.TrimEnd('\\') : (string)item.Header;
 
 				if (subpath.Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
 				{

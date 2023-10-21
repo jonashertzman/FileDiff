@@ -284,19 +284,19 @@
 												<RowDefinition />
 											</Grid.RowDefinitions>
 
-											<local:ErrorTextBox x:Name="ColorHex" Grid.ColumnSpan="2" Text="#FFAA2288" TextChanged="ColorHex_TextChanged" />
+											<local:ErrorTextBox x:Name="ColorHex" Grid.ColumnSpan="2" Margin="5" Text="#FFAA2288" TextChanged="ColorHex_TextChanged" />
 
 											<Label Grid.Row="1" Content="R" />
-											<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+											<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" BorderBrush="Transparent" BorderThickness="1" />
 
 											<Label Grid.Row="2" Content="G" />
-											<Slider Name="SliderG" Grid.Row="2" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+											<Slider Name="SliderG" Grid.Row="2" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" BorderBrush="Transparent" BorderThickness="1" />
 
 											<Label Grid.Row="3" Content="B" />
-											<Slider Name="SliderB" Grid.Row="3" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+											<Slider Name="SliderB" Grid.Row="3" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" BorderBrush="Transparent" BorderThickness="1" />
 
 											<Label Name="LabelA" Grid.Row="4" Content="A" />
-											<Slider Name="SliderA" Grid.Row="4" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+											<Slider Name="SliderA" Grid.Row="4" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" BorderBrush="Transparent" BorderThickness="1" />
 
 										</Grid>
 									</Border>
