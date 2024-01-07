@@ -63,7 +63,7 @@ public class Line
 
 	public string TrimmedText { get; private set; }
 
-	public ObservableCollection<TextSegment> TextSegments { get; private set; } = new ObservableCollection<TextSegment>();
+	public ObservableCollection<TextSegment> TextSegments { get; private set; } = [];
 
 	public bool IsWhitespaceLine { get; private set; }
 
@@ -74,12 +74,7 @@ public class Line
 		{
 			if (characters == null)
 			{
-				characters = new List<char>();
-
-				foreach (char c in text.ToCharArray())
-				{
-					characters.Add(c);
-				}
+				characters = [.. text.ToCharArray()];
 			}
 			return characters;
 		}
@@ -92,12 +87,7 @@ public class Line
 		{
 			if (trimmedCharacters == null)
 			{
-				trimmedCharacters = new List<char>();
-
-				foreach (char c in TrimmedText.ToCharArray())
-				{
-					trimmedCharacters.Add(c);
-				}
+				trimmedCharacters = [.. TrimmedText.ToCharArray()];
 			}
 			return trimmedCharacters;
 		}
@@ -107,7 +97,7 @@ public class Line
 
 	public int? MatchingLineIndex { get; set; }
 
-	public Dictionary<int?, float> MatchFactions { get; } = new();
+	public Dictionary<int?, float> MatchFactions { get; } = [];
 
 	private TextState type;
 	public TextState Type
