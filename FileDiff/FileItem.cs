@@ -48,7 +48,7 @@ public class FileItem
 
 	public FileItem Parent { get; set; }
 
-	public ObservableCollection<FileItem> Children { get; set; } = new ObservableCollection<FileItem>();
+	public ObservableCollection<FileItem> Children { get; set; } = [];
 
 	public FileItem CorrespondingItem { get; set; }
 

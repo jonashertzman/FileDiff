@@ -77,7 +77,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { guiFrozen = value; OnPropertyChanged(nameof(GuiFrozen)); }
 	}
 
-	ObservableCollection<Line> leftFile = new ObservableCollection<Line>();
+	ObservableCollection<Line> leftFile = [];
 	public ObservableCollection<Line> LeftFile
 	{
 		get { return leftFile; }
@@ -118,7 +118,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	}
 
 
-	ObservableCollection<Line> rightFile = new ObservableCollection<Line>();
+	ObservableCollection<Line> rightFile = [];
 	public ObservableCollection<Line> RightFile
 	{
 		get { return rightFile; }
@@ -171,14 +171,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { editMode = value; OnPropertyChanged(nameof(EditMode)); }
 	}
 
-	ObservableCollection<FileItem> leftFolder = new ObservableCollection<FileItem>();
+	ObservableCollection<FileItem> leftFolder = [];
 	public ObservableCollection<FileItem> LeftFolder
 	{
 		get { return leftFolder; }
 		set { leftFolder = value; OnPropertyChangedRepaint(nameof(LeftFolder)); }
 	}
 
-	ObservableCollection<FileItem> rightFolder = new ObservableCollection<FileItem>();
+	ObservableCollection<FileItem> rightFolder = [];
 	public ObservableCollection<FileItem> RightFolder
 	{
 		get { return rightFolder; }
@@ -693,14 +693,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 	public void Clear()
 	{
-		LeftFile = new ObservableCollection<Line>();
+		LeftFile = [];
 		LeftFileEncoding = null;
 
-		RightFile = new ObservableCollection<Line>();
+		RightFile = [];
 		RightFileEncoding = null;
 
-		LeftFolder = new ObservableCollection<FileItem>();
-		RightFolder = new ObservableCollection<FileItem>();
+		LeftFolder = [];
+		RightFolder = [];
 	}
 
 	#endregion

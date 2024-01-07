@@ -15,7 +15,7 @@ public class TreeControl : Control
 	private double itemHeight;
 	private double dpiScale = 0;
 
-	private List<FileItem> visibleItems = new List<FileItem>();
+	private List<FileItem> visibleItems = [];
 
 	#endregion
 
@@ -376,7 +376,7 @@ public class TreeControl : Control
 			}
 		}
 
-		visibleItems = new List<FileItem>();
+		visibleItems = [];
 		FindVisibleItems(Lines, visibleItems);
 	}
 

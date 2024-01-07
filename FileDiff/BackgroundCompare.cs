@@ -225,7 +225,7 @@ public static class BackgroundCompare
 
 	private static List<List<Line>> FindStateRanges(List<Line> lines, TextState findState)
 	{
-		List<List<Line>> ranges = new List<List<Line>>();
+		List<List<Line>> ranges = [];
 
 		List<Line> newList = null;
 
@@ -235,7 +235,7 @@ public static class BackgroundCompare
 			{
 				if (newList == null)
 				{
-					newList = new List<Line>();
+					newList = [];
 				}
 				newList.Add(line);
 			}
@@ -266,8 +266,8 @@ public static class BackgroundCompare
 
 		startTime = DateTime.UtcNow;
 
-		ObservableCollection<FileItem> leftItems = new ObservableCollection<FileItem>();
-		ObservableCollection<FileItem> rightItems = new ObservableCollection<FileItem>();
+		ObservableCollection<FileItem> leftItems = [];
+		ObservableCollection<FileItem> rightItems = [];
 
 		MatchDirectories(leftPath, leftItems, rightPath, rightItems, 1);
 
@@ -500,7 +500,7 @@ public static class BackgroundCompare
 
 		// Sorted dictionary holding matched pairs of files and folders in the current directory.
 		// Folders are prefixed with "*" to not get conflict between a file named "X" to the left, and a folder named "X" to the right.
-		SortedDictionary<string, FileItemPair> allItems = new SortedDictionary<string, FileItemPair>();
+		SortedDictionary<string, FileItemPair> allItems = [];
 
 		if (leftPath != null)
 		{
@@ -611,7 +611,7 @@ public static class BackgroundCompare
 	private static List<FileItem> SearchDirectory(string path, int level)
 	{
 		path = Utils.FixRootPath(path);
-		List<FileItem> items = new List<FileItem>();
+		List<FileItem> items = [];
 
 		IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
 		IntPtr findHandle = WinApi.FindFirstFile(Path.Combine(path, "*"), out WIN32_FIND_DATA findData);
@@ -665,8 +665,8 @@ public static class BackgroundCompare
 	{
 		int rightIndex = 0;
 
-		List<Line> newLeft = new List<Line>();
-		List<Line> newRight = new List<Line>();
+		List<Line> newLeft = [];
+		List<Line> newRight = [];
 
 		for (int leftIndex = 0; leftIndex < leftLines.Count; leftIndex++)
 		{

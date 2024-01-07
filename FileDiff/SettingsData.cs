@@ -44,8 +44,8 @@ public class SettingsData
 	public double FolderRowHeight { get; set; } = 300;
 	public WindowState WindowState { get; set; }
 
-	public ObservableCollection<TextAttribute> IgnoredFolders { get; set; } = new ObservableCollection<TextAttribute>();
+	public ObservableCollection<TextAttribute> IgnoredFolders { get; set; } = [];
 
-	public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();
+	public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = [];
 
 }

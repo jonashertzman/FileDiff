@@ -79,7 +79,7 @@ static class Unicode
 		// Check what newline characters are used
 		MatchCollection allNewLines = Regex.Matches(File.ReadAllText(path, encoding), "(\r\n|\r|\n)");
 
-		HashSet<string> distinctNewLines = new();
+		HashSet<string> distinctNewLines = [];
 
 		foreach (Match match in allNewLines)
 		{

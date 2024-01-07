@@ -15,9 +15,9 @@ public partial class MainWindow : Window
 
 	MainWindowViewModel ViewModel { get; } = new MainWindowViewModel();
 
-	List<FileItem> folderDiffItems = new List<FileItem>();
+	List<FileItem> folderDiffItems = [];
 
-	List<DiffRange> fileDiffs = new List<DiffRange>();
+	List<DiffRange> fileDiffs = [];
 	int currentDiffIndex = -1;
 
 	bool renderComplete = false;
@@ -165,7 +165,7 @@ public partial class MainWindow : Window
 		{
 			if (File.Exists(leftPath))
 			{
-				leftLines = new List<Line>();
+				leftLines = [];
 				leftSelection = leftPath;
 				ViewModel.LeftFileEncoding = Unicode.GetEncoding(leftPath);
 				ViewModel.LeftFileDirty = false;
@@ -179,7 +179,7 @@ public partial class MainWindow : Window
 
 			if (File.Exists(rightPath))
 			{
-				rightLines = new List<Line>();
+				rightLines = [];
 				rightSelection = rightPath;
 				ViewModel.RightFileEncoding = Unicode.GetEncoding(rightPath);
 				ViewModel.RightFileDirty = false;
@@ -214,8 +214,8 @@ public partial class MainWindow : Window
 		}
 		else
 		{
-			ViewModel.LeftFile = leftLines == null ? new ObservableCollection<Line>() : new ObservableCollection<Line>(leftLines);
-			ViewModel.RightFile = rightLines == null ? new ObservableCollection<Line>() : new ObservableCollection<Line>(rightLines);
+			ViewModel.LeftFile = leftLines == null ? [] : new ObservableCollection<Line>(leftLines);
+			ViewModel.RightFile = rightLines == null ? [] : new ObservableCollection<Line>(rightLines);
 			InitNavigationState();
 		}
 	}
@@ -293,14 +293,14 @@ public partial class MainWindow : Window
 			ViewModel.RightFolder = task.Result.Item2;
 			Statusbar.Text = $"Compare time {Utils.TimeSpanToShortString(task.Result.Item3)}";
 
-			folderDiffItems = new List<FileItem>();
+			folderDiffItems = [];
 			GetFolderDiffItems(ViewModel.RightFolder, folderDiffItems);
 
 		}
 		else
 		{
-			ViewModel.LeftFile = new ObservableCollection<Line>();
-			ViewModel.RightFile = new ObservableCollection<Line>();
+			ViewModel.LeftFile = [];
+			ViewModel.RightFile = [];
 			Statusbar.Text = $"Compare cancelled";
 		}
 
@@ -329,7 +329,7 @@ public partial class MainWindow : Window
 
 	private void UpdateDiffRanges()
 	{
-		fileDiffs = new List<DiffRange>();
+		fileDiffs = [];
 
 		DiffRange diffRange = null;
 
