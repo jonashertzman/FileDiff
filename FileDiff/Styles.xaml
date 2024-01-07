@@ -127,16 +127,38 @@
 		</Style.Triggers>
 	</Style>
 
-	<!--<Style TargetType="ToolTip">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="ToolTip">
-					<Border BorderBrush="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" BorderThickness="1" Background="{Binding Path=(local:AppSettings.DialogBackground), FallbackValue=#FFF0F0F0}">
-						<ContentPresenter Margin="3" />
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>-->
+	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+		<Setter Property="CanUserReorderColumns" Value="False" />
+		<Setter Property="CanUserResizeColumns" Value="False" />
+		<Setter Property="AutoGenerateColumns" Value="False" />
+		<Setter Property="SelectionMode" Value="Single" />
+		<Setter Property="RowHeaderWidth" Value="0" />
+		<Setter Property="CanUserResizeRows" Value="False" />
+	</Style>
+
+	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+		<Setter Property="BorderThickness" Value="2" />
+		<Setter Property="Padding" Value="5,3" />
+		<Style.Triggers>
+			<Trigger Property="DataGridCell.IsSelected" Value="True">
+				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
+				<Setter Property="BorderBrush" Value="{StaticResource Theme.HighlightBackground}" />
+			</Trigger>
+			<Trigger Property="DataGridCell.IsFocused" Value="False">
+				<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
+				<Setter Property="BorderBrush" Value="{StaticResource Theme.ControlLight}" />
+			</Trigger>
+			<Trigger Property="DataGridCell.IsFocused" Value="True">
+				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style x:Key="DataCellTextbox" TargetType="TextBox">
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
+	</Style>
 
 </ResourceDictionary>
