@@ -437,7 +437,7 @@ public partial class MainWindow : Window
 
 	private void LoadSettings()
 	{
-		AppSettings.ReadSettingsFromDisk();
+		AppSettings.LoadSettings();
 
 		this.Left = AppSettings.PositionLeft;
 		this.Top = AppSettings.PositionTop;

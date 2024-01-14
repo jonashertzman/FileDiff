@@ -11,7 +11,7 @@ public static class DefaultSettings
 	{
 		// Folder diff colors
 		FolderFullMatchForeground = "#FFD8D8D8",
-		FolderFullMatchBackground = "#1B1B1B",
+		FolderFullMatchBackground = "#FF1B1B1B",
 
 		FolderPartialMatchForeground = "#FF9698FF",
 		FolderPartialMatchBackground = "#FF2B293A",
@@ -27,7 +27,7 @@ public static class DefaultSettings
 
 		// File diff colors
 		FullMatchForeground = "#FFD8D8D8",
-		FullMatchBackground = "#1B1B1B",
+		FullMatchBackground = "#FF1B1B1B",
 
 		PartialMatchForeground = "#FF9698FF",
 		PartialMatchBackground = "#FF2B293A",
@@ -64,7 +64,7 @@ public static class DefaultSettings
 		BorderDark = "#FF595959",
 
 		HighlightBackground = "#FF112E3C",
-		HighlightBorder = "#2F7999",
+		HighlightBorder = "#FF2F7999",
 
 		AttentionBackground = "#FF5C2626",
 	};

@@ -761,34 +761,55 @@ public static class AppSettings
 
 	#region Methods
 
-	internal static void ReadSettingsFromDisk()
+	internal static void LoadSettings()
+	{
+		SettingsData storedSettings = ReadSettingsFromDisk();
+
+		if (storedSettings != null)
+		{
+			MergeSettings(Settings, storedSettings);
+		}
+
+		UpdateCachedSettings();
+	}
+
+	private static void MergeSettings(object source, object addition)
+	{
+		foreach (var property in addition.GetType().GetProperties())
+		{
+			if (property.PropertyType.Name == nameof(ColorTheme))
+			{
+				MergeSettings(property.GetValue(source), property.GetValue(addition));
+			}
+			else
+			{
+				if (property.GetValue(addition) != null)
+				{
+					property.SetValue(source, property.GetValue(addition));
+				}
+			}
+		}
+	}
+
+	private static SettingsData ReadSettingsFromDisk()
 	{
 		string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SETTINGS_FILE_NAME);
 		DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
 
 		if (File.Exists(settingsPath))
 		{
-			using XmlReader xmlReader = XmlReader.Create(settingsPath);
+			using var xmlReader = XmlReader.Create(settingsPath);
 			try
 			{
-				Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
+				return (SettingsData)xmlSerializer.ReadObject(xmlReader);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(e.Message, "Error Parsing Settings File", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
-		if (Settings == null)
-		{
-			Settings = new SettingsData();
-		}
-
-		// Replace null values that was not present in the serialized settings
-		Settings.DarkTheme.SetDefaultsIfNull(DefaultSettings.DarkTheme);
-		Settings.LightTheme.SetDefaultsIfNull(DefaultSettings.LightTheme);
-
-		UpdateCachedSettings();
+		return null;
 	}
 
 	internal static void WriteSettingsToDisk()
