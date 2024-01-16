@@ -692,7 +692,7 @@
 		<!--  Compare Progress  -->
 		<Grid Background="#00000000" Visibility="{Binding GuiFrozen, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue='Hidden'}" Cursor="Wait">
 			<!--  Workaround to not fuckup the cleartype rendering  -->
-			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Visibility, ElementName=ProgressPanel}" Background="{Binding WindowBackground, FallbackValue=White}">
+			<Border Width="{Binding ActualWidth, ElementName=ProgressPanel}" Height="{Binding ActualHeight, ElementName=ProgressPanel}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding Visibility, ElementName=ProgressPanel}" Background="{StaticResource Theme.Window}">
 				<Border.Effect>
 					<DropShadowEffect BlurRadius="25" ShadowDepth="0" Opacity=".35" />
 				</Border.Effect>
