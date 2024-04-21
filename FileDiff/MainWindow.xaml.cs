@@ -47,6 +47,8 @@ public partial class MainWindow : Window
 
 		SearchPanel.Visibility = Visibility.Collapsed;
 		activeDiff = LeftDiff;
+
+		Log.mainWindow = this;
 	}
 
 	#endregion
@@ -1204,4 +1206,8 @@ public partial class MainWindow : Window
 
 	#endregion
 
+	private void Button_Click(object sender, RoutedEventArgs e)
+	{
+		File.ReadAllBytes("dfsfssfdsfds");
+	}
 }
