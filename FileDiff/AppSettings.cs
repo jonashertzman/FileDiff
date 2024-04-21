@@ -13,10 +13,11 @@ public static class AppSettings
 
 	#region Members
 
-	private const string SETTINGS_DIRECTORY = "FileDiff";
-	private const string SETTINGS_FILE_NAME = "Settings.xml";
-
 	private static SettingsData Settings = new SettingsData();
+
+	private static readonly string AppDataDirectory = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FileDiff");
+	public static readonly string SettingsPath = Path.Combine(AppDataDirectory, "Settings.xml");
+	public static readonly string LogPath = Path.Combine(AppDataDirectory, "FileDiff.log");
 
 	#endregion
 
@@ -25,6 +26,15 @@ public static class AppSettings
 	public static string Id
 	{
 		get { return Settings.Id; }
+	}
+
+	public static string BuildNumber
+	{
+		get
+		{
+			DateTime buildDate = new FileInfo(Environment.ProcessPath).LastWriteTime;
+			return $"{buildDate:yy}{buildDate.DayOfYear:D3}";
+		}
 	}
 
 	public static DateTime LastUpdateTime
@@ -793,12 +803,11 @@ public static class AppSettings
 
 	private static SettingsData ReadSettingsFromDisk()
 	{
-		string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SETTINGS_FILE_NAME);
 		DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
 
-		if (File.Exists(settingsPath))
+		if (File.Exists(SettingsPath))
 		{
-			using var xmlReader = XmlReader.Create(settingsPath);
+			using var xmlReader = XmlReader.Create(SettingsPath);
 			try
 			{
 				return (SettingsData)xmlSerializer.ReadObject(xmlReader);
@@ -816,17 +825,13 @@ public static class AppSettings
 	{
 		try
 		{
-			string settingsPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY);
-
 			DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
 			var xmlWriterSettings = new XmlWriterSettings { Indent = true, IndentChars = " " };
 
-			if (!Directory.Exists(settingsPath))
-			{
-				Directory.CreateDirectory(settingsPath);
-			}
+			Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath));
 
-			using XmlWriter xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SETTINGS_FILE_NAME), xmlWriterSettings);
+			using XmlWriter xmlWriter = XmlWriter.Create(SettingsPath, xmlWriterSettings);
+
 			xmlSerializer.WriteObject(xmlWriter, Settings);
 		}
 		catch (Exception e)
