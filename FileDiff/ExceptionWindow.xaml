@@ -37,13 +37,13 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Exception:" />
-				<TextBox Grid.Row="0" Grid.Column="1" d:Text="Exception Type" IsReadOnly="True" Text="{Binding ExceptionType}" Style="{StaticResource BorderlessTextBox}" />
-				<Label Grid.Row="1" Content="Message:" />
-				<TextBox Grid.Row="1" Grid.Column="1" d:Text="Exception Message" IsReadOnly="True" Text="{Binding ExceptionMessage}" Style="{StaticResource BorderlessTextBox}" />
-				<Label Grid.Row="2" Content="Source:" />
-				<TextBox Grid.Row="2" Grid.Column="1" d:Text="Source" IsReadOnly="True" Text="{Binding Source}" Style="{StaticResource BorderlessTextBox}" />
-				<Label Grid.Row="3" Content="Stack Trace:" />
+				<Label Grid.Row="0" Grid.Column="0" Content="Exception" />
+				<TextBox Grid.Row="0" Grid.Column="1" d:Text="Exception Type" IsReadOnly="True" Text="{Binding ExceptionType}" Style="{StaticResource CommonTextBox}" />
+				<Label Grid.Row="1" Content="Message" />
+				<TextBox Grid.Row="1" Grid.Column="1" d:Text="Exception Message" IsReadOnly="True" Text="{Binding ExceptionMessage}" Style="{StaticResource CommonTextBox}" />
+				<Label Grid.Row="2" Content="Source" />
+				<TextBox Grid.Row="2" Grid.Column="1" d:Text="Source" IsReadOnly="True" Text="{Binding Source}" Style="{StaticResource CommonTextBox}" />
+				<Label Grid.Row="3" Content="Stack Trace" />
 				<TextBox Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Stretch" Text="{Binding StackTrace}" IsReadOnly="True" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{StaticResource CommonTextBox}" />
 			</Grid>
 		</Border>
