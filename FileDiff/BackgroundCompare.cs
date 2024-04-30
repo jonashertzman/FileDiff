@@ -95,17 +95,17 @@ public static class BackgroundCompare
 		Looks wrong         Much easier to read
 		===========         ===================
 
-			X() {               X() {
-				...                 ...
+		  X() {               X() {
+		    ...                 ...
 		+ }                   }
 		+
 		+ Y() {             + Y() {
 		+   ...             +   ...
-			}                 + }
-												+
-			Z() {               Z() {
-				...                 ...
-			}                   }
+		  }                 + }
+		                    +
+		  Z() {               Z() {
+		    ...                 ...
+		  }                   }
 
 		*/
 
