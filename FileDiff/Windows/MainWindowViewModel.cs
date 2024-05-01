@@ -252,7 +252,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		get
 		{
-			return mode == CompareMode.File || (mode == CompareMode.Folder && MasterDetail);
+			return mode == CompareMode.File || mode == CompareMode.Folder && MasterDetail;
 		}
 	}
 
