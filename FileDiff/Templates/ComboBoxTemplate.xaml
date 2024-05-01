@@ -176,7 +176,7 @@
 			</Popup>
 			<ToggleButton x:Name="toggleButton" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}" />
 			<Border x:Name="border" Margin="{TemplateBinding BorderThickness}" Background="{StaticResource TextBox.Static.Background}">
-				<TextBox x:Name="PART_EditableTextBox" Margin="{TemplateBinding Padding}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxEditableTextBox}" />
+				<TextBox x:Name="PART_EditableTextBox" Margin="{TemplateBinding Padding}" Padding="1" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxEditableTextBox}" />
 			</Border>
 		</Grid>
 		<ControlTemplate.Triggers>
