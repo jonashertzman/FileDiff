@@ -9,7 +9,7 @@
 	Width="800"
 	Height="450"
 	d:Width="500"
-	d:Height="260"
+	d:Height="275"
 	d:DataContext="{d:DesignInstance Type=local:ExceptionWindow}"
 	TextOptions.TextFormattingMode="Display"
 	Background="{StaticResource Theme.Dialog}"
