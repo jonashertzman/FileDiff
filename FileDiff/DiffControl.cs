@@ -615,16 +615,30 @@ public class DiffControl : Control
 		}
 		else if (e.Key == Key.Down && EditMode)
 		{
-			if (cursorLine < Lines.Count - 1)
+			if (controlPressed)
 			{
-				SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine + 1].Text.Length), shiftPressed);
+				VerticalOffset++;
+			}
+			else
+			{
+				if (cursorLine < Lines.Count - 1)
+				{
+					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine + 1].Text.Length), shiftPressed);
+				}
 			}
 		}
 		else if (e.Key == Key.Up && EditMode)
 		{
-			if (cursorLine > 0)
+			if (controlPressed)
 			{
-				SetCursorPosition(cursorLine - 1, Math.Min(cursorCharacter, Lines[cursorLine - 1].Text.Length), shiftPressed);
+				VerticalOffset--;
+			}
+			else
+			{
+				if (cursorLine > 0)
+				{
+					SetCursorPosition(cursorLine - 1, Math.Min(cursorCharacter, Lines[cursorLine - 1].Text.Length), shiftPressed);
+				}
 			}
 		}
 		else if (e.Key == Key.Left)
