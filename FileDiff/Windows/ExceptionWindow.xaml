@@ -14,6 +14,7 @@
 	TextOptions.TextFormattingMode="Display"
 	Background="{StaticResource Theme.Dialog}"
 	WindowStartupLocation="CenterOwner"
+	UseLayoutRounding="True"
 	ShowInTaskbar="False"
 	ResizeMode="CanResizeWithGrip"
 	mc:Ignorable="d">
@@ -44,7 +45,7 @@
 				<Label Grid.Row="2" Content="Source" />
 				<TextBox Grid.Row="2" Grid.Column="1" d:Text="Source" IsReadOnly="True" Text="{Binding Source}" Style="{StaticResource CommonTextBox}" />
 				<Label Grid.Row="3" Content="Stack Trace" />
-				<TextBox Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Stretch" Text="{Binding StackTrace}" IsReadOnly="True" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{StaticResource CommonTextBox}" />
+				<TextBox Grid.Row="4" Grid.ColumnSpan="2" Margin="5,0,5,5" VerticalAlignment="Stretch" Text="{Binding StackTrace}" IsReadOnly="True" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{StaticResource CommonTextBox}" />
 			</Grid>
 		</Border>
 		<Border Grid.Row="1" BorderThickness="0,1,0,0">
