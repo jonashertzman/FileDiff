@@ -14,10 +14,6 @@
 	</Target>
 
 	<ItemGroup>
-		<None Include="..\.editorconfig" Link="Properties\.editorconfig" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Using Include="System.Diagnostics" />
 	</ItemGroup>
 

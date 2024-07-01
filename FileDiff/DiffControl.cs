@@ -118,15 +118,15 @@ public class DiffControl : Control
 		//Brush currentDiffBrush2 = new LinearGradientBrush(Colors.Transparent, semiTransparent, 0);
 		//currentDiffBrush2.Freeze();
 
-		Pen borderPen = new Pen(AppSettings.BorderForeground, RoundToWholePixels(1));
+		Pen borderPen = new(AppSettings.BorderForeground, RoundToWholePixels(1));
 		borderPen.Freeze();
 		GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
-		Pen movePen = new Pen(AppSettings.SnakeColor, 6);
+		Pen movePen = new(AppSettings.SnakeColor, 6);
 		movePen.Freeze();
 		GuidelineSet moveGuide = CreateGuidelineSet(movePen);
 
-		Pen currentDiffPen = new Pen(AppSettings.CurrentDiffColor, RoundToWholePixels(1));
+		Pen currentDiffPen = new(AppSettings.CurrentDiffColor, RoundToWholePixels(1));
 		currentDiffPen.Freeze();
 		GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
 
@@ -261,7 +261,7 @@ public class DiffControl : Control
 						// Draw selection
 						if (Selection != null && lineIndex >= Selection.TopLine && lineIndex <= Selection.BottomLine)
 						{
-							Rect selectionRect = new Rect(0 - textMargin + HorizontalOffset, 0, this.ActualWidth + HorizontalOffset, characterHeight);
+							Rect selectionRect = new(0 - textMargin + HorizontalOffset, 0, this.ActualWidth + HorizontalOffset, characterHeight);
 							if (Selection.TopLine == lineIndex && Selection.TopCharacter > 0)
 							{
 								selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, Selection.TopCharacter));
