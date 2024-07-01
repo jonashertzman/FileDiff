@@ -30,7 +30,7 @@ public partial class MainWindow : Window
 	List<Line> canceledLeftLines = null;
 	List<Line> canceledRightLines = null;
 
-	readonly DispatcherTimer progressTimer = new DispatcherTimer();
+	readonly DispatcherTimer progressTimer = new();
 
 	#endregion
 
@@ -80,7 +80,7 @@ public partial class MainWindow : Window
 
 		if (ViewModel.LeftPath == "")
 		{
-			BrowseFolderWindow browseLeft = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
+			BrowseFolderWindow browseLeft = new() { DataContext = ViewModel, Owner = this, Title = "Select Left Path" };
 			browseLeft.ShowDialog();
 			firstResult = browseLeft.DialogResult;
 
@@ -92,7 +92,7 @@ public partial class MainWindow : Window
 
 		if (ViewModel.RightPath == "" && firstResult != false)
 		{
-			BrowseFolderWindow browseRight = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, Title = "Select Right Path" };
+			BrowseFolderWindow browseRight = new() { DataContext = ViewModel, Owner = this, Title = "Select Right Path" };
 			browseRight.ShowDialog();
 
 			if (browseRight.DialogResult == true)
@@ -260,7 +260,7 @@ public partial class MainWindow : Window
 
 		ProgressPanel.Visibility = Visibility.Hidden;
 
-		Stopwatch stopwatch = new Stopwatch();
+		Stopwatch stopwatch = new();
 		stopwatch.Start();
 
 		ViewModel.Clear();
@@ -339,10 +339,7 @@ public partial class MainWindow : Window
 		{
 			if (ViewModel.LeftFile[i].Type != TextState.FullMatch)
 			{
-				if (diffRange == null)
-				{
-					diffRange = new DiffRange() { Start = i };
-				}
+				diffRange ??= new DiffRange() { Start = i };
 			}
 
 			if (diffRange != null && ViewModel.LeftFile[i].DiffId != ViewModel.LeftFile[diffRange.Start].DiffId)
@@ -821,7 +818,7 @@ public partial class MainWindow : Window
 		var oldLightTheme = AppSettings.LightTheme.Clone();
 		var oldTheme = ViewModel.Theme;
 
-		OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
+		OptionsWindow optionsWindow = new() { DataContext = ViewModel, Owner = this };
 		optionsWindow.ShowDialog();
 
 		if (optionsWindow.DialogResult == true)
@@ -850,7 +847,7 @@ public partial class MainWindow : Window
 	{
 		CheckForNewVersion(true);
 
-		AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
+		AboutWindow aboutWindow = new() { Owner = this, DataContext = ViewModel };
 		aboutWindow.ShowDialog();
 	}
 
@@ -876,7 +873,7 @@ public partial class MainWindow : Window
 		{
 			try
 			{
-				using (StreamWriter sw = new StreamWriter(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
+				using (StreamWriter sw = new(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
 				{
 					sw.NewLine = ViewModel.LeftFileEncoding.GetNewLineString;
 					foreach (Line l in ViewModel.LeftFile)
@@ -910,7 +907,7 @@ public partial class MainWindow : Window
 		{
 			try
 			{
-				using (StreamWriter sw = new StreamWriter(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
+				using (StreamWriter sw = new(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
 				{
 					sw.NewLine = ViewModel.RightFileEncoding.GetNewLineString;
 					foreach (Line l in ViewModel.RightFile)
@@ -943,7 +940,7 @@ public partial class MainWindow : Window
 
 	private void CommandBrowseLeft_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, SelectedPath = ViewModel.LeftPath };
+		BrowseFolderWindow browseFolderWindow = new() { DataContext = ViewModel, Owner = this, SelectedPath = ViewModel.LeftPath };
 		browseFolderWindow.ShowDialog();
 
 		if (browseFolderWindow.DialogResult == true)
@@ -954,7 +951,7 @@ public partial class MainWindow : Window
 
 	private void CommandBrowseRight_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, SelectedPath = ViewModel.RightPath };
+		BrowseFolderWindow browseFolderWindow = new() { DataContext = ViewModel, Owner = this, SelectedPath = ViewModel.RightPath };
 		browseFolderWindow.ShowDialog();
 
 		if (browseFolderWindow.DialogResult == true)
@@ -1133,7 +1130,7 @@ public partial class MainWindow : Window
 	private void CommandOpenContainingFolder_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
 		string args = $"/Select, {Path.GetFullPath(GetFocusedPath(e.OriginalSource))}";
-		ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+		ProcessStartInfo pfi = new("Explorer.exe", args);
 		Process.Start(pfi);
 	}
 
