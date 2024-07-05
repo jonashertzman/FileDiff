@@ -31,8 +31,8 @@ public class DiffControl : Control
 
 	private Typeface typeface;
 
-	private readonly DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
-	private readonly Stopwatch stopwatch = new Stopwatch();
+	private readonly DispatcherTimer blinkTimer = new(DispatcherPriority.Render);
+	private readonly Stopwatch stopwatch = new();
 
 	private Point mouseHoverPosition;
 
@@ -986,7 +986,7 @@ public class DiffControl : Control
 
 	private GuidelineSet CreateGuidelineSet(Pen pen)
 	{
-		GuidelineSet guidelineSet = new GuidelineSet();
+		GuidelineSet guidelineSet = new();
 		guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
 		guidelineSet.GuidelinesY.Add(pen.Thickness / 2);
 		guidelineSet.Freeze();
@@ -1055,7 +1055,7 @@ public class DiffControl : Control
 
 	private void CopyToClipboard()
 	{
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new();
 		int lineIndex = Selection.TopLine;
 		do
 		{

@@ -12,7 +12,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 	#region Members
 
-	readonly DispatcherTimer timer = new DispatcherTimer();
+	readonly DispatcherTimer timer = new();
 
 	#endregion
 

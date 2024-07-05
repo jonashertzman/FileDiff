@@ -92,7 +92,7 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 	{
 		try
 		{
-			using Process p = new Process();
+			using Process p = new();
 
 			p.StartInfo.FileName = AppSettings.LogPath;
 			p.StartInfo.ErrorDialog = true;

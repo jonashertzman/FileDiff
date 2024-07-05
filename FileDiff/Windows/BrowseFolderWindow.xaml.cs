@@ -12,7 +12,7 @@ public partial class BrowseFolderWindow : Window
 
 	#region Members
 
-	private readonly DispatcherTimer renderTimer = new DispatcherTimer();
+	private readonly DispatcherTimer renderTimer = new();
 
 	ScrollViewer folderTreeScrollViewer;
 
@@ -49,7 +49,7 @@ public partial class BrowseFolderWindow : Window
 
 	private static TreeViewItem CreateTreeItem(object source)
 	{
-		TreeViewItem item = new TreeViewItem { Tag = source };
+		TreeViewItem item = new() { Tag = source };
 
 		switch (source)
 		{
@@ -92,9 +92,9 @@ public partial class BrowseFolderWindow : Window
 		{
 			foreach (TreeViewItem item in parent)
 			{
-				string subpath = item.Tag is DriveInfo info ? info.Name.TrimEnd('\\') : (string)item.Header;
+				string subPath = item.Tag is DriveInfo info ? info.Name.TrimEnd('\\') : (string)item.Header;
 
-				if (subpath.Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
+				if (subPath.Equals(substrings[i], StringComparison.OrdinalIgnoreCase))
 				{
 					item.IsExpanded = true;
 

@@ -98,7 +98,7 @@ public class DiffMapControl : Control
 				sectionLength++;
 			}
 
-			Rect rect = new Rect(RoundToWholePixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth - RoundToWholePixels(2), Math.Ceiling(Math.Max((lineHeight * sectionLength), 1) / dpiScale) * dpiScale);
+			Rect rect = new(RoundToWholePixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth - RoundToWholePixels(2), Math.Ceiling(Math.Max((lineHeight * sectionLength), 1) / dpiScale) * dpiScale);
 
 			if (rect.Bottom > lastHeight)
 			{
@@ -163,7 +163,7 @@ public class DiffMapControl : Control
 		byte g = (byte)((brush1.Color.G * blendFactor) + brush2.Color.G * (1 - blendFactor));
 		byte b = (byte)((brush1.Color.B * blendFactor) + brush2.Color.B * (1 - blendFactor));
 
-		SolidColorBrush brush = new SolidColorBrush(Color.FromRgb(r, g, b));
+		SolidColorBrush brush = new(Color.FromRgb(r, g, b));
 		brush.Freeze();
 
 		return brush;

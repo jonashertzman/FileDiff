@@ -9,7 +9,7 @@ static class TextUtils
 
 	#region Members
 
-	static readonly Typeface defaultTypeface = new Typeface("Courier New");
+	static readonly Typeface defaultTypeface = new("Courier New");
 
 	static FontData fontCache;
 
@@ -98,7 +98,7 @@ static class TextUtils
 
 		maxTopDistance = Math.Ceiling(maxTopDistance / dpiScale) * dpiScale;
 
-		GlyphRun run = new GlyphRun(
+		GlyphRun run = new(
 			glyphTypeface: fontData.GlyphTypeface,
 			bidiLevel: 0,
 			isSideways: false,
@@ -214,7 +214,7 @@ static class TextUtils
 
 	private static Size MeasureText(string text, Typeface typeface, double fontSize, double dpiScale)
 	{
-		FormattedText formattedText = new FormattedText(
+		FormattedText formattedText = new(
 			text,
 			CultureInfo.CurrentCulture,
 			FlowDirection.LeftToRight,

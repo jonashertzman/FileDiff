@@ -623,7 +623,7 @@ public static class BackgroundCompare
 		path = Utils.FixRootPath(path);
 		List<FileItem> items = [];
 
-		IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+		IntPtr INVALID_HANDLE_VALUE = new(-1);
 		IntPtr findHandle = WinApi.FindFirstFile(Path.Combine(path, "*"), out WIN32_FIND_DATA findData);
 
 		string newPath;

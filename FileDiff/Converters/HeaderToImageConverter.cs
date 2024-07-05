@@ -9,7 +9,7 @@ namespace FileDiff;
 public class HeaderToImageConverter : IValueConverter
 {
 
-	public static HeaderToImageConverter Instance = new HeaderToImageConverter();
+	public static HeaderToImageConverter Instance = new();
 
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
