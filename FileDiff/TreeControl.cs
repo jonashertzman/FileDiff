@@ -60,13 +60,13 @@ public class TreeControl : Control
 		double gridLine2 = RoundToWholePixels(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + (handleWidth * 2) - itemMargin);
 		double gridLine3 = RoundToWholePixels(AppSettings.NameColumnWidth + AppSettings.SizeColumnWidth + AppSettings.DateColumnWidth + (handleWidth * 3) - itemMargin);
 
-		Typeface typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
+		Typeface typeface = new(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 
-		Pen selectionPen = new Pen(AppSettings.HighlightBorder, itemMargin);
+		Pen selectionPen = new(AppSettings.HighlightBorder, itemMargin);
 		selectionPen.Freeze();
 		GuidelineSet selectionGuide = CreateGuidelineSet(selectionPen);
 
-		Pen expanderPen = new Pen(new SolidColorBrush(AppSettings.FolderFullMatchForeground.Color), 1 * dpiScale);
+		Pen expanderPen = new(new SolidColorBrush(AppSettings.FolderFullMatchForeground.Color), 1 * dpiScale);
 		expanderPen.Freeze();
 		GuidelineSet expanderGuide = CreateGuidelineSet(expanderPen);
 
@@ -111,7 +111,7 @@ public class TreeControl : Control
 							{
 								drawingContext.PushGuidelineSet(expanderGuide);
 								{
-									Rect expanderRect = new Rect(expanderMargin + ((line.Level - 1) * itemHeight), expanderMargin, expanderMargin * 2, expanderMargin * 2);
+									Rect expanderRect = new(expanderMargin + ((line.Level - 1) * itemHeight), expanderMargin, expanderMargin * 2, expanderMargin * 2);
 
 									drawingContext.DrawRectangle(Brushes.Transparent, expanderPen, expanderRect);
 									if (line.Type != TextState.Ignored)
@@ -169,7 +169,7 @@ public class TreeControl : Control
 		// Draw grid lines
 		if (AppSettings.DrawGridLines)
 		{
-			Pen gridPen = new Pen(new SolidColorBrush(Color.FromArgb(20, 0, 0, 0)), RoundToWholePixels(1));
+			Pen gridPen = new(new SolidColorBrush(Color.FromArgb(20, 0, 0, 0)), RoundToWholePixels(1));
 			gridPen.Freeze();
 			GuidelineSet gridGuide = CreateGuidelineSet(gridPen);
 
@@ -218,7 +218,7 @@ public class TreeControl : Control
 		{
 			if (visibleItems[lineIndex].Type != TextState.Filler && visibleItems[lineIndex].CorrespondingItem.Type != TextState.Filler)
 			{
-				using Process p = new Process();
+				using Process p = new();
 
 				p.StartInfo.FileName = Environment.ProcessPath;
 
@@ -354,7 +354,7 @@ public class TreeControl : Control
 
 	private static GuidelineSet CreateGuidelineSet(Pen pen)
 	{
-		GuidelineSet guidelineSet = new GuidelineSet();
+		GuidelineSet guidelineSet = new();
 		guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
 		guidelineSet.GuidelinesY.Add(pen.Thickness / 2);
 		guidelineSet.Freeze();
@@ -404,7 +404,7 @@ public class TreeControl : Control
 
 	private Size MeasureString(string text)
 	{
-		FormattedText formattedText = new FormattedText(
+		FormattedText formattedText = new(
 			text,
 			CultureInfo.CurrentCulture,
 			FlowDirection.LeftToRight,

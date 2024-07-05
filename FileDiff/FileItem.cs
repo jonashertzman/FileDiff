@@ -131,7 +131,7 @@ public class FileItem
 			if (IsFolder || Type == TextState.Filler)
 				return "";
 
-			StringBuilder s = new StringBuilder();
+			StringBuilder s = new();
 
 			using (MD5 md5 = MD5.Create())
 			{
