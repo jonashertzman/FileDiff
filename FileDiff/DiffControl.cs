@@ -90,7 +90,6 @@ public class DiffControl : Control
 
 	protected override void OnRender(DrawingContext drawingContext)
 	{
-		Debug.Print("DiffControl OnRender");
 
 #if DEBUG
 		MeasureRenderTime();
@@ -1315,7 +1314,7 @@ public class DiffControl : Control
 			new Action(() =>
 			{
 				stopwatch.Stop();
-				Debug.Print($"Took {stopwatch.ElapsedMilliseconds} ms");
+				Debug.Print($"DiffControl OnRender - {stopwatch.ElapsedMilliseconds} ms");
 			})
 		);
 	}

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace FileDiff;
 
@@ -14,6 +15,8 @@ public class TreeControl : Control
 
 	private double itemHeight;
 	private double dpiScale = 0;
+
+	private readonly Stopwatch stopwatch = new Stopwatch();
 
 	private List<FileItem> visibleItems = [];
 
@@ -37,7 +40,9 @@ public class TreeControl : Control
 
 	protected override void OnRender(DrawingContext drawingContext)
 	{
-		Debug.Print("TreeControl OnRender");
+#if DEBUG
+		MeasureRenderTime();
+#endif
 
 		// Fill background
 		drawingContext.DrawRectangle(AppSettings.FolderFullMatchBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
@@ -184,6 +189,10 @@ public class TreeControl : Control
 			}
 			drawingContext.Pop();
 		}
+
+#if DEBUG
+		ReportRenderTime();
+#endif
 	}
 
 	protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -334,6 +343,23 @@ public class TreeControl : Control
 	#endregion
 
 	#region Methods
+
+	private void MeasureRenderTime()
+	{
+		stopwatch.Restart();
+	}
+
+	private void ReportRenderTime()
+	{
+		Dispatcher.BeginInvoke(
+			DispatcherPriority.Loaded,
+			new Action(() =>
+			{
+				stopwatch.Stop();
+				Debug.Print($"TreeControl OnRender - {stopwatch.ElapsedMilliseconds} ms");
+			})
+		);
+	}
 
 	internal void Init()
 	{
