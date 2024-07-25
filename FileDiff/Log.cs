@@ -15,7 +15,7 @@ internal static class Log
 		Directory.CreateDirectory(Path.GetDirectoryName(AppSettings.LogPath));
 		File.AppendAllText(AppSettings.LogPath, errorText);
 
-		ExceptionWindow exceptionWindow = new ExceptionWindow()
+		ExceptionWindow exceptionWindow = new()
 		{
 			Owner = mainWindow,
 			ExceptionType = exception.GetType().Name,

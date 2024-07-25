@@ -141,7 +141,7 @@ internal class WinApi
 	private static string GetOpenClipboardWindowText()
 	{
 		IntPtr hwnd = GetOpenClipboardWindow();
-		StringBuilder sb = new StringBuilder(501);
+		StringBuilder sb = new(501);
 		GetWindowText(hwnd.ToInt32(), sb, 500);
 		return sb.ToString();
 	}
