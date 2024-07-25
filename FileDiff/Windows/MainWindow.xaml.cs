@@ -139,7 +139,7 @@ public partial class MainWindow : Window
 
 	private void CompareFiles()
 	{
-		Debug.Print("------ CompareFiles");
+		Debug.Print("--- CompareFiles ---");
 
 		string leftPath = "";
 		string rightPath = "";
@@ -210,7 +210,7 @@ public partial class MainWindow : Window
 			canceledRightLines = rightLines;
 
 			BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
-			Task.Run(() => BackgroundCompare.CompareFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
+			Task.Run(() => BackgroundCompare.MatchFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
 
 			progressTimer.Start();
 		}
@@ -224,7 +224,7 @@ public partial class MainWindow : Window
 
 	private void CompareFilesFinished(Task<Tuple<List<Line>, List<Line>, TimeSpan>> task)
 	{
-		Debug.Print("------ CompareFilesFinished");
+		Debug.Print("--- CompareFilesFinished ---");
 
 		progressTimer.Stop();
 		ViewModel.GuiFrozen = false;
@@ -256,7 +256,7 @@ public partial class MainWindow : Window
 
 	private void CompareDirectories()
 	{
-		Debug.Print("------ CompareDirectories");
+		Debug.Print("--- CompareDirectories ---");
 
 		ProgressPanel.Visibility = Visibility.Hidden;
 
@@ -281,7 +281,7 @@ public partial class MainWindow : Window
 
 	private void CompareDirectoriesFinished(Task<Tuple<ObservableCollection<FileItem>, ObservableCollection<FileItem>, TimeSpan>> task)
 	{
-		Debug.Print("------ CompareDirectoriesFinished");
+		Debug.Print("--- CompareDirectoriesFinished ---");
 
 		progressTimer.Stop();
 		ViewModel.GuiFrozen = false;

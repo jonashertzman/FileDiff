@@ -31,8 +31,11 @@ public static class BackgroundCompare
 		CompareCancelled = true;
 	}
 
-	public static Tuple<List<Line>, List<Line>, TimeSpan> CompareFiles(List<Line> leftLines, List<Line> rightLines)
+	public static Tuple<List<Line>, List<Line>, TimeSpan> MatchFiles(List<Line> leftLines, List<Line> rightLines)
 	{
+
+		Debug.WriteLine("|_ MatchFiles");
+
 		CompareCancelled = false;
 		progress = 0;
 		depth = 0;
@@ -281,9 +284,10 @@ public static class BackgroundCompare
 
 		depth++;
 
-		Debug.Print($"{"".PadLeft(depth)}------ MatchLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
 
 		FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
+
+		Debug.WriteLine($"{"".PadLeft(depth)}|_ MatchLines {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex} - longest match {leftRange[matchIndex].LineIndex} -> {leftRange[matchIndex].LineIndex + matchLength - 1}");
 
 		// Single line matches and ranges containing only whitespace are in most cases false positives.
 		if (matchLength < 2 || WhitespaceRange(leftRange.GetRange(matchIndex, matchLength)))
@@ -330,8 +334,7 @@ public static class BackgroundCompare
 		int bestLeft = 0;
 		int bestRight = 0;
 
-		Debug.Print($"{"".PadLeft(depth)}------ MatchPartialLines   {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
-
+		Debug.Print($"{"".PadLeft(depth)}|_ MatchPartialLines {leftRange[0].LineIndex} -> {leftRange[^1].LineIndex}");
 
 		for (int leftIndex = 0; leftIndex < leftRange.Count; leftIndex++)
 		{

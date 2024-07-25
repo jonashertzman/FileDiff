@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace FileDiff;
 
@@ -11,6 +12,7 @@ public class DiffMapControl : Control
 	#region Members
 
 	private double dpiScale = 0;
+	private readonly Stopwatch stopwatch = new Stopwatch();
 
 	#endregion
 
@@ -32,7 +34,9 @@ public class DiffMapControl : Control
 
 	protected override void OnRender(DrawingContext drawingContext)
 	{
-		Debug.Print("DiffMap OnRender");
+#if DEBUG
+		MeasureRenderTime();
+#endif
 
 		// Fill background
 		drawingContext.DrawRectangle(AppSettings.DialogBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
@@ -105,6 +109,10 @@ public class DiffMapControl : Control
 
 			i += sectionLength - 1;
 		}
+
+#if DEBUG
+		ReportRenderTime();
+#endif
 	}
 
 	#endregion
@@ -131,6 +139,23 @@ public class DiffMapControl : Control
 	#endregion
 
 	#region Methods
+
+	private void MeasureRenderTime()
+	{
+		stopwatch.Restart();
+	}
+
+	private void ReportRenderTime()
+	{
+		Dispatcher.BeginInvoke(
+			DispatcherPriority.Loaded,
+			new Action(() =>
+			{
+				stopwatch.Stop();
+				Debug.Print($"DiffMapControl OnRender - {stopwatch.ElapsedMilliseconds} ms");
+			})
+		);
+	}
 
 	private SolidColorBrush BlendColors(SolidColorBrush brush1, SolidColorBrush brush2, double blendFactor)
 	{
