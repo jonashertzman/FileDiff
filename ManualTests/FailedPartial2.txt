@@ -1,0 +1,44 @@
+using TSD.Grpc;
+
+namespace TSD.RangeView.Models;
+
+public class Device_Old
+{
+    public string DeviceId { get; set; } = "";
+    public string Name { get; set; } = "";
+    public DeviceStatus Status { get; set; }
+    public string LockedByClient { get; set; } = "";
+}
+
+public class BaseJsonObject
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string Type { get; set; }
+    public string Revision { get; set; }
+    public object[] Tags { get; set; }
+}
+
+public class RootObject : BaseJsonObject
+{
+    public Site site { get; set; }
+}
+
+public class Site : BaseJsonObject
+{
+    public string organization { get; set; }
+    public float latitude { get; set; }
+    public float longitude { get; set; }
+    public float elevation { get; set; }
+    public Rack[] racks { get; set; }
+    public Antenna[] antennas { get; set; }
+    public Others[] others { get; set; }
+}
+
+public class Rack : BaseJsonObject
+{
+    public string model { get; set; }
+    public Equipment[] equipment { get; set; }
+}
+

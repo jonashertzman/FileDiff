@@ -1,0 +1,52 @@
+using TSD.Grpc;
+
+namespace TSD.RangeView.Models;
+
+public class Device
+{
+    public string DeviceId { get; set; } = "";
+    public string Name { get; set; } = "";
+    public DeviceStatus Status { get; set; }
+    public string LockedByClient { get; set; } = "";
+}
+
+public class RootObject
+{
+    public int id { get; set; }
+    public string Name { get; set; }
+    public string description { get; set; }
+    public string type { get; set; }
+    public string revision { get; set; }
+    public object[] tags { get; set; }
+    public Site site { get; set; }
+}
+
+public class Site
+{
+    public int id { get; set; }
+    public string name { get; set; }
+    public string description { get; set; }
+    public string type { get; set; }
+    public string revision { get; set; }
+    public string organization { get; set; }
+    public float latitude { get; set; }
+    public float longitude { get; set; }
+    public float elevation { get; set; }
+    public object[] tags { get; set; }
+    public Rack[] racks { get; set; }
+    public Antenna[] antennas { get; set; }
+    public Others[] others { get; set; }
+}
+
+public class Rack
+{
+    public int id { get; set; }
+    public string name { get; set; }
+    public string description { get; set; }
+    public string type { get; set; }
+    public string revision { get; set; }
+    public string model { get; set; }
+    public object[] tags { get; set; }
+    public Equipment[] equipment { get; set; }
+}
+
