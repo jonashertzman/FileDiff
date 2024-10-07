@@ -1,0 +1,13 @@
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    while (true)
+
+public class Device
+{
+    public int DeviceId { get; set; }
+    public string Name { get; set; } = "";
+    public DeviceStatus Status { get; set; }
+    public string LockedByClient { get; set; } = "";
+}

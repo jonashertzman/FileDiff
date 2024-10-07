@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
 using System.Windows.Media;
 
 namespace FileDiff;
@@ -49,7 +48,8 @@ public class Line
 			TrimmedText = value.Trim();
 			hash = value.GetHashCode();
 
-			string textNoWhitespace = Regex.Replace(value, @"\s+", "");
+			//string textNoWhitespace = Regex.Replace(value, @"\s+", "");
+			string textNoWhitespace = value.Trim();
 			hashNoWhitespace = textNoWhitespace.GetHashCode();
 			IsWhitespaceLine = textNoWhitespace == "";
 
