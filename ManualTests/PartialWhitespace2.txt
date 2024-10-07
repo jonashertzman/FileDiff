@@ -1,0 +1,49 @@
+    public override async Task DeviceInfoUpdate(Empty request, IServerStreamWriter<DeviceResponse> responseStream, ServerCallContext context)
+    {
+        string connectedUser = context.GetHttpContext().User.Claims.ToArray()[0].Value;
+        try
+        {
+            //logger.LogInformation("Client connected");
+
+            activeUsersService.AddConnection(connectedUser, this.serviceGuid);
+
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    while (true)
+                    {
+                        foreach (KeyValuePair<int, object> x in deviceService.Devices)
+                        {
+                            switch (x.Value)
+                            {
+                                case EquipmentResponse equipment:
+                                    await responseStream.WriteAsync(new DeviceResponse
+                                    {
+                                        Timestamp = Timestamp.FromDateTime(DateTime.UtcNow),
+                                        DeviceId = equipment.Id,
+                                        Name = equipment.Name,
+                                        Status = equipment.Status,
+                                        LockedByClient = equipment.LockedByClient,
+                                    });
+                                    break;
+                            }
+
+                            await Task.Delay(2000);
+                        }
+
+                        //await Task.Delay(10000);
+                    }
+                }
+                catch (InvalidOperationException ex)
+                {
+                    logger.LogInformation("Stream error, ({Message})", ex.Message);
+                    activeUsersService.RemoveConnection(connectedUser, this.serviceGuid);
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogInformation("Error, ({Message})", ex.Message);
+        }
+    }

@@ -1,0 +1,44 @@
+    //#endregion
+
+    #region Properties
+
+    private RootResponse siteStructure;
+    public RootResponse SiteStructure
+    {
+        get
+        {
+            return this.siteStructure;
+        }
+        set
+        {
+            this.siteStructure = value;
+            //this.UpdateDevices(value);
+        }
+    }
+
+    //private void UpdateDevices(RootResponse root)
+    //{
+    //    this.Devices.Clear();
+
+    //    this.AddDevice(root.Site.Id, root.Site);
+
+    //    foreach (RackResponse rack in root.Site.Racks)
+    //    {
+    //        foreach (EquipmentResponse equipment in rack.Equipment)
+    //        {
+    //            this.AddDevice(equipment.Id, equipment);
+    //        }
+    //    }
+
+    //    foreach (AntennaResponse antenna in root.Site.Antennas)
+    //    {
+    //        this.AddDevice(antenna.Id, antenna);
+    //    }
+
+    //    foreach (OtherResponse other in root.Site.Others)
+    //    {
+    //        this.AddDevice(other.Id, other);
+    //    }
+    //}
+
+    #endregion

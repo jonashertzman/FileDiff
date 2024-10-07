@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows;
 
 namespace FileDiff;
 
@@ -362,7 +363,7 @@ public static class BackgroundCompare
 				int longLineLength = Math.Max(leftRange[leftIndex].TrimmedCharacters.Count, rightRange[rightIndex].TrimmedCharacters.Count);
 				float lengthFraction = (float)shortLineLength * 2 / (shortLineLength + longLineLength);
 
-				// The difference in line length large enough to make a comparison pointless, even a full partial match
+				// The difference in line length is large enough to make a comparison pointless, even a full partial match
 				// will result in a worse match than the current best match.
 				if (lengthFraction < bestMatchFraction)
 				{
@@ -372,12 +373,11 @@ public static class BackgroundCompare
 				if (!leftRange[leftIndex].MatchFactions.TryGetValue(rightRange[rightIndex].LineIndex, out matchFraction))
 				{
 					matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters);
-
 					// Single character matches are in most cases false positives.
-					if (matchingCharacters < 2)
-					{
-						continue;
-					}
+					//if (matchingCharacters < 2)
+					//{
+					//	continue;
+					//}
 
 					matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
 					leftRange[leftIndex].MatchFactions.Add(rightRange[rightIndex].LineIndex, matchFraction);
@@ -414,6 +414,13 @@ public static class BackgroundCompare
 				leftRange[bestLeft].TextSegments.Clear();
 				rightRange[bestRight].TextSegments.Clear();
 				HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
+
+				//// Do not highlight the first and last text segments if it only consists of white space.
+				if (AppSettings.IgnoreWhiteSpace)
+				{
+					CleanFirstLast(leftRange[bestLeft]);
+					CleanFirstLast(rightRange[bestRight]);
+				}
 			}
 
 			IncreaseProgress(2);
@@ -431,9 +438,56 @@ public static class BackgroundCompare
 		depth--;
 	}
 
+	private static void CleanFirstLast(Line line)
+	{
+		RemoveIfWhitespace(line.TextSegments[0]);
+		RemoveIfWhitespace(line.TextSegments[^1]);
+	}
+
+	private static void RemoveIfWhitespace(TextSegment textSegment)
+	{
+		if (textSegment.Type == TextState.Deleted || textSegment.Type == TextState.New)
+		{
+			if (textSegment.IsWhiteSpace)
+			{
+				textSegment.Type = TextState.PartialMatch;
+			}
+		}
+	}
+
 	private static void HighlightCharacterMatches(Line leftLine, Line rightLine, List<char> leftRange, List<char> rightRange)
 	{
-		FindLongestMatch(leftRange, rightRange, out int matchIndex, out int matchingIndex, out int matchLength);
+		List<char> a;
+		List<char> b;
+
+		if (AppSettings.IgnoreWhiteSpace)
+		{
+			a = new(leftRange);
+			b = new(rightRange);
+
+			for (int i = 0; i < a.Count; i++)
+			{
+				if (a[i] == '\t')
+				{
+					a[i] = ' ';
+				}
+			}
+
+			for (int i = 0; i < b.Count; i++)
+			{
+				if (b[i] == '\t')
+				{
+					b[i] = ' ';
+				}
+			}
+		}
+		else
+		{
+			a = leftRange;
+			b = rightRange;
+		}
+
+		FindLongestMatch(a, b, out int matchIndex, out int matchingIndex, out int matchLength);
 
 		bool matchTooShort = matchLength == 0;
 

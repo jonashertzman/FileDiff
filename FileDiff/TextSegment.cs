@@ -35,6 +35,14 @@ public class TextSegment
 
 	private string Text { get; set; }
 
+	public bool IsWhiteSpace
+	{
+		get
+		{
+			return Text.Trim().Length == 0;
+		}
+	}
+
 	public GlyphRun RenderedText { get; private set; }
 
 	public SolidColorBrush BackgroundBrush
