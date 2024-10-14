@@ -9,7 +9,7 @@ using System.Windows.Threading;
 namespace FileDiff;
 
 /// <summary>
-/// 
+/// asdf
 /// </summary>
 public partial class MainWindow : Window
 {
