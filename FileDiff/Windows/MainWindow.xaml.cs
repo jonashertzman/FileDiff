@@ -8,6 +8,9 @@ using System.Windows.Threading;
 
 namespace FileDiff;
 
+/// <summary>
+/// 
+/// </summary>
 public partial class MainWindow : Window
 {
 
