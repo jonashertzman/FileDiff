@@ -1205,6 +1205,6 @@ public partial class MainWindow : Window
 
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-		File.ReadAllBytes("qwerty");
+		File.ReadAllBytes("aaa");
 	}
 }
