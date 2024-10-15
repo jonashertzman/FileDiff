@@ -6,7 +6,6 @@ namespace FileDiff;
 
 static class TextUtils
 {
-	//
 
 	#region Members
 
