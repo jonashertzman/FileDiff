@@ -759,20 +759,20 @@ public partial class MainWindow : Window
 		UpdateColumnWidths(RightColumns);
 	}
 
-	private void LeftFolder_SelectionChanged(FileItem selectedItem)
+	private void LeftFolder_SelectionChanged(object sender, FileItemEventArgs e)
 	{
-		rightSelection = selectedItem.CorrespondingItem.Path;
+		rightSelection = e.SelectedItem.CorrespondingItem.Path;
 
-		RightFolder.SelectedFile = selectedItem.CorrespondingItem;
+		RightFolder.SelectedFile = e.SelectedItem.CorrespondingItem;
 
 		CompareFiles();
 	}
 
-	private void RightFolder_SelectionChanged(FileItem selectedItem)
+	private void RightFolder_SelectionChanged(object sender, FileItemEventArgs e)
 	{
-		leftSelection = selectedItem.CorrespondingItem.Path;
+		leftSelection = e.SelectedItem.CorrespondingItem.Path;
 
-		LeftFolder.SelectedFile = selectedItem.CorrespondingItem;
+		LeftFolder.SelectedFile = e.SelectedItem.CorrespondingItem;
 
 		CompareFiles();
 	}
