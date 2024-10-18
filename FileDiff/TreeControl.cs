@@ -271,8 +271,7 @@ public class TreeControl : Control
 
 	#region Events
 
-	public delegate void SelectionChangedEvent(FileItem file);
-	public event SelectionChangedEvent SelectionChanged;
+	public event EventHandler<FileItemEventArgs> SelectionChanged;
 
 	#endregion
 
@@ -352,12 +351,12 @@ public class TreeControl : Control
 	private void ReportRenderTime()
 	{
 		Dispatcher.BeginInvoke(
-			DispatcherPriority.Loaded,
-			new Action(() =>
-			{
-				stopwatch.Stop();
-				Debug.Print($"TreeControl OnRender - {stopwatch.ElapsedMilliseconds} ms");
-			})
+				DispatcherPriority.Loaded,
+				new Action(() =>
+				{
+					stopwatch.Stop();
+					Debug.Print($"TreeControl OnRender - {stopwatch.ElapsedMilliseconds} ms");
+				})
 		);
 	}
 
@@ -374,7 +373,7 @@ public class TreeControl : Control
 		MaxVerticalScroll = visibleItems.Count - VisibleLines + 1;
 		MoveItemIntoView(item);
 		SelectedFile = item;
-		SelectionChanged?.Invoke(SelectedFile);
+		SelectionChanged?.Invoke(this, new FileItemEventArgs(SelectedFile));
 		UpdateTrigger++;
 	}
 
@@ -431,15 +430,15 @@ public class TreeControl : Control
 	private Size MeasureString(string text)
 	{
 		FormattedText formattedText = new(
-			text,
-			CultureInfo.CurrentCulture,
-			FlowDirection.LeftToRight,
-			new Typeface(this.FontFamily.ToString()),
-			this.FontSize,
-			Brushes.Black,
-			new NumberSubstitution(),
-			TextFormattingMode.Display,
-			dpiScale);
+				text,
+				CultureInfo.CurrentCulture,
+				FlowDirection.LeftToRight,
+				new Typeface(this.FontFamily.ToString()),
+				this.FontSize,
+				Brushes.Black,
+				new NumberSubstitution(),
+				TextFormattingMode.Display,
+				dpiScale);
 
 		return new Size(formattedText.Width, formattedText.Height);
 	}
