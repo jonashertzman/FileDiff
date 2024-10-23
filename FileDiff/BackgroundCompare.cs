@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows;
 
 namespace FileDiff;
 
@@ -373,12 +372,6 @@ public static class BackgroundCompare
 				if (!leftRange[leftIndex].MatchFactions.TryGetValue(rightRange[rightIndex].LineIndex, out matchFraction))
 				{
 					matchingCharacters = CountMatchingCharacters(leftRange[leftIndex].TrimmedCharacters, rightRange[rightIndex].TrimmedCharacters);
-					// Single character matches are in most cases false positives.
-					//if (matchingCharacters < 2)
-					//{
-					//	continue;
-					//}
-
 					matchFraction = (float)matchingCharacters * 2 / (leftRange[leftIndex].TrimmedCharacters.Count + rightRange[rightIndex].TrimmedCharacters.Count);
 					leftRange[leftIndex].MatchFactions.Add(rightRange[rightIndex].LineIndex, matchFraction);
 				}
@@ -415,7 +408,7 @@ public static class BackgroundCompare
 				rightRange[bestRight].TextSegments.Clear();
 				HighlightCharacterMatches(leftRange[bestLeft], rightRange[bestRight], leftRange[bestLeft].Characters, rightRange[bestRight].Characters);
 
-				//// Do not highlight the first and last text segments if it only consists of white space.
+				// Do not highlight the first and last text segments if it only consists of white space.
 				if (AppSettings.IgnoreWhiteSpace)
 				{
 					CleanFirstLast(leftRange[bestLeft]);
