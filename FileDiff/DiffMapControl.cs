@@ -12,7 +12,7 @@ public class DiffMapControl : Control
 	#region Members
 
 	private double dpiScale = 0;
-	private readonly Stopwatch stopwatch = new Stopwatch();
+	private readonly Stopwatch stopwatch = new();
 
 	#endregion
 

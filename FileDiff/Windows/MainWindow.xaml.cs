@@ -48,7 +48,7 @@ public partial class MainWindow : Window
 		SearchPanel.Visibility = Visibility.Collapsed;
 		activeDiff = LeftDiff;
 
-		Log.mainWindow = this;
+		Log.OwnerWindow = this;
 	}
 
 	#endregion
@@ -560,6 +560,8 @@ public partial class MainWindow : Window
 
 	private void Window_ContentRendered(object sender, EventArgs e)
 	{
+		string[] HelpFlags = ["/?", "-h", "--help"];
+
 		if (Environment.GetCommandLineArgs().Length > 2)
 		{
 			ViewModel.LeftPath = Environment.GetCommandLineArgs()[1];
@@ -568,7 +570,7 @@ public partial class MainWindow : Window
 		}
 		else if (Environment.GetCommandLineArgs().Length > 1)
 		{
-			if (new[] { "/?", "-h", "--help" }.Contains(Environment.GetCommandLineArgs()[1]))
+			if (HelpFlags.Contains(Environment.GetCommandLineArgs()[1]))
 			{
 				MessageBox.Show(
 					"Usage:\n\n" +

@@ -16,7 +16,7 @@ public class TreeControl : Control
 	private double itemHeight;
 	private double dpiScale = 0;
 
-	private readonly Stopwatch stopwatch = new Stopwatch();
+	private readonly Stopwatch stopwatch = new();
 
 	private List<FileItem> visibleItems = [];
 

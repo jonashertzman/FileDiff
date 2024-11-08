@@ -6,7 +6,7 @@ namespace FileDiff;
 internal static class Log
 {
 
-	public static Window mainWindow { get; set; }
+	public static Window OwnerWindow { get; set; }
 
 	public static void LogUnhandledException(Exception exception, string source)
 	{
@@ -17,7 +17,7 @@ internal static class Log
 
 		ExceptionWindow exceptionWindow = new()
 		{
-			Owner = mainWindow,
+			Owner = OwnerWindow,
 			ExceptionType = exception.GetType().Name,
 			ExceptionMessage = exception.Message,
 			Source = source,
