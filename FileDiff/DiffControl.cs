@@ -233,6 +233,20 @@ public class DiffControl : Control
 									}
 
 									drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
+
+									if (AppSettings.ShowWhiteSpaceCharacters)
+									{
+										double offset = 0;
+										foreach (char x in textSegment.Text)
+										{
+											if (x == ' ')
+											{
+												drawingContext.DrawEllipse(new SolidColorBrush(Color.FromArgb(128, 255, 0, 0)), null, new Point(nextPosition + offset + segmentRun.AdvanceWidths[textSegment.Text.IndexOf(x)] / 2, characterHeight / 2), 2, 2);
+											}
+
+											offset += segmentRun.AdvanceWidths[textSegment.Text.IndexOf(x)];
+										}
+									}
 								}
 								nextPosition += runWidth;
 

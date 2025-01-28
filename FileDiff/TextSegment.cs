@@ -33,7 +33,7 @@ public class TextSegment
 
 	public TextState Type { get; set; }
 
-	private string Text { get; set; }
+	public string Text { get; set; }
 
 	public bool IsWhiteSpace
 	{

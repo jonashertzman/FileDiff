@@ -128,7 +128,7 @@ static class TextUtils
 
 		if (codePoint == '\t')
 		{
-			displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? '›' : ' ';
+			displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? ' ' : ' ';
 
 			glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
 			double tabCharacterWidth = AppSettings.TabSize * characterWidth;
