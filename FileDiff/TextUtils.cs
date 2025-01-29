@@ -143,7 +143,7 @@ static class TextUtils
 		}
 		else if (codePoint == ' ')
 		{
-			displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? '·' : ' ';
+			displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? ' ' : ' ';
 
 			glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
 			width = Math.Ceiling(glyphTypeface.AdvanceWidths[glyphIndex] * fontSize / dpiScale) * dpiScale;

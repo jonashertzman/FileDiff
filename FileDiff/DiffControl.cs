@@ -237,14 +237,16 @@ public class DiffControl : Control
 									if (AppSettings.ShowWhiteSpaceCharacters)
 									{
 										double offset = 0;
-										foreach (char x in textSegment.Text)
+										for (int characterIndex = 0; characterIndex < textSegment.Text.Length; characterIndex++)
 										{
+											char x = textSegment.Text[characterIndex];
 											if (x == ' ')
 											{
-												drawingContext.DrawEllipse(new SolidColorBrush(Color.FromArgb(128, 255, 0, 0)), null, new Point(nextPosition + offset + segmentRun.AdvanceWidths[textSegment.Text.IndexOf(x)] / 2, characterHeight / 2), 2, 2);
+												//drawingContext.DrawRectangle(new SolidColorBrush(Color.FromArgb(70, 255, 255, 0)), null, new Rect(offset, 0, segmentRun.AdvanceWidths[characterIndex], characterHeight));
+												drawingContext.DrawEllipse(new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)), null, new Point(offset + segmentRun.AdvanceWidths[characterIndex] / 2, characterHeight / 2), 2, 2);
 											}
 
-											offset += segmentRun.AdvanceWidths[textSegment.Text.IndexOf(x)];
+											offset += segmentRun.AdvanceWidths[characterIndex];
 										}
 									}
 								}
@@ -471,7 +473,7 @@ public class DiffControl : Control
 					{
 						if (Lines[i].Text.Length > 0 && Lines[i].Text[0] == '\t')
 						{
-							Lines[i].Text = Lines[i].Text.Remove(0, 1);
+							Lines[i].Text = Lines[i].Text[1..];
 						}
 					}
 					else
@@ -542,7 +544,7 @@ public class DiffControl : Control
 					DeleteSelection();
 				}
 
-				string[] pastedRows = Clipboard.GetText().Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+				string[] pastedRows = Clipboard.GetText().Split(["\r\n", "\n"], StringSplitOptions.None);
 
 				string leftOfCursor = Lines[cursorLine].Text[..cursorCharacter];
 				string rightOfCursor = Lines[cursorLine].Text[cursorCharacter..];
