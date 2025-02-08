@@ -465,6 +465,8 @@
 						</ToggleButton.ToolTip>
 					</ToggleButton>
 
+
+					<Button Content="Crash" Click="Button_Click"></Button>
 				</StackPanel>
 
 			</WrapPanel>

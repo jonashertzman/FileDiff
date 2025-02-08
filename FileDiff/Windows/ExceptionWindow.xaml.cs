@@ -62,11 +62,14 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 	{
 		try
 		{
-			HttpClient httpClient = new();
+			HttpClientHandler handler = new HttpClientHandler();
+			handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+
+			HttpClient httpClient = new HttpClient(handler);
 
 			CrashReportRequest cr = new()
 			{
-				ApplicationName = "FileSearch",
+				ApplicationName = "FileDiff",
 				BuildNumber = AppSettings.BuildNumber,
 				ClientId = AppSettings.Id,
 				ExceptionType = this.ExceptionType,
@@ -78,14 +81,14 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 			string json = JsonSerializer.Serialize(cr);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-			var response = await httpClient.PostAsync("https://localhost:7133/api/CrashReport", content);
+			var response = await httpClient.PostAsync("https://a57ee9618f0a6ac2f5546d8b2704f9ec6.asuscomm.com:7133/api/CrashReport", content);
 		}
 		catch (Exception ex)
 		{
 			Debug.Print($"Crash report failed: {ex.Message}");
 		}
 
-		this.Close();
+		//this.Close();
 	}
 
 	private void OpenLogFileButton_Click(object sender, RoutedEventArgs e)

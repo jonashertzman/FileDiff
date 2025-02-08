@@ -1205,4 +1205,8 @@ public partial class MainWindow : Window
 
 	#endregion
 
+	private void Button_Click(object sender, RoutedEventArgs e)
+	{
+		File.ReadAllText("sxdfsda");
+	}
 }

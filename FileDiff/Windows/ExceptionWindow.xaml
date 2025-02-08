@@ -52,7 +52,7 @@
 			<StackPanel Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
 				<Button Content="Open Log File" Style="{StaticResource CommonButton}" Click="OpenLogFileButton_Click" />
 				<Button Content="Close" Style="{StaticResource CommonButton}" Click="CloseButton_Click" />
-				<!--<Button Content="Report" Style="{StaticResource CommonButton}" Click="ReportButton_Click" />-->
+				<Button Content="Report" Style="{StaticResource CommonButton}" Click="ReportButton_Click" />
 			</StackPanel>
 		</Border>
 	</Grid>
