@@ -8,18 +8,18 @@ public partial class App : Application
 	{
 		AppDomain.CurrentDomain.UnhandledException += (s, e) =>
 		{
-			Log.LogUnhandledException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
+			Log.DisplayException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
 		};
 
 		DispatcherUnhandledException += (s, e) =>
 		{
-			Log.LogUnhandledException(e.Exception, "Application.Current.DispatcherUnhandledException");
+			Log.DisplayException(e.Exception, "Application.Current.DispatcherUnhandledException");
 			e.Handled = true;
 		};
 
 		TaskScheduler.UnobservedTaskException += (s, e) =>
 		{
-			Log.LogUnhandledException(e.Exception, "TaskScheduler.UnobservedTaskException");
+			Log.DisplayException(e.Exception, "TaskScheduler.UnobservedTaskException");
 			e.SetObserved();
 		};
 	}

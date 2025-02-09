@@ -62,10 +62,12 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 	{
 		try
 		{
-			HttpClientHandler handler = new HttpClientHandler();
-			handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; };
+			HttpClientHandler handler = new()
+			{
+				ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+			};
 
-			HttpClient httpClient = new HttpClient(handler);
+			HttpClient httpClient = new(handler);
 
 			CrashReportRequest cr = new()
 			{

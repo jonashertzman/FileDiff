@@ -6,14 +6,17 @@ namespace FileDiff;
 internal static class Log
 {
 
+	#region Properties
+
 	public static Window OwnerWindow { get; set; }
 
-	public static void LogUnhandledException(Exception exception, string source)
-	{
-		string errorText = $"{DateTime.UtcNow} - {source}\nException:  {exception.GetType().Name}\nMessage:    {exception.Message}\n{exception.StackTrace}\n\n";
+	#endregion
 
-		Directory.CreateDirectory(Path.GetDirectoryName(AppSettings.LogPath));
-		File.AppendAllText(AppSettings.LogPath, errorText);
+	#region Methods
+
+	public static void DisplayException(Exception exception, string source)
+	{
+		LogException(exception, source);
 
 		ExceptionWindow exceptionWindow = new()
 		{
@@ -26,5 +29,15 @@ internal static class Log
 
 		exceptionWindow.ShowDialog();
 	}
+
+	public static void LogException(Exception exception, string source)
+	{
+		string errorText = $"{DateTime.UtcNow} - {source}\nException:  {exception.GetType().Name}\nMessage:    {exception.Message}\n{exception.StackTrace}\n\n";
+
+		Directory.CreateDirectory(Path.GetDirectoryName(AppSettings.LogPath));
+		File.AppendAllText(AppSettings.LogPath, errorText);
+	}
+
+	#endregion
 
 }

@@ -539,15 +539,35 @@ public partial class MainWindow : Window
 			{
 				Debug.Print("Checking for new version...");
 
-				HttpClient httpClient = new();
-				string result = await httpClient.GetStringAsync("https://jonashertzman.github.io/FileDiff/download/version.txt");
+				HttpClientHandler handler = new()
+				{
+					ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; }
+				};
+
+				HttpClient httpClient = new(handler)
+				{
+					Timeout = TimeSpan.FromSeconds(3)
+				};
+
+				string result = "";
+
+				try
+				{
+					result = await httpClient.GetStringAsync("https://a57ee9618f0a6ac2f5546d8b2704f9ec6.asuscomm.com:7133/api/getversion?application=FileDiff");
+				}
+				catch (Exception exception)
+				{
+					Log.LogException(exception, "Version check failed");
+
+					result = await httpClient.GetStringAsync("https://jonashertzman.github.io/FileDiff/download/version.txt");
+				}
 
 				Debug.Print($"Latest version found: {result}");
 				ViewModel.NewBuildAvailable = int.Parse(result) > int.Parse(ViewModel.BuildNumber);
 			}
 			catch (Exception exception)
 			{
-				Debug.Print($"Version check failed: {exception.Message}");
+				Log.LogException(exception, "Version check failed");
 			}
 
 			AppSettings.LastUpdateTime = DateTime.Now;
@@ -1207,6 +1227,7 @@ public partial class MainWindow : Window
 
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-		File.ReadAllText("sxdfsda");
+		File.ReadAllBytes("sxdfsda");
 	}
+
 }
