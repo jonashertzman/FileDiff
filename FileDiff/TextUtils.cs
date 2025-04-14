@@ -128,9 +128,11 @@ static class TextUtils
 
 		if (codePoint == '\t')
 		{
-			displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? ' ' : ' ';
+			displayCodePoint = ' ';
 
 			glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
+
+			// Tab width varies depending on the position of the tab character in the line.
 			double tabCharacterWidth = AppSettings.TabSize * characterWidth;
 			width = tabCharacterWidth - ((characterStartPosition + tabCharacterWidth) % tabCharacterWidth);
 
@@ -141,16 +143,8 @@ static class TextUtils
 
 			return glyphIndex;
 		}
-		else if (codePoint == ' ')
-		{
-			displayCodePoint = AppSettings.ShowWhiteSpaceCharacters ? ' ' : ' ';
-
-			glyphTypeface.CharacterToGlyphMap.TryGetValue(displayCodePoint, out glyphIndex);
-			width = Math.Ceiling(glyphTypeface.AdvanceWidths[glyphIndex] * fontSize / dpiScale) * dpiScale;
-			return glyphIndex;
-		}
-		// Most fixed width fonts don't have a glyph for zero width space, use the space glyph but set width to 0
-		// to not get black squares when painting.
+		// Most fixed width fonts don't have a glyph for zero width space, use the space glyph
+		// but set width to 0 to not get black squares when painting.
 		else if (codePoint == '\u200B')
 		{
 			displayCodePoint = ' ';

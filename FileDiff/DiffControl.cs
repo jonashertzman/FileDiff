@@ -129,11 +129,9 @@ public class DiffControl : Control
 		currentDiffPen.Freeze();
 		GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
 
-		SolidColorBrush whiteSpaceBrush = new SolidColorBrush(Color.FromArgb(255, 100, 100, 255));
+		SolidColorBrush whiteSpaceBrush = new(Color.FromArgb(255, 100, 100, 255));
 		Pen whiteSpacePen = new(whiteSpaceBrush, RoundToWholePixels(1));
 		GuidelineSet whiteSpacePenGuide = CreateGuidelineSet(whiteSpacePen);
-
-
 
 
 		textMargin = RoundToWholePixels(4);
@@ -248,25 +246,24 @@ public class DiffControl : Control
 											double offset = 0;
 											for (int characterIndex = 0; characterIndex < textSegment.Text.Length; characterIndex++)
 											{
-												char x = textSegment.Text[characterIndex];
+												char character = textSegment.Text[characterIndex];
 												double characterWidth = segmentRun.AdvanceWidths[characterIndex];
-												double size = Math.Min(characterWidth, characterHeight) / 2 - 2;
+												double arrowSize = characterHeight * .2;
 
-
-												if (x.In([' ', '\t']))
+												if (character.In([' ', '\t']))
 												{
-													drawingContext.DrawRectangle(/*new SolidColorBrush(Color.FromArgb(50, 128, 128, 128))*/null, borderPen, new Rect(offset, 0, characterWidth, characterHeight));
+													//	drawingContext.DrawRectangle(/*new SolidColorBrush(Color.FromArgb(50, 128, 128, 128))*/null, borderPen, new Rect(offset, 0, characterWidth, characterHeight));
 
-													if (x == ' ')
+													if (character == ' ')
 													{
-														drawingContext.DrawEllipse(whiteSpaceBrush, null, new Point(offset + characterWidth / 2, characterHeight / 2), 2, 2);
+														drawingContext.DrawEllipse(whiteSpaceBrush, null, new Point(offset + characterWidth / 2, characterHeight / 2), arrowSize / 2, arrowSize / 2);
 													}
-													if (x == '\t')
+													if (character == '\t')
 													{
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + 2, characterHeight / 2), new Point(offset + characterWidth - 2, characterHeight / 2));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + 1, characterHeight / 2), new Point(offset + characterWidth - 2, characterHeight / 2));
 
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - size, characterHeight / 2 - size), new Point(offset + characterWidth - 2, characterHeight / 2));
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - size, characterHeight / 2 + size), new Point(offset + characterWidth - 2, characterHeight / 2));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 1, characterHeight / 2 - arrowSize), new Point(offset + characterWidth - 1, characterHeight / 2));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 1, characterHeight / 2 + arrowSize), new Point(offset + characterWidth - 1, characterHeight / 2));
 													}
 												}
 
