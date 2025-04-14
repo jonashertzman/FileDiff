@@ -248,6 +248,7 @@ public class DiffControl : Control
 												char character = textSegment.Text[characterIndex];
 												double characterWidth = segmentRun.AdvanceWidths[characterIndex];
 												double arrowSize = characterHeight * .2;
+												double centerY = RoundToWholePixels(characterHeight / 2);
 
 												if (character.In([' ', '\t']))
 												{
@@ -255,14 +256,14 @@ public class DiffControl : Control
 
 													if (character == ' ')
 													{
-														drawingContext.DrawEllipse(AppSettings.WhiteSpaceForeground, null, new Point(offset + characterWidth / 2, characterHeight / 2), arrowSize / 2, arrowSize / 2);
+														drawingContext.DrawEllipse(AppSettings.WhiteSpaceForeground, null, new Point(offset + characterWidth / 2, centerY), arrowSize / 2, arrowSize / 2);
 													}
 													if (character == '\t')
 													{
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + 1, characterHeight / 2), new Point(offset + characterWidth - 2, characterHeight / 2));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + 1, centerY), new Point(offset + characterWidth - 2, centerY));
 
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 1, characterHeight / 2 - arrowSize), new Point(offset + characterWidth - 1, characterHeight / 2));
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 1, characterHeight / 2 + arrowSize), new Point(offset + characterWidth - 1, characterHeight / 2));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 1, centerY - arrowSize), new Point(offset + characterWidth - 1, centerY));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 1, centerY + arrowSize), new Point(offset + characterWidth - 1, centerY));
 													}
 												}
 

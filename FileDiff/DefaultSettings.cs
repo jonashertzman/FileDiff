@@ -44,7 +44,7 @@ public static class DefaultSettings
 		MovedFromBackground = "#FF2D1B1B",
 		MovedToBackground = "#FF1B261B",
 
-		WhiteSpaceForeground = "#FF0000FF",
+		WhiteSpaceForeground = "#FF144852",
 
 		// Editor colors
 		LineNumberColor = "#FF797979",
@@ -108,7 +108,7 @@ public static class DefaultSettings
 		MovedFromBackground = "#FFFFF0F0",
 		MovedToBackground = "#FFF0FFF0",
 
-		WhiteSpaceForeground = "#FF0000FF",
+		WhiteSpaceForeground = "#FF144852",
 
 		// Editor colors
 		LineNumberColor = "#FF585858",
