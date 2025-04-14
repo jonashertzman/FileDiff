@@ -66,4 +66,18 @@ static class Utils
 		return path;
 	}
 
+	#region Extention Methods
+
+	public static bool In<T>(this T item, params T[] list)
+	{
+		return list.Contains(item);
+	}
+
+	public static bool NotIn<T>(this T item, params T[] list)
+	{
+		return !list.Contains(item);
+	}
+
+	#endregion
+
 }

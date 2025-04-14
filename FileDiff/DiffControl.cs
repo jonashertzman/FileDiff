@@ -129,6 +129,13 @@ public class DiffControl : Control
 		currentDiffPen.Freeze();
 		GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
 
+		SolidColorBrush whiteSpaceBrush = new SolidColorBrush(Color.FromArgb(255, 100, 100, 255));
+		Pen whiteSpacePen = new(whiteSpaceBrush, RoundToWholePixels(1));
+		GuidelineSet whiteSpacePenGuide = CreateGuidelineSet(whiteSpacePen);
+
+
+
+
 		textMargin = RoundToWholePixels(4);
 		lineNumberMargin = RoundToWholePixels(characterWidth * Lines.Count.ToString().Length) + (2 * textMargin) + borderPen.Thickness;
 
@@ -236,18 +243,37 @@ public class DiffControl : Control
 
 									if (AppSettings.ShowWhiteSpaceCharacters)
 									{
-										double offset = 0;
-										for (int characterIndex = 0; characterIndex < textSegment.Text.Length; characterIndex++)
+										drawingContext.PushGuidelineSet(whiteSpacePenGuide);
 										{
-											char x = textSegment.Text[characterIndex];
-											if (x == ' ')
+											double offset = 0;
+											for (int characterIndex = 0; characterIndex < textSegment.Text.Length; characterIndex++)
 											{
-												//drawingContext.DrawRectangle(new SolidColorBrush(Color.FromArgb(70, 255, 255, 0)), null, new Rect(offset, 0, segmentRun.AdvanceWidths[characterIndex], characterHeight));
-												drawingContext.DrawEllipse(new SolidColorBrush(Color.FromArgb(255, 0, 0, 255)), null, new Point(offset + segmentRun.AdvanceWidths[characterIndex] / 2, characterHeight / 2), 2, 2);
-											}
+												char x = textSegment.Text[characterIndex];
+												double characterWidth = segmentRun.AdvanceWidths[characterIndex];
+												double size = Math.Min(characterWidth, characterHeight) / 2 - 2;
 
-											offset += segmentRun.AdvanceWidths[characterIndex];
+
+												if (x.In([' ', '\t']))
+												{
+													drawingContext.DrawRectangle(/*new SolidColorBrush(Color.FromArgb(50, 128, 128, 128))*/null, borderPen, new Rect(offset, 0, characterWidth, characterHeight));
+
+													if (x == ' ')
+													{
+														drawingContext.DrawEllipse(whiteSpaceBrush, null, new Point(offset + characterWidth / 2, characterHeight / 2), 2, 2);
+													}
+													if (x == '\t')
+													{
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + 2, characterHeight / 2), new Point(offset + characterWidth - 2, characterHeight / 2));
+
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - size, characterHeight / 2 - size), new Point(offset + characterWidth - 2, characterHeight / 2));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - size, characterHeight / 2 + size), new Point(offset + characterWidth - 2, characterHeight / 2));
+													}
+												}
+
+												offset += characterWidth;
+											}
 										}
+										drawingContext.Pop();
 									}
 								}
 								nextPosition += runWidth;
