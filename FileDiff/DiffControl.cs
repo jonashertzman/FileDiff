@@ -129,7 +129,8 @@ public class DiffControl : Control
 		currentDiffPen.Freeze();
 		GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
 
-		Pen whiteSpacePen = new(AppSettings.WhiteSpaceForeground, RoundToWholePixels(1));
+		Pen whiteSpacePen = new(AppSettings.WhiteSpaceForeground, RoundToWholePixels(characterHeight * .08)) { StartLineCap = PenLineCap.Flat, EndLineCap = PenLineCap.Square };
+
 		GuidelineSet whiteSpacePenGuide = CreateGuidelineSet(whiteSpacePen);
 
 
@@ -252,7 +253,7 @@ public class DiffControl : Control
 
 												if (character.In([' ', '\t']))
 												{
-													//	drawingContext.DrawRectangle(/*new SolidColorBrush(Color.FromArgb(50, 128, 128, 128))*/null, borderPen, new Rect(offset, 0, characterWidth, characterHeight));
+													drawingContext.DrawRectangle(/*new SolidColorBrush(Color.FromArgb(50, 128, 128, 128))*/null, borderPen, new Rect(offset, 0, characterWidth, characterHeight));
 
 													if (character == ' ')
 													{
@@ -260,10 +261,10 @@ public class DiffControl : Control
 													}
 													if (character == '\t')
 													{
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + 1, centerY), new Point(offset + characterWidth - 2, centerY));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + 2, centerY), new Point(offset + characterWidth - 2, centerY));
 
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 1, centerY - arrowSize), new Point(offset + characterWidth - 1, centerY));
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 1, centerY + arrowSize), new Point(offset + characterWidth - 1, centerY));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 2, centerY - arrowSize), new Point(offset + characterWidth - 2, centerY));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 2, centerY + arrowSize), new Point(offset + characterWidth - 2, centerY));
 													}
 												}
 
