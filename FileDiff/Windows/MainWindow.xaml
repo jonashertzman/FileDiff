@@ -433,7 +433,7 @@
 						<ToggleButton.ToolTip>
 							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="Ignore White Space" />
+									<TextBlock Text="Ignore White Space Changes" />
 								</StackPanel>
 							</ToolTip>
 						</ToggleButton.ToolTip>
@@ -446,7 +446,7 @@
 						<ToggleButton.ToolTip>
 							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 								<StackPanel Orientation="Horizontal">
-									<TextBlock VerticalAlignment="Center" Text="Show Special Characters" />
+									<TextBlock VerticalAlignment="Center" Text="Show White Space Characters" />
 								</StackPanel>
 							</ToolTip>
 						</ToggleButton.ToolTip>

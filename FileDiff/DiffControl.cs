@@ -129,8 +129,7 @@ public class DiffControl : Control
 		currentDiffPen.Freeze();
 		GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
 
-		SolidColorBrush whiteSpaceBrush = new(Color.FromArgb(255, 100, 100, 255));
-		Pen whiteSpacePen = new(whiteSpaceBrush, RoundToWholePixels(1));
+		Pen whiteSpacePen = new(AppSettings.WhiteSpaceForeground, RoundToWholePixels(1));
 		GuidelineSet whiteSpacePenGuide = CreateGuidelineSet(whiteSpacePen);
 
 
@@ -256,7 +255,7 @@ public class DiffControl : Control
 
 													if (character == ' ')
 													{
-														drawingContext.DrawEllipse(whiteSpaceBrush, null, new Point(offset + characterWidth / 2, characterHeight / 2), arrowSize / 2, arrowSize / 2);
+														drawingContext.DrawEllipse(AppSettings.WhiteSpaceForeground, null, new Point(offset + characterWidth / 2, characterHeight / 2), arrowSize / 2, arrowSize / 2);
 													}
 													if (character == '\t')
 													{
