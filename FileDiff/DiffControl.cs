@@ -129,10 +129,10 @@ public class DiffControl : Control
 		currentDiffPen.Freeze();
 		GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
 
-		Pen whiteSpacePen = new(AppSettings.WhiteSpaceForeground, RoundToWholePixels(characterHeight * .08)) { StartLineCap = PenLineCap.Flat, EndLineCap = PenLineCap.Square };
-
+		Pen whiteSpacePen = new(AppSettings.WhiteSpaceForeground, RoundToWholePixels(characterHeight * .07)) { StartLineCap = PenLineCap.Flat, EndLineCap = PenLineCap.Square };
+		whiteSpacePen.Freeze();
 		GuidelineSet whiteSpacePenGuide = CreateGuidelineSet(whiteSpacePen);
-
+		double penMargin = whiteSpacePen.Thickness * 1.7;
 
 		textMargin = RoundToWholePixels(4);
 		lineNumberMargin = RoundToWholePixels(characterWidth * Lines.Count.ToString().Length) + (2 * textMargin) + borderPen.Thickness;
@@ -253,7 +253,7 @@ public class DiffControl : Control
 
 												if (character.In([' ', '\t']))
 												{
-													drawingContext.DrawRectangle(/*new SolidColorBrush(Color.FromArgb(50, 128, 128, 128))*/null, borderPen, new Rect(offset, 0, characterWidth, characterHeight));
+													//drawingContext.DrawRectangle(new SolidColorBrush(Color.FromArgb(50, 128, 128, 128)), null, new Rect(offset, 0, characterWidth, characterHeight));
 
 													if (character == ' ')
 													{
@@ -261,10 +261,10 @@ public class DiffControl : Control
 													}
 													if (character == '\t')
 													{
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + 2, centerY), new Point(offset + characterWidth - 2, centerY));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - penMargin, centerY), new Point(offset + penMargin, centerY));
 
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 2, centerY - arrowSize), new Point(offset + characterWidth - 2, centerY));
-														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - 2, centerY + arrowSize), new Point(offset + characterWidth - 2, centerY));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - penMargin, centerY - arrowSize), new Point(offset + characterWidth - penMargin, centerY));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - penMargin, centerY + arrowSize), new Point(offset + characterWidth - penMargin, centerY));
 													}
 												}
 
