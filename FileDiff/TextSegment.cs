@@ -69,19 +69,17 @@ public class TextSegment
 	private Typeface renderedTypeface;
 	private double renderedFontSize;
 	private double renderedDpiScale;
-	private bool renderedWhiteSpace;
 	private int renderedTabSize;
 
-	public GlyphRun GetRenderedText(Typeface typeface, double fontSize, double dpiScale, bool whiteSpace, int tabSize, double startPosition, out double runWidth)
+	public GlyphRun GetRenderedText(Typeface typeface, double fontSize, double dpiScale, int tabSize, double startPosition, out double runWidth)
 	{
-		if (!typeface.Equals(renderedTypeface) || fontSize != renderedFontSize || dpiScale != renderedDpiScale || whiteSpace != renderedWhiteSpace || tabSize != renderedTabSize)
+		if (!typeface.Equals(renderedTypeface) || fontSize != renderedFontSize || dpiScale != renderedDpiScale || tabSize != renderedTabSize)
 		{
 			RenderedText = TextUtils.CreateGlyphRun(Text, typeface, fontSize, dpiScale, startPosition, out renderedTextWidth);
 
 			renderedTypeface = typeface;
 			renderedFontSize = fontSize;
 			renderedDpiScale = dpiScale;
-			renderedWhiteSpace = whiteSpace;
 			renderedTabSize = tabSize;
 		}
 

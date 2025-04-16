@@ -109,6 +109,9 @@ public class DiffControl : Control
 		TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, 0, out characterWidth);
 		characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
+		GlyphRun unixNewline = TextUtils.CreateGlyphRun("LF", typeface, this.FontSize, dpiScale, 0, out double unixNewlineWidth);
+		GlyphRun windowsNewline = TextUtils.CreateGlyphRun("CRLF", typeface, this.FontSize, dpiScale, 0, out double windowsNewlineWidth);
+
 		//Color semiTransparent = Color.FromArgb(100, 0, 0, 0);
 
 		//Brush currentDiffBrush = new LinearGradientBrush(semiTransparent, Colors.Transparent, 0);
@@ -228,7 +231,7 @@ public class DiffControl : Control
 							{
 								drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
-								GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, nextPosition, out double runWidth);
+								GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.TabSize, nextPosition, out double runWidth);
 
 								if (nextPosition - HorizontalOffset < ActualWidth && nextPosition + runWidth - HorizontalOffset > 0)
 								{
@@ -239,6 +242,7 @@ public class DiffControl : Control
 
 									drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
 
+									// Draw white space characters
 									if (AppSettings.ShowWhiteSpaceCharacters)
 									{
 										drawingContext.PushGuidelineSet(whiteSpacePenGuide);
@@ -279,6 +283,21 @@ public class DiffControl : Control
 								drawingContext.Pop();
 							}
 							maxTextWidth = Math.Max(maxTextWidth, nextPosition);
+
+							// Draw newline characters
+							if (AppSettings.ShowWhiteSpaceCharacters)
+							{
+								drawingContext.PushGuidelineSet(whiteSpacePenGuide);
+
+								drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
+								{
+									drawingContext.DrawRectangle(AppSettings.WhiteSpaceForeground, null, new Rect(0, 0, windowsNewlineWidth, characterHeight));
+									drawingContext.DrawGlyphRun(AppSettings.FullMatchBackground, windowsNewline);
+								}
+								drawingContext.Pop();
+
+								drawingContext.Pop();
+							}
 						}
 
 						// Draw cursor
@@ -1186,7 +1205,7 @@ public class DiffControl : Control
 
 		foreach (TextSegment textSegment in Lines[lineIndex].TextSegments)
 		{
-			if (textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, startPosition, out double runWidth) != null)
+			if (textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.TabSize, startPosition, out double runWidth) != null)
 			{
 				foreach (double x in textSegment.RenderedText.AdvanceWidths)
 				{
