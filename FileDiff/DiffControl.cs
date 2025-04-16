@@ -287,15 +287,13 @@ public class DiffControl : Control
 							// Draw newline characters
 							if (AppSettings.ShowWhiteSpaceCharacters)
 							{
-								drawingContext.PushGuidelineSet(whiteSpacePenGuide);
-
-								drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
+								drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin * 2, 0));
 								{
-									drawingContext.DrawRectangle(AppSettings.WhiteSpaceForeground, null, new Rect(0, 0, windowsNewlineWidth, characterHeight));
-									drawingContext.DrawGlyphRun(AppSettings.FullMatchBackground, windowsNewline);
+									drawingContext.PushGuidelineSet(whiteSpacePenGuide);
+									drawingContext.DrawRoundedRectangle(/*AppSettings.WhiteSpaceForeground*/ null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness / 2), windowsNewlineWidth, RoundToWholePixels(characterHeight - whiteSpacePen.Thickness)), penMargin, penMargin);
+									drawingContext.Pop();
+									drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, windowsNewline);
 								}
-								drawingContext.Pop();
-
 								drawingContext.Pop();
 							}
 						}
