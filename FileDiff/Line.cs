@@ -114,6 +114,8 @@ public class Line
 		}
 	}
 
+	public NewlineMode? Newline { get; set; } = null;
+
 	public bool IsFiller
 	{
 		get

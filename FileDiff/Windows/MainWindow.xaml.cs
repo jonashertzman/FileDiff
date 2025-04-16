@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -167,29 +168,29 @@ public partial class MainWindow : Window
 		{
 			if (File.Exists(leftPath))
 			{
-				leftLines = [];
 				leftSelection = leftPath;
-				ViewModel.LeftFileEncoding = Unicode.GetEncoding(leftPath);
+
+				leftLines = GetFileContent(leftPath, out FileEncoding encoding);
+				ViewModel.LeftFileEncoding = encoding;
 				ViewModel.LeftFileDirty = false;
 
-				int i = 0;
-				foreach (string s in File.ReadAllLines(leftPath, ViewModel.LeftFileEncoding.Type))
+				foreach (Line line in leftLines)
 				{
-					leftLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
+					line.Type = TextState.Deleted;
 				}
 			}
 
 			if (File.Exists(rightPath))
 			{
-				rightLines = [];
 				rightSelection = rightPath;
-				ViewModel.RightFileEncoding = Unicode.GetEncoding(rightPath);
+
+				rightLines = GetFileContent(rightPath, out FileEncoding encoding);
+				ViewModel.RightFileEncoding = encoding;
 				ViewModel.RightFileDirty = false;
 
-				int i = 0;
-				foreach (string s in File.ReadAllLines(rightPath, ViewModel.RightFileEncoding.Type))
+				foreach (Line line in rightLines)
 				{
-					rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
+					line.Type = TextState.New;
 				}
 			}
 		}
@@ -307,6 +308,58 @@ public partial class MainWindow : Window
 		}
 
 		LeftFolder.Focus();
+	}
+
+	public static List<Line> GetFileContent(string path, out FileEncoding fileEncoding)
+	{
+		fileEncoding = new FileEncoding(path);
+
+		List<Line> lines = [];
+
+		string allText = File.ReadAllText(path, fileEncoding.Type);
+
+		// Check what newline characters are used
+		MatchCollection allNewlines = Regex.Matches(allText, "(\r\n|\r|\n)");
+		HashSet<string> distinctNewLines = [];
+
+		int offset = 0;
+		int lineIndex = 0;
+
+		foreach (Match match in allNewlines)
+		{
+			distinctNewLines.Add(match.Value);
+
+			lines.Add(new Line()
+			{
+				Text = allText[offset..match.Index],
+				Newline = FileEncoding.GetNewLineMode(match.Value),
+				LineIndex = lineIndex++
+			});
+
+			offset = match.Index + match.Length;
+		}
+
+		// If the last line (or entirety) of the file has no newline character
+		if (offset < allText.Length)
+		{
+			lines.Add(new Line()
+			{
+				Text = allText[offset..],
+				Newline = null,
+				LineIndex = lineIndex++
+			});
+		}
+
+		if (distinctNewLines.Count > 1)
+		{
+			fileEncoding.Newline = NewlineMode.Mixed;
+		}
+		else if (distinctNewLines.Count == 1)
+		{
+			fileEncoding.Newline = FileEncoding.GetNewLineMode(distinctNewLines.ToArray()[0]);
+		}
+
+		return lines;
 	}
 
 	private void InitNavigationState()
@@ -877,7 +930,7 @@ public partial class MainWindow : Window
 			{
 				using (StreamWriter sw = new(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
 				{
-					sw.NewLine = ViewModel.LeftFileEncoding.GetNewLineString;
+					sw.NewLine = ViewModel.LeftFileEncoding.GetNewlineString;
 					foreach (Line l in ViewModel.LeftFile)
 					{
 						if (!l.IsFiller)
@@ -911,7 +964,7 @@ public partial class MainWindow : Window
 			{
 				using (StreamWriter sw = new(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
 				{
-					sw.NewLine = ViewModel.RightFileEncoding.GetNewLineString;
+					sw.NewLine = ViewModel.RightFileEncoding.GetNewlineString;
 					foreach (Line l in ViewModel.RightFile)
 					{
 						if (!l.IsFiller)
