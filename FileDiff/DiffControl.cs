@@ -109,8 +109,8 @@ public class DiffControl : Control
 		TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, 0, out characterWidth);
 		characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
-		GlyphRun unixNewline = TextUtils.CreateGlyphRun("LF", typeface, this.FontSize, dpiScale, 0, out double unixNewlineWidth);
-		GlyphRun windowsNewline = TextUtils.CreateGlyphRun("CRLF", typeface, this.FontSize, dpiScale, 0, out double windowsNewlineWidth);
+		GlyphRun crNewline = TextUtils.CreateGlyphRun("CR", typeface, this.FontSize, dpiScale, 0, out double crNewlineWidth);
+		GlyphRun lfNewline = TextUtils.CreateGlyphRun("LF", typeface, this.FontSize, dpiScale, 0, out double lfNewlineWidth);
 
 		//Color semiTransparent = Color.FromArgb(100, 0, 0, 0);
 
@@ -287,14 +287,31 @@ public class DiffControl : Control
 							// Draw newline characters
 							if (AppSettings.ShowWhiteSpaceCharacters)
 							{
-								drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin * 2, 0));
+								if (line.Newline == NewlineMode.Windows || line.Newline == NewlineMode.Mac)
 								{
-									drawingContext.PushGuidelineSet(whiteSpacePenGuide);
-									drawingContext.DrawRoundedRectangle(/*AppSettings.WhiteSpaceForeground*/ null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness / 2), windowsNewlineWidth, RoundToWholePixels(characterHeight - whiteSpacePen.Thickness)), penMargin, penMargin);
+									drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin, 0));
+									{
+										drawingContext.PushGuidelineSet(whiteSpacePenGuide);
+										drawingContext.DrawRoundedRectangle(/*AppSettings.WhiteSpaceForeground*/ null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness / 2), crNewlineWidth, RoundToWholePixels(characterHeight - whiteSpacePen.Thickness)), penMargin, penMargin);
+										drawingContext.Pop();
+										drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, crNewline);
+									}
 									drawingContext.Pop();
-									drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, windowsNewline);
+									nextPosition += penMargin + crNewlineWidth;
 								}
-								drawingContext.Pop();
+
+								if (line.Newline == NewlineMode.Windows || line.Newline == NewlineMode.Unix)
+								{
+									drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin, 0));
+									{
+										drawingContext.PushGuidelineSet(whiteSpacePenGuide);
+										drawingContext.DrawRoundedRectangle(/*AppSettings.WhiteSpaceForeground*/ null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness / 2), lfNewlineWidth, RoundToWholePixels(characterHeight - whiteSpacePen.Thickness)), penMargin, penMargin);
+										drawingContext.Pop();
+										drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, lfNewline);
+									}
+									drawingContext.Pop();
+									nextPosition += penMargin + lfNewlineWidth;
+								}
 							}
 						}
 
