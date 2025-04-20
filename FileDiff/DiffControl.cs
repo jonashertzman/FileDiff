@@ -289,12 +289,12 @@ public class DiffControl : Control
 							{
 								if (line.Newline == NewlineMode.Windows || line.Newline == NewlineMode.Mac)
 								{
-									nextPosition = DrawNewlineCharacter(drawingContext, crNewline, crNewlineWidth, whiteSpacePen, whiteSpacePenGuide, penMargin, nextPosition);
+									nextPosition = DrawNewlineCharacter(crNewline, crNewlineWidth, nextPosition);
 								}
 
 								if (line.Newline == NewlineMode.Windows || line.Newline == NewlineMode.Unix)
 								{
-									nextPosition = DrawNewlineCharacter(drawingContext, lfNewline, lfNewlineWidth, whiteSpacePen, whiteSpacePenGuide, penMargin, nextPosition);
+									nextPosition = DrawNewlineCharacter(lfNewline, lfNewlineWidth, nextPosition);
 								}
 							}
 						}
@@ -399,28 +399,29 @@ public class DiffControl : Control
 #if DEBUG
 		ReportRenderTime();
 #endif
-	}
 
-	private double DrawNewlineCharacter(DrawingContext drawingContext, GlyphRun crNewline, double crNewlineWidth, Pen whiteSpacePen, GuidelineSet whiteSpacePenGuide, double penMargin, double nextPosition)
-	{
-		drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin, 0));
+		double DrawNewlineCharacter(GlyphRun crNewline, double crNewlineWidth, double nextPosition)
 		{
-			drawingContext.PushGuidelineSet(whiteSpacePenGuide);
+			drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin, 0));
 			{
-				drawingContext.DrawRoundedRectangle(null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness), RoundToWholePixels(crNewlineWidth + whiteSpacePen.Thickness * 2), RoundToWholePixels(characterHeight - whiteSpacePen.Thickness * 2)), penMargin, penMargin);
+				drawingContext.PushGuidelineSet(whiteSpacePenGuide);
+				{
+					drawingContext.DrawRoundedRectangle(null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness), RoundToWholePixels(crNewlineWidth + whiteSpacePen.Thickness * 3), RoundToWholePixels(characterHeight - whiteSpacePen.Thickness * 2)), penMargin, penMargin);
+				}
+				drawingContext.Pop();
+
+				drawingContext.PushTransform(new TranslateTransform(whiteSpacePen.Thickness, 0));
+				{
+					drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, crNewline);
+				}
+				drawingContext.Pop();
+
 			}
 			drawingContext.Pop();
-
-			drawingContext.PushTransform(new TranslateTransform(whiteSpacePen.Thickness, 0));
-			{
-				drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, crNewline);
-			}
-			drawingContext.Pop();
-
+			nextPosition += penMargin * 3 + crNewlineWidth;
+			return nextPosition;
 		}
-		drawingContext.Pop();
-		nextPosition += penMargin * 3 + crNewlineWidth;
-		return nextPosition;
+
 	}
 
 	protected override void OnTextInput(TextCompositionEventArgs e)
