@@ -128,7 +128,7 @@ public class FileEncoding
 		}
 	}
 
-	public string GetNewlineString
+	public string NewlineString
 	{
 		get
 		{
@@ -144,7 +144,7 @@ public class FileEncoding
 		}
 	}
 
-	public static NewlineMode GetNewLineMode(string newlineString)
+	public static NewlineMode GetNewlineMode(string newlineString)
 	{
 		return newlineString switch
 		{

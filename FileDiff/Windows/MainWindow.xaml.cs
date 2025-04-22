@@ -332,7 +332,7 @@ public partial class MainWindow : Window
 			lines.Add(new Line()
 			{
 				Text = allText[offset..match.Index],
-				Newline = FileEncoding.GetNewLineMode(match.Value),
+				Newline = FileEncoding.GetNewlineMode(match.Value),
 				LineIndex = lineIndex++
 			});
 
@@ -356,7 +356,7 @@ public partial class MainWindow : Window
 		}
 		else if (distinctNewLines.Count == 1)
 		{
-			fileEncoding.Newline = FileEncoding.GetNewLineMode(distinctNewLines.ToArray()[0]);
+			fileEncoding.Newline = FileEncoding.GetNewlineMode(distinctNewLines.ToArray()[0]);
 		}
 
 		return lines;
@@ -604,6 +604,34 @@ public partial class MainWindow : Window
 			}
 
 			AppSettings.LastUpdateTime = DateTime.Now;
+		}
+	}
+
+	private static void SaveFile(string savePath, ObservableCollection<Line> lines, FileEncoding fileEncoding)
+	{
+		try
+		{
+			using StreamWriter sw = new(savePath, false, fileEncoding.GetEncoding);
+			sw.NewLine = fileEncoding.NewlineString;
+
+			foreach (Line l in lines)
+			{
+				if (!l.IsFiller)
+				{
+					if (l.Newline == null)
+					{
+						sw.Write(l.Text);
+					}
+					else
+					{
+						sw.WriteLine(l.Text);
+					}
+				}
+			}
+		}
+		catch (Exception exception)
+		{
+			MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 	}
 
@@ -926,26 +954,9 @@ public partial class MainWindow : Window
 
 		if (File.Exists(leftPath) && ViewModel.LeftFileDirty)
 		{
-			try
-			{
-				using (StreamWriter sw = new(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
-				{
-					sw.NewLine = ViewModel.LeftFileEncoding.GetNewlineString;
-					foreach (Line l in ViewModel.LeftFile)
-					{
-						if (!l.IsFiller)
-						{
-							sw.WriteLine(l.Text);
-						}
-					}
-				}
-				ViewModel.LeftFileDirty = false;
-				ViewModel.LeftFileEdited = false;
-			}
-			catch (Exception exception)
-			{
-				MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+			SaveFile(leftPath, ViewModel.LeftFile, ViewModel.LeftFileEncoding);
+			ViewModel.LeftFileDirty = false;
+			ViewModel.LeftFileEdited = false;
 		}
 	}
 
@@ -960,26 +971,9 @@ public partial class MainWindow : Window
 
 		if (File.Exists(rightPath) && ViewModel.RightFileDirty)
 		{
-			try
-			{
-				using (StreamWriter sw = new(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
-				{
-					sw.NewLine = ViewModel.RightFileEncoding.GetNewlineString;
-					foreach (Line l in ViewModel.RightFile)
-					{
-						if (!l.IsFiller)
-						{
-							sw.WriteLine(l.Text);
-						}
-					}
-				}
-				ViewModel.RightFileDirty = false;
-				ViewModel.RightFileEdited = false;
-			}
-			catch (Exception exception)
-			{
-				MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+			SaveFile(rightPath, ViewModel.RightFile, ViewModel.RightFileEncoding);
+			ViewModel.RightFileDirty = false;
+			ViewModel.RightFileEdited = false;
 		}
 	}
 

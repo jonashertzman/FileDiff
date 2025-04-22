@@ -31,6 +31,8 @@ public class DiffControl : Control
 
 	private Typeface typeface;
 
+	private NewlineMode documentNewline;
+
 	private readonly DispatcherTimer blinkTimer = new(DispatcherPriority.Render);
 	private readonly Stopwatch stopwatch = new();
 
@@ -224,7 +226,7 @@ public class DiffControl : Control
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
 					{
 						// Draw line
-						if (line.Text != "")
+						if (line.Text != "" || AppSettings.ShowWhiteSpaceCharacters)
 						{
 							double nextPosition = 0;
 							foreach (TextSegment textSegment in line.TextSegments)
@@ -428,7 +430,7 @@ public class DiffControl : Control
 	{
 		if (EditMode && e.Text.Length > 0 && Lines.Count > 0)
 		{
-			if (e.Text == "\b")
+			if (e.Text == "\b") // Backspace key pressed
 			{
 				if (Selection != null)
 				{
@@ -443,6 +445,10 @@ public class DiffControl : Control
 							cursorCharacter = Lines[cursorLine - 1].Text.Length;
 							SetLineText(cursorLine - 1, Lines[cursorLine - 1].Text + Lines[cursorLine].Text);
 							RemoveLine(cursorLine);
+							if (cursorLine == Lines.Count - 1) // Backspace on last line, remove newline character from line above
+							{
+								Lines[cursorLine - 1].Newline = null;
+							}
 							cursorLine--;
 						}
 					}
@@ -454,12 +460,15 @@ public class DiffControl : Control
 					}
 				}
 			}
-			else if (e.Text == "\r")
+			else if (e.Text == "\r") // Enter key pressed
 			{
 				if (Selection != null)
 				{
 					DeleteSelection();
 				}
+
+				Lines[cursorLine].Newline = documentNewline;
+
 				InsertNewLine(cursorLine + 1, Lines[cursorLine].Text[cursorCharacter..]);
 				SetLineText(cursorLine, Lines[cursorLine].Text[..cursorCharacter]);
 				cursorLine++;
@@ -518,6 +527,11 @@ public class DiffControl : Control
 					{
 						SetLineText(cursorLine, Lines[cursorLine].Text + Lines[cursorLine + 1].Text);
 						RemoveLine(cursorLine + 1);
+					}
+					else if (cursorLine == Lines.Count - 1 && Lines[cursorLine].Newline != null) // Delete newline character on last line
+					{
+						Lines[cursorLine].Newline = null;
+						Edited = true;
 					}
 				}
 				else
@@ -942,7 +956,14 @@ public class DiffControl : Control
 	public ObservableCollection<Line> Lines
 	{
 		get { return (ObservableCollection<Line>)GetValue(LinesProperty); }
-		set { SetValue(LinesProperty, value); }
+		set
+		{
+			SetValue(LinesProperty, value);
+			if (value.Count > 0)
+			{
+				this.documentNewline = value[0].Newline ?? NewlineMode.Windows;
+			}
+		}
 	}
 
 
@@ -1107,7 +1128,7 @@ public class DiffControl : Control
 	{
 		this.CurrentDiff = null;
 
-		Lines.Insert(index, new Line() { Text = newText, LineIndex = -1 });
+		Lines.Insert(index, new Line() { Text = newText, LineIndex = -1, Newline = cursorLine == Lines.Count - 1 ? null : documentNewline });
 		Edited = true;
 	}
 
