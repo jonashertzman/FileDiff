@@ -211,7 +211,7 @@ public partial class MainWindow : Window
 			canceledRightLines = rightLines;
 
 			BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
-			Task.Run(() => BackgroundCompare.MatchFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
+			Task.Run(() => BackgroundCompare.MatchFiles(leftLines, rightLines, ViewModel.LeftFileEncoding, ViewModel.RightFileEncoding)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
 
 			progressTimer.Start();
 		}

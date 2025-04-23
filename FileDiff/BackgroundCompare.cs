@@ -31,7 +31,7 @@ public static class BackgroundCompare
 		CompareCancelled = true;
 	}
 
-	public static Tuple<List<Line>, List<Line>, TimeSpan> MatchFiles(List<Line> leftLines, List<Line> rightLines)
+	public static Tuple<List<Line>, List<Line>, TimeSpan> MatchFiles(List<Line> leftLines, List<Line> rightLines, FileEncoding leftFileEncoding, FileEncoding rightFileEncoding)
 	{
 
 		Debug.WriteLine("  - MatchFiles");
@@ -44,7 +44,7 @@ public static class BackgroundCompare
 
 		MatchLines(leftLines, rightLines);
 
-		AddFillerLines(ref leftLines, ref rightLines);
+		AddFillerLines(ref leftLines, ref rightLines, leftFileEncoding.SaveNewline, rightFileEncoding.SaveNewline);
 
 		ShiftDown(leftLines, rightLines);
 
@@ -721,7 +721,7 @@ public static class BackgroundCompare
 		return matchLength;
 	}
 
-	private static void AddFillerLines(ref List<Line> leftLines, ref List<Line> rightLines)
+	private static void AddFillerLines(ref List<Line> leftLines, ref List<Line> rightLines, NewlineMode leftNewline, NewlineMode rightNewline)
 	{
 		int rightIndex = 0;
 
@@ -733,13 +733,13 @@ public static class BackgroundCompare
 			if (leftLines[leftIndex].MatchingLineIndex == null)
 			{
 				newLeft.Add(leftLines[leftIndex]);
-				newRight.Add(new Line() { Type = TextState.Filler });
+				newRight.Add(new Line() { Type = TextState.Filler, Newline = rightNewline });
 			}
 			else
 			{
 				while (rightIndex < leftLines[leftIndex].MatchingLineIndex)
 				{
-					newLeft.Add(new Line() { Type = TextState.Filler });
+					newLeft.Add(new Line() { Type = TextState.Filler, Newline = leftNewline });
 					newRight.Add(rightLines[rightIndex]);
 					rightIndex++;
 				}
@@ -750,7 +750,7 @@ public static class BackgroundCompare
 		}
 		while (rightIndex < rightLines.Count)
 		{
-			newLeft.Add(new Line() { Type = TextState.Filler });
+			newLeft.Add(new Line() { Type = TextState.Filler, Newline = leftNewline });
 			newRight.Add(rightLines[rightIndex]);
 			rightIndex++;
 		}

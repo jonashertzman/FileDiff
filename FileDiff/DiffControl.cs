@@ -287,7 +287,7 @@ public class DiffControl : Control
 							maxTextWidth = Math.Max(maxTextWidth, nextPosition);
 
 							// Draw newline characters
-							if (AppSettings.ShowWhiteSpaceCharacters)
+							if (AppSettings.ShowWhiteSpaceCharacters && !line.IsFiller)
 							{
 								if (line.Newline == NewlineMode.Windows || line.Newline == NewlineMode.Mac)
 								{

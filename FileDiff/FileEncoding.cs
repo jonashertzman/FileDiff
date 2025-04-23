@@ -103,6 +103,8 @@ public class FileEncoding
 
 	public NewlineMode Newline { get; set; } = NewlineMode.Windows;
 
+	public NewlineMode SaveNewline { get { return Newline == NewlineMode.Mixed ? NewlineMode.Windows : Newline; } }
+
 	public Encoding GetEncoding
 	{
 		get
