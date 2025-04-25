@@ -134,7 +134,7 @@ public class DiffControl : Control
 		currentDiffPen.Freeze();
 		GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
 
-		Pen whiteSpacePen = new(AppSettings.WhiteSpaceForeground, RoundToWholePixels(characterHeight * .07)) { StartLineCap = PenLineCap.Flat, EndLineCap = PenLineCap.Square };
+		Pen whiteSpacePen = new(AppSettings.WhiteSpaceForeground, RoundToWholePixels(characterHeight * .06)) { StartLineCap = PenLineCap.Flat, EndLineCap = PenLineCap.Square };
 		whiteSpacePen.Freeze();
 		GuidelineSet whiteSpacePenGuide = CreateGuidelineSet(whiteSpacePen);
 		double penMargin = whiteSpacePen.Thickness * 1.7;
@@ -263,7 +263,7 @@ public class DiffControl : Control
 
 													if (character == ' ')
 													{
-														drawingContext.DrawEllipse(AppSettings.WhiteSpaceForeground, null, new Point(offset + characterWidth / 2, centerY), arrowSize / 2, arrowSize / 2);
+														drawingContext.DrawEllipse(AppSettings.WhiteSpaceForeground, null, new Point(offset + characterWidth / 2, centerY), arrowSize * .4, arrowSize * .4);
 													}
 													if (character == '\t')
 													{
@@ -404,7 +404,7 @@ public class DiffControl : Control
 
 		double DrawNewlineCharacter(GlyphRun crNewline, double crNewlineWidth, double nextPosition)
 		{
-			drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin, 0));
+			drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin * 3, 0));
 			{
 				drawingContext.PushGuidelineSet(whiteSpacePenGuide);
 				{
