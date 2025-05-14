@@ -402,19 +402,34 @@ public class DiffControl : Control
 		ReportRenderTime();
 #endif
 
-		double DrawNewlineCharacter(GlyphRun crNewline, double crNewlineWidth, double nextPosition)
+		double DrawNewlineCharacter(GlyphRun NewlineText, double crNewlineWidth, double nextPosition)
 		{
+			Rect nlRect = NewlineText.ComputeAlignmentBox();
+			//r.Top -= crNewline.BaselineOrigin.Y;
 			drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin * 3, 0));
 			{
+
+				//		drawingContext.DrawRoundedRectangle(Brushes.Yellow, null, nlRect, penMargin, penMargin);
+
+
 				drawingContext.PushGuidelineSet(whiteSpacePenGuide);
 				{
-					drawingContext.DrawRoundedRectangle(null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness), RoundToWholePixels(crNewlineWidth + whiteSpacePen.Thickness * 3), RoundToWholePixels(characterHeight - whiteSpacePen.Thickness * 2)), penMargin, penMargin);
+					Rect r = new Rect(
+						0,
+						RoundToWholePixels((characterHeight - nlRect.Height) / 2),
+						RoundToWholePixels(nlRect.Width),
+						RoundToWholePixels(nlRect.Height)
+					);
+
+					drawingContext.DrawRoundedRectangle(null, whiteSpacePen, r, penMargin, penMargin);
+					//		drawingContext.DrawRoundedRectangle(null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness), RoundToWholePixels(crNewlineWidth + whiteSpacePen.Thickness * 3), RoundToWholePixels(characterHeight - whiteSpacePen.Thickness * 2)), penMargin, penMargin);
+
 				}
 				drawingContext.Pop();
 
-				drawingContext.PushTransform(new TranslateTransform(whiteSpacePen.Thickness, 0));
+				drawingContext.PushTransform(new TranslateTransform(0, 0));
 				{
-					drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, crNewline);
+					drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, NewlineText);
 				}
 				drawingContext.Pop();
 
