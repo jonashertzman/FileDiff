@@ -6,6 +6,16 @@ namespace FileDiff;
 public class FileEncoding
 {
 
+	#region Members
+
+	readonly byte[] UTF8_BOM = [0xEF, 0xBB, 0xBF];
+	readonly byte[] UTF32LE_BOM = [0xFF, 0xFE, 0x00, 0x00];
+	readonly byte[] UTF32BE_BOM = [0x00, 0x00, 0xFE, 0xFF];
+	readonly byte[] UTF16LE_BOM = [0xFF, 0xFE];
+	readonly byte[] UTF16BE_BOM = [0xFE, 0xFF];
+
+	#endregion
+
 	#region Constructor
 
 	public FileEncoding(string path)
@@ -13,24 +23,29 @@ public class FileEncoding
 		byte[] bytes = File.ReadAllBytes(path);
 
 		// Check if the file has a BOM
-		if (bytes[0] == 0xEF && bytes[1] == 0xBB && bytes[2] == 0xBF)
+		if (bytes.Length > 2 && bytes[0..3].SequenceEqual(UTF8_BOM))
 		{
 			Type = Encoding.UTF8;
 			HasBom = true;
 		}
-		else if (bytes[0] == 0xFF && bytes[1] == 0xFE)
+		else if (bytes.Length > 3 && bytes[0..4].SequenceEqual(UTF32LE_BOM)) // Check this before UTF16 since the first 2 bytes are the same as an UTF16 little endian BOM.
+		{
+			Type = new UTF32Encoding(false, true);
+			HasBom = true;
+		}
+		else if (bytes.Length > 3 && bytes[0..4].SequenceEqual(UTF32BE_BOM))
+		{
+			Type = new UTF32Encoding(true, true);
+			HasBom = true;
+		}
+		else if (bytes.Length > 1 && bytes[0..2].SequenceEqual(UTF16LE_BOM))
 		{
 			Type = Encoding.Unicode;
 			HasBom = true;
 		}
-		else if (bytes[0] == 0xFE && bytes[1] == 0xFF)
+		else if (bytes.Length > 1 && bytes[0..2].SequenceEqual(UTF16BE_BOM))
 		{
 			Type = Encoding.BigEndianUnicode;
-			HasBom = true;
-		}
-		else if (bytes[0] == 0x00 && bytes[1] == 0x00 && bytes[2] == 0xFE && bytes[3] == 0xFF)
-		{
-			Type = new UTF32Encoding(true, true);
 			HasBom = true;
 		}
 
@@ -74,9 +89,17 @@ public class FileEncoding
 		{
 			name = "UTF-16 BE";
 		}
-		else if (Type == Encoding.UTF32)
+		else if (Type is UTF32Encoding)
 		{
 			name = "UTF-32";
+			if (Type.WebName == "utf-32BE")
+			{
+				name += " BE";
+			}
+			else
+			{
+				name += " LE";
+			}
 		}
 		else if (Type == Encoding.Default)
 		{
@@ -121,9 +144,13 @@ public class FileEncoding
 			{
 				return new UnicodeEncoding(true, HasBom);
 			}
-			else if (Type == Encoding.UTF32)
+			else if (Type.WebName == "utf-32")
 			{
 				return new UTF32Encoding(false, HasBom);
+			}
+			else if (Type.WebName == "utf-32BE")
+			{
+				return new UTF32Encoding(true, HasBom);
 			}
 
 			return Encoding.Default;

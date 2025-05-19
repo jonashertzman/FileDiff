@@ -414,11 +414,11 @@ public class DiffControl : Control
 
 				drawingContext.PushGuidelineSet(whiteSpacePenGuide);
 				{
-					Rect r = new Rect(
+					Rect r = new(
 						0,
-						RoundToWholePixels((characterHeight - nlRect.Height) / 2),
+						RoundToWholePixels(whiteSpacePen.Thickness),
 						RoundToWholePixels(nlRect.Width),
-						RoundToWholePixels(nlRect.Height)
+						RoundToWholePixels(characterHeight - 2 * whiteSpacePen.Thickness)
 					);
 
 					drawingContext.DrawRoundedRectangle(null, whiteSpacePen, r, penMargin, penMargin);
