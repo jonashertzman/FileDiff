@@ -28,7 +28,7 @@ public class FileEncoding
 			Type = Encoding.UTF8;
 			HasBom = true;
 		}
-		else if (bytes.Length > 3 && bytes[0..4].SequenceEqual(UTF32LE_BOM)) // Check this before UTF16 since the first 2 bytes are the same as an UTF16 little endian BOM.
+		else if (bytes.Length > 3 && bytes[0..4].SequenceEqual(UTF32LE_BOM)) // Must check this before UTF16 since the first 2 bytes are the same as an UTF16 little endian BOM.
 		{
 			Type = new UTF32Encoding(false, true);
 			HasBom = true;
@@ -49,20 +49,43 @@ public class FileEncoding
 			HasBom = true;
 		}
 
-		// No bom found, check if data passes as a bom-less UTF-8 file
+		// No bom found, check if data passes as a bom-less UTF-8 file.
 		else if (CheckValidUtf8(bytes))
 		{
 			Type = Encoding.UTF8;
 		}
 
-		// Check if the file has null bytes, if so we assume it is a bom-less UTF-16 file
+		// Check if the file has null bytes, if so we assume it is a bom-less UTF-16 or UTF-32 file
+		// since they encode white space, punctuation, numbers and English characters as ascii 
+		// padded with 1 or 3 null bytes respectively, either before or after the ascii character.
 		else
 		{
 			for (int i = 0; i < bytes.Length; i++)
 			{
 				if (bytes[i] == 0)
 				{
-					Type = Encoding.Unicode;
+					if (i % 2 == 1) // Little endian since the null byte IS NOT on a multiple of 2 or 4.
+					{
+						if (i < bytes.Length && bytes[i + 1] == 0) // UTF-16 cannot have 2 consecutive null bytes, must be UTF-32.
+						{
+							Type = new UTF32Encoding(false, false);
+						}
+						else
+						{
+							Type = Encoding.Unicode;
+						}
+					}
+					else // Big endian since the null byte IS on a multiple of 2 or 4.
+					{
+						if (i < bytes.Length && bytes[i + 1] == 0) // UTF-16 cannot have 2 consecutive null bytes, must be UTF-32.
+						{
+							Type = new UTF32Encoding(true, false);
+						}
+						else
+						{
+							Type = Encoding.BigEndianUnicode;
+						}
+					}
 					break;
 				}
 			}
