@@ -316,7 +316,7 @@ public partial class MainWindow : Window
 
 		List<Line> lines = [];
 
-		string allText = File.ReadAllText(path, fileEncoding.Type);
+		string allText = File.ReadAllText(path, fileEncoding.GetEncoding);
 
 		// Check what newline characters are used
 		MatchCollection allNewlines = Regex.Matches(allText, "(\r\n|\r|\n)");
@@ -340,7 +340,7 @@ public partial class MainWindow : Window
 		}
 
 		// If the last line (or entirety) of the file has no newline character
-		if (offset < allText.Length)
+		if (allText.Length == 0 || offset < allText.Length)
 		{
 			lines.Add(new Line()
 			{

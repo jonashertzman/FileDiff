@@ -100,7 +100,7 @@ public class FileEncoding
 
 	#region Properties
 
-	public Encoding Type { get; private set; } = Encoding.Default;
+	private Encoding Type = Encoding.Default;
 
 	public bool HasBom { get; private set; }
 
