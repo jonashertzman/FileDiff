@@ -86,6 +86,21 @@ public class DiffControl : Control
 		}
 	}
 
+	private int LastNonFillerLine
+	{
+		get
+		{
+			int line = Lines.Count - 1;
+
+			while (line > 0 && Lines[line].Type == TextState.Filler)
+			{
+				line--;
+			}
+
+			return line;
+		}
+	}
+
 	#endregion
 
 	#region Overrides
@@ -605,11 +620,11 @@ public class DiffControl : Control
 					Selection = null;
 					cursorLine = 0;
 					cursorCharacter = 0;
-					SetCursorPosition(Lines.Count - 1, Math.Max(0, Lines[^1].Text.Length), true);
+					SetCursorPosition(LastNonFillerLine, Math.Max(0, Lines[LastNonFillerLine].Text.Length), true);
 				}
 				else
 				{
-					Selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[^1].Text.Length));
+					Selection = new Selection(0, 0, LastNonFillerLine, Math.Max(0, Lines[LastNonFillerLine].Text.Length));
 				}
 			}
 		}
@@ -677,7 +692,7 @@ public class DiffControl : Control
 		{
 			if (EditMode)
 			{
-				int line = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
+				int line = Math.Min(cursorLine + VisibleLines, LastNonFillerLine);
 				SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftPressed);
 			}
 			else
@@ -711,7 +726,7 @@ public class DiffControl : Control
 				VerticalOffset = Lines.Count;
 				if (EditMode)
 				{
-					SetCursorPosition(Lines.Count - 1, Lines[^1].Text.Length, shiftPressed);
+					SetCursorPosition(LastNonFillerLine, Lines[LastNonFillerLine].Text.Length, shiftPressed);
 				}
 			}
 			else
@@ -730,7 +745,7 @@ public class DiffControl : Control
 			}
 			else
 			{
-				if (cursorLine < Lines.Count - 1)
+				if (cursorLine < LastNonFillerLine)
 				{
 					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine + 1].Text.Length), shiftPressed);
 				}
@@ -791,7 +806,7 @@ public class DiffControl : Control
 			{
 				if (cursorCharacter >= Lines[cursorLine].Text.Length)
 				{
-					if (cursorLine < Lines.Count - 1)
+					if (cursorLine < LastNonFillerLine)
 					{
 						SetCursorPosition(cursorLine + 1, 0, shiftPressed);
 					}
@@ -1289,14 +1304,14 @@ public class DiffControl : Control
 
 		line = (int)(point.Y / characterHeight) + VerticalOffset;
 
-		if (line >= Lines.Count)
+		if (line > LastNonFillerLine)
 		{
-			line = Lines.Count - 1;
+			line = LastNonFillerLine;
 			character = Math.Max(Lines[line].Text.Length, 0);
 			return;
 		}
 
-		point.Offset((-lineNumberMargin - textMargin + HorizontalOffset), 0);
+		point.Offset(-lineNumberMargin - textMargin + HorizontalOffset, 0);
 
 		character = 0;
 		double totalWidth = 0;
