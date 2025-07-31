@@ -474,11 +474,11 @@ public class DiffControl : Control
 						{
 							cursorCharacter = Lines[cursorLine - 1].Text.Length;
 							SetLineText(cursorLine - 1, Lines[cursorLine - 1].Text + Lines[cursorLine].Text);
-							RemoveLine(cursorLine);
-							if (cursorLine == Lines.Count - 1) // Backspace on last line, remove newline character from line above
+							if (cursorLine == LastNonFillerLine) // Backspace on last line, remove newline character from line above
 							{
 								Lines[cursorLine - 1].Newline = null;
 							}
+							RemoveLine(cursorLine);
 							cursorLine--;
 						}
 					}
@@ -556,6 +556,7 @@ public class DiffControl : Control
 					if (cursorLine < Lines.Count - 1)
 					{
 						SetLineText(cursorLine, Lines[cursorLine].Text + Lines[cursorLine + 1].Text);
+						Lines[cursorLine].Newline = Lines[cursorLine + 1].Newline;
 						RemoveLine(cursorLine + 1);
 					}
 					else if (cursorLine == Lines.Count - 1 && Lines[cursorLine].Newline != null) // Delete newline character on last line
@@ -1137,6 +1138,7 @@ public class DiffControl : Control
 			else if (index == Selection.TopLine)
 			{
 				SetLineText(index, Lines[index].Text[..Selection.TopCharacter] + Lines[index + 1].Text);
+				Lines[index].Newline = Lines[index + 1].Newline;
 				RemoveLine(index + 1);
 			}
 			else if (index == Selection.BottomLine)
@@ -1158,7 +1160,19 @@ public class DiffControl : Control
 	{
 		this.CurrentDiff = null;
 
-		Lines.Insert(index, new Line() { Text = newText, LineIndex = -1, Newline = cursorLine == Lines.Count - 1 ? null : documentNewline });
+		if (Lines.Count > index && Lines[index].Type == TextState.Filler)
+		{
+			Lines[index].Type = TextState.FullMatch;
+			Lines[index].Text = newText;
+			if (index >= LastNonFillerLine)
+			{
+				Lines[index].Newline = null;
+			}
+		}
+		else
+		{
+			Lines.Insert(index, new Line() { Text = newText, LineIndex = -1, Newline = cursorLine == Lines.Count - 1 ? null : documentNewline });
+		}
 		Edited = true;
 	}
 

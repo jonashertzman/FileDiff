@@ -340,7 +340,7 @@ public partial class MainWindow : Window
 		}
 
 		// If the last line (or entirety) of the file has no newline character
-		if (allText.Length == 0 || offset < allText.Length)
+		if (allText.Length == 0 || offset <= allText.Length)
 		{
 			lines.Add(new Line()
 			{
