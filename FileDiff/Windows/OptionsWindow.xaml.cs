@@ -36,6 +36,14 @@ public partial class OptionsWindow : Window
 
 	#endregion
 
+	bool ShowAlpha
+	{
+		get
+		{
+			return selectedRectangle.In([SelectionBackground, WhiteSpaceForeground]);
+		}
+	}
+
 	#region Methods
 
 	private void CleanIgnores()
@@ -67,10 +75,10 @@ public partial class OptionsWindow : Window
 	{
 		selectedRectangle = e.Source as Rectangle;
 
-		LabelA.Visibility = selectedRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
-		SliderA.Visibility = selectedRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
+		LabelA.Visibility = ShowAlpha ? Visibility.Visible : Visibility.Collapsed;
+		SliderA.Visibility = ShowAlpha ? Visibility.Visible : Visibility.Collapsed;
 
-		Color currentColor = Color.FromArgb((byte)(selectedRectangle == SelectionBackground ? ((SolidColorBrush)selectedRectangle.Fill).Color.A : 255), ((SolidColorBrush)selectedRectangle.Fill).Color.R, ((SolidColorBrush)selectedRectangle.Fill).Color.G, ((SolidColorBrush)selectedRectangle.Fill).Color.B);
+		Color currentColor = Color.FromArgb((byte)(ShowAlpha ? ((SolidColorBrush)selectedRectangle.Fill).Color.A : 255), ((SolidColorBrush)selectedRectangle.Fill).Color.R, ((SolidColorBrush)selectedRectangle.Fill).Color.G, ((SolidColorBrush)selectedRectangle.Fill).Color.B);
 
 		SliderR.Value = currentColor.R;
 		SliderG.Value = currentColor.G;
@@ -168,7 +176,7 @@ public partial class OptionsWindow : Window
 
 	private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
-		byte alpha = (byte)(selectedRectangle == SelectionBackground ? (byte)SliderA.Value : 255);
+		byte alpha = (byte)(ShowAlpha ? (byte)SliderA.Value : 255);
 
 		if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
 		{
