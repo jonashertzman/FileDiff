@@ -462,6 +462,18 @@ public static class AppSettings
 		}
 	}
 
+	private static SolidColorBrush whiteSpaceForeground;
+	public static SolidColorBrush WhiteSpaceForeground
+	{
+		get { return whiteSpaceForeground; }
+		set
+		{
+			whiteSpaceForeground = value;
+			whiteSpaceForeground.Freeze();
+			CurrentTheme.WhiteSpaceForeground = value.Color.ToString();
+		}
+	}
+
 
 	// Editor colors
 	private static SolidColorBrush lineNumberColor;
@@ -880,6 +892,8 @@ public static class AppSettings
 
 			MovedFromBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromBackground));
 			MovedToBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedToBackground));
+
+			WhiteSpaceForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WhiteSpaceForeground));
 
 			// Editor colors
 			LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));

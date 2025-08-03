@@ -31,6 +31,8 @@ public class DiffControl : Control
 
 	private Typeface typeface;
 
+	private NewlineMode documentNewline;
+
 	private readonly DispatcherTimer blinkTimer = new(DispatcherPriority.Render);
 	private readonly Stopwatch stopwatch = new();
 
@@ -84,6 +86,21 @@ public class DiffControl : Control
 		}
 	}
 
+	private int LastNonFillerLine
+	{
+		get
+		{
+			int line = Lines.Count - 1;
+
+			while (line > 0 && Lines[line].Type == TextState.Filler)
+			{
+				line--;
+			}
+
+			return line;
+		}
+	}
+
 	#endregion
 
 	#region Overrides
@@ -109,6 +126,9 @@ public class DiffControl : Control
 		TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, 0, out characterWidth);
 		characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
+		GlyphRun crNewline = TextUtils.CreateGlyphRun("CR", typeface, this.FontSize, dpiScale, 0, out double crNewlineWidth);
+		GlyphRun lfNewline = TextUtils.CreateGlyphRun("LF", typeface, this.FontSize, dpiScale, 0, out double lfNewlineWidth);
+
 		//Color semiTransparent = Color.FromArgb(100, 0, 0, 0);
 
 		//Brush currentDiffBrush = new LinearGradientBrush(semiTransparent, Colors.Transparent, 0);
@@ -128,6 +148,11 @@ public class DiffControl : Control
 		Pen currentDiffPen = new(AppSettings.CurrentDiffColor, RoundToWholePixels(1));
 		currentDiffPen.Freeze();
 		GuidelineSet currentDiffGuide = CreateGuidelineSet(currentDiffPen);
+
+		Pen whiteSpacePen = new(AppSettings.WhiteSpaceForeground, RoundToWholePixels(characterHeight * .06)) { StartLineCap = PenLineCap.Flat, EndLineCap = PenLineCap.Square };
+		whiteSpacePen.Freeze();
+		GuidelineSet whiteSpacePenGuide = CreateGuidelineSet(whiteSpacePen);
+		double penMargin = whiteSpacePen.Thickness * 1.7;
 
 		textMargin = RoundToWholePixels(4);
 		lineNumberMargin = RoundToWholePixels(characterWidth * Lines.Count.ToString().Length) + (2 * textMargin) + borderPen.Thickness;
@@ -216,14 +241,14 @@ public class DiffControl : Control
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
 					{
 						// Draw line
-						if (line.Text != "")
+						if (line.Text != "" || AppSettings.ShowWhiteSpaceCharacters)
 						{
 							double nextPosition = 0;
 							foreach (TextSegment textSegment in line.TextSegments)
 							{
 								drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
-								GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, nextPosition, out double runWidth);
+								GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.TabSize, nextPosition, out double runWidth);
 
 								if (nextPosition - HorizontalOffset < ActualWidth && nextPosition + runWidth - HorizontalOffset > 0)
 								{
@@ -233,12 +258,62 @@ public class DiffControl : Control
 									}
 
 									drawingContext.DrawGlyphRun(AppSettings.ShowLineChanges ? textSegment.ForegroundBrush : line.ForegroundBrush, segmentRun);
+
+									// Draw white space characters
+									if (AppSettings.ShowWhiteSpaceCharacters)
+									{
+										drawingContext.PushGuidelineSet(whiteSpacePenGuide);
+										{
+											double offset = 0;
+											for (int characterIndex = 0; characterIndex < textSegment.Text.Length; characterIndex++)
+											{
+												char character = textSegment.Text[characterIndex];
+												double characterWidth = segmentRun.AdvanceWidths[characterIndex];
+												double arrowSize = characterHeight * .2;
+												double centerY = RoundToWholePixels(characterHeight / 2);
+
+												if (character.In([' ', '\t']))
+												{
+													//drawingContext.DrawRectangle(new SolidColorBrush(Color.FromArgb(50, 128, 128, 128)), null, new Rect(offset, 0, characterWidth, characterHeight));
+
+													if (character == ' ')
+													{
+														drawingContext.DrawEllipse(AppSettings.WhiteSpaceForeground, null, new Point(offset + characterWidth / 2, centerY), arrowSize * .4, arrowSize * .4);
+													}
+													if (character == '\t')
+													{
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - penMargin, centerY), new Point(offset + penMargin, centerY));
+
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - penMargin, centerY - arrowSize), new Point(offset + characterWidth - penMargin, centerY));
+														drawingContext.DrawLine(whiteSpacePen, new Point(offset + characterWidth - arrowSize - penMargin, centerY + arrowSize), new Point(offset + characterWidth - penMargin, centerY));
+													}
+												}
+
+												offset += characterWidth;
+											}
+										}
+										drawingContext.Pop();
+									}
 								}
 								nextPosition += runWidth;
 
 								drawingContext.Pop();
 							}
 							maxTextWidth = Math.Max(maxTextWidth, nextPosition);
+
+							// Draw newline characters
+							if (AppSettings.ShowWhiteSpaceCharacters && !line.IsFiller)
+							{
+								if (line.Newline == NewlineMode.Windows || line.Newline == NewlineMode.Mac)
+								{
+									nextPosition = DrawNewlineCharacter(crNewline, crNewlineWidth, nextPosition);
+								}
+
+								if (line.Newline == NewlineMode.Windows || line.Newline == NewlineMode.Unix)
+								{
+									nextPosition = DrawNewlineCharacter(lfNewline, lfNewlineWidth, nextPosition);
+								}
+							}
 						}
 
 						// Draw cursor
@@ -341,13 +416,51 @@ public class DiffControl : Control
 #if DEBUG
 		ReportRenderTime();
 #endif
+
+		double DrawNewlineCharacter(GlyphRun NewlineText, double crNewlineWidth, double nextPosition)
+		{
+			Rect nlRect = NewlineText.ComputeAlignmentBox();
+			//r.Top -= crNewline.BaselineOrigin.Y;
+			drawingContext.PushTransform(new TranslateTransform(nextPosition + penMargin * 3, 0));
+			{
+
+				//		drawingContext.DrawRoundedRectangle(Brushes.Yellow, null, nlRect, penMargin, penMargin);
+
+
+				drawingContext.PushGuidelineSet(whiteSpacePenGuide);
+				{
+					Rect r = new(
+						0,
+						RoundToWholePixels(whiteSpacePen.Thickness),
+						RoundToWholePixels(nlRect.Width),
+						RoundToWholePixels(characterHeight - 2 * whiteSpacePen.Thickness)
+					);
+
+					drawingContext.DrawRoundedRectangle(null, whiteSpacePen, r, penMargin, penMargin);
+					//		drawingContext.DrawRoundedRectangle(null, whiteSpacePen, new Rect(0, RoundToWholePixels(whiteSpacePen.Thickness), RoundToWholePixels(crNewlineWidth + whiteSpacePen.Thickness * 3), RoundToWholePixels(characterHeight - whiteSpacePen.Thickness * 2)), penMargin, penMargin);
+
+				}
+				drawingContext.Pop();
+
+				drawingContext.PushTransform(new TranslateTransform(0, 0));
+				{
+					drawingContext.DrawGlyphRun(AppSettings.WhiteSpaceForeground, NewlineText);
+				}
+				drawingContext.Pop();
+
+			}
+			drawingContext.Pop();
+			nextPosition += penMargin * 3 + crNewlineWidth;
+			return nextPosition;
+		}
+
 	}
 
 	protected override void OnTextInput(TextCompositionEventArgs e)
 	{
 		if (EditMode && e.Text.Length > 0 && Lines.Count > 0)
 		{
-			if (e.Text == "\b")
+			if (e.Text == "\b") // Backspace key pressed
 			{
 				if (Selection != null)
 				{
@@ -361,6 +474,10 @@ public class DiffControl : Control
 						{
 							cursorCharacter = Lines[cursorLine - 1].Text.Length;
 							SetLineText(cursorLine - 1, Lines[cursorLine - 1].Text + Lines[cursorLine].Text);
+							if (cursorLine == LastNonFillerLine) // Backspace on last line, remove newline character from line above
+							{
+								Lines[cursorLine - 1].Newline = null;
+							}
 							RemoveLine(cursorLine);
 							cursorLine--;
 						}
@@ -373,12 +490,15 @@ public class DiffControl : Control
 					}
 				}
 			}
-			else if (e.Text == "\r")
+			else if (e.Text == "\r") // Enter key pressed
 			{
 				if (Selection != null)
 				{
 					DeleteSelection();
 				}
+
+				Lines[cursorLine].Newline = documentNewline;
+
 				InsertNewLine(cursorLine + 1, Lines[cursorLine].Text[cursorCharacter..]);
 				SetLineText(cursorLine, Lines[cursorLine].Text[..cursorCharacter]);
 				cursorLine++;
@@ -436,7 +556,13 @@ public class DiffControl : Control
 					if (cursorLine < Lines.Count - 1)
 					{
 						SetLineText(cursorLine, Lines[cursorLine].Text + Lines[cursorLine + 1].Text);
+						Lines[cursorLine].Newline = Lines[cursorLine + 1].Newline;
 						RemoveLine(cursorLine + 1);
+					}
+					else if (cursorLine == Lines.Count - 1 && Lines[cursorLine].Newline != null) // Delete newline character on last line
+					{
+						Lines[cursorLine].Newline = null;
+						Edited = true;
 					}
 				}
 				else
@@ -457,7 +583,7 @@ public class DiffControl : Control
 					{
 						if (Lines[i].Text.Length > 0 && Lines[i].Text[0] == '\t')
 						{
-							Lines[i].Text = Lines[i].Text.Remove(0, 1);
+							Lines[i].Text = Lines[i].Text[1..];
 						}
 					}
 					else
@@ -495,11 +621,11 @@ public class DiffControl : Control
 					Selection = null;
 					cursorLine = 0;
 					cursorCharacter = 0;
-					SetCursorPosition(Lines.Count - 1, Math.Max(0, Lines[^1].Text.Length), true);
+					SetCursorPosition(LastNonFillerLine, Math.Max(0, Lines[LastNonFillerLine].Text.Length), true);
 				}
 				else
 				{
-					Selection = new Selection(0, 0, Lines.Count - 1, Math.Max(0, Lines[^1].Text.Length));
+					Selection = new Selection(0, 0, LastNonFillerLine, Math.Max(0, Lines[LastNonFillerLine].Text.Length));
 				}
 			}
 		}
@@ -528,7 +654,7 @@ public class DiffControl : Control
 					DeleteSelection();
 				}
 
-				string[] pastedRows = Clipboard.GetText().Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+				string[] pastedRows = Clipboard.GetText().Split(["\r\n", "\n"], StringSplitOptions.None);
 
 				string leftOfCursor = Lines[cursorLine].Text[..cursorCharacter];
 				string rightOfCursor = Lines[cursorLine].Text[cursorCharacter..];
@@ -567,7 +693,7 @@ public class DiffControl : Control
 		{
 			if (EditMode)
 			{
-				int line = Math.Min(cursorLine + VisibleLines, Lines.Count - 1);
+				int line = Math.Min(cursorLine + VisibleLines, LastNonFillerLine);
 				SetCursorPosition(line, Math.Min(cursorCharacter, Lines[line].Text.Length), shiftPressed);
 			}
 			else
@@ -601,7 +727,7 @@ public class DiffControl : Control
 				VerticalOffset = Lines.Count;
 				if (EditMode)
 				{
-					SetCursorPosition(Lines.Count - 1, Lines[^1].Text.Length, shiftPressed);
+					SetCursorPosition(LastNonFillerLine, Lines[LastNonFillerLine].Text.Length, shiftPressed);
 				}
 			}
 			else
@@ -620,7 +746,7 @@ public class DiffControl : Control
 			}
 			else
 			{
-				if (cursorLine < Lines.Count - 1)
+				if (cursorLine < LastNonFillerLine)
 				{
 					SetCursorPosition(cursorLine + 1, Math.Min(cursorCharacter, Lines[cursorLine + 1].Text.Length), shiftPressed);
 				}
@@ -681,7 +807,7 @@ public class DiffControl : Control
 			{
 				if (cursorCharacter >= Lines[cursorLine].Text.Length)
 				{
-					if (cursorLine < Lines.Count - 1)
+					if (cursorLine < LastNonFillerLine)
 					{
 						SetCursorPosition(cursorLine + 1, 0, shiftPressed);
 					}
@@ -861,7 +987,14 @@ public class DiffControl : Control
 	public ObservableCollection<Line> Lines
 	{
 		get { return (ObservableCollection<Line>)GetValue(LinesProperty); }
-		set { SetValue(LinesProperty, value); }
+		set
+		{
+			SetValue(LinesProperty, value);
+			if (value.Count > 0)
+			{
+				this.documentNewline = value[0].Newline ?? NewlineMode.Windows;
+			}
+		}
 	}
 
 
@@ -1005,6 +1138,7 @@ public class DiffControl : Control
 			else if (index == Selection.TopLine)
 			{
 				SetLineText(index, Lines[index].Text[..Selection.TopCharacter] + Lines[index + 1].Text);
+				Lines[index].Newline = Lines[index + 1].Newline;
 				RemoveLine(index + 1);
 			}
 			else if (index == Selection.BottomLine)
@@ -1026,7 +1160,19 @@ public class DiffControl : Control
 	{
 		this.CurrentDiff = null;
 
-		Lines.Insert(index, new Line() { Text = newText, LineIndex = -1 });
+		if (Lines.Count > index && Lines[index].Type == TextState.Filler)
+		{
+			Lines[index].Type = TextState.FullMatch;
+			Lines[index].Text = newText;
+			if (index >= LastNonFillerLine)
+			{
+				Lines[index].Newline = null;
+			}
+		}
+		else
+		{
+			Lines.Insert(index, new Line() { Text = newText, LineIndex = -1, Newline = cursorLine == Lines.Count - 1 ? null : documentNewline });
+		}
 		Edited = true;
 	}
 
@@ -1146,7 +1292,7 @@ public class DiffControl : Control
 
 		foreach (TextSegment textSegment in Lines[lineIndex].TextSegments)
 		{
-			if (textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, startPosition, out double runWidth) != null)
+			if (textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.TabSize, startPosition, out double runWidth) != null)
 			{
 				foreach (double x in textSegment.RenderedText.AdvanceWidths)
 				{
@@ -1172,14 +1318,14 @@ public class DiffControl : Control
 
 		line = (int)(point.Y / characterHeight) + VerticalOffset;
 
-		if (line >= Lines.Count)
+		if (line > LastNonFillerLine)
 		{
-			line = Lines.Count - 1;
+			line = LastNonFillerLine;
 			character = Math.Max(Lines[line].Text.Length, 0);
 			return;
 		}
 
-		point.Offset((-lineNumberMargin - textMargin + HorizontalOffset), 0);
+		point.Offset(-lineNumberMargin - textMargin + HorizontalOffset, 0);
 
 		character = 0;
 		double totalWidth = 0;

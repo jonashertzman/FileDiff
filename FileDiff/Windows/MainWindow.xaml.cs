@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -167,29 +168,29 @@ public partial class MainWindow : Window
 		{
 			if (File.Exists(leftPath))
 			{
-				leftLines = [];
 				leftSelection = leftPath;
-				ViewModel.LeftFileEncoding = Unicode.GetEncoding(leftPath);
+
+				leftLines = GetFileContent(leftPath, out FileEncoding encoding);
+				ViewModel.LeftFileEncoding = encoding;
 				ViewModel.LeftFileDirty = false;
 
-				int i = 0;
-				foreach (string s in File.ReadAllLines(leftPath, ViewModel.LeftFileEncoding.Type))
+				foreach (Line line in leftLines)
 				{
-					leftLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
+					line.Type = TextState.Deleted;
 				}
 			}
 
 			if (File.Exists(rightPath))
 			{
-				rightLines = [];
 				rightSelection = rightPath;
-				ViewModel.RightFileEncoding = Unicode.GetEncoding(rightPath);
+
+				rightLines = GetFileContent(rightPath, out FileEncoding encoding);
+				ViewModel.RightFileEncoding = encoding;
 				ViewModel.RightFileDirty = false;
 
-				int i = 0;
-				foreach (string s in File.ReadAllLines(rightPath, ViewModel.RightFileEncoding.Type))
+				foreach (Line line in rightLines)
 				{
-					rightLines.Add(new Line() { Type = TextState.New, Text = s, LineIndex = i++ });
+					line.Type = TextState.New;
 				}
 			}
 		}
@@ -210,7 +211,7 @@ public partial class MainWindow : Window
 			canceledRightLines = rightLines;
 
 			BackgroundCompare.progressHandler = new Progress<int>(CompareStatusUpdate);
-			Task.Run(() => BackgroundCompare.MatchFiles(leftLines, rightLines)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
+			Task.Run(() => BackgroundCompare.MatchFiles(leftLines, rightLines, ViewModel.LeftFileEncoding, ViewModel.RightFileEncoding)).ContinueWith(CompareFilesFinished, TaskScheduler.FromCurrentSynchronizationContext());
 
 			progressTimer.Start();
 		}
@@ -307,6 +308,58 @@ public partial class MainWindow : Window
 		}
 
 		LeftFolder.Focus();
+	}
+
+	public static List<Line> GetFileContent(string path, out FileEncoding fileEncoding)
+	{
+		fileEncoding = new FileEncoding(path);
+
+		List<Line> lines = [];
+
+		string allText = File.ReadAllText(path, fileEncoding.GetEncoding);
+
+		// Check what newline characters are used
+		MatchCollection allNewlines = Regex.Matches(allText, "(\r\n|\r|\n)");
+		HashSet<string> distinctNewLines = [];
+
+		int offset = 0;
+		int lineIndex = 0;
+
+		foreach (Match match in allNewlines)
+		{
+			distinctNewLines.Add(match.Value);
+
+			lines.Add(new Line()
+			{
+				Text = allText[offset..match.Index],
+				Newline = FileEncoding.GetNewlineMode(match.Value),
+				LineIndex = lineIndex++
+			});
+
+			offset = match.Index + match.Length;
+		}
+
+		// If the last line (or entirety) of the file has no newline character
+		if (allText.Length == 0 || offset <= allText.Length)
+		{
+			lines.Add(new Line()
+			{
+				Text = allText[offset..],
+				Newline = null,
+				LineIndex = lineIndex++
+			});
+		}
+
+		if (distinctNewLines.Count > 1)
+		{
+			fileEncoding.Newline = NewlineMode.Mixed;
+		}
+		else if (distinctNewLines.Count == 1)
+		{
+			fileEncoding.Newline = FileEncoding.GetNewlineMode(distinctNewLines.ToArray()[0]);
+		}
+
+		return lines;
 	}
 
 	private void InitNavigationState()
@@ -551,6 +604,34 @@ public partial class MainWindow : Window
 			}
 
 			AppSettings.LastUpdateTime = DateTime.Now;
+		}
+	}
+
+	private static void SaveFile(string savePath, ObservableCollection<Line> lines, FileEncoding fileEncoding)
+	{
+		try
+		{
+			using StreamWriter sw = new(savePath, false, fileEncoding.GetEncoding);
+			sw.NewLine = fileEncoding.NewlineString;
+
+			foreach (Line l in lines)
+			{
+				if (!l.IsFiller)
+				{
+					if (l.Newline == null)
+					{
+						sw.Write(l.Text);
+					}
+					else
+					{
+						sw.WriteLine(l.Text);
+					}
+				}
+			}
+		}
+		catch (Exception exception)
+		{
+			MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 	}
 
@@ -873,26 +954,9 @@ public partial class MainWindow : Window
 
 		if (File.Exists(leftPath) && ViewModel.LeftFileDirty)
 		{
-			try
-			{
-				using (StreamWriter sw = new(leftPath, false, ViewModel.LeftFileEncoding.GetEncoding))
-				{
-					sw.NewLine = ViewModel.LeftFileEncoding.GetNewLineString;
-					foreach (Line l in ViewModel.LeftFile)
-					{
-						if (!l.IsFiller)
-						{
-							sw.WriteLine(l.Text);
-						}
-					}
-				}
-				ViewModel.LeftFileDirty = false;
-				ViewModel.LeftFileEdited = false;
-			}
-			catch (Exception exception)
-			{
-				MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+			SaveFile(leftPath, ViewModel.LeftFile, ViewModel.LeftFileEncoding);
+			ViewModel.LeftFileDirty = false;
+			ViewModel.LeftFileEdited = false;
 		}
 	}
 
@@ -907,26 +971,9 @@ public partial class MainWindow : Window
 
 		if (File.Exists(rightPath) && ViewModel.RightFileDirty)
 		{
-			try
-			{
-				using (StreamWriter sw = new(rightPath, false, ViewModel.RightFileEncoding.GetEncoding))
-				{
-					sw.NewLine = ViewModel.RightFileEncoding.GetNewLineString;
-					foreach (Line l in ViewModel.RightFile)
-					{
-						if (!l.IsFiller)
-						{
-							sw.WriteLine(l.Text);
-						}
-					}
-				}
-				ViewModel.RightFileDirty = false;
-				ViewModel.RightFileEdited = false;
-			}
-			catch (Exception exception)
-			{
-				MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
-			}
+			SaveFile(rightPath, ViewModel.RightFile, ViewModel.RightFileEncoding);
+			ViewModel.RightFileDirty = false;
+			ViewModel.RightFileEdited = false;
 		}
 	}
 

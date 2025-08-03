@@ -42,6 +42,8 @@ public class ColorTheme
 	public required string MovedFromBackground { get; set; }
 	public required string MovedToBackground { get; set; }
 
+	public required string WhiteSpaceForeground { get; set; }
+
 	// Editor colors
 	public required string LineNumberColor { get; set; }
 	public required string CurrentDiffColor { get; set; }

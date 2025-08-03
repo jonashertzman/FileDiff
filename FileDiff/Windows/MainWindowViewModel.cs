@@ -545,6 +545,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.MovedToBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(MovedToBackground)); }
 	}
 
+	public Brush WhiteSpaceForeground
+	{
+		get { return AppSettings.WhiteSpaceForeground; }
+		set { AppSettings.WhiteSpaceForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(WhiteSpaceForeground)); }
+	}
+
 
 	// Editor colors
 	public Brush SelectionBackground
