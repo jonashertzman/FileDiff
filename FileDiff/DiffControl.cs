@@ -666,6 +666,11 @@ public class DiffControl : Control
 						InsertNewLine(cursorLine, "");
 					}
 
+					if (i == pastedRows.Length - 1 && pastedRows[i] == "")
+					{
+						Lines[cursorLine].Newline = null;
+					}
+
 					SetLineText(cursorLine, (i == 0 ? leftOfCursor : "") + pastedRows[i] + (i == pastedRows.Length - 1 ? rightOfCursor : ""));
 					cursorCharacter = (i == 0 ? leftOfCursor.Length : 0) + pastedRows[i].Length;
 
@@ -674,6 +679,9 @@ public class DiffControl : Control
 						cursorLine++;
 					}
 				}
+
+				AddMissingNewlines();
+
 				EnsureCursorVisibility();
 			}
 		}
@@ -1186,6 +1194,17 @@ public class DiffControl : Control
 			InsertNewLine(0, "");
 		}
 		Edited = true;
+	}
+
+	private void AddMissingNewlines()
+	{
+		for (int i = 0; i < LastNonFillerLine; i++)
+		{
+			if (Lines[i].Newline == null)
+			{
+				Lines[i].Newline = documentNewline;
+			}
+		}
 	}
 
 	private void SetLineText(int index, string newText)
