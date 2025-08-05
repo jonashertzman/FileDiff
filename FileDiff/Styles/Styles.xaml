@@ -3,6 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:FileDiff">
 
+	<local:RoutedCommandToInputGestureTextConverter x:Key="RoutedCommandToInputGestureTextConverter" />
+
 	<Style x:Key="MyFocusVisual">
 		<Setter Property="Control.Template">
 			<Setter.Value>
@@ -107,12 +109,20 @@
 		</Style.Triggers>
 	</Style>
 
+	<ToolTip x:Key="asdf" DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="{Binding Path=Command.Text}" />
+			<TextBlock Margin="10,0,0,0" Text="{Binding Path=Command, Converter={StaticResource RoutedCommandToInputGestureTextConverter}}" />
+		</StackPanel>
+	</ToolTip>
+
+
 	<Style x:Key="ToolbarButton" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="BorderThickness" Value="0" />
-
+		<Setter Property="ToolTipService.ToolTip" Value="{StaticResource asdf}" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent" />
@@ -120,11 +130,13 @@
 		</Style.Triggers>
 	</Style>
 
+
 	<Style x:Key="ToolbarToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="ToolTipService.ToolTip" Value="{StaticResource asdf}" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent" />

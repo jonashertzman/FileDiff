@@ -1252,4 +1252,8 @@ public partial class MainWindow : Window
 
 	#endregion
 
+	private void CommandShowLineChanges_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = ViewModel.FileVisible;
+	}
 }

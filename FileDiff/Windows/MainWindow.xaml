@@ -66,6 +66,7 @@
 				<CommandBinding Command="local:Commands.ZoomIn" Executed="CommandZoomIn_Executed" />
 				<CommandBinding Command="local:Commands.ZoomOut" Executed="CommandZoomOut_Executed" />
 				<CommandBinding Command="local:Commands.ResetZoom" Executed="CommandResetZoom_Executed" />
+				<CommandBinding Command="local:Commands.ShowLineChanges" CanExecute="CommandShowLineChanges_CanExecute" />
 				<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
 				<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />
 			</DockPanel.CommandBindings>
@@ -91,6 +92,8 @@
 							<MenuItem Header="Zoom In" Command="local:Commands.ZoomIn" />
 							<MenuItem Header="Zoom Out" Command="local:Commands.ZoomOut" />
 							<MenuItem Header="Reset Zoom" Command="local:Commands.ResetZoom" />
+							<Separator />
+							<MenuItem Command="local:Commands.ShowLineChanges" IsCheckable="True" IsChecked="{Binding ShowLineChanges}" />
 						</MenuItem>
 						<MenuItem Header="Tools">
 							<MenuItem Header="Options" Command="local:Commands.Options" />
@@ -148,14 +151,14 @@
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
-						<Button.ToolTip>
+						<!--<Button.ToolTip>
 							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Text="{Binding Path=Command.Text}" />
 									<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
 								</StackPanel>
 							</ToolTip>
-						</Button.ToolTip>
+						</Button.ToolTip>-->
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveLeftFile">
@@ -400,17 +403,17 @@
 						</Button.ToolTip>
 					</Button>
 
-					<ToggleButton x:Name="ToggleButtonShowLineChanges" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
+					<ToggleButton x:Name="ToggleButtonShowLineChanges" Command="local:Commands.ShowLineChanges" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
 						</StackPanel>
-						<ToggleButton.ToolTip>
+						<!--<ToggleButton.ToolTip>
 							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="Show Line Changes" />
+									<TextBlock Text="{Binding Path=Command.Text}" />
 								</StackPanel>
 							</ToolTip>
-						</ToggleButton.ToolTip>
+						</ToggleButton.ToolTip>-->
 					</ToggleButton>
 
 					<ToggleButton x:Name="ToggleButtonDetectMovedLines" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding DetectMovedLines}" Click="ToggleButtonNeedRecompare_Click">
