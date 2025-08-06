@@ -4,6 +4,7 @@
 	xmlns:local="clr-namespace:FileDiff">
 
 	<local:RoutedCommandToInputGestureTextConverter x:Key="RoutedCommandToInputGestureTextConverter" />
+	<local:StringNullOrEmptyToVisibilityConverter x:Key="StringNullOrEmptyToVisibilityConverter" />
 
 	<Style x:Key="MyFocusVisual">
 		<Setter Property="Control.Template">
@@ -112,10 +113,9 @@
 	<ToolTip x:Key="asdf" DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 		<StackPanel Orientation="Horizontal">
 			<TextBlock Text="{Binding Path=Command.Text}" />
-			<TextBlock Margin="10,0,0,0" Text="{Binding Path=Command, Converter={StaticResource RoutedCommandToInputGestureTextConverter}}" />
+			<TextBlock Margin="10,0,0,0" Visibility="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={local:StringNullOrEmptyToVisibilityConverter}}" Text="{Binding Path=Command, Converter={StaticResource RoutedCommandToInputGestureTextConverter}}" />
 		</StackPanel>
 	</ToolTip>
-
 
 	<Style x:Key="ToolbarButton" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />

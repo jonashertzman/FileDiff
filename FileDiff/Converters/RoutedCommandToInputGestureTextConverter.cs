@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -10,16 +9,14 @@ public class RoutedCommandToInputGestureTextConverter : IValueConverter
 
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		RoutedCommand command = value as RoutedCommand;
-		if (command != null)
+		if (value is RoutedCommand command)
 		{
-			InputGestureCollection col = command.InputGestures;
-			if ((col != null) && (col.Count >= 1))
+			InputGestureCollection gestures = command.InputGestures;
+
+			if ((gestures != null) && (gestures.Count > 0))
 			{
-				// Search for the first key gesture
-				for (int i = 0; i < col.Count; i++)
+				foreach (KeyGesture keyGesture in gestures)
 				{
-					KeyGesture keyGesture = ((IList)col)[i] as KeyGesture;
 					if (keyGesture != null)
 					{
 						return keyGesture.GetDisplayStringForCulture(CultureInfo.CurrentCulture);
