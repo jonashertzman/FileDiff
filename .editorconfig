@@ -9,5 +9,8 @@ dotnet_diagnostic.CA2211.severity = none
 # IDE0066: Convert switch statement to expression
 dotnet_diagnostic.IDE0066.severity = none
 
+# IDE0130: Namespace does not match folder structure
+dotnet_style_namespace_match_folder = false
+
 csharp_using_directive_placement=outside_namespace:suggestion
 csharp_style_namespace_declarations=file_scoped:suggestion

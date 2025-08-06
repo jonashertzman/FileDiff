@@ -30,19 +30,13 @@
 
 			<StackPanel Margin="5" Orientation="Horizontal">
 				<Button x:Name="ButtonDesktop" Style="{StaticResource ToolbarButton}" ToolTip="Desktop" Click="ButtonDesktop_Click">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource DesktopIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
+					<ContentPresenter ContentTemplate="{StaticResource DesktopIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</Button>
 				<Button x:Name="ButtonDocuments" Style="{StaticResource ToolbarButton}" ToolTip="Documents" Click="ButtonDocuments_Click">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource DocumentsIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
+					<ContentPresenter ContentTemplate="{StaticResource DocumentsIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</Button>
 				<!--<Button x:Name="ButtonDownloads" Style="{StaticResource ToolbarButton}" ToolTip="Downloads" Click="ButtonDownloads_Click">
-					<StackPanel Orientation="Horizontal">
-						<ContentPresenter ContentTemplate="{StaticResource DownloadsIcon}" Style="{StaticResource CommonButtonIcon}" />
-					</StackPanel>
+					<ContentPresenter ContentTemplate="{StaticResource DownloadsIcon}" Style="{StaticResource CommonButtonIcon}" />
 				</Button>-->
 			</StackPanel>
 		</StackPanel>
