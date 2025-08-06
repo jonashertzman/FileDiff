@@ -245,15 +245,15 @@
 					</ToggleButton>
 
 					<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" ToolTip="Ignore White Space Changes" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonNeedRecompare_Click">
-							<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
+						<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</ToggleButton>
 
 					<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" ToolTip="Show White Space Characters" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
-							<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
+						<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</ToggleButton>
 
 					<ToggleButton x:Name="ToggleButtonMasterDetail" ToolTip="Master Detail View" IsEnabled="{Binding FolderVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
-							<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
+						<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</ToggleButton>
 				</StackPanel>
 			</WrapPanel>
