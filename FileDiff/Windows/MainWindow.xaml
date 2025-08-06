@@ -66,7 +66,6 @@
 				<CommandBinding Command="local:Commands.ZoomIn" Executed="CommandZoomIn_Executed" />
 				<CommandBinding Command="local:Commands.ZoomOut" Executed="CommandZoomOut_Executed" />
 				<CommandBinding Command="local:Commands.ResetZoom" Executed="CommandResetZoom_Executed" />
-				<CommandBinding Command="local:Commands.ShowLineChanges" CanExecute="CommandShowLineChanges_CanExecute" />
 				<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
 				<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />
 			</DockPanel.CommandBindings>
@@ -92,8 +91,6 @@
 							<MenuItem Header="Zoom In" Command="local:Commands.ZoomIn" />
 							<MenuItem Header="Zoom Out" Command="local:Commands.ZoomOut" />
 							<MenuItem Header="Reset Zoom" Command="local:Commands.ResetZoom" />
-							<Separator />
-							<MenuItem Command="local:Commands.ShowLineChanges" IsCheckable="True" IsChecked="{Binding ShowLineChanges}" />
 						</MenuItem>
 						<MenuItem Header="Tools">
 							<MenuItem Header="Options" Command="local:Commands.Options" />
@@ -146,72 +143,25 @@
 				</WrapPanel.Background>
 
 				<StackPanel Orientation="Horizontal">
-
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Compare">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveLeftFile">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveRightFile">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource SaveIcon2}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource SaveIcon2}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding FileVisible}" IsChecked="{Binding EditMode}">
 						<ToggleButton.Resources>
 							<DataTemplate x:Key="Unpressed">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
-									<StackPanel.ToolTip>
-										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-											<StackPanel Orientation="Horizontal">
-												<TextBlock Text="Enable Editing" />
-											</StackPanel>
-										</ToolTip>
-									</StackPanel.ToolTip>
-								</StackPanel>
+								<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
 							</DataTemplate>
 							<DataTemplate x:Key="Pressed">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource EditIcon2}" Style="{StaticResource CommonButtonIcon}" />
-									<StackPanel.ToolTip>
-										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-											<StackPanel Orientation="Horizontal">
-												<TextBlock Text="Unlocked" />
-											</StackPanel>
-										</ToolTip>
-									</StackPanel.ToolTip>
-								</StackPanel>
+								<ContentPresenter ContentTemplate="{StaticResource EditIcon2}" Style="{StaticResource CommonButtonIcon}" />
 							</DataTemplate>
 						</ToggleButton.Resources>
 						<ToggleButton.Style>
@@ -224,252 +174,88 @@
 								</Style.Triggers>
 							</Style>
 						</ToggleButton.Style>
-						<!--<ToggleButton.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-								</StackPanel>
-							</ToolTip>
-						</ToggleButton.ToolTip>-->
 					</ToggleButton>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Swap">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource SwapIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.Up">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource UpIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource UpIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Separator />
-
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal">
-
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousFile">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource PreviousFileIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Ctrl+Page Up" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource PreviousFileIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextFile">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource NextFileIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Ctrl+Page Down" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource NextFileIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Separator />
-
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal">
-
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstDiff">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Ctrl+Up" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousDiff">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Up" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CurrentDiff">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource CurrentDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Ctrl+Space" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource CurrentDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextDiff">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Down" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.LastDiff">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Ctrl+Down" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Separator />
-
 				</StackPanel>
 
 				<StackPanel Orientation="Horizontal">
-
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CopyLeftDiff" IsEnabled="{Binding FileVisible}">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource CopyLeftSide}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Ctrl+Right" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource CopyLeftSide}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
 					<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CopyRightDiff" IsEnabled="{Binding FileVisible}">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource CopyRightSide}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<Button.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-									<TextBlock Text="Ctrl+Left" Style="{StaticResource ShortcutTooltip}" />
-								</StackPanel>
-							</ToolTip>
-						</Button.ToolTip>-->
+						<ContentPresenter ContentTemplate="{StaticResource CopyRightSide}" Style="{StaticResource CommonButtonIcon}" />
 					</Button>
 
-					<ToggleButton x:Name="ToggleButtonShowLineChanges" Command="local:Commands.ShowLineChanges" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<ToggleButton.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding Path=Command.Text}" />
-								</StackPanel>
-							</ToolTip>
-						</ToggleButton.ToolTip>-->
-					</ToggleButton>
-
-					<ToggleButton x:Name="ToggleButtonDetectMovedLines" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding DetectMovedLines}" Click="ToggleButtonNeedRecompare_Click">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource DetectMovedLines}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<ToggleButton.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="Detect Moved Lines" />
-								</StackPanel>
-							</ToolTip>
-						</ToggleButton.ToolTip>-->
-					</ToggleButton>
-
-					<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonNeedRecompare_Click">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<ToggleButton.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="Ignore White Space Changes" />
-								</StackPanel>
-							</ToolTip>
-						</ToggleButton.ToolTip>-->
-					</ToggleButton>
-
-					<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<ToggleButton.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock VerticalAlignment="Center" Text="Show White Space Characters" />
-								</StackPanel>
-							</ToolTip>
-						</ToggleButton.ToolTip>-->
-					</ToggleButton>
-
-					<ToggleButton x:Name="ToggleButtonMasterDetail" IsEnabled="{Binding FolderVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
-						<StackPanel Orientation="Horizontal">
-							<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
-						</StackPanel>
-						<!--<ToggleButton.ToolTip>
-							<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock VerticalAlignment="Center" Text="Master Detail View" />
-								</StackPanel>
-							</ToolTip>
-						</ToggleButton.ToolTip>-->
-					</ToggleButton>
-
+					<Separator />
 				</StackPanel>
 
+				<StackPanel Orientation="Horizontal">
+					<ToggleButton x:Name="ToggleButtonShowLineChanges" ToolTip="Show Line Changes" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowLineChanges}">
+						<ContentPresenter ContentTemplate="{StaticResource ShowLineChangesIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</ToggleButton>
+
+					<ToggleButton x:Name="ToggleButtonDetectMovedLines" ToolTip="Detect Moved Lines" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding DetectMovedLines}" Click="ToggleButtonNeedRecompare_Click">
+						<ContentPresenter ContentTemplate="{StaticResource DetectMovedLines}" Style="{StaticResource CommonButtonIcon}" />
+					</ToggleButton>
+
+					<ToggleButton x:Name="ToggleButtonIgnoreWhiteSpace" ToolTip="Ignore White Space Changes" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding IgnoreWhiteSpace}" Click="ToggleButtonNeedRecompare_Click">
+							<ContentPresenter ContentTemplate="{StaticResource IgnoreWhiteSpaceIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</ToggleButton>
+
+					<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" ToolTip="Show White Space Characters" IsEnabled="{Binding FileVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
+							<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</ToggleButton>
+
+					<ToggleButton x:Name="ToggleButtonMasterDetail" ToolTip="Master Detail View" IsEnabled="{Binding FolderVisible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding MasterDetail}" Click="ToggleButtonMasterDetail_Click">
+							<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
+					</ToggleButton>
+				</StackPanel>
 			</WrapPanel>
 
 			<!--  Main Content  -->

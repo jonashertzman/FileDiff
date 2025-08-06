@@ -143,10 +143,6 @@ public static class Commands
 		[new KeyGesture(Key.D0, ModifierKeys.Control)]
 	);
 
-	public static readonly RoutedUICommand ShowLineChanges = new(
-		"Show Line Changes", nameof(ShowLineChanges), typeof(Commands)
-	);
-
 	public static readonly RoutedUICommand OpenContainingFolder = new(
 		"Open Containing Folder", nameof(OpenContainingFolder), typeof(Commands)
 	);
