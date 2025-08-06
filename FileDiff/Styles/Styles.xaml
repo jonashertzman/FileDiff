@@ -6,6 +6,13 @@
 	<local:RoutedCommandToInputGestureTextConverter x:Key="RoutedCommandToInputGestureTextConverter" />
 	<local:StringNullOrEmptyToVisibilityConverter x:Key="StringNullOrEmptyToVisibilityConverter" />
 
+	<ToolTip x:Key="TooltipPanel" DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="{Binding Path=Command.Text}" />
+			<TextBlock Margin="10,0,0,0" Visibility="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={local:StringNullOrEmptyToVisibilityConverter}}" Text="{Binding Path=Command, Converter={StaticResource RoutedCommandToInputGestureTextConverter}}" />
+		</StackPanel>
+	</ToolTip>
+
 	<Style x:Key="MyFocusVisual">
 		<Setter Property="Control.Template">
 			<Setter.Value>
@@ -15,11 +22,6 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-
-	<!--<Style TargetType="Window">
-		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
-		<Setter Property="Background" Value="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
-	</Style>-->
 
 	<Style x:Key="StyledTextBlock" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
 		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
@@ -110,19 +112,12 @@
 		</Style.Triggers>
 	</Style>
 
-	<ToolTip x:Key="asdf" DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-		<StackPanel Orientation="Horizontal">
-			<TextBlock Text="{Binding Path=Command.Text}" />
-			<TextBlock Margin="10,0,0,0" Visibility="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={local:StringNullOrEmptyToVisibilityConverter}}" Text="{Binding Path=Command, Converter={StaticResource RoutedCommandToInputGestureTextConverter}}" />
-		</StackPanel>
-	</ToolTip>
-
 	<Style x:Key="ToolbarButton" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="ToolTipService.ToolTip" Value="{StaticResource asdf}" />
+		<Setter Property="ToolTipService.ToolTip" Value="{StaticResource TooltipPanel}" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent" />
@@ -136,7 +131,7 @@
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="ToolTipService.ToolTip" Value="{StaticResource asdf}" />
+		<Setter Property="ToolTipService.ToolTip" Value="{StaticResource TooltipPanel}" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent" />
