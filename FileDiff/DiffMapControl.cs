@@ -152,7 +152,7 @@ public class DiffMapControl : Control
 			new Action(() =>
 			{
 				stopwatch.Stop();
-				Debug.Print($"DiffMapControl OnRender - {stopwatch.ElapsedMilliseconds} ms");
+				Debug.Print($"{nameof(DiffMapControl)} OnRender - {stopwatch.ElapsedMilliseconds} ms");
 			})
 		);
 	}

@@ -1479,7 +1479,7 @@ public class DiffControl : Control
 			new Action(() =>
 			{
 				stopwatch.Stop();
-				Debug.Print($"DiffControl OnRender - {stopwatch.ElapsedMilliseconds} ms");
+				Debug.Print($"{nameof(DiffControl)} OnRender - {stopwatch.ElapsedMilliseconds} ms");
 			})
 		);
 	}

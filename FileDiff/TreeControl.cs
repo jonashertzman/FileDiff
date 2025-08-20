@@ -355,7 +355,7 @@ public class TreeControl : Control
 				new Action(() =>
 				{
 					stopwatch.Stop();
-					Debug.Print($"TreeControl OnRender - {stopwatch.ElapsedMilliseconds} ms");
+					Debug.Print($"{nameof(TreeControl)} OnRender - {stopwatch.ElapsedMilliseconds} ms");
 				})
 		);
 	}
