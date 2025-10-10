@@ -51,13 +51,13 @@ public class DiffMapControl : Control
 		double lineHeight = scrollableHeight / Lines.Count;
 		double lastHeight = -1;
 
-		SolidColorBrush partialMatchBrush = BlendColors(AppSettings.PartialMatchBackground, AppSettings.PartialMatchForeground, .7);
+		SolidColorBrush partialMatchBrush = BlendColors(AppSettings.PartialMatchBackground as SolidColorBrush , AppSettings.PartialMatchForeground as SolidColorBrush, .7);
 
-		SolidColorBrush deletedBrush = BlendColors(AppSettings.DeletedBackground, AppSettings.DeletedForeground, .7);
-		SolidColorBrush movedFromBrush = BlendColors(AppSettings.MovedFromBackground, AppSettings.DeletedForeground, .7);
+		SolidColorBrush deletedBrush = BlendColors(AppSettings.DeletedBackground as SolidColorBrush, AppSettings.DeletedForeground as SolidColorBrush, .7);
+		SolidColorBrush movedFromBrush = BlendColors(AppSettings.MovedFromBackground as SolidColorBrush, AppSettings.DeletedForeground as SolidColorBrush, .7);
 
-		SolidColorBrush newBrush = BlendColors(AppSettings.NewBackground, AppSettings.NewForeground, .7);
-		SolidColorBrush movedToBrush = BlendColors(AppSettings.MovedToBackground, AppSettings.NewForeground, .7);
+		SolidColorBrush newBrush = BlendColors(AppSettings.NewBackground as SolidColorBrush, AppSettings.NewForeground as SolidColorBrush, .7);
+		SolidColorBrush movedToBrush = BlendColors(AppSettings.MovedToBackground as SolidColorBrush, AppSettings.NewForeground as SolidColorBrush, .7);
 
 		SolidColorBrush lineBrush;
 

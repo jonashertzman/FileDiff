@@ -45,7 +45,7 @@ public class TextSegment
 
 	public GlyphRun RenderedText { get; private set; }
 
-	public SolidColorBrush BackgroundBrush
+	public Brush BackgroundBrush
 	{
 		get
 		{
@@ -53,7 +53,7 @@ public class TextSegment
 		}
 	}
 
-	public SolidColorBrush ForegroundBrush
+	public Brush ForegroundBrush
 	{
 		get
 		{

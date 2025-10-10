@@ -3,7 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	<Style TargetType="{x:Type Separator}">
-		<Setter Property="Background" Value="{Binding BorderForeground, FallbackValue=#FFD6D6D6}" />
+		<Setter Property="Background" Value="{StaticResource Theme.BorderLight}" />
 		<Setter Property="Margin" Value="2" />
 		<Setter Property="Focusable" Value="false" />
 		<Setter Property="Template">

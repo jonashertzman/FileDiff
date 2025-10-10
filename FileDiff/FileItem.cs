@@ -77,21 +77,20 @@ public class FileItem
 
 	public TextState Type { get; set; }
 
-	private bool isExpanded;
 	public bool IsExpanded
 	{
-		get { return this.isExpanded; }
+		get;
 		set
 		{
-			if (value != this.isExpanded)
+			if (value != field)
 			{
-				this.isExpanded = value;
+				field = value;
 				CorrespondingItem.IsExpanded = value;
 			}
 		}
 	}
 
-	public SolidColorBrush BackgroundBrush
+	public Brush BackgroundBrush
 	{
 		get
 		{
@@ -99,7 +98,7 @@ public class FileItem
 		}
 	}
 
-	public SolidColorBrush ForegroundBrush
+	public Brush ForegroundBrush
 	{
 		get
 		{

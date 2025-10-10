@@ -71,7 +71,7 @@ public class TreeControl : Control
 		selectionPen.Freeze();
 		GuidelineSet selectionGuide = CreateGuidelineSet(selectionPen);
 
-		Pen expanderPen = new(new SolidColorBrush(AppSettings.FolderFullMatchForeground.Color), 1 * dpiScale);
+		Pen expanderPen = new(new SolidColorBrush(((SolidColorBrush)AppSettings.FolderFullMatchForeground).Color), 1 * dpiScale);
 		expanderPen.Freeze();
 		GuidelineSet expanderGuide = CreateGuidelineSet(expanderPen);
 

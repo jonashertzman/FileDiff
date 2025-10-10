@@ -59,7 +59,7 @@ static class Utils
 	public static string FixRootPath(string path)
 	{
 		// Directory.GetDirectories, Directory.GetFiles and Path.Combine does not work on root paths without trailing backslashes.
-		if (path.EndsWith(":"))
+		if (path.EndsWith(':'))
 		{
 			return path += "\\";
 		}

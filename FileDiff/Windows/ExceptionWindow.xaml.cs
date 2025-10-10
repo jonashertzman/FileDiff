@@ -21,32 +21,28 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 
 	#region Properties
 
-	string exceptionType;
 	public string ExceptionType
 	{
-		get { return exceptionType; }
-		set { exceptionType = value; OnPropertyChanged(ExceptionType); }
+		get;
+		set { field = value; OnPropertyChanged(ExceptionType); }
 	}
 
-	string exceptionMessage;
 	public string ExceptionMessage
 	{
-		get { return exceptionMessage; }
-		set { exceptionMessage = value; OnPropertyChanged(ExceptionMessage); }
+		get;
+		set { field = value; OnPropertyChanged(ExceptionMessage); }
 	}
 
-	string source;
 	public string Source
 	{
-		get { return source; }
-		set { source = value; OnPropertyChanged(Source); }
+		get;
+		set { field = value; OnPropertyChanged(Source); }
 	}
 
-	string stackTrace;
 	public string StackTrace
 	{
-		get { return stackTrace; }
-		set { stackTrace = value; OnPropertyChanged(StackTrace); }
+		get;
+		set { field = value; OnPropertyChanged(StackTrace); }
 	}
 
 	#endregion

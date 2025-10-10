@@ -62,12 +62,11 @@ public class DiffControl : Control
 
 	#region Properties
 
-	private Selection _selection = null;
 	private Selection Selection
 	{
-		get { return _selection; }
-		set { _selection = value; ResetCursorBlink(); }
-	}
+		get;
+		set { field = value; ResetCursorBlink(); }
+	} = null;
 
 	private Point? _mouseDownPosition = null;
 	private Point? MouseDownPosition
@@ -213,7 +212,7 @@ public class DiffControl : Control
 				break;
 
 			Line line = Lines[lineIndex];
-			SolidColorBrush lineNumberColor = AppSettings.LineNumberColor;
+			Brush lineNumberColor = AppSettings.LineNumberColor;
 
 			// Line Y offset
 			drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));

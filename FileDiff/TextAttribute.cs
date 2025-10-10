@@ -10,11 +10,10 @@ public class TextAttribute : INotifyPropertyChanged
 
 	}
 
-	string text;
 	public string Text
 	{
-		get { return text; }
-		set { text = value; OnPropertyChanged(nameof(Text)); }
+		get;
+		set { field = value; OnPropertyChanged(nameof(Text)); }
 	}
 
 	#region INotifyPropertyChanged

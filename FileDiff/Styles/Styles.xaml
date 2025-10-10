@@ -41,8 +41,8 @@
 	</Style>
 
 	<Style x:Key="CommonGridSpliter" TargetType="GridSplitter">
-		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
-		<Setter Property="Background" Value="{Binding DialogBackground, FallbackValue=#FFF0F0F0}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
+		<Setter Property="Background" Value="{StaticResource Theme.Dialog}" />
 	</Style>
 
 	<Style TargetType="Label">

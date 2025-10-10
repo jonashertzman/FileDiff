@@ -15,7 +15,7 @@ public static class AppSettings
 
 	private static readonly SettingsData Settings = new();
 
-	private static readonly string AppDataDirectory = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FileDiff");
+	private static readonly string AppDataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FileDiff");
 	public static readonly string SettingsPath = Path.Combine(AppDataDirectory, "Settings.xml");
 	public static readonly string LogPath = Path.Combine(AppDataDirectory, "FileDiff.log");
 
@@ -127,11 +127,10 @@ public static class AppSettings
 		set { Settings.CharacterMatchThreshold = value; }
 	}
 
-	private static FontFamily font;
 	public static FontFamily Font
 	{
-		get { return font; }
-		set { font = value; Settings.Font = value.ToString(); }
+		get;
+		set { field = value; Settings.Font = value.ToString(); }
 	}
 
 	public static int FontSize
@@ -196,564 +195,543 @@ public static class AppSettings
 
 
 	// Folder diff colors
-	private static SolidColorBrush folderFullMatchForeground;
-	public static SolidColorBrush FolderFullMatchForeground
+	public static Brush FolderFullMatchForeground
 	{
-		get { return folderFullMatchForeground; }
+		get;
 		set
 		{
-			folderFullMatchForeground = value;
-			folderFullMatchForeground.Freeze();
-			CurrentTheme.FolderFullMatchForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderFullMatchForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderFullMatchBackground;
-	public static SolidColorBrush FolderFullMatchBackground
+	public static Brush FolderFullMatchBackground
 	{
-		get { return folderFullMatchBackground; }
+		get;
 		set
 		{
-			folderFullMatchBackground = value;
-			folderFullMatchBackground.Freeze();
-			CurrentTheme.FolderFullMatchBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderFullMatchBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderPartialMatchForeground;
-	public static SolidColorBrush FolderPartialMatchForeground
+	public static Brush FolderPartialMatchForeground
 	{
-		get { return folderPartialMatchForeground; }
+		get;
 		set
 		{
-			folderPartialMatchForeground = value;
-			folderPartialMatchForeground.Freeze();
-			CurrentTheme.FolderPartialMatchForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderPartialMatchForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderPartialMatchBackground;
-	public static SolidColorBrush FolderPartialMatchBackground
+	public static Brush FolderPartialMatchBackground
 	{
-		get { return folderPartialMatchBackground; }
+		get;
 		set
 		{
-			folderPartialMatchBackground = value;
-			folderPartialMatchBackground.Freeze();
-			CurrentTheme.FolderPartialMatchBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderPartialMatchBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderDeletedForeground;
-	public static SolidColorBrush FolderDeletedForeground
+	public static Brush FolderDeletedForeground
 	{
-		get { return folderDeletedForeground; }
+		get;
 		set
 		{
-			folderDeletedForeground = value;
-			folderDeletedForeground.Freeze();
-			CurrentTheme.FolderDeletedForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderDeletedForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderDeletedBackground;
-	public static SolidColorBrush FolderDeletedBackground
+	public static Brush FolderDeletedBackground
 	{
-		get { return folderDeletedBackground; }
+		get;
 		set
 		{
-			folderDeletedBackground = value;
-			folderDeletedBackground.Freeze();
-			CurrentTheme.FolderDeletedBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderDeletedBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderNewForeground;
-	public static SolidColorBrush FolderNewForeground
+	public static Brush FolderNewForeground
 	{
-		get { return folderNewForeground; }
+		get;
 		set
 		{
-			folderNewForeground = value;
-			folderNewForeground.Freeze();
-			CurrentTheme.FolderNewForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderNewForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderNewBackground;
-	public static SolidColorBrush FolderNewBackground
+	public static Brush FolderNewBackground
 	{
-		get { return folderNewBackground; }
+		get;
 		set
 		{
-			folderNewBackground = value;
-			folderNewBackground.Freeze();
-			CurrentTheme.FolderNewBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderNewBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderIgnoredForeground;
-	public static SolidColorBrush FolderIgnoredForeground
+	public static Brush FolderIgnoredForeground
 	{
-		get { return folderIgnoredForeground; }
+		get;
 		set
 		{
-			folderIgnoredForeground = value;
-			folderIgnoredForeground.Freeze();
-			CurrentTheme.FolderIgnoredForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderIgnoredForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush folderIgnoredBackground;
-	public static SolidColorBrush FolderIgnoredBackground
+	public static Brush FolderIgnoredBackground
 	{
-		get { return folderIgnoredBackground; }
+		get;
 		set
 		{
-			folderIgnoredBackground = value;
-			folderIgnoredBackground.Freeze();
-			CurrentTheme.FolderIgnoredBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FolderIgnoredBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
 
 	// File diff colors
-	private static SolidColorBrush fullMatchForeground;
-	public static SolidColorBrush FullMatchForeground
+	public static Brush FullMatchForeground
 	{
-		get { return fullMatchForeground; }
+		get;
 		set
 		{
-			fullMatchForeground = value;
-			fullMatchForeground.Freeze();
-			CurrentTheme.FullMatchForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FullMatchForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush fullMatchBackground;
-	public static SolidColorBrush FullMatchBackground
+	public static Brush FullMatchBackground
 	{
-		get { return fullMatchBackground; }
+		get;
 		set
 		{
-			fullMatchBackground = value;
-			fullMatchBackground.Freeze();
-			CurrentTheme.FullMatchBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.FullMatchBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush partialMatchForeground;
-	public static SolidColorBrush PartialMatchForeground
+	public static Brush PartialMatchForeground
 	{
-		get { return partialMatchForeground; }
+		get;
 		set
 		{
-			partialMatchForeground = value;
-			partialMatchForeground.Freeze();
-			CurrentTheme.PartialMatchForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.PartialMatchForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush partialMatchBackground;
-	public static SolidColorBrush PartialMatchBackground
+	public static Brush PartialMatchBackground
 	{
-		get { return partialMatchBackground; }
+		get;
 		set
 		{
-			partialMatchBackground = value;
-			partialMatchBackground.Freeze();
-			CurrentTheme.PartialMatchBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.PartialMatchBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush deletedForeground;
-	public static SolidColorBrush DeletedForeground
+	public static Brush DeletedForeground
 	{
-		get { return deletedForeground; }
+		get;
 		set
 		{
-			deletedForeground = value;
-			deletedForeground.Freeze();
-			CurrentTheme.DeletedForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.DeletedForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush deletedBackground;
-	public static SolidColorBrush DeletedBackground
+	public static Brush DeletedBackground
 	{
-		get { return deletedBackground; }
+		get;
 		set
 		{
-			deletedBackground = value;
-			deletedBackground.Freeze();
-			CurrentTheme.DeletedBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.DeletedBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush newForeground;
-	public static SolidColorBrush NewForeground
+	public static Brush NewForeground
 	{
-		get { return newForeground; }
+		get;
 		set
 		{
-			newForeground = value;
-			newForeground.Freeze();
-			CurrentTheme.NewForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.NewForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush newBackground;
-	public static SolidColorBrush NewBackground
+	public static Brush NewBackground
 	{
-		get { return newBackground; }
+		get;
 		set
 		{
-			newBackground = value;
-			newBackground.Freeze();
-			CurrentTheme.NewBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.NewBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush ignoredForeground;
-	public static SolidColorBrush IgnoredForeground
+	public static Brush IgnoredForeground
 	{
-		get { return ignoredForeground; }
+		get;
 		set
 		{
-			ignoredForeground = value;
-			ignoredForeground.Freeze();
-			CurrentTheme.IgnoredForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.IgnoredForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush ignoredBackground;
-	public static SolidColorBrush IgnoredBackground
+	public static Brush IgnoredBackground
 	{
-		get { return ignoredBackground; }
+		get;
 		set
 		{
-			ignoredBackground = value;
-			ignoredBackground.Freeze();
-			CurrentTheme.IgnoredBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.IgnoredBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush movedFromBackground;
-	public static SolidColorBrush MovedFromBackground
+	public static Brush MovedFromBackground
 	{
-		get { return movedFromBackground; }
+		get;
 		set
 		{
-			movedFromBackground = value;
-			movedFromBackground.Freeze();
-			CurrentTheme.MovedFromBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.MovedFromBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush movedToBackground;
-	public static SolidColorBrush MovedToBackground
+	public static Brush MovedToBackground
 	{
-		get { return movedToBackground; }
+		get;
 		set
 		{
-			movedToBackground = value;
-			movedToBackground.Freeze();
-			CurrentTheme.MovedToBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.MovedToBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush whiteSpaceForeground;
-	public static SolidColorBrush WhiteSpaceForeground
+	public static Brush WhiteSpaceForeground
 	{
-		get { return whiteSpaceForeground; }
+		get;
 		set
 		{
-			whiteSpaceForeground = value;
-			whiteSpaceForeground.Freeze();
-			CurrentTheme.WhiteSpaceForeground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.WhiteSpaceForeground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
 
 	// Editor colors
-	private static SolidColorBrush lineNumberColor;
-	public static SolidColorBrush LineNumberColor
+	public static Brush LineNumberColor
 	{
-		get { return lineNumberColor; }
+		get;
 		set
 		{
-			lineNumberColor = value;
-			lineNumberColor.Freeze();
-			CurrentTheme.LineNumberColor = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.LineNumberColor = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush currentDiffColor;
-	public static SolidColorBrush CurrentDiffColor
+	public static Brush CurrentDiffColor
 	{
-		get { return currentDiffColor; }
+		get;
 		set
 		{
-			currentDiffColor = value;
-			currentDiffColor.Freeze();
-			CurrentTheme.CurrentDiffColor = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.CurrentDiffColor = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush snakeColor;
-	public static SolidColorBrush SnakeColor
+	public static Brush SnakeColor
 	{
-		get { return snakeColor; }
+		get;
 		set
 		{
-			snakeColor = value;
-			snakeColor.Freeze();
-			CurrentTheme.SnakeColor = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.SnakeColor = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
-	private static SolidColorBrush selectionBackground;
-	public static SolidColorBrush SelectionBackground
+	public static Brush SelectionBackground
 	{
-		get { return selectionBackground; }
+		get;
 		set
 		{
-			selectionBackground = value;
-			selectionBackground.Freeze();
-			CurrentTheme.SelectionBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.SelectionBackground = ((SolidColorBrush)value).Color.ToString();
 		}
 	}
 
 
 	// UI colors
-	private static SolidColorBrush windowForeground = DefaultSettings.LightTheme.NormalText.ToBrush();
-	public static SolidColorBrush WindowForeground
+	public static Brush WindowForeground
 	{
-		get { return windowForeground; }
+		get;
 		set
 		{
-			windowForeground = value;
-			windowForeground.Freeze();
-			CurrentTheme.NormalText = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.NormalText = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(WindowForeground));
 			NotifyStaticPropertyChanged(nameof(WindowForegroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.NormalText.ToBrush();
 	public static Color WindowForegroundColor
 	{
 		get
 		{
-			return WindowForeground.Color;
+			return ((SolidColorBrush)WindowForeground).Color;
 		}
 	}
 
-	private static SolidColorBrush disabledForeground = DefaultSettings.LightTheme.DisabledText.ToBrush();
-	public static SolidColorBrush DisabledForeground
+	public static Brush DisabledForeground
 	{
-		get { return disabledForeground; }
+		get;
 		set
 		{
-			disabledForeground = value;
-			disabledForeground.Freeze();
-			CurrentTheme.DisabledText = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.DisabledText = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(DisabledForeground));
 			NotifyStaticPropertyChanged(nameof(DisabledForegroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.DisabledText.ToBrush();
 	public static Color DisabledForegroundColor
 	{
 		get
 		{
-			return DisabledForeground.Color;
+			return ((SolidColorBrush)DisabledForeground).Color;
 		}
 	}
 
-	private static SolidColorBrush windowBackground = DefaultSettings.LightTheme.WindowBackground.ToBrush();
-	public static SolidColorBrush WindowBackground
+	public static Brush DisabledBackground
 	{
-		get { return windowBackground; }
+		get;
 		set
 		{
-			windowBackground = value;
-			windowBackground.Freeze();
-			CurrentTheme.WindowBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.DisabledBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(DisabledBackground));
+			NotifyStaticPropertyChanged(nameof(DisabledBackgroundColor));
+		}
+	} = DefaultSettings.LightTheme.DisabledBackground.ToBrush();
+	public static Color DisabledBackgroundColor
+	{
+		get { return ((SolidColorBrush)DisabledBackground).Color; }
+	}
+
+	public static Brush WindowBackground
+	{
+		get;
+		set
+		{
+			field = value;
+			field.Freeze();
+			CurrentTheme.WindowBackground = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(WindowBackground));
 			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.WindowBackground.ToBrush();
 	public static Color WindowBackgroundColor
 	{
 		get
 		{
-			return windowBackground.Color;
+			return ((SolidColorBrush)WindowBackground).Color;
 		}
 	}
 
-	private static SolidColorBrush dialogBackground = DefaultSettings.LightTheme.DialogBackground.ToBrush();
-	public static SolidColorBrush DialogBackground
+	public static Brush DialogBackground
 	{
-		get { return dialogBackground; }
+		get;
 		set
 		{
-			dialogBackground = value;
-			dialogBackground.Freeze();
-			CurrentTheme.DialogBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.DialogBackground = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(DialogBackground));
 			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.DialogBackground.ToBrush();
 	public static Color DialogBackgroundColor
 	{
 		get
 		{
-			return dialogBackground.Color;
+			return ((SolidColorBrush)DialogBackground).Color;
 		}
 	}
 
-	private static SolidColorBrush controlLightBackground = DefaultSettings.LightTheme.ControlLightBackground.ToBrush();
-	public static SolidColorBrush ControlLightBackground
+	public static Brush ControlLightBackground
 	{
-		get { return controlLightBackground; }
+		get;
 		set
 		{
-			controlLightBackground = value;
-			controlLightBackground.Freeze();
-			CurrentTheme.ControlLightBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.ControlLightBackground = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(ControlLightBackground));
 			NotifyStaticPropertyChanged(nameof(ControlLightBackgroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.ControlLightBackground.ToBrush();
 	public static Color ControlLightBackgroundColor
 	{
 		get
 		{
-			return controlLightBackground.Color;
+			return ((SolidColorBrush)ControlLightBackground).Color;
 		}
 	}
 
-	private static SolidColorBrush controlDarkBackground = DefaultSettings.LightTheme.ControlDarkBackground.ToBrush();
-	public static SolidColorBrush ControlDarkBackground
+	public static Brush ControlDarkBackground
 	{
-		get { return controlDarkBackground; }
+		get;
 		set
 		{
-			controlDarkBackground = value;
-			controlDarkBackground.Freeze();
-			CurrentTheme.ControlDarkBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.ControlDarkBackground = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(ControlDarkBackground));
 			NotifyStaticPropertyChanged(nameof(ControlDarkBackgroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.ControlDarkBackground.ToBrush();
 	public static Color ControlDarkBackgroundColor
 	{
 		get
 		{
-			return controlDarkBackground.Color;
+			return ((SolidColorBrush)ControlDarkBackground).Color;
 		}
 	}
 
-	private static SolidColorBrush borderForeground = DefaultSettings.LightTheme.BorderLight.ToBrush();
-	public static SolidColorBrush BorderForeground
+	public static Brush BorderForeground
 	{
-		get { return borderForeground; }
+		get;
 		set
 		{
-			borderForeground = value;
-			borderForeground.Freeze();
-			CurrentTheme.BorderLight = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.BorderLight = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(BorderForeground));
 			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.BorderLight.ToBrush();
 	public static Color BorderForegroundColor
 	{
 		get
 		{
-			return borderForeground.Color;
+			return ((SolidColorBrush)BorderForeground).Color;
 		}
 	}
 
-	private static SolidColorBrush borderDarkForeground = DefaultSettings.LightTheme.BorderDark.ToBrush();
-	public static SolidColorBrush BorderDarkForeground
+	public static Brush BorderDarkForeground
 	{
-		get { return borderDarkForeground; }
+		get;
 		set
 		{
-			borderDarkForeground = value;
-			borderDarkForeground.Freeze();
-			CurrentTheme.BorderDark = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.BorderDark = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(BorderDarkForeground));
 			NotifyStaticPropertyChanged(nameof(BorderDarkForegroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.BorderDark.ToBrush();
 	public static Color BorderDarkForegroundColor
 	{
 		get
 		{
-			return borderDarkForeground.Color;
+			return ((SolidColorBrush)BorderDarkForeground).Color;
 		}
 	}
 
-	private static SolidColorBrush highlightBackground = DefaultSettings.LightTheme.HighlightBackground.ToBrush();
-	public static SolidColorBrush HighlightBackground
+	public static Brush HighlightBackground
 	{
-		get { return highlightBackground; }
+		get;
 		set
 		{
-			highlightBackground = value;
-			highlightBackground.Freeze();
-			CurrentTheme.HighlightBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.HighlightBackground = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(HighlightBackground));
 			NotifyStaticPropertyChanged(nameof(HighlightBackgroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.HighlightBackground.ToBrush();
 	public static Color HighlightBackgroundColor
 	{
 		get
 		{
-			return highlightBackground.Color;
+			return ((SolidColorBrush)HighlightBackground).Color;
 		}
 	}
 
-	private static SolidColorBrush highlightBorder = DefaultSettings.LightTheme.HighlightBorder.ToBrush();
-	public static SolidColorBrush HighlightBorder
+	public static Brush HighlightBorder
 	{
-		get { return highlightBorder; }
+		get;
 		set
 		{
-			highlightBorder = value;
-			highlightBorder.Freeze();
-			CurrentTheme.HighlightBorder = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.HighlightBorder = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(HighlightBorder));
 			NotifyStaticPropertyChanged(nameof(HighlightBorderColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.HighlightBorder.ToBrush();
 	public static Color HighlightBorderColor
 	{
 		get
 		{
-			return highlightBorder.Color;
+			return ((SolidColorBrush)HighlightBorder).Color;
 		}
 	}
 
-	private static SolidColorBrush attentionBackground = DefaultSettings.LightTheme.AttentionBackground.ToBrush();
-	public static SolidColorBrush AttentionBackground
+	public static Brush AttentionBackground
 	{
-		get { return attentionBackground; }
+		get;
 		set
 		{
-			attentionBackground = value;
-			attentionBackground.Freeze();
-			CurrentTheme.AttentionBackground = value.Color.ToString();
+			field = value;
+			field.Freeze();
+			CurrentTheme.AttentionBackground = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(AttentionBackground));
 			NotifyStaticPropertyChanged(nameof(AttentionBackgroundColor));
 		}
-	}
+	} = DefaultSettings.LightTheme.AttentionBackground.ToBrush();
 	public static Color AttentionBackgroundColor
 	{
 		get
 		{
-			return attentionBackground.Color;
+			return ((SolidColorBrush)AttentionBackground).Color;
 		}
 	}
 
@@ -925,82 +903,96 @@ public static class AppSettings
 		}
 	}
 
-	internal static SolidColorBrush GetFileForeground(TextState state)
+	internal static Brush GetFileForeground(TextState state)
 	{
 		switch (state)
 		{
 			case TextState.Deleted:
 			case TextState.MovedFrom:
-				return deletedForeground;
+				return DeletedForeground;
 			case TextState.New:
 			case TextState.MovedTo:
-				return newForeground;
+				return NewForeground;
 			case TextState.PartialMatch:
-				return partialMatchForeground;
+				return PartialMatchForeground;
 			case TextState.Ignored:
-				return ignoredForeground;
+				return IgnoredForeground;
 
 			default:
-				return fullMatchForeground;
+				return FullMatchForeground;
 		}
 	}
 
-	internal static SolidColorBrush GetFileBackground(TextState state)
+	internal static Brush GetFileBackground(TextState state)
 	{
 		switch (state)
 		{
 			case TextState.Deleted:
-				return deletedBackground;
+				return DeletedBackground;
 			case TextState.New:
-				return newBackground;
+				return NewBackground;
 			case TextState.MovedFrom:
-				return movedFromBackground;
+				return MovedFromBackground;
 			case TextState.MovedTo:
-				return movedToBackground;
+				return MovedToBackground;
 			case TextState.PartialMatch:
-				return partialMatchBackground;
+				return PartialMatchBackground;
 			case TextState.Ignored:
-				return ignoredBackground;
+				return IgnoredBackground;
 
 			default:
-				return fullMatchBackground;
+				return FullMatchBackground;
 		}
 	}
 
-	internal static SolidColorBrush GetFolderBackground(TextState state)
+	internal static Brush GetFolderBackground(TextState state)
 	{
 		switch (state)
 		{
 			case TextState.Deleted:
-				return folderDeletedBackground;
+				return FolderDeletedBackground;
 			case TextState.New:
-				return folderNewBackground;
+				return FolderNewBackground;
 			case TextState.PartialMatch:
-				return folderPartialMatchBackground;
+				return FolderPartialMatchBackground;
 			case TextState.Ignored:
-				return folderIgnoredBackground;
+				return FolderIgnoredBackground;
 
 			default:
-				return folderFullMatchBackground;
+				return FolderFullMatchBackground;
 		}
 	}
 
-	internal static SolidColorBrush GetFolderForeground(TextState state)
+	internal static Brush GetFolderForeground(TextState state)
 	{
 		switch (state)
 		{
 			case TextState.Deleted:
 				return FolderDeletedForeground;
 			case TextState.New:
-				return folderNewForeground;
+				return FolderNewForeground;
 			case TextState.PartialMatch:
-				return folderPartialMatchForeground;
+				return FolderPartialMatchForeground;
 			case TextState.Ignored:
-				return folderIgnoredForeground;
+				return FolderIgnoredForeground;
 
 			default:
-				return folderFullMatchForeground;
+				return FolderFullMatchForeground;
 		}
+	}
+
+	public static void ResetCurrentTheme()
+	{
+		ColorTheme themeDefaults = Theme switch
+		{
+			Themes.Light => DefaultSettings.LightTheme,
+			Themes.Dark => DefaultSettings.DarkTheme,
+			_ => throw new NotImplementedException(),
+		};
+
+		MergeSettings(CurrentTheme, themeDefaults);
+
+		UpdateCachedSettings();
 	}
 
 	#endregion

@@ -53,6 +53,7 @@ public class ColorTheme
 	// UI colors
 	public required string NormalText { get; set; }
 	public required string DisabledText { get; set; }
+	public required string DisabledBackground { get; set; }
 
 	public required string WindowBackground { get; set; }
 	public required string DialogBackground { get; set; }

@@ -38,13 +38,12 @@ public class Line
 
 	#region Properties
 
-	private string text = "";
 	public string Text
 	{
-		get { return text; }
+		get;
 		set
 		{
-			text = value;
+			field = value;
 			TrimmedText = value.Trim();
 			hash = value.GetHashCode();
 
@@ -53,13 +52,13 @@ public class Line
 			hashNoWhitespace = textNoWhitespace.GetHashCode();
 			IsWhitespaceLine = textNoWhitespace == "";
 
-			characters = null;
-			trimmedCharacters = null;
+			Characters = null;
+			TrimmedCharacters = null;
 
 			TextSegments.Clear();
 			AddTextSegment(value, Type);
 		}
-	}
+	} = "";
 
 	public string TrimmedText { get; private set; }
 
@@ -67,30 +66,32 @@ public class Line
 
 	public bool IsWhitespaceLine { get; private set; }
 
-	private List<char> characters;
 	public List<char> Characters
 	{
 		get
 		{
-			if (characters == null)
+			if (field == null)
 			{
-				characters = [.. text.ToCharArray()];
+				field = [.. Text.ToCharArray()];
 			}
-			return characters;
+			return field;
 		}
+
+		private set;
 	}
 
-	private List<char> trimmedCharacters;
 	public List<char> TrimmedCharacters
 	{
 		get
 		{
-			if (trimmedCharacters == null)
+			if (field == null)
 			{
-				trimmedCharacters = [.. TrimmedText.ToCharArray()];
+				field = [.. TrimmedText.ToCharArray()];
 			}
-			return trimmedCharacters;
+			return field;
 		}
+
+		private set;
 	}
 
 	public int? LineIndex { get; set; }
@@ -99,15 +100,14 @@ public class Line
 
 	public Dictionary<int?, float> MatchFactions { get; } = [];
 
-	private TextState type;
 	public TextState Type
 	{
-		get { return type; }
+		get;
 		set
 		{
-			if (type != value)
+			if (field != value)
 			{
-				type = value;
+				field = value;
 				TextSegments.Clear();
 				AddTextSegment(Text, value);
 			}
@@ -120,23 +120,23 @@ public class Line
 	{
 		get
 		{
-			return type == TextState.Filler || type == TextState.MovedFiller;
+			return Type == TextState.Filler || Type == TextState.MovedFiller;
 		}
 	}
 
-	public SolidColorBrush BackgroundBrush
+	public Brush BackgroundBrush
 	{
 		get
 		{
-			return AppSettings.GetFileBackground(type);
+			return AppSettings.GetFileBackground(Type);
 		}
 	}
 
-	public SolidColorBrush ForegroundBrush
+	public Brush ForegroundBrush
 	{
 		get
 		{
-			return AppSettings.GetFileForeground(type);
+			return AppSettings.GetFileForeground(Type);
 		}
 	}
 
