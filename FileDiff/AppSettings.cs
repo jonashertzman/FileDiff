@@ -203,6 +203,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderFullMatchForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderFullMatchForeground));
 		}
 	}
 
@@ -214,6 +215,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderFullMatchBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderFullMatchBackground));
 		}
 	}
 
@@ -225,6 +227,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderPartialMatchForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderPartialMatchForeground));
 		}
 	}
 
@@ -236,6 +239,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderPartialMatchBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderPartialMatchBackground));
 		}
 	}
 
@@ -247,6 +251,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderDeletedForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderDeletedForeground));
 		}
 	}
 
@@ -258,6 +263,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderDeletedBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderDeletedBackground));
 		}
 	}
 
@@ -269,6 +275,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderNewForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderNewForeground));
 		}
 	}
 
@@ -280,6 +287,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderNewBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderNewBackground));
 		}
 	}
 
@@ -291,6 +299,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderIgnoredForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderIgnoredForeground));
 		}
 	}
 
@@ -302,6 +311,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FolderIgnoredBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderIgnoredBackground));
 		}
 	}
 
@@ -315,6 +325,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FullMatchForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FullMatchForeground));
 		}
 	}
 
@@ -326,6 +337,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.FullMatchBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FullMatchBackground));
 		}
 	}
 
@@ -337,6 +349,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.PartialMatchForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(PartialMatchForeground));
 		}
 	}
 
@@ -348,6 +361,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.PartialMatchBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(PartialMatchBackground));
 		}
 	}
 
@@ -359,6 +373,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.DeletedForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(DeletedForeground));
 		}
 	}
 
@@ -370,6 +385,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.DeletedBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(DeletedBackground));
 		}
 	}
 
@@ -381,6 +397,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.NewForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(NewForeground));
 		}
 	}
 
@@ -392,6 +409,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.NewBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(NewBackground));
 		}
 	}
 
@@ -403,6 +421,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.IgnoredForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(IgnoredForeground));
 		}
 	}
 
@@ -414,6 +433,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.IgnoredBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(IgnoredBackground));
 		}
 	}
 
@@ -425,6 +445,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.MovedFromBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(MovedFromBackground));
 		}
 	}
 
@@ -436,6 +457,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.MovedToBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(MovedToBackground));
 		}
 	}
 
@@ -447,6 +469,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.WhiteSpaceForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(WhiteSpaceForeground));
 		}
 	}
 
@@ -460,6 +483,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.LineNumberColor = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(LineNumberColor));
 		}
 	}
 
@@ -471,6 +495,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.CurrentDiffColor = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(CurrentDiffColor));
 		}
 	}
 
@@ -482,6 +507,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.SnakeColor = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(SnakeColor));
 		}
 	}
 
@@ -493,6 +519,7 @@ public static class AppSettings
 			field = value;
 			field.Freeze();
 			CurrentTheme.SelectionBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(SelectionBackground));
 		}
 	}
 
