@@ -42,9 +42,6 @@ public static class DefaultSettings
 		PartialMatchForeground = "#FF9698FF",
 		PartialMatchBackground = "#FF2B293A",
 
-		IgnoredForeground = "#FF7E7E7E",
-		IgnoredBackground = "#FF212121",
-
 		// Editor colors
 		WhiteSpaceForeground = "#FF3871A7",
 		SelectionBackground = "#320096D2",
@@ -106,9 +103,6 @@ public static class DefaultSettings
 
 		PartialMatchForeground = "#FF000000",
 		PartialMatchBackground = "#FFDCDCFF",
-
-		IgnoredForeground = "#FF5A5A5A",
-		IgnoredBackground = "#FFDCDCDC",
 
 		// Editor colors
 		WhiteSpaceForeground = "#FF2E8CB5",

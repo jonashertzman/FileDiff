@@ -437,30 +437,6 @@ public static class AppSettings
 		}
 	}
 
-	public static Brush IgnoredForeground
-	{
-		get;
-		set
-		{
-			field = value;
-			field.Freeze();
-			CurrentTheme.IgnoredForeground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(IgnoredForeground));
-		}
-	}
-
-	public static Brush IgnoredBackground
-	{
-		get;
-		set
-		{
-			field = value;
-			field.Freeze();
-			CurrentTheme.IgnoredBackground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(IgnoredBackground));
-		}
-	}
-
 
 	// Editor colors
 	public static Brush WhiteSpaceForeground
@@ -892,9 +868,6 @@ public static class AppSettings
 			NewForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewForeground));
 			NewBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NewBackground));
 
-			IgnoredForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredForeground));
-			IgnoredBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.IgnoredBackground));
-
 			MovedFromBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedFromBackground));
 			MovedToBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.MovedToBackground));
 
@@ -942,8 +915,6 @@ public static class AppSettings
 				return NewForeground;
 			case TextState.PartialMatch:
 				return PartialMatchForeground;
-			case TextState.Ignored:
-				return IgnoredForeground;
 
 			default:
 				return FullMatchForeground;
@@ -964,8 +935,6 @@ public static class AppSettings
 				return MovedToBackground;
 			case TextState.PartialMatch:
 				return PartialMatchBackground;
-			case TextState.Ignored:
-				return IgnoredBackground;
 
 			default:
 				return FullMatchBackground;

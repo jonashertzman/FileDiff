@@ -40,9 +40,6 @@ public class ColorTheme
 	public required string PartialMatchForeground { get; set; }
 	public required string PartialMatchBackground { get; set; }
 
-	public required string IgnoredForeground { get; set; }
-	public required string IgnoredBackground { get; set; }
-
 	// Editor colors
 	public required string WhiteSpaceForeground { get; set; }
 	public required string SelectionBackground { get; set; }
