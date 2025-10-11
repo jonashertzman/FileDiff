@@ -139,7 +139,7 @@
 										<Label Grid.Row="0" Grid.Column="1" Content="Foreground" />
 										<Label Grid.Row="0" Grid.Column="2" Content="Background" />
 
-										<Label Grid.Row="1" Content="Normal" />
+										<Label Grid.Row="1" Content="Full Match" />
 										<Rectangle Grid.Row="1" Grid.Column="1" Margin="5" Fill="{Binding Path=(local:AppSettings.FolderFullMatchForeground), Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 										<Rectangle Grid.Row="1" Grid.Column="2" Margin="5" Fill="{Binding Path=(local:AppSettings.FolderFullMatchBackground), Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
@@ -172,7 +172,7 @@
 										<Label Grid.Row="6" Grid.Column="1" Content="Foreground" />
 										<Label Grid.Row="6" Grid.Column="2" Content="Background" />
 
-										<Label Grid.Row="7" Content="Normal" />
+										<Label Grid.Row="7" Content="Full Match" />
 										<Rectangle Grid.Row="7" Grid.Column="1" Margin="5" Fill="{Binding Path=(local:AppSettings.FullMatchForeground), Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 										<Rectangle Grid.Row="7" Grid.Column="2" Margin="5" Fill="{Binding Path=(local:AppSettings.FullMatchBackground), Mode=TwoWay}" MouseLeftButtonUp="Rectangle_MouseUp" />
 

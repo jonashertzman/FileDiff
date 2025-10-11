@@ -75,6 +75,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { field = value; OnPropertyChanged(nameof(GuiFrozen)); }
 	} = false;
 
+
 	public ObservableCollection<Line> LeftFile
 	{
 		get;

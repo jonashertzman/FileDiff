@@ -219,27 +219,27 @@ public static class AppSettings
 		}
 	}
 
-	public static Brush FolderPartialMatchForeground
+	public static Brush FolderNewForeground
 	{
 		get;
 		set
 		{
 			field = value;
 			field.Freeze();
-			CurrentTheme.FolderPartialMatchForeground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(FolderPartialMatchForeground));
+			CurrentTheme.FolderNewForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderNewForeground));
 		}
 	}
 
-	public static Brush FolderPartialMatchBackground
+	public static Brush FolderNewBackground
 	{
 		get;
 		set
 		{
 			field = value;
 			field.Freeze();
-			CurrentTheme.FolderPartialMatchBackground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(FolderPartialMatchBackground));
+			CurrentTheme.FolderNewBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderNewBackground));
 		}
 	}
 
@@ -267,27 +267,27 @@ public static class AppSettings
 		}
 	}
 
-	public static Brush FolderNewForeground
+	public static Brush FolderPartialMatchForeground
 	{
 		get;
 		set
 		{
 			field = value;
 			field.Freeze();
-			CurrentTheme.FolderNewForeground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(FolderNewForeground));
+			CurrentTheme.FolderPartialMatchForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderPartialMatchForeground));
 		}
 	}
 
-	public static Brush FolderNewBackground
+	public static Brush FolderPartialMatchBackground
 	{
 		get;
 		set
 		{
 			field = value;
 			field.Freeze();
-			CurrentTheme.FolderNewBackground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(FolderNewBackground));
+			CurrentTheme.FolderPartialMatchBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(FolderPartialMatchBackground));
 		}
 	}
 
@@ -341,27 +341,39 @@ public static class AppSettings
 		}
 	}
 
-	public static Brush PartialMatchForeground
+	public static Brush NewForeground
 	{
 		get;
 		set
 		{
 			field = value;
 			field.Freeze();
-			CurrentTheme.PartialMatchForeground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(PartialMatchForeground));
+			CurrentTheme.NewForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(NewForeground));
 		}
 	}
 
-	public static Brush PartialMatchBackground
+	public static Brush NewBackground
 	{
 		get;
 		set
 		{
 			field = value;
 			field.Freeze();
-			CurrentTheme.PartialMatchBackground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(PartialMatchBackground));
+			CurrentTheme.NewBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(NewBackground));
+		}
+	}
+
+	public static Brush MovedToBackground
+	{
+		get;
+		set
+		{
+			field = value;
+			field.Freeze();
+			CurrentTheme.MovedToBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(MovedToBackground));
 		}
 	}
 
@@ -389,27 +401,39 @@ public static class AppSettings
 		}
 	}
 
-	public static Brush NewForeground
+	public static Brush MovedFromBackground
 	{
 		get;
 		set
 		{
 			field = value;
 			field.Freeze();
-			CurrentTheme.NewForeground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(NewForeground));
+			CurrentTheme.MovedFromBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(MovedFromBackground));
 		}
 	}
 
-	public static Brush NewBackground
+	public static Brush PartialMatchForeground
 	{
 		get;
 		set
 		{
 			field = value;
 			field.Freeze();
-			CurrentTheme.NewBackground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(NewBackground));
+			CurrentTheme.PartialMatchForeground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(PartialMatchForeground));
+		}
+	}
+
+	public static Brush PartialMatchBackground
+	{
+		get;
+		set
+		{
+			field = value;
+			field.Freeze();
+			CurrentTheme.PartialMatchBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(PartialMatchBackground));
 		}
 	}
 
@@ -437,30 +461,8 @@ public static class AppSettings
 		}
 	}
 
-	public static Brush MovedFromBackground
-	{
-		get;
-		set
-		{
-			field = value;
-			field.Freeze();
-			CurrentTheme.MovedFromBackground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(MovedFromBackground));
-		}
-	}
 
-	public static Brush MovedToBackground
-	{
-		get;
-		set
-		{
-			field = value;
-			field.Freeze();
-			CurrentTheme.MovedToBackground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(MovedToBackground));
-		}
-	}
-
+	// Editor colors
 	public static Brush WhiteSpaceForeground
 	{
 		get;
@@ -473,8 +475,18 @@ public static class AppSettings
 		}
 	}
 
+	public static Brush SelectionBackground
+	{
+		get;
+		set
+		{
+			field = value;
+			field.Freeze();
+			CurrentTheme.SelectionBackground = ((SolidColorBrush)value).Color.ToString();
+			NotifyStaticPropertyChanged(nameof(SelectionBackground));
+		}
+	}
 
-	// Editor colors
 	public static Brush LineNumberColor
 	{
 		get;
@@ -508,18 +520,6 @@ public static class AppSettings
 			field.Freeze();
 			CurrentTheme.SnakeColor = ((SolidColorBrush)value).Color.ToString();
 			NotifyStaticPropertyChanged(nameof(SnakeColor));
-		}
-	}
-
-	public static Brush SelectionBackground
-	{
-		get;
-		set
-		{
-			field = value;
-			field.Freeze();
-			CurrentTheme.SelectionBackground = ((SolidColorBrush)value).Color.ToString();
-			NotifyStaticPropertyChanged(nameof(SelectionBackground));
 		}
 	}
 
