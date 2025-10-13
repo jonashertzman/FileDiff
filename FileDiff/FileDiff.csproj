@@ -10,7 +10,7 @@
 	</PropertyGroup>
 
 	<Target Name="PostPublish" AfterTargets="Publish">
-		<Exec Command="..\UpdateVersion\bin\Release\net8.0\UpdateVersion" />
+		<Exec Command="..\UpdateVersion\bin\Release\net10.0\UpdateVersion" />
 	</Target>
 
 	<ItemGroup>
