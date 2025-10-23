@@ -239,9 +239,15 @@ public class FileEncoding
 		return false;
 	}
 
-	private static bool CheckValidUtf8(byte[] bytes)
+	private bool CheckValidUtf8(byte[] bytes)
 	{
 		int i = 0;
+
+		if (bytes.StartsWith(UTF8_BOM))
+		{
+			i += UTF8_BOM.Length;
+		}
+
 		while (i < bytes.Length)
 		{
 			// 1 byte character
@@ -252,105 +258,114 @@ public class FileEncoding
 			}
 
 			// 2 byte character
-			if (bytes[i] >= 0xC2 && bytes[i] <= 0xDF)
+			if (i + 1 < bytes.Length)
 			{
-				if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
+				if (bytes[i] >= 0xC2 && bytes[i] <= 0xDF)
 				{
-					i += 2;
-					continue;
+					if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
+					{
+						i += 2;
+						continue;
+					}
 				}
 			}
 
 			// 3 byte character
-			if (bytes[i] == 0xE0)
+			if (i + 2 < bytes.Length)
 			{
-				if (bytes[i + 1] >= 0xA0 && bytes[i + 1] <= 0xBF)
+				if (bytes[i] == 0xE0)
 				{
-					if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+					if (bytes[i + 1] >= 0xA0 && bytes[i + 1] <= 0xBF)
 					{
-						i += 3;
-						continue;
+						if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+						{
+							i += 3;
+							continue;
+						}
 					}
 				}
-			}
 
-			if (bytes[i] >= 0xE1 && bytes[i] <= 0xEC)
-			{
-				if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
+				if (bytes[i] >= 0xE1 && bytes[i] <= 0xEC)
 				{
-					if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+					if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
 					{
-						i += 3;
-						continue;
+						if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+						{
+							i += 3;
+							continue;
+						}
 					}
 				}
-			}
 
-			if (bytes[i] == 0xED)
-			{
-				if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0x9F)
+				if (bytes[i] == 0xED)
 				{
-					if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+					if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0x9F)
 					{
-						i += 3;
-						continue;
+						if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+						{
+							i += 3;
+							continue;
+						}
 					}
 				}
-			}
 
-			if (bytes[i] >= 0xEE && bytes[i] <= 0xEF)
-			{
-				if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
+				if (bytes[i] >= 0xEE && bytes[i] <= 0xEF)
 				{
-					if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+					if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
 					{
-						i += 3;
-						continue;
+						if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+						{
+							i += 3;
+							continue;
+						}
 					}
 				}
 			}
 
 			// 4 byte character
-			if (bytes[i] == 0xF0)
+			if (i + 3 < bytes.Length)
 			{
-				if (bytes[i + 1] >= 0x90 && bytes[i + 1] <= 0xBF)
+				if (bytes[i] == 0xF0)
 				{
-					if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+					if (bytes[i + 1] >= 0x90 && bytes[i + 1] <= 0xBF)
 					{
-						if (bytes[i + 3] >= 0x80 && bytes[i + 3] <= 0xBF)
+						if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
 						{
-							i += 4;
-							continue;
+							if (bytes[i + 3] >= 0x80 && bytes[i + 3] <= 0xBF)
+							{
+								i += 4;
+								continue;
+							}
 						}
 					}
 				}
-			}
 
-			if (bytes[i] >= 0xF1 && bytes[i] <= 0xF3)
-			{
-				if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
+				if (bytes[i] >= 0xF1 && bytes[i] <= 0xF3)
 				{
-					if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+					if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0xBF)
 					{
-						if (bytes[i + 3] >= 0x80 && bytes[i + 3] <= 0xBF)
+						if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
 						{
-							i += 4;
-							continue;
+							if (bytes[i + 3] >= 0x80 && bytes[i + 3] <= 0xBF)
+							{
+								i += 4;
+								continue;
+							}
 						}
 					}
 				}
-			}
 
-			if (bytes[i] == 0xF4)
-			{
-				if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0x8F)
+				if (bytes[i] == 0xF4)
 				{
-					if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
+					if (bytes[i + 1] >= 0x80 && bytes[i + 1] <= 0x8F)
 					{
-						if (bytes[i + 3] >= 0x80 && bytes[i + 3] <= 0xBF)
+						if (bytes[i + 2] >= 0x80 && bytes[i + 2] <= 0xBF)
 						{
-							i += 4;
-							continue;
+							if (bytes[i + 3] >= 0x80 && bytes[i + 3] <= 0xBF)
+							{
+								i += 4;
+								continue;
+							}
 						}
 					}
 				}
@@ -358,6 +373,7 @@ public class FileEncoding
 
 			return false;
 		}
+
 		return true;
 	}
 

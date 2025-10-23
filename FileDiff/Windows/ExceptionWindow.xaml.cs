@@ -62,7 +62,7 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 
 			CrashReportRequest cr = new()
 			{
-				ApplicationName = "FileSearch",
+				ApplicationName = "FileDiff",
 				BuildNumber = AppSettings.BuildNumber,
 				ClientId = AppSettings.Id,
 				ExceptionType = this.ExceptionType,
