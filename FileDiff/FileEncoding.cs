@@ -169,23 +169,23 @@ public class FileEncoding
 
 	private bool DetectBom(byte[] bytes)
 	{
-		if (bytes.Length > 2 && bytes[0..3].SequenceEqual(UTF8_BOM))
+		if (bytes.StartsWith(UTF8_BOM))
 		{
 			Type = Encoding.UTF8;
 		}
-		else if (bytes.Length > 3 && bytes[0..4].SequenceEqual(UTF32LE_BOM)) // Must check this before UTF16 since the first 2 bytes are the same as an UTF16 little endian BOM.
+		else if (bytes.StartsWith(UTF32LE_BOM)) // Must check this before UTF16 since the first 2 bytes are the same as an UTF16 little endian BOM.
 		{
 			Type = new UTF32Encoding(false, true);
 		}
-		else if (bytes.Length > 3 && bytes[0..4].SequenceEqual(UTF32BE_BOM))
+		else if (bytes.StartsWith(UTF32BE_BOM))
 		{
 			Type = new UTF32Encoding(true, true);
 		}
-		else if (bytes.Length > 1 && bytes[0..2].SequenceEqual(UTF16LE_BOM))
+		else if (bytes.StartsWith(UTF16LE_BOM))
 		{
 			Type = Encoding.Unicode;
 		}
-		else if (bytes.Length > 1 && bytes[0..2].SequenceEqual(UTF16BE_BOM))
+		else if (bytes.StartsWith(UTF16BE_BOM))
 		{
 			Type = Encoding.BigEndianUnicode;
 		}
