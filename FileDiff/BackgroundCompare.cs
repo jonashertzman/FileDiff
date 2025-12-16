@@ -310,6 +310,16 @@ public static class BackgroundCompare
 
 			rightRange[matchingIndex + i].MatchingLineIndex = leftRange[matchIndex + i].LineIndex;
 			rightRange[matchingIndex + i].Type = TextState.FullMatch;
+
+			// Lines match but not newline characters
+			if (!AppSettings.IgnoreWhiteSpace)
+			{
+				if (leftRange[matchIndex + i].Newline != rightRange[matchingIndex + i].Newline)
+				{
+					leftRange[matchIndex + i].Type = TextState.PartialMatch; // Maybe create a new TextState for NewlineMismatch?
+					rightRange[matchingIndex + i].Type = TextState.PartialMatch;
+				}
+			}
 		}
 
 		if (matchIndex > 0 && matchingIndex > 0)
