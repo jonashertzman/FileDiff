@@ -9,7 +9,7 @@ static class TextUtils
 
 	#region Members
 
-	static readonly Typeface defaultTypeface = new("Courier New");
+	static readonly Typeface defaultTypeface = new("Consolas");
 
 	static FontData fontCache;
 
