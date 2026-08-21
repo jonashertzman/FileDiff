@@ -1077,7 +1077,7 @@ public class DiffControl : Control
 	}
 
 
-	public static readonly DependencyProperty EditModeProperty = DependencyProperty.Register("EditMode", typeof(bool), typeof(DiffControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
+	public static readonly DependencyProperty EditModeProperty = DependencyProperty.Register("EditMode", typeof(bool), typeof(DiffControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender, OnEditModeChanged));
 
 	public bool EditMode
 	{
@@ -1097,6 +1097,11 @@ public class DiffControl : Control
 	#endregion
 
 	#region Methods
+
+	private static void OnEditModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		((DiffControl)d).Cursor = (bool)e.NewValue ? Cursors.IBeam : Cursors.Arrow;
+	}
 
 	internal void Init()
 	{

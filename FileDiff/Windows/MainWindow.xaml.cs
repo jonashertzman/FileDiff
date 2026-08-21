@@ -894,6 +894,8 @@ public partial class MainWindow : Window
 		var oldFontSize = ViewModel.FontSize;
 		var oldTabSize = ViewModel.TabSize;
 
+		var oldToolbarIconSize = AppSettings.ToolbarIconSize;
+
 		var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
 		var oldIgnoredFolders = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFolders);
 
@@ -916,6 +918,8 @@ public partial class MainWindow : Window
 			ViewModel.Font = oldFont;
 			ViewModel.FontSize = oldFontSize;
 			ViewModel.TabSize = oldTabSize;
+
+			AppSettings.ToolbarIconSize = oldToolbarIconSize;
 
 			ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
 			ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);

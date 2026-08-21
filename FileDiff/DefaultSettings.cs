@@ -3,9 +3,10 @@
 public static class DefaultSettings
 {
 
-	internal static string Font { get; } = "Courier New";
-	internal static int FontSize { get; } = 11;
+	internal static string Font { get; } = "Consolas";
+	internal static int FontSize { get; } = 13;
 	internal static int TabSize { get; } = 2;
+	internal static int ToolbarIconSize { get; } = 16;
 
 	internal static ColorTheme DarkTheme { get; } = new ColorTheme()
 	{
