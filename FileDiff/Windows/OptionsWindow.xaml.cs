@@ -189,6 +189,14 @@ public partial class OptionsWindow : Window
 		}
 	}
 
+	private void ToolbarButtonSize_Click(object sender, RoutedEventArgs e)
+	{
+		Button button = sender as Button;
+
+		int size = int.Parse(button.Tag.ToString());
+		AppSettings.ToolbarIconSize = size;
+	}
+
 	#endregion
 
 }

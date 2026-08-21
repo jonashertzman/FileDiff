@@ -35,6 +35,7 @@
 								<RowDefinition Height="auto" />
 								<RowDefinition Height="auto" />
 								<RowDefinition Height="auto" />
+								<RowDefinition Height="auto" />
 							</Grid.RowDefinitions>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="auto" />
@@ -43,9 +44,26 @@
 							</Grid.ColumnDefinitions>
 
 							<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Content="Theme" />
-							<ComboBox x:Name="ComboBoxTheme" Grid.Row="0" Grid.Column="1" MinWidth="100" HorizontalAlignment="Left" Text="{Binding Theme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonComboBox}" />
-							<CheckBox Grid.Row="1" Grid.ColumnSpan="3" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
-							<CheckBox Grid.Row="2" Grid.ColumnSpan="3" Content="Detect Moved Lines" IsChecked="{Binding DetectMovedLines}" Style="{StaticResource CommonCheckBox}" />
+							<ComboBox x:Name="ComboBoxTheme" Grid.Row="0" Grid.Column="1" MinWidth="120" HorizontalAlignment="Left" Text="{Binding Theme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonComboBox}" />
+
+							<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Content="Toolbar Button Size" />
+							<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="16">
+									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</Button>
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="20">
+									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</Button>
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="24">
+									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</Button>
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="28">
+									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</Button>
+							</StackPanel>
+
+							<CheckBox Grid.Row="2" Grid.ColumnSpan="3" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
+							<CheckBox Grid.Row="3" Grid.ColumnSpan="3" Content="Detect Moved Lines" IsChecked="{Binding DetectMovedLines}" Style="{StaticResource CommonCheckBox}" />
 						</Grid>
 					</Border>
 				</TabItem>
@@ -99,7 +117,7 @@
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
-											<RowDefinition Height="10"/>
+											<RowDefinition Height="10" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
@@ -107,14 +125,14 @@
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
-											<RowDefinition Height="10"/>
+											<RowDefinition Height="10" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
-											<RowDefinition Height="10"/>
+											<RowDefinition Height="10" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />
 											<RowDefinition Height="Auto" MinHeight="20" />

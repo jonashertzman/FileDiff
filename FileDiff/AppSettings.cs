@@ -151,6 +151,16 @@ public static class AppSettings
 		set { Settings.TabSize = value; }
 	}
 
+	public static int ToolbarIconSize
+	{
+		get { return Settings.ToolbarIconSize; }
+		set
+		{
+			Settings.ToolbarIconSize = value;
+			NotifyStaticPropertyChanged(nameof(ToolbarIconSize));
+		}
+	}
+
 	public static Themes Theme
 	{
 		get { return Settings.Theme; }
@@ -838,6 +848,7 @@ public static class AppSettings
 		try
 		{
 			Font = new FontFamily(Settings.Font);
+			ToolbarIconSize = Settings.ToolbarIconSize;
 
 			// Folder diff colors
 			FolderFullMatchForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.FolderFullMatchForeground));

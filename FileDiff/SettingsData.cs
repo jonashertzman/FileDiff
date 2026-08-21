@@ -33,6 +33,8 @@ public class SettingsData
 	public int Zoom { get; set; } = 0;
 	public int TabSize { get; set; } = DefaultSettings.TabSize;
 
+	public int ToolbarIconSize { get; set; } = DefaultSettings.ToolbarIconSize;
+
 	public Themes Theme { get; set; } = Themes.Light;
 	public ColorTheme DarkTheme { get; set; } = DefaultSettings.DarkTheme.Clone();
 	public ColorTheme LightTheme { get; set; } = DefaultSettings.LightTheme.Clone();
