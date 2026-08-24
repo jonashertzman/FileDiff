@@ -48,16 +48,19 @@
 
 							<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Content="Toolbar Button Size" />
 							<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="16">
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="16" ToolTip="{Binding Path=Tag, RelativeSource={x:Static RelativeSource.Self}}">
 									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</Button>
-								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="20">
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="20" ToolTip="{Binding Path=Tag, RelativeSource={x:Static RelativeSource.Self}}">
 									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</Button>
-								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="24">
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="24" ToolTip="{Binding Path=Tag, RelativeSource={x:Static RelativeSource.Self}}">
 									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</Button>
-								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="28">
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="28" ToolTip="{Binding Path=Tag, RelativeSource={x:Static RelativeSource.Self}}">
+									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</Button>
+								<Button Style="{StaticResource ToolbarButton}" Click="ToolbarButtonSize_Click" Tag="32" ToolTip="{Binding Path=Tag, RelativeSource={x:Static RelativeSource.Self}}">
 									<ContentPresenter MaxWidth="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" MaxHeight="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" ContentTemplate="{StaticResource CompareIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</Button>
 							</StackPanel>
