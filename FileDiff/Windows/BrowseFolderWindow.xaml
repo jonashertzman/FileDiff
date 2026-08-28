@@ -59,7 +59,7 @@
 					<Style.Triggers>
 						<!--  Selected and has focus  -->
 						<Trigger Property="IsSelected" Value="True">
-							<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.HighlightBorder), FallbackValue=#7EB4EA}" />
+							<Setter Property="BorderBrush" Value="{StaticResource Theme.HighlightBorder}" />
 						</Trigger>
 
 						<!--  Selected but does not have the focus  -->
@@ -80,7 +80,7 @@
 				</Style>
 
 				<!--  Brushes for the selected item  -->
-				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}" />
+				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{Binding Source={StaticResource Theme.HighlightBackground}, Path=Color}" />
 				<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
 				<SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
 			</TreeView.Resources>

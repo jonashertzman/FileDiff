@@ -154,8 +154,8 @@
 										<Border Grid.Row="0" Grid.ColumnSpan="3" Margin="0,5" BorderThickness="1">
 											<Border.Background>
 												<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-													<GradientStop Offset="0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFFFFFFF}" />
-													<GradientStop Offset="1" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFF0F0F0}" />
+													<GradientStop Offset="0" Color="{Binding Source={StaticResource Theme.Window}, Path=Color}" />
+													<GradientStop Offset="1" Color="{Binding Source={StaticResource Theme.Dialog}, Path=Color}" />
 												</LinearGradientBrush>
 											</Border.Background>
 											<TextBlock Padding="7" Text="Folder Diff Colors" />
@@ -187,8 +187,8 @@
 										<Border Grid.Row="7" Grid.ColumnSpan="3" Margin="0,5" BorderThickness="1">
 											<Border.Background>
 												<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-													<GradientStop Offset="0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFFFFFFF}" />
-													<GradientStop Offset="1" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFF0F0F0}" />
+													<GradientStop Offset="0" Color="{Binding Source={StaticResource Theme.Window}, Path=Color}" />
+													<GradientStop Offset="1" Color="{Binding Source={StaticResource Theme.Dialog}, Path=Color}" />
 												</LinearGradientBrush>
 											</Border.Background>
 											<TextBlock Padding="7" Text="File Diff Colors" />
@@ -222,8 +222,8 @@
 										<Border Grid.Row="15" Grid.ColumnSpan="3" Margin="0,5" BorderThickness="1">
 											<Border.Background>
 												<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-													<GradientStop Offset="0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFFFFFFF}" />
-													<GradientStop Offset="1" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFF0F0F0}" />
+													<GradientStop Offset="0" Color="{Binding Source={StaticResource Theme.Window}, Path=Color}" />
+													<GradientStop Offset="1" Color="{Binding Source={StaticResource Theme.Dialog}, Path=Color}" />
 												</LinearGradientBrush>
 											</Border.Background>
 											<TextBlock Padding="7" Text="Editor Colors" />
@@ -250,8 +250,8 @@
 										<Border Grid.Row="22" Grid.ColumnSpan="3" Margin="0,5" BorderThickness="1">
 											<Border.Background>
 												<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-													<GradientStop Offset="0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFFFFFFF}" />
-													<GradientStop Offset="1" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFF0F0F0}" />
+													<GradientStop Offset="0" Color="{Binding Source={StaticResource Theme.Window}, Path=Color}" />
+													<GradientStop Offset="1" Color="{Binding Source={StaticResource Theme.Dialog}, Path=Color}" />
 												</LinearGradientBrush>
 											</Border.Background>
 											<TextBlock Padding="7" Text="UI Colors" />

@@ -17,18 +17,18 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<Rectangle Margin="2" StrokeThickness="1" Stroke="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=black}" StrokeDashArray="1 2" />
+					<Rectangle Margin="2" StrokeThickness="1" Stroke="{StaticResource Theme.NormalText}" StrokeDashArray="1 2" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
 
 	<Style x:Key="StyledTextBlock" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 	</Style>
 
 	<Style TargetType="Rectangle">
-		<Setter Property="Stroke" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
+		<Setter Property="Stroke" Value="{StaticResource Theme.BorderLight}" />
 	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
