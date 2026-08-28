@@ -8,12 +8,12 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=black}" SnapsToDevicePixels="true" StrokeThickness="1" />
+					<Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{StaticResource Theme.NormalText}" SnapsToDevicePixels="true" StrokeThickness="1" />
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 	</Style>
-	<SolidColorBrush x:Key="TextBox.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=White}" />
+	<SolidColorBrush x:Key="TextBox.Static.Background" Color="{Binding Source={StaticResource Theme.Window}, Path=Color}" />
 
 	<Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
 		<Setter Property="OverridesDefaultStyle" Value="true" />
@@ -32,15 +32,15 @@
 		</Setter>
 	</Style>
 
-	<SolidColorBrush x:Key="ComboBox.Static.Background" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFDDDDDD}" />
-	<SolidColorBrush x:Key="ComboBox.Static.Border" Color="{Binding Path=(local:AppSettings.BorderForegroundColor), FallbackValue=#FFD6D6D6}" />
+	<SolidColorBrush x:Key="ComboBox.Static.Background" Color="{Binding Source={StaticResource Theme.Window}, Path=Color}" />
+	<SolidColorBrush x:Key="ComboBox.Static.Border" Color="{Binding Source={StaticResource Theme.BorderLight}, Path=Color}" />
 	<SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="#FF606060" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Background" Color="#FFFFFFFF" />
-	<SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="{Binding Path=(local:AppSettings.BorderForegroundColor), FallbackValue=#FFD6D6D6}" />
+	<SolidColorBrush x:Key="ComboBox.Static.Editable.Border" Color="{Binding Source={StaticResource Theme.BorderLight}, Path=Color}" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent" />
 	<SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent" />
-	<SolidColorBrush x:Key="ComboBox.MouseOver.Background" Color="{Binding Path=(local:AppSettings.HighlightBackgroundColor), FallbackValue=#DCECFC}" />
-	<SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="{Binding Path=(local:AppSettings.HighlightBorderColor), FallbackValue=#7EB4EA}" />
+	<SolidColorBrush x:Key="ComboBox.MouseOver.Background" Color="{Binding Source={StaticResource Theme.HighlightBackground}, Path=Color}" />
+	<SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="{Binding Source={StaticResource Theme.HighlightBorder}, Path=Color}" />
 	<SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="#FF000000" />
 	<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="#FFFFFFFF" />
 	<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="#FF7EB4EA" />
@@ -184,7 +184,7 @@
 				<Setter TargetName="border" Property="Opacity" Value="0.56" />
 			</Trigger>
 			<Trigger Property="IsKeyboardFocusWithin" Value="true">
-				<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
+				<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 			</Trigger>
 			<Trigger SourceName="PART_Popup" Property="HasDropShadow" Value="true">
 				<Setter TargetName="shadow" Property="Margin" Value="0,0,5,5" />
@@ -256,7 +256,7 @@
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
 		<Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}" />
 		<Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}" />
-		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=#Black}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />

@@ -28,8 +28,8 @@
 						<Border x:Name="columnHeaderBorder" Padding="5,2" BorderThickness="0,0,1,1" BorderBrush="{StaticResource Theme.BorderLight}">
 							<Border.Background>
 								<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-									<GradientStop Offset="0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=#FFFFFFFF}" />
-									<GradientStop Offset="1" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFF0F0F0}" />
+									<GradientStop Offset="0" Color="{Binding Source={StaticResource Theme.Window}, Path=Color}" />
+									<GradientStop Offset="1" Color="{Binding Source={StaticResource Theme.Dialog}, Path=Color}" />
 								</LinearGradientBrush>
 							</Border.Background>
 							<ContentPresenter Margin="2" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
