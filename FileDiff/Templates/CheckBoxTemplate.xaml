@@ -23,23 +23,11 @@
 		</Setter>
 	</Style>
 
-	<SolidColorBrush x:Key="OptionMark.Static.Background" Color="{Binding Source={StaticResource Theme.Window}, Path=Color}" />
-	<SolidColorBrush x:Key="OptionMark.Static.Border" Color="{Binding Source={StaticResource Theme.BorderLight}, Path=Color}" />
-	<SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="{Binding Source={StaticResource Theme.NormalText}, Path=Color}" />
-	<SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="{Binding Source={StaticResource Theme.HighlightBackground}, Path=Color}" />
-	<SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="{Binding Source={StaticResource Theme.HighlightBorder}, Path=Color}" />
-	<SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121" />
-	<SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF" />
-	<SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD" />
-	<SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121" />
-	<SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6" />
-	<SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC" />
-	<SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070" />
 
 	<Style TargetType="{x:Type CheckBox}">
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
-		<Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}" />
-		<Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}" />
+		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderDark}" />
 		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Template">
@@ -52,8 +40,8 @@
 						</Grid.ColumnDefinitions>
 						<Border x:Name="checkBoxBorder" Margin="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
 							<Grid x:Name="markGrid">
-								<Path x:Name="optionMark" Margin="1" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Opacity="0" Stretch="None" />
-								<Rectangle x:Name="indeterminateMark" Margin="2" Fill="{StaticResource OptionMark.Static.Glyph}" Opacity="0" />
+								<Path x:Name="optionMark" Margin="1" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource Theme.NormalText}" Opacity="0" Stretch="None" />
+								<Rectangle x:Name="indeterminateMark" Margin="2" Fill="{StaticResource Theme.NormalText}" Opacity="0" />
 							</Grid>
 						</Border>
 						<ContentPresenter x:Name="contentPresenter" Grid.Column="1" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Focusable="False" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
@@ -64,16 +52,16 @@
 							<Setter Property="Padding" Value="4,-1,0,0" />
 						</Trigger>
 						<Trigger Property="IsMouseOver" Value="true">
-							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.MouseOver.Background}" />
-							<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{StaticResource OptionMark.MouseOver.Border}" />
-							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.Static.Glyph}" />
-							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.Static.Glyph}" />
+							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
+							<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{StaticResource Theme.HighlightBorder}" />
+							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource Theme.NormalText}" />
+							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource Theme.NormalText}" />
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="false">
-							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.Disabled.Background}" />
-							<Setter TargetName="checkBoxBorder" Property="BorderBrush" Value="{StaticResource OptionMark.Disabled.Border}" />
-							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource OptionMark.Disabled.Glyph}" />
-							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource OptionMark.Disabled.Glyph}" />
+							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource Theme.DissabledBackground}" />
+							<Setter Property="Foreground" Value="{StaticResource Theme.DissabledText}" />
+							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
+							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
 						</Trigger>
 						<!--<Trigger Property="IsPressed" Value="true">
 							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource OptionMark.Pressed.Background}" />
