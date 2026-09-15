@@ -50,7 +50,7 @@
 						<Setter.Value>
 							<DataTemplate>
 								<StackPanel Margin="0" Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Tag, Converter={x:Static local:HeaderToImageConverter.Instance}}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, Path=Tag, Converter={x:Static local:HeaderToImageConverter.Instance}}" Style="{StaticResource CommonGuiIcon}" />
 									<TextBlock Margin="5,0" VerticalAlignment="Center" Text="{Binding}" Style="{StaticResource StyledTextBlock}" />
 								</StackPanel>
 							</DataTemplate>
