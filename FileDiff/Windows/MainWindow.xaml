@@ -15,6 +15,9 @@
 	Closed="Window_Closed"
 	ContentRendered="Window_ContentRendered"
 	Initialized="Window_Initialized"
+	SourceInitialized="Window_SourceInitialized"
+	Activated="Window_Activated"
+	Deactivated="Window_Deactivated"
 	Background="{StaticResource Theme.Dialog}"
 	mc:Ignorable="d">
 

@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace FileDiff;
 
@@ -44,6 +46,9 @@ public struct WIN32_FIND_DATA
 
 internal class WinApi
 {
+
+	#region Constants
+
 	public const int MAX_PATH = 260;
 	public const int MAX_ALTERNATE = 14;
 	public const long MAXDWORD = 0xffffffff;
@@ -52,7 +57,11 @@ internal class WinApi
 	public const int WS_MAXIMIZEBOX = 0x10000;
 	public const int WS_MINIMIZEBOX = 0x20000;
 	private const uint CF_UNICODETEXT = 13;
+	private const int DWMWA_CAPTION_COLOR = 35;
 
+	#endregion
+
+	#region DllImports
 
 	[DllImport("kernel32", CharSet = CharSet.Unicode)]
 	public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
@@ -107,6 +116,13 @@ internal class WinApi
 	[DllImport("user32.dll")]
 	static extern bool EmptyClipboard();
 
+	[DllImport("dwmapi.dll")]
+	private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int value, int size);
+
+	#endregion
+
+	#region Methods
+
 	public static bool CopyTextToClipboard(string text)
 	{
 		if (!OpenClipboard(IntPtr.Zero))
@@ -145,5 +161,17 @@ internal class WinApi
 		GetWindowText(hwnd.ToInt32(), sb, 500);
 		return sb.ToString();
 	}
+
+	public static void SetTitleBarColor(MainWindow window, bool active)
+	{
+		IntPtr hwnd = new WindowInteropHelper(window).Handle;
+		if (hwnd == IntPtr.Zero) return;
+		Color color = active ? SystemParameters.WindowGlassColor : ((SolidColorBrush)AppSettings.DialogBackground).Color;
+		int colorref = color.R | (color.G << 8) | (color.B << 16); // COLORREF is 0x00BBGGRR
+		DwmSetWindowAttribute(hwnd, DWMWA_CAPTION_COLOR, ref colorref, sizeof(int));
+	}
+
+	#endregion
+
 
 }

@@ -876,6 +876,21 @@ public partial class MainWindow : Window
 		ViewModel.Theme = Themes.Dark;
 	}
 
+	private void Window_SourceInitialized(object sender, EventArgs e)
+	{
+		WinApi.SetTitleBarColor(this, true);
+	}
+
+	private void Window_Activated(object sender, EventArgs e)
+	{
+		WinApi.SetTitleBarColor(this, true);
+	}
+
+	private void Window_Deactivated(object sender, EventArgs e)
+	{
+		WinApi.SetTitleBarColor(this, false);
+	}
+
 	#endregion
 
 	#region Commands
