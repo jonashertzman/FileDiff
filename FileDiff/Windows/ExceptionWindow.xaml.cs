@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace FileDiff;
 
-public partial class ExceptionWindow : Window, INotifyPropertyChanged
+public partial class ExceptionWindow : StyledWindow, INotifyPropertyChanged
 {
 
 	#region Constructor

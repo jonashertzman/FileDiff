@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 namespace FileDiff;
 
-public partial class BrowseFolderWindow : Window
+public partial class BrowseFolderWindow : StyledWindow
 {
 
 	#region Members

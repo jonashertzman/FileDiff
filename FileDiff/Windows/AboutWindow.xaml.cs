@@ -1,8 +1,8 @@
-﻿using System.Windows;
+﻿
 
 namespace FileDiff;
 
-public partial class AboutWindow : Window
+public partial class AboutWindow : StyledWindow
 {
 
 	public AboutWindow()

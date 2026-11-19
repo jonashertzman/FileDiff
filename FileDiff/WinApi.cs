@@ -162,7 +162,7 @@ internal class WinApi
 		return sb.ToString();
 	}
 
-	public static void SetTitleBarColor(MainWindow window, bool active)
+	public static void SetTitleBarColor(Window window, bool active)
 	{
 		IntPtr hwnd = new WindowInteropHelper(window).Handle;
 		if (hwnd == IntPtr.Zero) return;

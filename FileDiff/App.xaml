@@ -21,6 +21,7 @@
 				<ResourceDictionary Source="Templates\TabControlTemplate.xaml" />
 				<ResourceDictionary Source="Templates\ToolbarSeparatorTemplate.xaml" />
 				<ResourceDictionary Source="Templates\TreeViewTemplate.xaml" />
+				<ResourceDictionary Source="Templates\StyledWindowTemplate.xaml" />
 				<ResourceDictionary Source="Styles\Styles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
