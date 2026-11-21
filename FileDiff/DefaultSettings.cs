@@ -64,8 +64,8 @@ public static class DefaultSettings
 		BorderLight = "#FF323232",
 		BorderDark = "#FF595959",
 
-		HighlightBackground = "#FF112E3C",
-		HighlightBorder = "#FF2F7999",
+		HighlightBackground = "#FF0E2A4A",
+		HighlightBorder = "#FF0A4886",
 
 		AttentionBackground = "#FF5C2626",
 	};
