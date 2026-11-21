@@ -23,6 +23,7 @@
 				<ResourceDictionary Source="Templates\TreeViewTemplate.xaml" />
 				<ResourceDictionary Source="Templates\StyledWindowTemplate.xaml" />
 				<ResourceDictionary Source="Styles\Styles.xaml" />
+				<ResourceDictionary Source="Templates\ToolbarButtonTemplate.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
